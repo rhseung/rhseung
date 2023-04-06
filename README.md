@@ -15,4 +15,7 @@ Here are some ideas to get you started:
 - ⚡ Fun fact: ...
 -->
 
+[![Solved.ac
+프로필](http://mazassumnida.wtf/api/mini/generate_badge?boj=rhseung)](https://solved.ac/rhseung)
+
 ![Rhseung's GitHub stats](https://github-readme-stats.vercel.app/api?username=rhseung&show_icons=true&theme=dracula)
