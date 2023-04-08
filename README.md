@@ -38,5 +38,5 @@
   ![Typescript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white)  
 
 ### 연락하는 방법 📫
-  ![Discord](https://img.shields.io/badge/Discord-%235388-5865F2?style=for-the-badge&logo=Discord&logoColor=white)  
+  ![Discord](https://img.shields.io/badge/Discord-Rhseung%235388-5865F2?style=for-the-badge&logo=Discord&logoColor=white)  
   ![Gmail](https://img.shields.io/badge/Gmail-rhseungg%40gmail.com-EA4335?style=for-the-badge&logo=Gmail&logoColor=white)
