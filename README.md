@@ -3,10 +3,10 @@
 ### [학업 관련 레포지토리](https://github.com/gsa-projects) 📚
 
 - [PS](https://github.com/Rhseung/PS) - ✏️ 틈틈히 [BOJ](https://boj.kr)의 알고리즘 문제를 해결한 기록
-- [rne-2022](https://github.com/gsa-projects/rne-2022) - 🔍 2022년 R&E 활동
-- [infomatics-II](https://github.com/gsa-projects/infomatics-II) - 📑 2022년 `정보 II` 과목 공부
-- [stupid-omok-ai](https://github.com/gsa-projects/stupid-omok-ai) - ⚪ 2022년 `정보 II` 과목 수행평가용 프로젝트, 순수 C언어로 휴리스틱으로 구현한 유사 오목 인공지능
-- [infomatics-III](https://github.com/gsa-projects/infomatics-III) - 📑 2023년 `프로그래밍 실습` 과목 공부
+- [R&E 2022](https://github.com/gsa-projects/RNE-2022) - 🔍 2022년 R&E 활동
+- [2nd Semester](https://github.com/gsa-projects/2nd-Semester) - 📑 2022년 `정보 II` 과목 공부
+- [StupidOmok](https://github.com/gsa-projects/StupidOmok) - ⚪ 2022년 `정보 II` 과목 수행평가용 프로젝트, 순수 C언어로 휴리스틱으로 구현한 유사 오목 인공지능
+- [3rd Semester](https://github.com/gsa-projects/3rd-Semester) - 📑 2023년 `프로그래밍 실습` 과목 공부
 
 ### [디스코드/카카오톡 봇 관련 레포지토리](https://github.com/dalmeum-bot) 🤖
 
