@@ -12,7 +12,7 @@
 
 - [PencakeBot](https://github.com/dalmeum-bot/PencakeBot) - 💼 개인 디스코드 서버인 `Pencake`에서 구동되는 디스코드 봇
 - [Frameworks](https://github.com/dalmeum-bot/Frameworks) - 🧩 카카오톡 봇의 명령어를 쉽게 구축할 수 있는 Command Handler 모듈
-- [Essential](https://github.com/dalmeum-bot/Essential) - 🧩 npm을 사용할 수 없는 Javascript 환경에서 [Lodash](https://github.com/lodash/lodash)의 여러 함수들을 사용할 수 있게 하는 라이브러리
+- [Essential](https://github.com/kktbot-module/Essential) - 🧩 npm을 사용할 수 없는 Javascript 환경에서 [Lodash](https://github.com/lodash/lodash)의 여러 함수들을 사용할 수 있게 하는 라이브러리
 
 ### [마인크래프트 개발 관련 레포지토리](https://github.com/minecraft-stuffs) 🎮
 
