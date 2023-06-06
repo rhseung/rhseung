@@ -1,4 +1,4 @@
-과학영재학교 광주과학고등학교에 재학 중인, 하고 싶은 것을 프로그래밍, 작곡, 디자인 등의 일련의 과정을 거쳐 직접 만드는 것을 좋아하는 대한민국의 고등학생입니다. C++과 Typescript에서 [Computer Algebra System](https://github.com/math-bundle)을 직접 구현해보고, Kotlin으로 마인크래프트의 [모드](https://github.com/Rhseung/ReImagined)와 DSL builder 방식으로 더 직관적인 코딩이 가능케 한 [Library](https://github.com/minecraft-stuffs/AbstractLib)를 개발해봤으며, Javascript로 카카오톡 봇 [Command Handler Library](https://github.com/dalmeum-bot/Frameworks)를 제작하는 등 분야와 언어를 가리지 않고 개발합니다. 모던한 UI design과 직관적이며 우아한 interaction을 최우선으로 생각하고 있습니다.
+<!-- 과학영재학교 광주과학고등학교에 재학 중인, 하고 싶은 것을 프로그래밍, 작곡, 디자인 등의 일련의 과정을 거쳐 직접 만드는 것을 좋아하는 대한민국의 고등학생입니다. C++과 Typescript에서 [Computer Algebra System](https://github.com/math-bundle)을 직접 구현해보고, Kotlin으로 마인크래프트의 [모드](https://github.com/Rhseung/ReImagined)와 DSL builder 방식으로 더 직관적인 코딩이 가능케 한 [Library](https://github.com/minecraft-stuffs/AbstractLib)를 개발해봤으며, Javascript로 카카오톡 봇 [Command Handler Library](https://github.com/dalmeum-bot/Frameworks)를 제작하는 등 분야와 언어를 가리지 않고 개발합니다. 모던한 UI design과 직관적이며 우아한 interaction을 최우선으로 생각하고 있습니다.
 
 ### [학업 관련 레포지토리](https://github.com/gsa-projects) 📚
 
@@ -25,7 +25,7 @@
 - [Symbolijs](https://github.com/math-bundle/Symbolijs) - 🧩 Javascript에서 ℝ, ℚ, ℤ를 구현하여 더 정확한 연산이 가능하도록 한 라이브러리
 - [Mathor](https://github.com/math-bundle/Mathor) - 🧩 C++에서 ℝ, ℚ, ℤ를 구현하고, [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree)를 사용해 기호 연산이 되는 것을 목표로 하는 라이브러리
 - [toomuch](https://github.com/math-bundle/toomuch) - 🔖 C++에서 행렬, 수열, 구간 등 여러 가지를 구현하는 코드 모음집 
-
+ -->
 ---
 
 ### 사용할 수 있는 언어 📜
