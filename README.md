@@ -3,7 +3,7 @@
 ### 프로젝트들 📦
 
 - [PS](https://github.com/Rhseung/ps) - 틈틈히 [BOJ](https://boj.kr)의 알고리즘 문제를 해결한 기록
-- [R&E 2022](https://github.com/gsa-projects/2022-rne) - 2022년 R&E 활동
+- [2022 R&E](https://github.com/gsa-projects/2022-rne) - 2022년 R&E 활동
 - [2022-2](https://github.com/gsa-projects/2022-2) - 2022년 2학기 `정보과학 II` 과목 공부
 - [omok](https://github.com/gsa-projects/assignments/tree/main/omok/stupid_omok) - 2022년 `정보과학 II` 과목 수행평가용 프로젝트, 순수 C언어로 구현한 오목 (유사)인공지능
 - [2023-1](https://github.com/gsa-projects/2023-1) - 2023년 1학기 `프로그래밍 실습` 과목 공부
