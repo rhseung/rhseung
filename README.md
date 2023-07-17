@@ -2,18 +2,19 @@
 
 ### 프로젝트들 📦
 
-- [PS](https://github.com/Rhseung/PS) - 틈틈히 [BOJ](https://boj.kr)의 알고리즘 문제를 해결한 기록
-- [R&E 2022](https://github.com/gsa-projects/RNE-2022) - 2022년 R&E 활동
-- [2nd Semester](https://github.com/gsa-projects/2nd-Semester) - 2022년 `정보과학 II` 과목 공부
-- [StupidOmok](https://github.com/gsa-projects/Assignments/tree/main/stupid_omok) - 2022년 `정보과학 II` 과목 수행평가용 프로젝트, 순수 C언어로 구현한 오목 (유사)인공지능
-- [3rd Semester](https://github.com/gsa-projects/3rd-Semester) - 2023년 `프로그래밍 실습` 과목 공부
+- [PS](https://github.com/Rhseung/ps) - 틈틈히 [BOJ](https://boj.kr)의 알고리즘 문제를 해결한 기록
+- [R&E 2022](https://github.com/gsa-projects/2022-rne) - 2022년 R&E 활동
+- [2022-2](https://github.com/gsa-projects/2022-2) - 2022년 2학기 `정보과학 II` 과목 공부
+- [omok](https://github.com/gsa-projects/assignments/tree/main/omok/stupid_omok) - 2022년 `정보과학 II` 과목 수행평가용 프로젝트, 순수 C언어로 구현한 오목 (유사)인공지능
+- [2023-1](https://github.com/gsa-projects/2023-1) - 2023년 1학기 `프로그래밍 실습` 과목 공부
+- [physics](https://github.com/gsa-projects/assignments/tree/main/physics) - 2023년 `프로그래밍 실습` 과목 수행평가용 프로젝트, [pygame](https://www.pygame.org/)으로 구현한 2차원 강체 물리엔
 - [PencakeBot](https://github.com/dalmeum-bot/PencakeBot) - 개인 디스코드 서버인 `Pencake`에서 구동되는 디스코드 봇
 - [Frameworks](https://github.com/dalmeum-bot/Frameworks) - 카카오톡 봇의 명령어를 쉽게 구축할 수 있는 Command Handler 모듈
-- [Essential](https://github.com/kktbot-module/Essential) - npm을 사용할 수 없는 Javascript 환경에서 [Lodash](https://github.com/lodash/lodash)의 여러 함수들과 그 외의 여러 유틸 함수들을 지원하는 라이브러리
+- [essential](https://github.com/rhseung/essential) - npm을 사용할 수 없는 Javascript 환경에서 [Lodash](https://github.com/lodash/lodash)의 여러 함수들과 그 외의 여러 유틸 함수들을 지원하는 라이브러리
 - [AbstractLib](https://github.com/minecraft-stuffs/AbstractLib) - Kotlin DSL builder 방식으로 [Fabric](https://fabricmc.net/)에서 더 직관적인 모딩을 할 수 있게 한 라이브러리
-- [ReImagined](https://github.com/Rhseung/ReImagined) - 기존 마인크래프트 아이템들을 modular하게 재창작한 모드
-- [Symbolijs](https://github.com/math-bundle/Symbolijs) - Javascript에서 ℝ, ℚ, ℤ를 구현하여 더 정확한 연산이 가능하도록 한 라이브러리
-- [Mathor](https://github.com/math-bundle/Mathor) - C++에서 ℝ, ℚ, ℤ를 구현하고, [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree)를 사용해 기호 연산이 되는 것을 목표로 하는 라이브러리
+- [ReImagined](https://github.com/minecraft-stuffs/ReImagined) - 기존 마인크래프트 아이템들을 modular하게 재창작한 모드
+- [symjs](https://github.com/dalmeum-bot/symjs) - Javascript에서 ℝ, ℚ, ℤ를 구현하여 더 정확한 연산이 가능하도록 한 라이브러리
+- [mathic](https://github.com/rhseung/mathic) - C++에서 ℝ, ℚ, ℤ를 구현하고, [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree)를 사용해 기호 연산이 되는 것을 목표로 하는 라이브러리
 - [toomuch](https://github.com/math-bundle/toomuch) - C++에서 행렬, 수열, 구간 등 여러 가지를 구현하는 코드 모음집 
 
 ### 사용할 수 있는 언어 ✏️
