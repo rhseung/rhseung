@@ -16,6 +16,7 @@
 - [symjs](https://github.com/dalmeum-bot/symjs) - Javascript에서 ℝ, ℚ, ℤ를 구현하여 더 정확한 연산이 가능하도록 한 라이브러리
 - [mathic](https://github.com/rhseung/mathic) - C++에서 ℝ, ℚ, ℤ를 구현하고, [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree)를 사용해 기호 연산이 되는 것을 목표로 하는 라이브러리
 - [toomuch](https://github.com/math-bundle/toomuch) - C++에서 행렬, 수열, 구간 등 여러 가지를 구현하는 코드 모음집
+- [pattern](https://github.com/essentialib/pattern) - 자바스크립트에서 정규 표현식을 더 쉽게 만들 수 있게 하는 빌더 겸 RegExp 슈퍼셋
 
 ### `✏️` 사용할 수 있는 언어
 
