@@ -1,6 +1,8 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=#8b95b8&height=300&section=header&text=rhseung&fontSize=90&animation=fadeIn)
+![transparent](https://capsule-render.vercel.app/api?type=transparent&fontColor=8c8df5&text=rhseung&height=150&fontSize=60)
 
+<div align="center">
 과학영재학교 광주과학고등학교에 재학 중인 학생입니다.
+</div>
 
 ### `📦` 지금까지 한 것
 
