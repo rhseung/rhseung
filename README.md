@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=wave&color=auto&height=300&section=header&text=rhseung%20render&fontSize=90)
+![header](https://capsule-render.vercel.app/api?type=waving&color=#8b95b8&height=300&section=header&text=rhseung&fontSize=90&animation=fadeIn)
 
 과학영재학교 광주과학고등학교에 재학 중인 학생입니다.
 
