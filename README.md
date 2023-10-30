@@ -1,4 +1,4 @@
-![transparent](https://capsule-render.vercel.app/api?type=transparent&fontColor=ffffff&text=rhseung&height=100&fontSize=60&animation=fadeIn)
+![transparent](https://capsule-render.vercel.app/api?type=transparent&fontColor=f98600&text=rhseung&height=100&fontSize=60&animation=fadeIn)
 
 ## `📦`
 - [PS](https://github.com/Rhseung/ps) - boj의 알고리즘 문제를 해결한 기록을 남기는 레포지토리
