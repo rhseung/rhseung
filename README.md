@@ -1,7 +1,7 @@
-![transparent](https://capsule-render.vercel.app/api?type=transparent&fontColor=8c8df5&text=rhseung&height=150&fontSize=60)
+![transparent](https://capsule-render.vercel.app/api?type=transparent&fontColor=ffffff&text=rhseung&height=100&fontSize=60)
 
 ## `📦`
-- [PS](https://github.com/Rhseung/ps) - [BOJ](https://boj.kr)의 알고리즘 문제를 해결한 기록
+- [PS](https://github.com/Rhseung/ps) - [BOJ](https://boj.kr)의 알고리즘 문제를 해결한 기록을 남기는 레포지토리
 - [pattern](https://github.com/essentialib/pattern) - Node.js에서 정규 표현식을 더 쉽고 가독성을 높이는 빌더 겸 RegExp 슈퍼셋 라이브러리 [npm link](https://www.npmjs.com/package/@essentialib/pattern)
 - [units](https://github.com/rhseung/units) - python에서 단위를 가지는 물리량 연산이 가능해지도록 한 모듈 [PyPI link](https://pypi.org/project/rhseung.units/)
 
