@@ -8,7 +8,9 @@
 ## `👌`
 
   ![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=Kotlin&logoColor=white)
-  ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white)  
+  ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+  ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white)
+  ![PyTorch](https://img.shields.io/badge/PyTorch-e74a2b?style=for-the-badge&logo=pytorch&logoColor=white)  
   ![C](https://img.shields.io/badge/c-34475C?style=for-the-badge&logo=c&logoColor=white)
   ![C++](https://img.shields.io/badge/c++-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
   ![Node.js](https://img.shields.io/badge/Node.js-44883e?style=for-the-badge&logo=Node.JS&logoColor=white)
