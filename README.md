@@ -1,4 +1,10 @@
-![transparent](https://capsule-render.vercel.app/api?type=transparent&fontColor=f98600&text=rhseung&height=100&fontSize=60&animation=fadeIn)
+<p align="center">
+  <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="images/logo_dark.png">
+      <source media="(prefers-color-scheme: light)" srcset="images/logo_light.png">
+      <img alt="logo" src="images/logo_light.png" width="400">
+  </picture>
+</p>
 
 ## `👌`
 
