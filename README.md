@@ -2,7 +2,7 @@
   <picture>
       <source media="(prefers-color-scheme: dark)" srcset="images/logo_dark.png">
       <source media="(prefers-color-scheme: light)" srcset="images/logo_light.png">
-      <img alt="logo" src="images/logo_light.png" width="400">
+      <img alt="logo" src="images/logo_light.png" style="max-width: 100%; height: auto;" width="400">
   </picture>
 </p>
 
