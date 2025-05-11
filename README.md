@@ -16,6 +16,7 @@
   ![C++](https://img.shields.io/badge/c++-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
   ![Node.js](https://img.shields.io/badge/Node.js-44883e?style=for-the-badge&logo=Node.JS&logoColor=white)
   ![Typescript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white)
+  ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 
 ## `📫`
 
