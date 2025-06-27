@@ -20,5 +20,4 @@
 
 ## `📫`
 
-  ![Discord](https://img.shields.io/badge/Discord-rhseung-5865F2?style=for-the-badge&logo=Discord&logoColor=white)  
   ![Gmail](https://img.shields.io/badge/Gmail-rhseungg%40gmail.com-EA4335?style=for-the-badge&logo=Gmail&logoColor=white)
