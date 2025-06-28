@@ -21,7 +21,7 @@
   [![LaTeX](https://img.shields.io/badge/latex-008080?style=for-the-badge&logo=LaTeX&logoColor=white)](#)
   [![Wolfram Language](https://img.shields.io/badge/Wolfram%20Language-DD1100?style=for-the-badge&logo=wolframmathematica&logoColor=white)](#)
   [![Shell](https://img.shields.io/badge/Shell-272e34?style=for-the-badge&logo=gnubash&logoColor=white)](#)  
-  [![HTML](https://img.shields.io/badge/html5-d35836?style=for-the-badge&logo=HTML5&logoColor=white)](#)
+  [![HTML](https://img.shields.io/badge/html-d35836?style=for-the-badge&logo=HTML5&logoColor=white)](#)
   [![JavaScript](https://img.shields.io/badge/JavaScript-f3e14f?style=for-the-badge&logo=JavaScript&logoColor=black)](#)
   [![CSS](https://img.shields.io/badge/CSS-447ebe?style=for-the-badge&logoColor=white)](#)
   [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white)](#)
