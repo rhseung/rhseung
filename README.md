@@ -52,4 +52,4 @@
 
 ## `📫`
 
-  ![Gmail](https://img.shields.io/badge/Gmail-rhseungg%40gmail.com-EA4335?style=for-the-badge&logo=Gmail&logoColor=white)
+  [![Gmail](https://img.shields.io/badge/Gmail-rhseungg%40gmail.com-EA4335?style=for-the-badge&logo=Gmail&logoColor=white)](mailto:rhseungg@gmail.com)
