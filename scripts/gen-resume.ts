@@ -15,8 +15,8 @@ import { chromium } from 'playwright';
 const PORT = 4326;
 
 const TARGETS = [
-  { lang: 'ko', path: '/about/' },
-  { lang: 'en', path: '/en/about/' },
+  { lang: 'ko', path: '/about/', title: '류현승 — 이력서' },
+  { lang: 'en', path: '/en/about/', title: 'Ryu Hyunseung — Résumé' },
 ] as const;
 
 const server = await preview({ server: { port: PORT } });
@@ -25,11 +25,17 @@ const browser = await chromium.launch();
 const context = await browser.newContext({ colorScheme: 'light' });
 
 try {
-  for (const { lang, path } of TARGETS) {
+  for (const { lang, path, title } of TARGETS) {
     const page = await context.newPage();
 
     await page.goto(`http://localhost:${PORT}${path}`, { waitUntil: 'networkidle' });
     await page.emulateMedia({ media: 'print' });
+
+    // Chromium은 PDF의 `/Title`을 문서 제목에서 가져온다. 그대로 두면 사이트 라우트 제목
+    // ("소개 — rhseung")이 이력서 파일 제목이 된다 — PDF 리더와 ATS가 그걸 읽는다.
+    await page.evaluate((documentTitle) => {
+      document.title = documentTitle;
+    }, title);
 
     const output = `public/resume-${lang}.pdf`;
     await page.pdf({

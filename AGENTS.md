@@ -25,6 +25,20 @@
 
 `typecheck`는 `tsc`가 아니라 `astro check`다 — `.astro` 파일은 tsc가 못 읽는다.
 
+### collection 스키마를 바꿨으면 `.astro/`를 지운다
+
+dev 서버는 파싱된 콘텐츠를 `.astro/data-store.json`에 캐시한다. **스키마를 바꿔도 그 캐시가
+갱신되지 않는 경우가 있다** — 그러면 dev가 옛 모양의 데이터를 넘겨서
+`undefined is not an object (evaluating 'resume.experience.length')` 같은 예외가 난다.
+빌드는 매번 새로 싱크하므로 멀쩡하다. 즉 **dev에서만 깨지고 CI는 통과한다.**
+
+```sh
+astro dev stop && rm -rf .astro && bun run dev
+```
+
+에러가 컴포넌트를 가리키기 때문에 캐시를 의심하기 어렵다. 스키마를 만졌는데 dev만
+이상하면 이것부터 지운다.
+
 ### 생성물은 손대지 않는다
 
 `src/@types/`, `src/locales/**`(값 제외), `public/resume-*.pdf`는 생성물이고
