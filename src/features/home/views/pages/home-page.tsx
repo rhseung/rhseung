@@ -6,7 +6,7 @@ import { localeHref, SITE, type Language } from '@/common/lib';
 import { PostListItem, type PostSummary } from '@/features/blog';
 import { ProjectCard, type ProjectSummary } from '@/features/projects';
 
-export function HomePage({ lang, headline, pinned, recent }: HomePage.Props) {
+export function HomePage({ lang, headline, intro, pinned, recent }: HomePage.Props) {
   const { t } = useTranslation('home');
 
   return (
@@ -68,12 +68,17 @@ export function HomePage({ lang, headline, pinned, recent }: HomePage.Props) {
           </section>
         )}
 
-        <a
-          href={localeHref(lang, '/about')}
-          className="text-muted-foreground hover:text-foreground text-sm hover:underline"
-        >
-          {t(($) => $.sections.about)}
-        </a>
+        <section className="border-border flex flex-col gap-3 border-t pt-8">
+          <h2 className="text-sm font-medium tracking-tight">{t(($) => $.sections.intro)}</h2>
+          {intro && <p className="text-muted-foreground text-sm leading-relaxed">{intro}</p>}
+
+          <a
+            href={localeHref(lang, '/about')}
+            className="text-muted-foreground hover:text-foreground text-sm hover:underline"
+          >
+            {t(($) => $.sections.about)}
+          </a>
+        </section>
       </main>
     </div>
   );
@@ -83,6 +88,7 @@ export declare namespace HomePage {
   export type Props = {
     lang: Language;
     headline: string;
+    intro?: string;
     pinned: ProjectSummary[];
     recent: PostSummary[];
   };

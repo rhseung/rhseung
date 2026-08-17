@@ -37,6 +37,7 @@ const recent = pickRecent(postEntries.map(toPostSummary), 3);
   <HomeIsland
     lang={lang}
     headline={resume.data.headline}
+    intro={resume.data.intro}
     pinned={pinned}
     recent={recent}
     client:load

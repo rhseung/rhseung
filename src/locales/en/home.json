@@ -4,6 +4,7 @@
   },
   "sections": {
     "about": "More about me →",
+    "intro": "About me",
     "posts": "Recent writing",
     "projects": "Selected work"
   }

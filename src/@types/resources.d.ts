@@ -62,6 +62,7 @@ export default interface Resources {
     },
     "sections": {
       "about": "더 자세히 →",
+      "intro": "소개",
       "posts": "최근 글",
       "projects": "골라둔 것"
     }
