@@ -44,7 +44,7 @@ const SECTION_ICON: Record<Section, Icon> = {
 };
 
 const itemClass =
-  'text-muted-foreground hover:text-foreground hover:bg-muted flex size-9 items-center justify-center rounded-full transition-colors';
+  'text-muted-foreground hover:text-foreground hover:bg-muted flex size-11 items-center justify-center rounded-full transition-colors';
 
 export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) {
   const { t } = useTranslation('common');
@@ -80,7 +80,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
       */}
       <div
         aria-hidden
-        className="pointer-events-none fixed inset-x-0 bottom-0 z-10 h-28 [mask-image:linear-gradient(to_top,black_35%,transparent)] backdrop-blur-sm print:hidden"
+        className="pointer-events-none fixed inset-x-0 bottom-0 z-10 h-28 mask-[linear-gradient(to_top,black_35%,transparent)] backdrop-blur-sm print:hidden"
       />
 
       <nav
@@ -90,7 +90,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
           className,
         )}
       >
-        <div className="border-border bg-background/80 flex items-center gap-1 rounded-full border p-1.5 shadow-lg">
+        <div className="border-border bg-background/80 flex items-center gap-1 rounded-full border p-2 shadow-lg">
           <DockLink
             href={localeHref(lang, '/')}
             label={t(($) => $.nav.home)}
@@ -98,7 +98,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
             current={current === undefined}
           />
 
-          <span className="bg-border mx-0.5 hidden h-5 w-px sm:block" />
+          <span className="bg-border mx-0.5 hidden h-6 w-px sm:block" />
 
           <div className="hidden items-center gap-1 sm:flex">
             {SECTIONS.map((section) => (
@@ -111,14 +111,14 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
               />
             ))}
 
-            <span className="bg-border mx-0.5 h-5 w-px" />
+            <span className="bg-border mx-0.5 h-6 w-px" />
 
             {external.map(({ key, href, label, Icon, blank }) => (
               <DockLink key={key} href={href} label={label} Icon={Icon} blank={blank} />
             ))}
           </div>
 
-          <span className="bg-border mx-0.5 h-5 w-px" />
+          <span className="bg-border mx-0.5 h-6 w-px" />
 
           {altHref && (
             <DockLink
@@ -135,7 +135,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  className="size-9 rounded-full"
+                  className="size-11 rounded-full"
                   onClick={toggleTheme}
                   aria-label={t(($) => $.actions.toggleTheme)}
                 />
@@ -152,7 +152,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  className="size-9 rounded-full sm:hidden"
+                  className="size-11 rounded-full sm:hidden"
                   aria-label={t(($) => $.nav.menu)}
                 />
               }
@@ -220,7 +220,7 @@ function DockLink({ href, label, Icon, current, blank, hrefLang }: DockLink.Prop
         }
       >
         {/* 선택된 항목은 아이콘 자체가 상태를 말한다 — 배경색에만 기대지 않는다. */}
-        <Icon aria-hidden weight={current ? 'fill' : 'regular'} className="size-4.5" />
+        <Icon aria-hidden weight={current ? 'fill' : 'regular'} className="size-5" />
       </TooltipTrigger>
       <TooltipContent>{label}</TooltipContent>
     </Tooltip>
