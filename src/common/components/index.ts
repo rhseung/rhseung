@@ -55,4 +55,4 @@ export { NotFound } from './layout/not-found';
 export { SiteDock } from './layout/site-dock';
 
 // mdx/ — 본문에서만 쓰는 컴포넌트.
-export { Callout, Decision, Detail, Figure, MDX_COMPONENTS, Stat, Stats, Step, Steps } from './mdx';
+export { Callout, Detail, Figure, MDX_COMPONENTS, Stat, Stats, Step, Steps } from './mdx';
