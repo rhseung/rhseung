@@ -185,22 +185,40 @@
   .prose :is(img, video) {
     @apply border-border my-0 rounded-lg border;
   }
+
+  /* GFM 체크리스트. typography 가 모르는 문법이라 불릿과 체크박스가 겹쳐 나온다. */
+  .prose li:has(> input[type='checkbox']) {
+    @apply list-none;
+  }
+
+  .prose input[type='checkbox'] {
+    @apply accent-foreground mr-1.5 size-3.5 translate-y-[0.1em];
+  }
+
+  /* typography 는 인라인 코드에 백틱을 글자로 붙인다. 코드 스타일이 이미 구분을 하고 있다. */
+  .prose :where(code)::before,
+  .prose :where(code)::after {
+    content: none;
+  }
 }
 
 /**
  * 테마 전환 클리핑. 기본 크로스페이드를 끄고 새 화면만 `clip-path` 로 열어야
  * 두 테마가 섞여 흐려지지 않는다 (`use-theme-transition.ts`).
+ *
+ * `[data-theme-transition]` 으로 스코프하는 이유: 이 규칙이 상시로 걸리면 `<ClientRouter />`
+ * 가 쓰는 페이지 전환 애니메이션까지 같이 죽는다.
  */
-::view-transition-old(root),
-::view-transition-new(root) {
+html[data-theme-transition]::view-transition-old(root),
+html[data-theme-transition]::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
 
-::view-transition-old(root) {
+html[data-theme-transition]::view-transition-old(root) {
   z-index: 0;
 }
 
-::view-transition-new(root) {
+html[data-theme-transition]::view-transition-new(root) {
   z-index: 1;
 }

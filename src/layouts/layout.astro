@@ -1,4 +1,6 @@
 ---
+import { ClientRouter } from 'astro:transitions';
+
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 
@@ -70,12 +72,21 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
     */
     }
     <script is:inline>
-      const stored = localStorage.getItem('theme') ?? 'system';
-      const dark =
-        stored === 'dark' ||
-        (stored === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
-      document.documentElement.classList.toggle('dark', dark);
+      const applyTheme = () => {
+        const stored = localStorage.getItem('theme') ?? 'system';
+        const dark =
+          stored === 'dark' ||
+          (stored === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('dark', dark);
+      };
+
+      applyTheme();
+
+      // 스왑은 `<html>` 을 통째로 갈아끼운다 — 다시 안 칠하면 전환 직후 한 프레임이 밝다.
+      document.addEventListener('astro:after-swap', applyTheme);
     </script>
+
+    <ClientRouter />
   </head>
   <body>
     <slot />
