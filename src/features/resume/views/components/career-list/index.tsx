@@ -49,19 +49,36 @@ export function CareerList({
             )}
 
             <div className="flex flex-wrap items-baseline gap-x-2">
+              {item.logo && (
+                /*
+                 * 24px 고정이라 srcset·WebP 변환이 의미 없다 — `<Image />`가 주는 이점이
+                 * 없는 자리다. 게다가 여기는 React 아일랜드라 애초에 쓸 수도 없다.
+                 */
+                // eslint-disable-next-line no-restricted-syntax
+                <img
+                  src={item.logo}
+                  alt=""
+                  width={20}
+                  height={20}
+                  loading="lazy"
+                  decoding="async"
+                  className="size-5 shrink-0 self-center rounded-sm object-contain"
+                />
+              )}
+              {/* 소속이 제목, 역할이 부제 — 이력서를 훑을 때 눈이 먼저 찾는 건 학교·회사다. */}
               <Heading className="font-medium">
                 {href ? (
                   <a href={href} className="hover:underline">
-                    {item.role}
+                    {item.org}
                   </a>
                 ) : (
-                  item.role
+                  item.org
                 )}
               </Heading>
               <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
             </div>
 
-            <p className="text-primary text-sm">{item.org}</p>
+            <p className="text-muted-foreground text-sm">{item.role}</p>
             {item.summary && (
               <p className="text-muted-foreground text-sm leading-relaxed">{item.summary}</p>
             )}

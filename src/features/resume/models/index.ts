@@ -22,6 +22,8 @@ const careerEntry = () =>
     start: yearMonth(),
     end: yearMonth().optional(),
     summary: z.string().max(200).optional(),
+    /** `public/` 기준 로고 경로. 24px로 고정 표시라 최적화 대상이 아니다. */
+    logo: z.string().optional(),
     /** 교과우수상·석차·장학 같은 학교 안 성취. 수상 컬렉션이 아니라 여기 딸린다. */
     achievements: z.array(z.string()).default([]),
     links: links().optional(),
