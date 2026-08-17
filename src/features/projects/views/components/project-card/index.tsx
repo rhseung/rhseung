@@ -7,15 +7,24 @@ import {
 } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { Badge, Card, CardContent, CardHeader, CardTitle, ExternalLink } from '@/common/components';
+import { Badge, ExternalLink } from '@/common/components';
+import { cn } from '@/common/utils';
 
 import { projectHref, useProjectLabels, type Project } from '../../../viewmodels';
+
+/** 넘치는 스택은 개수로만 알린다 — 카드 높이가 프로젝트마다 들쭉날쭉해지지 않게. */
+const STACK_SHOWN = 4;
 
 function formatMonth(value: string) {
   return value.replace('-', '.');
 }
 
-export function ProjectCard({ project, detailHref }: ProjectCard.Props) {
+export function ProjectCard({
+  project,
+  detailHref,
+  selectedStack = [],
+  onToggleStack,
+}: ProjectCard.Props) {
   const { t } = useTranslation('projects');
   const label = useProjectLabels();
 
@@ -24,6 +33,13 @@ export function ProjectCard({ project, detailHref }: ProjectCard.Props) {
     : `${formatMonth(project.start)} – ${t(($) => $.period.ongoing)}`;
 
   const target = projectHref(project, detailHref);
+  // 고른 스택은 잘리지 않게 앞으로 당긴다 — 필터를 걸었는데 그 배지가 카드에 없으면 이상하다.
+  const ordered = [
+    ...project.stack.filter((item) => selectedStack.includes(item)),
+    ...project.stack.filter((item) => !selectedStack.includes(item)),
+  ];
+  const stack = ordered.slice(0, STACK_SHOWN);
+  const overflow = project.stack.length - stack.length;
 
   const links = [
     { key: 'repo', href: project.links?.repo, label: t(($) => $.links.repo), Icon: GithubLogoIcon },
@@ -44,15 +60,14 @@ export function ProjectCard({ project, detailHref }: ProjectCard.Props) {
   ].filter((link): link is typeof link & { href: string } => link.href !== undefined);
 
   return (
-    <Card className="gap-3 py-5">
-      <CardHeader className="gap-2 px-5">
-        <div className="flex items-center gap-1.5">
-          <Badge variant="secondary">{label.domain[project.domain]}</Badge>
-          <Badge variant="outline">{label.status[project.status]}</Badge>
-          <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
-        </div>
+    <article className="border-border bg-card/40 hover:border-foreground/20 flex h-full flex-col gap-3 rounded-xl border p-4 transition-colors">
+      <div className="flex items-center gap-1.5">
+        <Badge variant="secondary">{label.domain[project.domain]}</Badge>
+        <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
+      </div>
 
-        <CardTitle className="text-base">
+      <div className="flex flex-col gap-1.5">
+        <h2 className="text-sm font-semibold tracking-tight">
           {target === null && project.title}
           {target?.external === false && (
             <a href={target.href} className="hover:underline">
@@ -64,41 +79,68 @@ export function ProjectCard({ project, detailHref }: ProjectCard.Props) {
               {project.title}
             </ExternalLink>
           )}
-        </CardTitle>
-      </CardHeader>
+        </h2>
 
-      <CardContent className="flex flex-col gap-3 px-5">
-        <p className="text-muted-foreground text-sm leading-relaxed">{project.summary}</p>
+        <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed">
+          {project.summary}
+        </p>
+      </div>
 
-        {project.highlight && (
-          <p className="border-border border-l-2 pl-3 text-sm font-medium">{project.highlight}</p>
-        )}
+      {project.highlight && (
+        <p className="border-border border-l-2 pl-3 text-xs font-medium">{project.highlight}</p>
+      )}
 
-        <ul className="flex flex-wrap gap-1">
-          {project.stack.map((item) => (
+      {/* 아래 두 줄은 카드 바닥에 붙는다 — 그리드에서 요약 길이가 달라도 밑변이 맞는다. */}
+      <ul className="mt-auto flex flex-wrap gap-1 pt-1">
+        {stack.map((item) => {
+          const selected = selectedStack.includes(item);
+          const badge = (
+            <Badge
+              variant={selected ? 'secondary' : 'outline'}
+              className={cn('text-[0.7rem]', onToggleStack && 'hover:border-foreground/30')}
+            >
+              {item}
+            </Badge>
+          );
+
+          return (
             <li key={item}>
-              <Badge variant="outline">{item}</Badge>
+              {onToggleStack ? (
+                <button
+                  type="button"
+                  aria-pressed={selected}
+                  onClick={() => onToggleStack(item)}
+                  className="cursor-pointer"
+                >
+                  {badge}
+                </button>
+              ) : (
+                badge
+              )}
+            </li>
+          );
+        })}
+        {overflow > 0 && (
+          <li className="text-muted-foreground self-center text-[0.7rem]">+{overflow}</li>
+        )}
+      </ul>
+
+      {links.length > 0 && (
+        <ul className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          {links.map(({ key, href, label: linkLabel, Icon }) => (
+            <li key={key}>
+              <ExternalLink
+                href={href}
+                className="text-muted-foreground hover:text-foreground text-xs hover:underline"
+              >
+                <Icon aria-hidden className="size-3.5 shrink-0" />
+                {linkLabel}
+              </ExternalLink>
             </li>
           ))}
         </ul>
-
-        {links.length > 0 && (
-          <ul className="flex flex-wrap items-center gap-x-4 gap-y-1">
-            {links.map(({ key, href, label: linkLabel, Icon }) => (
-              <li key={key}>
-                <ExternalLink
-                  href={href}
-                  className="text-muted-foreground hover:text-foreground text-xs hover:underline"
-                >
-                  <Icon aria-hidden className="size-3.5 shrink-0" />
-                  {linkLabel}
-                </ExternalLink>
-              </li>
-            ))}
-          </ul>
-        )}
-      </CardContent>
-    </Card>
+      )}
+    </article>
   );
 }
 
@@ -106,5 +148,9 @@ export declare namespace ProjectCard {
   export type Props = {
     project: Project;
     detailHref: string;
+    /** 지금 걸린 스택 필터. 목록 밖(홈 등)에서는 넘기지 않는다. */
+    selectedStack?: readonly string[];
+    /** 넘기면 스택 배지가 필터 토글이 된다. */
+    onToggleStack?: (item: string) => void;
   };
 }

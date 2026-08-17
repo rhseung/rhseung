@@ -67,7 +67,10 @@ export default interface Resources {
     },
     "filter": {
       "all": "전체",
-      "label": "분야로 좁히기"
+      "label": "분야로 좁히기",
+      "reset": "필터 지우기",
+      "results": "{{count}}개",
+      "stack": "기술로 좁히기"
     },
     "links": {
       "demo": "데모",
@@ -82,6 +85,10 @@ export default interface Resources {
     },
     "period": {
       "ongoing": "현재"
+    },
+    "search": {
+      "label": "프로젝트 검색",
+      "placeholder": "제목·설명·기술로 검색"
     },
     "status": {
       "active": "진행 중",

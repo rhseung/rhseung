@@ -1,10 +1,42 @@
 import type { Project, ProjectDomain } from '../models';
+import type { ProjectFilters } from './use-project-filters';
 
 export function filterByDomain(
   projects: readonly Project[],
   domain: ProjectDomain | null,
 ): Project[] {
   return domain === null ? [...projects] : projects.filter((project) => project.domain === domain);
+}
+
+/** 검색은 제목·요약·스택을 함께 본다 — 사람들이 "rust"로도 "컴파일러"로도 찾는다. */
+function matchesQuery(project: Project, query: string): boolean {
+  const needle = query.trim().toLowerCase();
+  if (needle === '') return true;
+
+  const haystack = [project.title, project.summary, project.highlight ?? '', ...project.stack]
+    .join(' ')
+    .toLowerCase();
+
+  return haystack.includes(needle);
+}
+
+/** 스택은 AND 다 — 여럿 고르면 그걸 다 쓴 프로젝트만 남는다. */
+export function filterProjects(projects: readonly Project[], filters: ProjectFilters): Project[] {
+  return filterByDomain(projects, filters.domain)
+    .filter((project) =>
+      filters.stack.every((item) => (project.stack as readonly string[]).includes(item)),
+    )
+    .filter((project) => matchesQuery(project, filters.query));
+}
+
+/** 스택 칩에 쓴다. 많이 쓴 것부터. */
+export function countByStack(projects: readonly Project[]): [string, number][] {
+  const counts = new Map<string, number>();
+  for (const project of projects) {
+    for (const item of project.stack) counts.set(item, (counts.get(item) ?? 0) + 1);
+  }
+
+  return [...counts].sort(([a, countA], [b, countB]) => countB - countA || a.localeCompare(b));
 }
 
 /**

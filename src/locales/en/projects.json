@@ -14,7 +14,11 @@
   },
   "filter": {
     "all": "All",
-    "label": "Filter by domain"
+    "label": "Filter by domain",
+    "reset": "Clear filters",
+    "results_one": "filter.results",
+    "results_other": "filter.results",
+    "stack": "Narrow by tech"
   },
   "links": {
     "demo": "Demo",
@@ -29,6 +33,10 @@
   },
   "period": {
     "ongoing": "Present"
+  },
+  "search": {
+    "label": "Search projects",
+    "placeholder": "Search by name, description, or tech"
   },
   "status": {
     "active": "Active",
