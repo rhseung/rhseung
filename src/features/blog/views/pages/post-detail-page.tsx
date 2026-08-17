@@ -1,7 +1,7 @@
 import { ArrowLeftIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { Badge, SiteFooter, SiteHeader, buttonVariants } from '@/common/components';
+import { Badge, SiteDock, buttonVariants } from '@/common/components';
 import { dayjs, localeHref } from '@/common/lib';
 import { cn } from '@/common/utils';
 
@@ -14,8 +14,6 @@ export function PostDetailPage({ post, children }: PostDetailPage.Props) {
 
   return (
     <div className="bg-background min-h-dvh">
-      <SiteHeader lang={lang} current="blog" />
-
       <main className="mx-auto flex max-w-2xl flex-col gap-8 px-4 py-12">
         <a
           href={localeHref(lang, '/blog')}
@@ -48,7 +46,7 @@ export function PostDetailPage({ post, children }: PostDetailPage.Props) {
         <div className="prose prose-zinc dark:prose-invert max-w-none">{children}</div>
       </main>
 
-      <SiteFooter lang={lang} />
+      <SiteDock lang={lang} current="blog" />
     </div>
   );
 }

@@ -3,17 +3,15 @@
     "switchLanguage": "Switch language",
     "toggleTheme": "Toggle theme"
   },
-  "app": {
-    "name": "rhseung"
-  },
   "footer": {
-    "email": "Email",
-    "label": "Footer"
+    "email": "Email"
   },
   "nav": {
     "blog": "Writing",
     "career": "Career",
+    "home": "Home",
     "label": "Main",
+    "menu": "Menu",
     "projects": "Projects",
     "resume": "Résumé"
   },

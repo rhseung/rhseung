@@ -9,8 +9,7 @@ test('네비가 모든 라우트를 잇는다', async ({ page }) => {
   await page.getByRole('link', { name: '커리어' }).click();
   await expect(page).toHaveURL(/\/ko\/career\/$/);
 
-  // 로고는 홈으로 돌아간다.
-  await page.getByRole('link', { name: 'rhseung', exact: true }).click();
+  await page.getByRole('link', { name: '홈', exact: true }).click();
   await expect(page).toHaveURL(/\/ko\/$/);
 });
 
@@ -57,11 +56,11 @@ test('커리어 페이지가 세 섹션을 갖는다', async ({ page }) => {
 });
 
 // 푸터가 모든 페이지에서 소셜·구독 링크로 잇는다.
-test('푸터가 모든 페이지에 있다', async ({ page }) => {
+test('독이 모든 페이지에 있다', async ({ page }) => {
   for (const path of ['/ko/', '/ko/projects/', '/ko/blog/', '/ko/career/']) {
     await page.goto(path);
-    await expect(page.getByRole('contentinfo')).toBeVisible();
-    await expect(page.getByRole('navigation', { name: '푸터' })).toBeVisible();
+    await expect(page.getByRole('navigation', { name: '주요 메뉴' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'RSS' })).toBeVisible();
   }
 });
 

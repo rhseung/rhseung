@@ -1,13 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyTitle,
-  SiteFooter,
-  SiteHeader,
-} from '@/common/components';
+import { Empty, EmptyDescription, EmptyHeader, EmptyTitle, SiteDock } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
 
 import { sortPosts, type PostSummary } from '../../viewmodels';
@@ -20,12 +13,6 @@ export function BlogPage({ lang, posts }: BlogPage.Props) {
 
   return (
     <div className="bg-background min-h-dvh">
-      <SiteHeader
-        lang={lang}
-        current="blog"
-        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/blog')}
-      />
-
       <main className="mx-auto flex max-w-2xl flex-col gap-8 px-4 py-12">
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-semibold tracking-tight">{t(($) => $.page.title)}</h1>
@@ -54,7 +41,11 @@ export function BlogPage({ lang, posts }: BlogPage.Props) {
         )}
       </main>
 
-      <SiteFooter lang={lang} />
+      <SiteDock
+        lang={lang}
+        current="blog"
+        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/blog')}
+      />
     </div>
   );
 }

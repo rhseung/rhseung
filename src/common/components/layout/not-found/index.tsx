@@ -5,7 +5,7 @@ import {
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
-  SiteHeader,
+  SiteDock,
   buttonVariants,
 } from '@/common/components';
 import { DEFAULT_LANGUAGE, localeHref } from '@/common/lib';
@@ -15,8 +15,6 @@ export function NotFound() {
 
   return (
     <div className="bg-background flex min-h-dvh flex-col">
-      <SiteHeader lang={DEFAULT_LANGUAGE} />
-
       <main className="flex flex-1 items-center justify-center p-6">
         <Empty>
           <EmptyHeader>
@@ -46,6 +44,8 @@ export function NotFound() {
           </div>
         </Empty>
       </main>
+
+      <SiteDock lang={DEFAULT_LANGUAGE} />
     </div>
   );
 }

@@ -35,11 +35,15 @@ jobs:
       - name: generated output is stale
         run: git diff --exit-code || { echo '::error::run `bun run gen` and commit'; exit 1; }
 
-      # vitest가 스토리를 실제 브라우저에서 돌린다
+      # vitest가 스토리를 실제 브라우저에서 돌린다. 이력서 PDF도 이 브라우저로 굽는다.
       - run: bunx playwright install --with-deps chromium
       - run: bun run test
 
+      # `build`가 끝에 이력서 PDF를 다시 굽는다. 커밋된 것과 달라지면 데이터를 고치고
+      # PDF를 안 올린 것이다. 폰트를 자체 호스팅해서 이 이미지에서도 같은 결과가 나온다.
       - run: bun run build
+      - name: resume pdf is stale
+        run: git diff --exit-code -- public || { echo '::error::commit the regenerated resume PDF'; exit 1; }
       - run: bun run build-storybook
 
   e2e:

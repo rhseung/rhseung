@@ -6,8 +6,7 @@ import {
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
-  SiteFooter,
-  SiteHeader,
+  SiteDock,
 } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
 
@@ -31,12 +30,6 @@ export function ProjectsPage({ lang, projects }: ProjectsPage.Props) {
 
   return (
     <div className="bg-background min-h-dvh">
-      <SiteHeader
-        lang={lang}
-        current="projects"
-        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/projects')}
-      />
-
       <main className="mx-auto flex max-w-2xl flex-col gap-8 px-4 py-12">
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-semibold tracking-tight">{t(($) => $.page.title)}</h1>
@@ -92,7 +85,11 @@ export function ProjectsPage({ lang, projects }: ProjectsPage.Props) {
         )}
       </main>
 
-      <SiteFooter lang={lang} />
+      <SiteDock
+        lang={lang}
+        current="projects"
+        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/projects')}
+      />
     </div>
   );
 }

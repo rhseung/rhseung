@@ -13,15 +13,15 @@
   type-aware 린팅이 통째로 깨진다. 올리지 말 것.
 - `es-toolkit`이 있다. 유틸을 직접 만들기 전에 먼저 찾아본다.
 
-| 명령                 | 언제                                                       |
-| -------------------- | ---------------------------------------------------------- |
-| `bun run dev`        | 개발 (:4321)                                               |
-| `bun run storybook`  | 컴포넌트 작업 (:6006)                                      |
-| `bun run check`      | **커밋 전** — prettier --write + eslint --fix              |
-| `bun run verify`     | **PR 전** — format+lint+typecheck(astro check)+doctor+test |
-| `bun run gen`        | `t()` 키를 추가·삭제한 뒤                                  |
-| `bun run gen:resume` | `src/content/resume/*.yaml`을 고친 뒤 (PDF 재생성)         |
-| `bun run ui:add`     | shadcn 컴포넌트 추가                                       |
+| 명령                | 언제                                                       |
+| ------------------- | ---------------------------------------------------------- |
+| `bun run dev`       | 개발 (:4321)                                               |
+| `bun run storybook` | 컴포넌트 작업 (:6006)                                      |
+| `bun run check`     | **커밋 전** — prettier --write + eslint --fix              |
+| `bun run verify`    | **PR 전** — format+lint+typecheck(astro check)+doctor+test |
+| `bun run gen`       | `t()` 키를 추가·삭제한 뒤                                  |
+
+| `bun run ui:add` | shadcn 컴포넌트 추가 |
 
 `typecheck`는 `tsc`가 아니라 `astro check`다 — `.astro` 파일은 tsc가 못 읽는다.
 
@@ -54,8 +54,14 @@ astro dev stop && rm -rf .astro node_modules/.astro dist && bun run dev
 손으로 고치면 다음 `bun run gen`에 사라진다. CI는 `bun run gen` 후
 `git diff --exit-code`로 최신인지 검증한다.
 
-**PDF만 예외로 CI에서 안 만든다.** GitHub Actions의 우분투 이미지에는 한글 폰트가 없어서
-글자가 전부 두부(□)로 나온다. 로컬에서 `bun run gen:resume`을 돌려 커밋한다.
+이력서 PDF는 **`astro build` 끝에 자동으로 다시 구워진다.** 손으로 트리거하지 않는다 —
+데이터를 고치고 PDF를 안 올리는 일이 없게. CI도 빌드 후 `git diff --exit-code`로 확인한다.
+
+(폰트를 자체 호스팅하기 전에는 CI에서 못 돌렸다. 우분투 이미지에 한글 폰트가 없어
+글자가 두부로 나왔기 때문인데, 이제 Chromium이 시스템 폰트를 안 써서 사라진 제약이다.)
+
+Vercel 빌드 이미지에는 Playwright 브라우저가 없다 — 거기서는 생성을 건너뛰고 커밋된
+PDF를 배포한다.
 
 ## 2. 아키텍처 — MVVM + feature-first
 

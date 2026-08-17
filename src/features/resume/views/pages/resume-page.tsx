@@ -1,7 +1,7 @@
 import { DownloadSimpleIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { SiteHeader, buttonVariants } from '@/common/components';
+import { buttonVariants } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
 import type { ProjectSummary } from '@/features/projects';
 
@@ -24,13 +24,7 @@ export function ResumePage({
 
   return (
     <div className="bg-muted/40 min-h-dvh print:bg-transparent">
-      <div className="print:hidden">
-        <SiteHeader
-          lang={lang}
-          current="resume"
-          altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/resume')}
-        />
-      </div>
+      <div className="print:hidden"></div>
 
       <main className="mx-auto flex max-w-3xl flex-col gap-4 px-4 py-10 print:max-w-none print:gap-0 print:px-0 print:py-0">
         <div className="flex items-center justify-end print:hidden">

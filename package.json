@@ -1,16 +1,17 @@
 {
   "name": "rhseung",
   "scripts": {
-    "build": "bun run gen && astro check && astro build",
+    "build": "bun run gen && astro check && astro build && bun scripts/gen-resume.ts",
     "build-storybook": "storybook build",
     "check": "prettier --write . && eslint . --fix",
+    "deploy": "vercel deploy --prod",
     "dev": "astro dev",
     "doctor": "react-doctor --yes --no-telemetry",
     "format": "prettier --check .",
     "gen": "bun run gen:i18n",
     "gen:i18n": "i18next-cli extract && i18next-cli types",
-    "gen:resume": "bun run build && bun scripts/gen-resume.ts",
     "gen:i18n:watch": "i18next-cli extract --watch & i18next-cli types --watch & wait",
+    "gen:resume": "bun scripts/gen-resume.ts",
     "i18n:lint": "i18next-cli lint",
     "i18n:status": "i18next-cli status",
     "i18n:sync": "i18next-cli sync",
@@ -24,8 +25,7 @@
     "test:watch": "vitest",
     "typecheck": "astro check",
     "ui:add": "bunx --bun shadcn@latest add",
-    "verify": "bun run format && bun run lint && bun run typecheck && bun run doctor && bun run test",
-    "deploy": "vercel deploy --prod"
+    "verify": "bun run format && bun run lint && bun run typecheck && bun run doctor && bun run test"
   },
   "dependencies": {
     "@astrojs/mdx": "7.0.5",

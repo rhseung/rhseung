@@ -34,11 +34,21 @@ export {
 export { Input } from './ui/input';
 export { Label } from './ui/label';
 export { Separator } from './ui/separator';
+export {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from './ui/sheet';
 export { Skeleton } from './ui/skeleton';
+export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
 // layout/ — 앱을 아는 조합 컴포넌트.
 export { AppProviders } from './layout/app-providers';
 export { ExternalLink } from './layout/external-link';
 export { NotFound } from './layout/not-found';
-export { SiteFooter } from './layout/site-footer';
-export { SiteHeader } from './layout/site-header';
+export { SiteDock } from './layout/site-dock';

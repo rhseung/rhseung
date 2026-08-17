@@ -1,7 +1,7 @@
 import { ArrowRightIcon, GithubLogoIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { ExternalLink, SiteFooter, SiteHeader, buttonVariants } from '@/common/components';
+import { ExternalLink, SiteDock, buttonVariants } from '@/common/components';
 import { localeHref, SITE, type Language } from '@/common/lib';
 import { PostListItem, type PostSummary } from '@/features/blog';
 import { ProjectCard, type ProjectSummary } from '@/features/projects';
@@ -11,8 +11,6 @@ export function HomePage({ lang, headline, intro, pinned, recent }: HomePage.Pro
 
   return (
     <div className="bg-background min-h-dvh">
-      <SiteHeader lang={lang} altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/')} />
-
       <main className="mx-auto flex max-w-2xl flex-col gap-12 px-4 py-16">
         <header className="flex flex-col gap-5">
           <p className="text-muted-foreground text-sm">{SITE.name[lang]}</p>
@@ -81,7 +79,7 @@ export function HomePage({ lang, headline, intro, pinned, recent }: HomePage.Pro
         </section>
       </main>
 
-      <SiteFooter lang={lang} />
+      <SiteDock lang={lang} altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/')} />
     </div>
   );
 }

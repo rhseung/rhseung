@@ -21,17 +21,15 @@ export default interface Resources {
       "switchLanguage": "언어 바꾸기",
       "toggleTheme": "테마 바꾸기"
     },
-    "app": {
-      "name": "rhseung"
-    },
     "footer": {
-      "email": "이메일",
-      "label": "푸터"
+      "email": "이메일"
     },
     "nav": {
       "blog": "글",
       "career": "커리어",
+      "home": "홈",
       "label": "주요 메뉴",
+      "menu": "메뉴",
       "projects": "프로젝트",
       "resume": "이력서"
     },

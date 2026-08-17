@@ -1,7 +1,7 @@
 import { ArrowLeftIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { Badge, ExternalLink, SiteFooter, SiteHeader, buttonVariants } from '@/common/components';
+import { Badge, ExternalLink, SiteDock, buttonVariants } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
 
@@ -29,8 +29,6 @@ export function ProjectDetailPage({ lang, project, altHref, children }: ProjectD
 
   return (
     <div className="bg-background min-h-dvh">
-      <SiteHeader lang={lang} current="projects" altHref={altHref} />
-
       <main className="mx-auto flex max-w-2xl flex-col gap-8 px-4 py-12">
         <a
           href={localeHref(lang, '/projects')}
@@ -81,7 +79,7 @@ export function ProjectDetailPage({ lang, project, altHref, children }: ProjectD
         <div className="prose prose-zinc dark:prose-invert max-w-none">{children}</div>
       </main>
 
-      <SiteFooter lang={lang} />
+      <SiteDock lang={lang} current="projects" altHref={altHref} />
     </div>
   );
 }

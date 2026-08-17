@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { Empty, EmptyHeader, EmptyTitle, SiteFooter, SiteHeader } from '@/common/components';
+import { Empty, EmptyHeader, EmptyTitle, SiteDock } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
 
 import {
@@ -30,12 +30,6 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
 
   return (
     <div className="bg-background min-h-dvh">
-      <SiteHeader
-        lang={lang}
-        current="career"
-        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/career')}
-      />
-
       <main className="mx-auto flex max-w-2xl flex-col gap-12 px-4 py-12">
         <h1 className="text-2xl font-semibold tracking-tight">{t(($) => $.career.title)}</h1>
 
@@ -98,7 +92,11 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
         )}
       </main>
 
-      <SiteFooter lang={lang} />
+      <SiteDock
+        lang={lang}
+        current="career"
+        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/career')}
+      />
     </div>
   );
 }
