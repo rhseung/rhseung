@@ -15,11 +15,11 @@ import {
   SunIcon,
   type Icon,
 } from '@phosphor-icons/react';
-import { useTheme } from 'next-themes';
 import { useTranslation } from 'react-i18next';
 
 import { LANGUAGES, SITE, localeHref, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
+import { useThemeTransition } from '@/common/viewmodels';
 
 import { Button } from '../../ui/button';
 import {
@@ -48,11 +48,10 @@ const itemClass =
 
 export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) {
   const { t } = useTranslation('common');
-  const { resolvedTheme, setTheme } = useTheme();
+  const { isDark, toggleTheme } = useThemeTransition();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const nextLanguage = LANGUAGES[(LANGUAGES.indexOf(lang) + 1) % LANGUAGES.length];
-  const isDark = resolvedTheme === 'dark';
 
   const sectionLabel: Record<Section, string> = {
     projects: t(($) => $.nav.projects),
@@ -75,6 +74,15 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
 
   return (
     <TooltipProvider>
+      {/*
+        독 아래 띠. 화면 바닥으로 갈수록 진해지는 마스크라 블러가 어디서 시작하는지
+        경계가 안 보인다 — 독에 직접 걸면 그 원형 테두리에서 뚝 끊긴다.
+      */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-x-0 bottom-0 z-10 h-28 [mask-image:linear-gradient(to_top,black_35%,transparent)] backdrop-blur-sm print:hidden"
+      />
+
       <nav
         aria-label={t(($) => $.nav.label)}
         className={cn(
@@ -82,7 +90,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
           className,
         )}
       >
-        <div className="border-border bg-background/80 flex items-center gap-1 rounded-full border p-1.5 shadow-lg backdrop-blur-md">
+        <div className="border-border bg-background/80 flex items-center gap-1 rounded-full border p-1.5 shadow-lg">
           <DockLink
             href={localeHref(lang, '/')}
             label={t(($) => $.nav.home)}
@@ -128,7 +136,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
                   variant="ghost"
                   size="icon-sm"
                   className="size-9 rounded-full"
-                  onClick={() => setTheme(isDark ? 'light' : 'dark')}
+                  onClick={toggleTheme}
                   aria-label={t(($) => $.actions.toggleTheme)}
                 />
               }

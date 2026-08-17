@@ -186,3 +186,21 @@
     @apply border-border my-0 rounded-lg border;
   }
 }
+
+/**
+ * 테마 전환 클리핑. 기본 크로스페이드를 끄고 새 화면만 `clip-path` 로 열어야
+ * 두 테마가 섞여 흐려지지 않는다 (`use-theme-transition.ts`).
+ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 0;
+}
+
+::view-transition-new(root) {
+  z-index: 1;
+}

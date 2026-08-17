@@ -45,7 +45,7 @@ export default defineConfig({
    * 바꾸는 그 순간 코드 블록도 같이 따라간다.
    */
   markdown: {
-    shikiConfig: { themes: { light: 'min-light', dark: 'monokai' }, defaultColor: false },
+    shikiConfig: { themes: { light: 'snazzy-light', dark: 'tokyo-night' }, defaultColor: false },
   },
 
   integrations: [
