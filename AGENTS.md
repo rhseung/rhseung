@@ -74,9 +74,7 @@ src/
 ├── pages/
 │   ├── _islands/               #   페이지가 마운트하는 하이드레이션 경계 하나.
 │   │                           #   `_` 접두사는 Astro 라우터가 라우트로 안 보게 하는 관례
-│   ├── [...lang]/              #   ko(`/`)와 en(`/en/`)을 한 파일에서 낸다
-│   ├── blog/[slug].astro       #   글은 원본 언어 한 벌이라 `[...lang]` 밖이다
-│   ├── resume/[lang].astro     #   PDF 원본. noindex
+│   ├── [lang]/                 #   모든 라우트가 `/ko/…` 또는 `/en/…` 아래 있다
 │   ├── rss.xml.ts, 404.astro   #   피드 + 라우팅
 ├── locales/{ko,en}/           # i18next-cli 생성
 └── mocks/                     # MSW. dev·Storybook·vitest·Playwright 공유
@@ -200,6 +198,13 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 - 손으로 쓰는 variants는 `tailwind-variants`(`tv()`). shadcn이 만든 CVA는 그대로 둔다.
 - 색을 하드코딩하지 않는다. `src/styles.css`의 시맨틱 토큰(`bg-card`, `text-muted-foreground`)만.
 - 정렬은 `prettier-plugin-tailwindcss`가 한다. 손으로 정렬하지 않는다.
+- **배지에 `variant="ghost"`를 쓰지 않는다.** hover 전에는 컨테이너가 안 보여서 배지로
+  읽히지 않는다. 분류축은 `secondary`(채움), 나머지는 `outline`(테두리).
+
+### 외부 링크
+
+- **사이트 밖으로 나가는 링크는 `<ExternalLink />`만 쓴다.** 손으로 `target="_blank"`를
+  쓰면 린트 에러다 — ↗ 아이콘과 `rel="noreferrer noopener"`가 같이 빠지기 때문.
 
 ### 이미지
 
@@ -308,9 +313,12 @@ CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한
   그 키는 `SiteHeader`가 실제로 렌더해서 절대 안 지워진다. `.astro`에서만 쓰는 새 키를
   만드는 순간 조용히 사라지는 쪽으로 간다.
 - dayjs 로케일은 `common/lib/dayjs.ts`가 i18next를 따라가게 해뒀다. 직접 `dayjs.locale()`을 부르지 않는다.
-- **언어는 URL이 정한다.** `/`가 ko, `/en/`이 en이고 `[...lang]` rest 파라미터 하나가 둘을
-  같이 낸다. 브라우저 언어는 보지 않는다 — 정적 사이트에서 런타임 감지는 크롤러에게
-  한 벌만 보여줘서 hreflang을 만들 수 없다.
+- **언어는 URL이 정한다.** 모든 라우트가 `/ko/…` 또는 `/en/…` 이고, `[lang]` 파라미터
+  하나가 둘을 같이 낸다. `/`는 `redirects`가 기본 언어로 보내는 리다이렉트 한 장이다.
+  브라우저 언어는 보지 않는다 — 정적 사이트에서 런타임 감지는 크롤러에게 한 벌만
+  보여줘서 hreflang을 만들 수 없다.
+- **기본 언어도 접두사를 생략하지 않는다.** 하나만 생략하면 규칙이 둘이 되고, 글처럼
+  한 언어에만 존재하는 문서에서 라우트 모양이 어긋난다(그렇게 만들었다가 되돌렸다).
 - `getStaticPaths`가 반환하는 객체는 **매번 새로 만든다**(`languagePaths()`가 함수인 이유).
   Astro가 라우트별로 그 객체에 내부 상태를 붙여서, 같은 인스턴스를 여러 라우트가 공유하면
   두 번째 라우트부터 `NoMatchingStaticPathFound`로 빌드가 깨진다.

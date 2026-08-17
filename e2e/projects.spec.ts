@@ -10,7 +10,7 @@ async function waitForHydration(page: Page) {
 }
 
 test('목록에서 좁히고, 상세로 들어가고, 영어판으로 넘어간다', async ({ page }) => {
-  await page.goto('/projects');
+  await page.goto('/ko/projects/');
 
   const card = page.getByRole('link', { name: 'rhseung.me' });
   await expect(card).toBeVisible();
@@ -25,7 +25,7 @@ test('목록에서 좁히고, 상세로 들어가고, 영어판으로 넘어간�
   await expect(page).not.toHaveURL(/domain=/);
 
   await card.click();
-  await expect(page).toHaveURL(/\/projects\/rhseung-me\/$/);
+  await expect(page).toHaveURL(/\/ko\/projects\/rhseung-me\/$/);
   await expect(page.getByRole('heading', { level: 1, name: 'rhseung.me' })).toBeVisible();
   await waitForHydration(page);
 
@@ -40,18 +40,18 @@ test('JS 없이도 프로젝트 본문이 읽힌다', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
 
-  await page.goto('/projects/rhseung-me/');
+  await page.goto('/ko/projects/rhseung-me/');
   await expect(page.getByRole('heading', { level: 1, name: 'rhseung.me' })).toBeVisible();
   await expect(page.getByText('왜 만들었나')).toBeVisible();
 
-  await page.goto('/projects');
+  await page.goto('/ko/projects/');
   await expect(page.getByRole('link', { name: 'rhseung.me' })).toBeVisible();
 
   await context.close();
 });
 
 test('직접 연 필터 URL이 그 상태로 뜬다', async ({ page }) => {
-  await page.goto('/projects/?domain=graphics');
+  await page.goto('/ko/projects/?domain=graphics');
 
   await expect(page.getByRole('button', { name: /그래픽스/ })).toHaveAttribute(
     'aria-pressed',

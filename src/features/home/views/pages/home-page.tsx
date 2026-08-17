@@ -1,7 +1,7 @@
 import { ArrowRightIcon, GithubLogoIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { SiteHeader, buttonVariants } from '@/common/components';
+import { ExternalLink, SiteHeader, buttonVariants } from '@/common/components';
 import { localeHref, SITE, type Language } from '@/common/lib';
 import { PostListItem, type PostSummary } from '@/features/blog';
 import { ProjectCard, type ProjectSummary } from '@/features/projects';
@@ -27,15 +27,13 @@ export function HomePage({ lang, headline, pinned, recent }: HomePage.Props) {
               {t(($) => $.hero.projects)}
               <ArrowRightIcon data-icon="inline-end" />
             </a>
-            <a
+            <ExternalLink
               href={SITE.github}
-              target="_blank"
-              rel="noreferrer noopener"
               className={buttonVariants({ variant: 'outline', size: 'sm' })}
             >
               <GithubLogoIcon data-icon="inline-start" />
               GitHub
-            </a>
+            </ExternalLink>
           </div>
         </header>
 
@@ -65,7 +63,7 @@ export function HomePage({ lang, headline, pinned, recent }: HomePage.Props) {
                 <li key={post.slug}>
                   <PostListItem
                     post={post}
-                    href={`/blog/${post.slug}`}
+                    href={localeHref(post.lang, `/blog/${post.slug}`)}
                     showLanguage={post.lang !== lang}
                   />
                 </li>

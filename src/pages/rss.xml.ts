@@ -1,7 +1,7 @@
 import rss from '@astrojs/rss';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
-import { DEFAULT_LANGUAGE, SITE } from '@/common/lib';
+import { DEFAULT_LANGUAGE, SITE, localeHref } from '@/common/lib';
 import { sortPosts, toPostSummary } from '@/features/blog';
 
 import type { APIContext } from 'astro';
@@ -25,7 +25,7 @@ export async function GET(context: APIContext) {
       title: post.title,
       description: post.summary,
       pubDate: new Date(post.date),
-      link: `/blog/${post.slug}/`,
+      link: localeHref(post.lang, `/blog/${post.slug}`),
       categories: [...post.tags],
       customData: `<language>${post.lang}</language>`,
     })),

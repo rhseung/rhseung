@@ -38,5 +38,6 @@ export { Skeleton } from './ui/skeleton';
 
 // layout/ — 앱을 아는 조합 컴포넌트.
 export { AppProviders } from './layout/app-providers';
+export { ExternalLink } from './layout/external-link';
 export { NotFound } from './layout/not-found';
 export { SiteHeader } from './layout/site-header';

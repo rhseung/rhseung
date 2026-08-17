@@ -14,12 +14,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** 스택 칩. */
+/** 스택 칩·태그·상태. 컨테이너가 항상 보여야 배지로 읽힌다. */
 export const Outline: Story = {
   args: { variant: 'outline', children: 'typescript' },
 };
 
-/** archived 는 눈에 덜 띄어야 한다. */
+/** 도메인처럼 분류축을 표시할 때. */
 export const Secondary: Story = {
   args: { variant: 'secondary', children: 'archived' },
 };

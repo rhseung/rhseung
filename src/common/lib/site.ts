@@ -1,4 +1,4 @@
-import { DEFAULT_LANGUAGE, LANGUAGES, type Language } from './languages';
+import { LANGUAGES, type Language } from './languages';
 
 /**
  * 문서 메타데이터는 `locales/`가 아니라 여기 둔다 — i18next-cli는 `.astro`를 파싱하지
@@ -34,10 +34,10 @@ export const SITE = {
   description: Record<Language, string>;
 };
 
+/** 모든 경로에 언어 접두사가 붙는다 — 기본 언어도 예외가 아니다. */
 export function localeHref(lang: Language, path: string): string {
   const absolute = path.startsWith('/') ? path : `/${path}`;
-  const prefixed =
-    lang === DEFAULT_LANGUAGE ? absolute : `/${lang}${absolute === '/' ? '' : absolute}`;
+  const prefixed = `/${lang}${absolute === '/' ? '' : absolute}`;
 
   // canonical(`Astro.url.pathname`)이 항상 슬래시로 끝난다. 안 맞추면 문서가 hreflang으로
   // 자기 자신을 다른 URL로 가리킨다.
@@ -45,12 +45,11 @@ export function localeHref(lang: Language, path: string): string {
 }
 
 /**
+ * `[lang]` 라우트가 두 언어를 한 파일에서 내게 하는 경로 목록.
+ *
  * 상수가 아니라 함수다 — Astro가 라우트별로 이 객체에 내부 상태를 붙여서, 같은 인스턴스를
  * 여러 라우트가 공유하면 두 번째 라우트부터 `NoMatchingStaticPathFound`로 빌드가 깨진다.
  */
 export function languagePaths() {
-  return LANGUAGES.map((lang) => ({
-    params: { lang: lang === DEFAULT_LANGUAGE ? undefined : lang },
-    props: { lang },
-  }));
+  return LANGUAGES.map((lang) => ({ params: { lang }, props: { lang } }));
 }

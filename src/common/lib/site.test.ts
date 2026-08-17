@@ -3,27 +3,26 @@ import { describe, expect, it } from 'vitest';
 import { languagePaths, localeHref } from './site';
 
 describe('localeHref', () => {
-  it('기본 언어에는 접두사를 붙이지 않는다', () => {
-    expect(localeHref('ko', '/')).toBe('/');
-    expect(localeHref('ko', '/projects')).toBe('/projects/');
-  });
-
-  it('보조 언어에는 접두사를 붙인다', () => {
+  // 기본 언어도 접두사를 갖는다. 하나만 생략하면 규칙이 둘이 되고, 특히 한 언어에만
+  // 존재하는 문서(글)에서 라우트 모양이 어긋난다.
+  it('모든 언어에 접두사를 붙인다', () => {
+    expect(localeHref('ko', '/')).toBe('/ko/');
     expect(localeHref('en', '/')).toBe('/en/');
+    expect(localeHref('ko', '/projects')).toBe('/ko/projects/');
     expect(localeHref('en', '/projects')).toBe('/en/projects/');
   });
 
   // canonical(`Astro.url.pathname`)이 항상 슬래시로 끝나므로 hreflang도 맞아야 한다.
   it('항상 슬래시로 끝난다', () => {
     expect(localeHref('en', 'projects')).toBe('/en/projects/');
-    expect(localeHref('ko', '/blog/')).toBe('/blog/');
+    expect(localeHref('ko', '/blog/')).toBe('/ko/blog/');
   });
 });
 
 describe('languagePaths', () => {
-  it('기본 언어는 params가 비어 있어 접두사 없는 라우트가 된다', () => {
+  it('언어마다 라우트 하나', () => {
     expect(languagePaths()).toEqual([
-      { params: { lang: undefined }, props: { lang: 'ko' } },
+      { params: { lang: 'ko' }, props: { lang: 'ko' } },
       { params: { lang: 'en' }, props: { lang: 'en' } },
     ]);
   });

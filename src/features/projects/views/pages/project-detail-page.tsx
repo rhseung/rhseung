@@ -1,7 +1,7 @@
 import { ArrowLeftIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { Badge, SiteHeader, buttonVariants } from '@/common/components';
+import { Badge, ExternalLink, SiteHeader, buttonVariants } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
 
@@ -24,7 +24,7 @@ export function ProjectDetailPage({ lang, project, altHref, children }: ProjectD
     { key: 'demo', href: project.links?.demo, label: t(($) => $.links.demo) },
     { key: 'post', href: project.links?.post, label: t(($) => $.links.post) },
     { key: 'paper', href: project.links?.paper, label: t(($) => $.links.paper) },
-  ].filter((link) => link.href !== undefined);
+  ].filter((link): link is typeof link & { href: string } => link.href !== undefined);
 
   return (
     <div className="bg-background min-h-dvh">
@@ -41,10 +41,8 @@ export function ProjectDetailPage({ lang, project, altHref, children }: ProjectD
 
         <header className="flex flex-col gap-3">
           <div className="flex items-center gap-1.5">
-            <Badge variant="outline">{label.domain[project.domain]}</Badge>
-            <Badge variant={project.status === 'archived' ? 'ghost' : 'secondary'}>
-              {label.status[project.status]}
-            </Badge>
+            <Badge variant="secondary">{label.domain[project.domain]}</Badge>
+            <Badge variant="outline">{label.status[project.status]}</Badge>
             <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
           </div>
 
@@ -58,7 +56,7 @@ export function ProjectDetailPage({ lang, project, altHref, children }: ProjectD
           <ul className="flex flex-wrap gap-1">
             {project.stack.map((item) => (
               <li key={item}>
-                <Badge variant="ghost">{item}</Badge>
+                <Badge variant="outline">{item}</Badge>
               </li>
             ))}
           </ul>
@@ -66,15 +64,13 @@ export function ProjectDetailPage({ lang, project, altHref, children }: ProjectD
           {links.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {links.map((link) => (
-                <a
+                <ExternalLink
                   key={link.key}
                   href={link.href}
-                  target="_blank"
-                  rel="noreferrer noopener"
                   className={buttonVariants({ variant: 'outline', size: 'sm' })}
                 >
                   {link.label}
-                </a>
+                </ExternalLink>
               ))}
             </div>
           )}

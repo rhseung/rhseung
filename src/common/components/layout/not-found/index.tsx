@@ -7,6 +7,7 @@ import {
   EmptyTitle,
   buttonVariants,
 } from '@/common/components';
+import { DEFAULT_LANGUAGE, localeHref } from '@/common/lib';
 
 // 라우터가 없어서 `<Link>` 대신 `<a>`를 쓴다.
 export function NotFound() {
@@ -22,7 +23,7 @@ export function NotFound() {
           </EmptyTitle>
           <EmptyDescription>{t(($) => $.notFound.description)}</EmptyDescription>
         </EmptyHeader>
-        <a href="/" className={buttonVariants()}>
+        <a href={localeHref(DEFAULT_LANGUAGE, '/')} className={buttonVariants()}>
           {t(($) => $.notFound.action)}
         </a>
       </Empty>

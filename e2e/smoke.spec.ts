@@ -5,10 +5,17 @@ import { expect, test } from '@playwright/test';
  * 지금은 셸이 뜨는지만 본다.
  */
 test('홈이 뜬다', async ({ page }) => {
-  const response = await page.goto('/');
+  const response = await page.goto('/ko/');
 
   expect(response?.status()).toBe(200);
   await expect(page.locator('html')).toHaveAttribute('lang', 'ko');
+});
+
+// 모든 라우트가 언어 접두사를 갖는다. 루트는 기본 언어로 보내는 리다이렉트 한 장뿐이다.
+test('루트가 기본 언어로 보낸다', async ({ page }) => {
+  await page.goto('/');
+
+  await expect(page).toHaveURL(/\/ko\/$/);
 });
 
 // 메타는 `/og.png`를 가리킨다. 파일이 없으면 공유 카드가 빈 채로 나가는데

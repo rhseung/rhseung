@@ -38,7 +38,7 @@ export function PostDetailPage({ post, children }: PostDetailPage.Props) {
             <ul className="flex flex-wrap gap-1">
               {post.tags.map((tag) => (
                 <li key={tag}>
-                  <Badge variant="ghost">{tag}</Badge>
+                  <Badge variant="outline">{tag}</Badge>
                 </li>
               ))}
             </ul>

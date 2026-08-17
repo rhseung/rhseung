@@ -7,8 +7,8 @@ import { toPostSummary } from '@/features/blog';
 import BaseLayout from '@/layouts/base-layout.astro';
 
 /**
- * `[...lang]` 밖이다 — 글은 쓴 언어 그대로 한 벌뿐이라, 언어별 URL을 두면 같은 본문이
- * 두 주소에 걸려 중복 콘텐츠가 된다.
+ * 글은 번역하지 않는다 — 쓴 언어 접두사 아래에만 존재한다. 한국어 글은 `/ko/blog/<slug>/`
+ * 하나뿐이고 `/en/`엔 없다. 그래서 언어 미러도 hreflang도 걸지 않는다.
  */
 export async function getStaticPaths() {
   const entries: CollectionEntry<'posts'>[] = await getCollection(
@@ -16,7 +16,10 @@ export async function getStaticPaths() {
     ({ data }: CollectionEntry<'posts'>) => !data.draft,
   );
 
-  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  return entries.map((entry) => ({
+    params: { lang: entry.data.lang, slug: entry.id },
+    props: { entry },
+  }));
 }
 
 const { entry } = Astro.props;

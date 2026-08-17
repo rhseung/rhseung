@@ -21,13 +21,17 @@ export default defineConfig({
    * 언어를 URL이 정한다. 클라이언트 런타임 토글은 정적 사이트에서 사실상 단일언어였다 —
    * 크롤러가 보는 HTML이 한 벌뿐이라 hreflang·언어별 canonical을 만들 방법이 없었다.
    *
-   * `prefixDefaultLocale: false` — 홈 URL(`/`)에 리다이렉트 홉을 붙이지 않는다.
+   * `prefixDefaultLocale: true` — 모든 라우트가 `/ko/…` 또는 `/en/…` 이다. 기본 언어만
+   * 접두사를 생략하면 규칙이 둘이 되고, 특히 글처럼 한 언어에만 존재하는 문서에서
+   * 라우트 모양이 어긋난다. `/`는 아래 `redirects`가 기본 언어로 보낸다.
    */
   i18n: {
     defaultLocale: 'ko',
     locales: ['ko', 'en'],
-    routing: { prefixDefaultLocale: false },
+    routing: { prefixDefaultLocale: true },
   },
+
+  redirects: { '/': '/ko/' },
 
   // 본문 이미지 기본값. 원본 크기를 넘지 않는 선에서 컨테이너에 맞추고 srcset을 자동 생성한다.
   image: { layout: 'constrained' },

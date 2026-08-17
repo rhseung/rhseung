@@ -31,7 +31,7 @@ export async function getStaticPaths() {
     );
 
     return {
-      params: { lang: lang === DEFAULT_LANGUAGE ? undefined : lang, slug },
+      params: { lang, slug },
       props: { lang, entry, alternates },
     };
   });

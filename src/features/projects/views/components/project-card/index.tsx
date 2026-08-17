@@ -1,13 +1,7 @@
-import {
-  ArrowSquareOutIcon,
-  ArrowUpRightIcon,
-  FileTextIcon,
-  GithubLogoIcon,
-  PlayIcon,
-} from '@phosphor-icons/react';
+import { ArrowSquareOutIcon, FileTextIcon, GithubLogoIcon, PlayIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { Badge, Card, CardContent, CardHeader, CardTitle } from '@/common/components';
+import { Badge, Card, CardContent, CardHeader, CardTitle, ExternalLink } from '@/common/components';
 
 import { projectHref, useProjectLabels, type ProjectSummary } from '../../../viewmodels';
 
@@ -36,33 +30,28 @@ export function ProjectCard({ project, detailHref }: ProjectCard.Props) {
       label: t(($) => $.links.paper),
       Icon: ArrowSquareOutIcon,
     },
-  ].filter((link) => link.href !== undefined);
+  ].filter((link): link is typeof link & { href: string } => link.href !== undefined);
 
   return (
     <Card className="gap-3 py-5">
       <CardHeader className="gap-2 px-5">
         <div className="flex items-center gap-1.5">
-          <Badge variant="outline">{label.domain[project.domain]}</Badge>
-          <Badge variant={project.status === 'archived' ? 'ghost' : 'secondary'}>
-            {label.status[project.status]}
-          </Badge>
+          <Badge variant="secondary">{label.domain[project.domain]}</Badge>
+          <Badge variant="outline">{label.status[project.status]}</Badge>
           <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
         </div>
 
         <CardTitle className="text-base">
-          {target === null ? (
-            project.title
-          ) : (
-            <a
-              href={target.href}
-              {...(target.external ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
-              className="group/title inline-flex items-center gap-1 hover:underline"
-            >
+          {target === null && project.title}
+          {target?.external === false && (
+            <a href={target.href} className="hover:underline">
               {project.title}
-              {target.external && (
-                <ArrowUpRightIcon aria-hidden className="text-muted-foreground size-3.5 shrink-0" />
-              )}
             </a>
+          )}
+          {target?.external === true && (
+            <ExternalLink href={target.href} className="hover:underline">
+              {project.title}
+            </ExternalLink>
           )}
         </CardTitle>
       </CardHeader>
@@ -77,7 +66,7 @@ export function ProjectCard({ project, detailHref }: ProjectCard.Props) {
         <ul className="flex flex-wrap gap-1">
           {project.stack.map((item) => (
             <li key={item}>
-              <Badge variant="ghost">{item}</Badge>
+              <Badge variant="outline">{item}</Badge>
             </li>
           ))}
         </ul>
@@ -86,15 +75,13 @@ export function ProjectCard({ project, detailHref }: ProjectCard.Props) {
           <ul className="flex flex-wrap items-center gap-x-4 gap-y-1">
             {links.map(({ key, href, label: linkLabel, Icon }) => (
               <li key={key}>
-                <a
+                <ExternalLink
                   href={href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-xs hover:underline"
+                  className="text-muted-foreground hover:text-foreground text-xs hover:underline"
                 >
                   <Icon aria-hidden className="size-3.5 shrink-0" />
                   {linkLabel}
-                </a>
+                </ExternalLink>
               </li>
             ))}
           </ul>
