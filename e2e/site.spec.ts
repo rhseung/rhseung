@@ -34,11 +34,14 @@ test('이력서 PDF가 실제로 있다', async ({ request }) => {
   }
 });
 
-// PDF 원본 라우트는 방문자가 볼 페이지가 아니다. 색인되면 /about 과 중복으로 잡힌다.
-test('PDF 원본 라우트는 noindex다', async ({ page }) => {
-  await page.goto('/resume/ko/');
+// 이력서의 프로젝트 섹션은 yaml에 없다 — projects 컬렉션에서 채워진다.
+// 배선이 끊기면 섹션이 통째로 사라지는데, yaml만 보면 눈치채지 못한다.
+test('이력서 프로젝트 섹션이 컬렉션에서 채워진다', async ({ page }) => {
+  await page.goto('/about/');
 
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
+  const section = page.getByRole('heading', { name: '주요 프로젝트' });
+  await expect(section).toBeVisible();
+  await expect(page.getByText('Astro 아일랜드 위에 올린 개인 사이트')).toBeVisible();
 });
 
 test('RSS와 sitemap이 나간다', async ({ request }) => {

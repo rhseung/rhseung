@@ -1,1 +1,1 @@
-export type { Resume } from '../models';
+export type { Resume, ResumeEntry } from '../models';

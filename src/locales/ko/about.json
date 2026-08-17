@@ -1,16 +1,20 @@
 {
-  "contact": {
-    "download": "이력서 PDF",
-    "title": "연락"
+  "awards": {
+    "title": "수상"
   },
-  "resume": {
-    "fallback": "이 브라우저는 PDF를 바로 보여주지 못합니다.",
-    "title": "이력서"
+  "download": {
+    "label": "PDF로 저장"
+  },
+  "education": {
+    "title": "학력"
+  },
+  "experience": {
+    "title": "경력"
+  },
+  "projects": {
+    "title": "주요 프로젝트"
   },
   "skills": {
     "title": "기술"
-  },
-  "timeline": {
-    "title": "이력"
   }
 }

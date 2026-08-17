@@ -1,16 +1,20 @@
 {
-  "contact": {
-    "download": "Résumé PDF",
-    "title": "Contact"
+  "awards": {
+    "title": "Awards"
   },
-  "resume": {
-    "fallback": "This browser cannot display the PDF inline.",
-    "title": "Résumé"
+  "download": {
+    "label": "Download PDF"
+  },
+  "education": {
+    "title": "Education"
+  },
+  "experience": {
+    "title": "Experience"
+  },
+  "projects": {
+    "title": "Selected projects"
   },
   "skills": {
     "title": "Skills"
-  },
-  "timeline": {
-    "title": "Experience"
   }
 }

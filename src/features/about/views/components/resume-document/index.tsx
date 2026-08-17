@@ -1,74 +1,135 @@
 import { useTranslation } from 'react-i18next';
 
-import type { Resume } from '../../../viewmodels';
+import { Badge } from '@/common/components';
+import type { ProjectSummary } from '@/features/projects';
+
+import type { Resume, ResumeEntry } from '../../../viewmodels';
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="flex flex-col gap-3">
+      <h2 className="border-border text-primary border-b pb-1 text-sm font-medium tracking-tight">
+        {title}
+      </h2>
+      {children}
+    </section>
+  );
+}
+
+function EntryList({ entries }: { entries: readonly ResumeEntry[] }) {
+  return (
+    <ul className="flex flex-col gap-4">
+      {entries.map((item) => (
+        // 인쇄에서 한 항목이 두 쪽에 걸쳐 잘리지 않게.
+        <li key={`${item.period}-${item.org}`} className="flex break-inside-avoid flex-col gap-0.5">
+          <div className="flex flex-wrap items-baseline gap-x-2">
+            <span className="font-medium">{item.role}</span>
+            <span className="text-muted-foreground ml-auto text-xs tabular-nums">
+              {item.period}
+            </span>
+          </div>
+          <p className="text-primary text-sm">{item.org}</p>
+          {item.description && (
+            <p className="text-muted-foreground text-sm leading-relaxed">{item.description}</p>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 /**
- * 인쇄 전용 문서. `bun run gen:resume`이 `/resume/{lang}/`을 Chromium 인쇄 엔진으로 구워
- * `public/resume-{lang}.pdf`를 만든다. `/about`은 그 PDF를 뷰어로 보여주므로, 여기와
- * `/about`이 같은 내용을 두 번 그리지 않는다.
+ * 이력서 본문. `/about`이 화면에 그리고, `bun run gen:resume`이 같은 페이지를 Chromium
+ * 인쇄 엔진으로 구워 PDF를 만든다 — 그래서 화면과 PDF가 어긋날 수가 없다.
+ *
+ * 프로젝트 섹션은 yaml이 아니라 `projects` 컬렉션에서 온다. 이력서용으로 다시 쓰지 않는다.
  */
-export function ResumeDocument({ name, resume }: ResumeDocument.Props) {
+export function ResumeDocument({ name, resume, projects }: ResumeDocument.Props) {
   const { t } = useTranslation('about');
 
   return (
-    <article className="mx-auto flex max-w-2xl flex-col gap-8 px-4 py-10 print:max-w-none print:px-0 print:py-0">
-      <header className="flex flex-col gap-2">
+    <article className="flex flex-col gap-8">
+      <header className="flex flex-col gap-3">
         <h1 className="text-3xl font-semibold tracking-tight">{name}</h1>
-        <p className="text-muted-foreground">{resume.headline}</p>
-        {resume.intro && <p className="text-sm leading-relaxed">{resume.intro}</p>}
+        <p className="text-sm leading-relaxed">{resume.headline}</p>
+        {resume.intro && (
+          <p className="text-muted-foreground text-sm leading-relaxed">{resume.intro}</p>
+        )}
 
-        <ul className="text-muted-foreground flex flex-wrap gap-x-4 gap-y-1 text-sm">
+        <ul className="text-muted-foreground flex flex-wrap gap-x-4 gap-y-1 text-xs">
+          {resume.location && <li>{resume.location}</li>}
           <li>{resume.contact.email}</li>
           <li>{resume.contact.github.replace('https://', '')}</li>
+          {resume.contact.linkedin && <li>{resume.contact.linkedin.replace('https://', '')}</li>}
           {resume.contact.site && <li>{resume.contact.site.replace('https://', '')}</li>}
         </ul>
       </header>
 
-      {resume.timeline.length > 0 && (
-        <section className="flex flex-col gap-4">
-          <h2 className="text-sm font-medium tracking-tight">{t(($) => $.timeline.title)}</h2>
+      {resume.experience.length > 0 && (
+        <Section title={t(($) => $.experience.title)}>
+          <EntryList entries={resume.experience} />
+        </Section>
+      )}
 
-          <ul className="flex flex-col gap-5">
-            {resume.timeline.map((item) => (
-              // 인쇄에서 한 항목이 두 쪽에 걸쳐 잘리지 않게.
-              <li
-                key={`${item.period}-${item.org}`}
-                className="flex break-inside-avoid flex-col gap-1"
-              >
+      {resume.education.length > 0 && (
+        <Section title={t(($) => $.education.title)}>
+          <EntryList entries={resume.education} />
+        </Section>
+      )}
+
+      {projects.length > 0 && (
+        <Section title={t(($) => $.projects.title)}>
+          <ul className="flex flex-col gap-3">
+            {projects.map((project) => (
+              <li key={project.slug} className="flex break-inside-avoid flex-col gap-0.5">
                 <div className="flex flex-wrap items-baseline gap-x-2">
-                  <span className="font-medium">{item.org}</span>
-                  <span className="text-muted-foreground text-sm">{item.role}</span>
+                  <span className="font-medium">{project.title}</span>
+                  <span className="text-muted-foreground text-sm">{project.summary}</span>
                   <span className="text-muted-foreground ml-auto text-xs tabular-nums">
-                    {item.period}
+                    {project.start.replace('-', '.')}
+                    {project.end ? ` – ${project.end.replace('-', '.')}` : ''}
                   </span>
                 </div>
-
-                {item.points.length > 0 && (
-                  <ul className="text-muted-foreground list-disc pl-4 text-sm">
-                    {item.points.map((point) => (
-                      <li key={point}>{point}</li>
-                    ))}
-                  </ul>
+                {project.highlight && (
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {project.highlight}
+                  </p>
                 )}
               </li>
             ))}
           </ul>
-        </section>
+        </Section>
+      )}
+
+      {resume.awards.length > 0 && (
+        <Section title={t(($) => $.awards.title)}>
+          <ul className="flex flex-col gap-3">
+            {resume.awards.map((award) => (
+              <li key={`${award.year}-${award.title}`} className="flex break-inside-avoid flex-col">
+                <div className="flex flex-wrap items-baseline gap-x-2">
+                  <span className="font-medium">{award.title}</span>
+                  <span className="text-muted-foreground ml-auto text-xs tabular-nums">
+                    {award.year}
+                  </span>
+                </div>
+                {award.issuer && <p className="text-primary text-sm">{award.issuer}</p>}
+                {award.note && <p className="text-muted-foreground text-sm">{award.note}</p>}
+              </li>
+            ))}
+          </ul>
+        </Section>
       )}
 
       {resume.skills.length > 0 && (
-        <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-medium tracking-tight">{t(($) => $.skills.title)}</h2>
-
-          <dl className="flex flex-col gap-2">
-            {resume.skills.map((group) => (
-              <div key={group.group} className="flex break-inside-avoid gap-3 text-sm">
-                <dt className="text-muted-foreground w-24 shrink-0">{group.group}</dt>
-                <dd>{group.items.join(' · ')}</dd>
-              </div>
+        <Section title={t(($) => $.skills.title)}>
+          <ul className="flex flex-wrap gap-1">
+            {resume.skills.map((skill) => (
+              <li key={skill}>
+                <Badge variant="outline">{skill}</Badge>
+              </li>
             ))}
-          </dl>
-        </section>
+          </ul>
+        </Section>
       )}
     </article>
   );
@@ -78,5 +139,7 @@ export declare namespace ResumeDocument {
   export type Props = {
     name: string;
     resume: Resume;
+    /** `projects` 컬렉션에서 온다 — 이력서용으로 다시 쓰지 않는다. */
+    projects: ProjectSummary[];
   };
 }

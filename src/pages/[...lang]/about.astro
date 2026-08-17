@@ -1,8 +1,9 @@
 ---
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 
 import { AboutIsland } from '@/pages/_islands/about-island';
 import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
+import { sortProjects, toProjectSummary } from '@/features/projects';
 import BaseLayout from '@/layouts/base-layout.astro';
 
 export function getStaticPaths() {
@@ -11,8 +12,15 @@ export function getStaticPaths() {
 
 const { lang } = Astro.props;
 
-const entry = await getEntry('resume', lang);
-if (!entry) throw new Error(`src/content/resume/${lang}.yaml 이 없습니다`);
+const resume = await getEntry('resume', lang);
+if (!resume) throw new Error(`src/content/resume/${lang}.yaml 이 없습니다`);
+
+// 이력서의 프로젝트 섹션은 yaml이 아니라 컬렉션에서 온다 — 두 번 쓰지 않는다.
+const projectEntries: CollectionEntry<'projects'>[] = await getCollection(
+  'projects',
+  ({ id, data }: CollectionEntry<'projects'>) => id.startsWith(`${lang}/`) && !data.draft,
+);
+const projects = sortProjects(projectEntries.map(toProjectSummary), { pinnedFirst: true });
 
 // 라우트 제목은 SiteHeader가 실제로 렌더하는 nav 라벨을 재사용한다 — `.astro`는
 // i18next-cli 추출 대상이 아니라서, 여기서만 쓰는 키는 다음 `bun run gen`에 사라진다.
@@ -22,13 +30,14 @@ const t = i18n.getFixedT(lang, 'common');
 <BaseLayout
   lang={lang}
   title={`${t(($) => $.nav.about)} — ${SITE.title[lang]}`}
-  description={entry.data.headline}
+  description={resume.data.headline}
   alternates={{ ko: localeHref('ko', '/about'), en: localeHref('en', '/about') }}
 >
   <AboutIsland
     lang={lang}
     name={SITE.name[lang]}
-    resume={entry.data}
+    resume={resume.data}
+    projects={projects}
     resumeHref={`/resume-${lang}.pdf`}
     client:load
   />

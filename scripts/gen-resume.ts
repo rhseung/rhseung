@@ -2,8 +2,9 @@ import { preview } from 'astro';
 import { chromium } from 'playwright';
 
 /**
- * `/resume/{lang}/`을 Chromium 인쇄 엔진으로 구워 `public/resume-{lang}.pdf`를 만든다.
- * `/about`은 그 PDF를 뷰어로 보여주므로, 원본과 표시가 서로를 재귀로 물지 않는다.
+ * `/about`을 Chromium 인쇄 엔진으로 구워 `public/resume-{lang}.pdf`를 만든다.
+ * 화면과 PDF가 같은 컴포넌트에서 나오므로 둘이 어긋날 수가 없다 — 사이트 크롬은
+ * `print:hidden`이 걷어낸다.
  *
  * 브라우저 인쇄 대화상자를 쓰지 않는 이유: 기본값이 머리말/꼬리말(URL·날짜·쪽번호)을 찍고
  * 배경색을 끈다. 사용자가 옵션을 안 만지면 지저분한 PDF가 나온다. 여기서는 코드가 정한다.
@@ -14,8 +15,8 @@ import { chromium } from 'playwright';
 const PORT = 4326;
 
 const TARGETS = [
-  { lang: 'ko', path: '/resume/ko/' },
-  { lang: 'en', path: '/resume/en/' },
+  { lang: 'ko', path: '/about/' },
+  { lang: 'en', path: '/en/about/' },
 ] as const;
 
 const server = await preview({ server: { port: PORT } });
