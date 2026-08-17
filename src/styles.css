@@ -142,21 +142,30 @@
 /**
  * Shiki 듀얼 테마. `defaultColor: false` 라서 색이 인라인으로 안 박히고 변수로만 나온다 —
  * 여기서 골라 쓴다. 이렇게 해야 테마 토글 한 번에 코드 블록도 같이 넘어간다.
+ *
+ * 배경은 `<pre>` 에만 준다. CSS 변수는 상속되므로 `span` 에도 배경을 걸면 토큰마다
+ * 테마 배경색 사각형이 깔린다 — 다크 모드에서 흰 박스가 줄줄이 생겼던 원인이다.
  */
 @layer base {
-  .astro-code,
-  .astro-code span {
+  .astro-code {
     color: var(--shiki-light);
     background-color: var(--shiki-light-bg);
+  }
+
+  .astro-code span {
+    color: var(--shiki-light);
     font-style: var(--shiki-light-font-style);
     font-weight: var(--shiki-light-font-weight);
     text-decoration: var(--shiki-light-text-decoration);
   }
 
-  .dark .astro-code,
-  .dark .astro-code span {
+  .dark .astro-code {
     color: var(--shiki-dark);
     background-color: var(--shiki-dark-bg);
+  }
+
+  .dark .astro-code span {
+    color: var(--shiki-dark);
     font-style: var(--shiki-dark-font-style);
     font-weight: var(--shiki-dark-font-weight);
     text-decoration: var(--shiki-dark-text-decoration);

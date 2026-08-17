@@ -84,6 +84,12 @@ const context = await browser.newContext({ javaScriptEnabled: false });
 JavaScript를 끈 브라우저로 페이지를 열어 본문이 읽히는지 확인한다. 아일랜드가 다시
 SSR을 건너뛰면 여기서 걸린다.
 
+<Figure caption="JavaScript를 끈 브라우저. 고친 뒤에는 본문이 그대로 읽힌다 — 테마 스크립트도 안 돌아 라이트로 뜬다">
+
+![JavaScript를 끈 브라우저에서 프로젝트 상세 페이지가 정상으로 렌더된 화면](../../assets/posts/astro-island-ssr-gap/no-js.png)
+
+</Figure>
+
 <Steps>
   <Step index={1} title="빌드 결과물을 연다">
     `dist/**/index.html` 을 직접 본다. 브라우저에서 멀쩡한 것은 아무 증거도 아니다.
