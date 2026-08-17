@@ -15,7 +15,7 @@ function project(overrides: Partial<Project> & { slug: string }): Project {
     title: overrides.slug,
     summary: '한 줄 요약',
     domain: 'web',
-    stack: ['typescript'],
+    stack: ['TypeScript'],
     start: '2024-01',
     status: 'shipped',
     hasDetail: false,

@@ -90,7 +90,6 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
             current={current === undefined}
           />
 
-          {/* 좁은 화면에서 아이콘 10개를 늘어놓으면 탭 영역이 서로 붙는다. 시트로 접는다. */}
           <span className="bg-border mx-0.5 hidden h-5 w-px sm:block" />
 
           <div className="hidden items-center gap-1 sm:flex">
@@ -212,7 +211,8 @@ function DockLink({ href, label, Icon, current, blank, hrefLang }: DockLink.Prop
           />
         }
       >
-        <Icon aria-hidden className="size-[1.125rem]" />
+        {/* 선택된 항목은 아이콘 자체가 상태를 말한다 — 배경색에만 기대지 않는다. */}
+        <Icon aria-hidden weight={current ? 'fill' : 'regular'} className="size-4.5" />
       </TooltipTrigger>
       <TooltipContent>{label}</TooltipContent>
     </Tooltip>

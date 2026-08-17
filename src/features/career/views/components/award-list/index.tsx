@@ -29,7 +29,6 @@ export declare namespace AwardList {
   export type Props = {
     awards: Award[];
     headingLevel?: 2 | 3;
-    /** 연도로 묶어 보여줄 땐 항목마다 날짜를 반복하지 않는다. */
     showDate?: boolean;
   };
 }

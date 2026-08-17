@@ -1,14 +1,8 @@
 import { AppProviders } from '@/common/components';
-import type { Language } from '@/common/lib';
+import type { Language, Profile } from '@/common/lib';
+import { CareerPage, type Award, type CareerEntry, type SkillGroup } from '@/features/career';
 import type { Project } from '@/features/projects';
-import {
-  CareerPage,
-  ResumePage,
-  type Award,
-  type CareerEntry,
-  type Profile,
-  type SkillGroup,
-} from '@/features/resume';
+import { ResumePage } from '@/features/resume';
 
 export function CareerIsland({ lang, experience, education, awards, skills }: CareerIsland.Props) {
   return (

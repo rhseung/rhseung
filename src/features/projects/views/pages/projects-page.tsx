@@ -97,7 +97,6 @@ export function ProjectsPage({ lang, projects }: ProjectsPage.Props) {
 export declare namespace ProjectsPage {
   export type Props = {
     lang: Language;
-    /** `.astro`가 빌드타임에 collection에서 읽어 넘긴다. */
     projects: Project[];
   };
 }

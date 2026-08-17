@@ -1,20 +1,18 @@
 import { useTranslation } from 'react-i18next';
 
-import { SITE } from '@/common/lib';
-import type { Project } from '@/features/projects';
-
+import { SITE, type Profile } from '@/common/lib';
 import {
+  AwardList,
+  CareerList,
+  SkillGroups,
   sortAwards,
   sortCareer,
   sortSkillGroups,
   type Award,
   type CareerEntry,
-  type Profile,
   type SkillGroup,
-} from '../../../viewmodels';
-import { AwardList } from '../award-list';
-import { CareerList } from '../career-list';
-import { SkillGroups } from '../skill-groups';
+} from '@/features/career';
+import type { Project } from '@/features/projects';
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -27,11 +25,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-/**
- * `/{lang}/resume/`가 화면에 그리고 빌드가 같은 페이지를 PDF로 굽는다.
- *
- * 섹션 내용은 이 문서가 소유하지 않는다 — 각 데이터 모듈에서 와서 여기로 모인다.
- */
+/** 섹션 내용은 이 문서가 소유하지 않는다 — 각 데이터 모듈에서 모인다. */
 export function ResumeDocument({
   name,
   profile,

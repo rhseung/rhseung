@@ -11,7 +11,7 @@ const pinned: Project[] = [
     title: 'Lumen',
     summary: '타입 추론이 있는 작은 스크립트 언어.',
     domain: 'systems',
-    stack: ['rust', 'llvm'],
+    stack: ['Rust', 'LLVM'],
     start: '2024-03',
     status: 'active',
     pinned: true,
@@ -22,7 +22,7 @@ const pinned: Project[] = [
     title: 'rhseung.me',
     summary: 'Astro 아일랜드로 만든 이 사이트.',
     domain: 'web',
-    stack: ['astro', 'react'],
+    stack: ['Astro', 'React'],
     start: '2026-08',
     status: 'active',
     pinned: true,
@@ -33,7 +33,7 @@ const pinned: Project[] = [
     title: 'raymarch',
     summary: 'WebGPU 레이마칭 실험.',
     domain: 'graphics',
-    stack: ['wgpu'],
+    stack: ['SFML'],
     start: '2023-05',
     end: '2023-09',
     status: 'archived',
@@ -74,7 +74,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** 콘텐츠를 채우기 전. 빈 섹션은 통째로 빠진다. */
 export const Bare: Story = {
   args: { pinned: [], recent: [] },
 };

@@ -8,7 +8,7 @@ const project: Project = {
   title: 'Lumen',
   summary: '타입 추론이 있는 작은 스크립트 언어.',
   domain: 'systems',
-  stack: ['rust', 'llvm'],
+  stack: ['Rust', 'LLVM'],
   start: '2024-03',
   status: 'active',
   pinned: true,

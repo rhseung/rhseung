@@ -1,11 +1,4 @@
-import type { ResumeText } from './types';
-
-const profile = {
-  headline: '웹 앱을 만들고, 그게 도는 언어와 런타임도 만듭니다.',
-  intro:
-    '프론트엔드와 시스템 프로그래밍 양쪽을 오갑니다. 추상화 층 하나를 쓰는 것과 그 층을 직접 만드는 것 사이에서 배우는 게 많다고 생각합니다.',
-  location: '대한민국',
-};
+import type { CareerTexts } from './types';
 
 const experience = {
   'gist-aiter': {
@@ -80,8 +73,7 @@ const skillGroups = {
   web: { group: '웹' },
 };
 
-export const resumeTextKO: ResumeText = {
-  profile,
+export const careerTextKO: CareerTexts = {
   experience,
   education,
   awards,

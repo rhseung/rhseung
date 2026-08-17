@@ -11,10 +11,7 @@ export type { Project, ProjectDomain, ProjectStatus } from './types';
 
 const TEXT: Record<Language, ProjectsText> = { ko: projectsTextKO, en: projectsTextEN };
 
-/**
- * 구조와 번역문을 슬러그로 이어 붙인다.
- * `detailSlugs`는 그 언어로 MDX 본문이 있는 슬러그 — 라우트가 실제로 존재하는 것만 담는다.
- */
+/** `detailSlugs`는 그 언어로 MDX 본문이 있는 슬러그 — 라우트가 실제 있는 것만. */
 export function projectsOf(
   lang: Language,
   detailSlugs: ReadonlySet<string> = new Set(),

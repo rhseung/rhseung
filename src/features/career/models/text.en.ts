@@ -1,11 +1,4 @@
-import type { ResumeText } from './types';
-
-const profile = {
-  headline: 'I build web apps — and the languages and runtimes they run on.',
-  intro:
-    'I move between frontend work and systems programming. Using an abstraction layer and building one teach different things, and I want both.',
-  location: 'South Korea',
-};
+import type { CareerTexts } from './types';
 
 const experience = {
   'gist-aiter': {
@@ -80,8 +73,7 @@ const skillGroups = {
   web: { group: 'Web' },
 };
 
-export const resumeTextEN: ResumeText = {
-  profile,
+export const careerTextEN: CareerTexts = {
   experience,
   education,
   awards,

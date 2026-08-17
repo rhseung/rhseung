@@ -1,13 +1,4 @@
-import type { Profile } from '@/common/lib';
-import type { Award, CareerEntry, SkillGroup } from '@/features/career';
-import type { Project } from '@/features/projects';
-
-/** 스토리 전용 픽스처. 여러 페이지가 같은 데이터를 쓴다. */
-export const profile: Profile = {
-  headline: '웹 앱을 만들고, 그게 도는 언어와 런타임도 만듭니다.',
-  intro: '프론트엔드와 시스템 프로그래밍 양쪽을 오갑니다.',
-  location: '대한민국',
-};
+import type { Award, CareerEntry, SkillGroup } from '../../viewmodels';
 
 export const experience: CareerEntry[] = [
   {
@@ -36,18 +27,4 @@ export const awards: Award[] = [
 export const skills: SkillGroup[] = [
   { slug: 'lang', group: '언어', items: ['TypeScript', 'Rust'], order: 0 },
   { slug: 'web', group: '웹', items: ['Astro', 'React'], order: 1 },
-];
-
-export const projects: Project[] = [
-  {
-    slug: 'rhseung-me',
-    title: 'rhseung.me',
-    summary: 'Astro 아일랜드로 만든 이 사이트.',
-    domain: 'web',
-    stack: ['Astro'],
-    start: '2026-08',
-    status: 'active',
-    pinned: true,
-    hasDetail: true,
-  },
 ];

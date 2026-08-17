@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest';
 
-import { groupAwardsByYear, sortAwards, sortCareer, sortSkillGroups } from './select-resume';
+import { groupAwardsByYear, sortAwards, sortCareer, sortSkillGroups } from './select-career';
 
 import type { Award, CareerEntry, SkillGroup } from '../models';
 
-function career(slug: string, start: string): CareerEntry {
+function career(slug: string, start: `${number}-${number}`): CareerEntry {
   return { slug, org: '소속', role: '역할', start };
 }
 
-function award(slug: string, date: string, order = 0): Award {
+function award(slug: string, date: Award['date'], order = 0): Award {
   return { slug, title: slug, date, order };
 }
 
@@ -50,9 +50,9 @@ describe('groupAwardsByYear', () => {
 describe('sortSkillGroups', () => {
   it('order 먼저, 같으면 이름순', () => {
     const groups: SkillGroup[] = [
-      { slug: 'web', group: '웹', items: ['astro'], order: 1 },
-      { slug: 'lang', group: '언어', items: ['rust'], order: 0 },
-      { slug: 'infra', group: '인프라', items: ['docker'], order: 1 },
+      { slug: 'web', group: '웹', items: ['Astro'], order: 1 },
+      { slug: 'lang', group: '언어', items: ['Rust'], order: 0 },
+      { slug: 'infra', group: '인프라', items: ['Bun'], order: 1 },
     ];
 
     expect(sortSkillGroups(groups).map((g) => g.group)).toEqual(['언어', '웹', '인프라']);

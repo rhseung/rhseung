@@ -1,2 +1,2 @@
-export { AwardList, CareerList, ResumeDocument, SkillGroups } from './components';
-export { CareerPage, ResumePage } from './pages';
+export { ResumeDocument } from './components/resume-document';
+export { ResumePage } from './pages/resume-page';

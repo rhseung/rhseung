@@ -2,9 +2,9 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 import { ResumeIsland } from '@/pages/_islands/resume-islands';
-import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
+import { i18n, languagePaths, profileOf, SITE, localeHref } from '@/common/lib';
 import { projectsOf, sortProjects } from '@/features/projects';
-import { awardsOf, educationOf, experienceOf, profileOf, skillGroupsOf } from '@/features/resume';
+import { awardsOf, educationOf, experienceOf, skillGroupsOf } from '@/features/career';
 import BaseLayout from '@/layouts/base-layout.astro';
 
 export function getStaticPaths() {

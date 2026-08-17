@@ -27,7 +27,6 @@ export function SkillGroups({ groups, layout = 'list' }: SkillGroups.Props) {
 export declare namespace SkillGroups {
   export type Props = {
     groups: SkillGroup[];
-    /** 그룹이 여럿이면 세로로만 쌓지 않는다. */
     layout?: 'list' | 'grid';
   };
 }

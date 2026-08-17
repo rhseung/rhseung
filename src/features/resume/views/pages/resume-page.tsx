@@ -2,12 +2,11 @@ import { DownloadSimpleIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 import { SiteDock, buttonVariants } from '@/common/components';
-import { localeHref, type Language } from '@/common/lib';
+import { localeHref, type Language, type Profile } from '@/common/lib';
+import type { Award, CareerEntry, SkillGroup } from '@/features/career';
 import type { Project } from '@/features/projects';
 
-import { ResumeDocument } from '../components';
-
-import type { Award, CareerEntry, Profile, SkillGroup } from '../../viewmodels';
+import { ResumeDocument } from '../components/resume-document';
 
 export function ResumePage({
   lang,
@@ -64,7 +63,6 @@ export declare namespace ResumePage {
     projects: Project[];
     awards: Award[];
     skills: SkillGroup[];
-    /** 빌드가 구워둔 PDF 경로. */
     resumeHref: string;
   };
 }

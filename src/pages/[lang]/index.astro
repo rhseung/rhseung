@@ -2,10 +2,10 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 import { HomeIsland } from '@/pages/_islands/home-island';
-import { languagePaths, SITE, localeHref } from '@/common/lib';
+import { languagePaths, profileOf, SITE, localeHref } from '@/common/lib';
 import { pickRecent, toPostSummary } from '@/features/blog';
 import { pickPinned, projectsOf } from '@/features/projects';
-import { profileOf } from '@/features/resume';
+
 import BaseLayout from '@/layouts/base-layout.astro';
 
 export function getStaticPaths() {

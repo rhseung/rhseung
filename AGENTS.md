@@ -253,6 +253,10 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 | 번역되는 문자열 (`title`·`org`·`summary`)             | `models/text.{ko,en}.ts` | `Record<Slug, …>` — 한쪽을 빠뜨리면 **컴파일이 깨진다** |
 | 긴 산문 (글 본문, 프로젝트 상세)                      | `src/content/**.mdx`     | 본문은 객체에 안 들어간다                               |
 
+**의존 방향은 한쪽이다.** `resume`은 `career`·`projects`를 가져다 문서를 조립할 뿐,
+데이터를 소유하지 않는다. 반대 방향은 없다 — `career`는 `resume`을 모른다.
+사람 정보(headline·intro·location)는 이력서 것이 아니라 사이트 것이라 `common/lib/site.ts`에 있다.
+
 **컬렉션에는 본문이 있는 것만 둔다.** 경력·학력·대회·기술은 본문이 없어서 TS 모듈이다.
 전에는 `content/awards/{ko,en}/<slug>.mdx`처럼 항목마다 파일 두 개였는데, `date`·`order`가
 양쪽에 복제돼 한쪽만 고치면 언어별로 정렬이 달라졌다. 아무것도 그걸 안 잡아줬다.

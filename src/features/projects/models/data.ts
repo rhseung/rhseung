@@ -1,13 +1,12 @@
-/**
- * 언어에 무관한 사실만 여기 둔다. `title`·`summary`는 `text.{ko,en}.ts`,
- * 긴 설명은 `src/content/projects/{ko,en}/<slug>.mdx` 본문에 있다.
- */
+import type { ProjectData } from './types';
+
+// 언어 무관한 사실만. 번역문은 `text.{ko,en}.ts`.
 
 export const PROJECTS = [
   {
     slug: 'rhseung-me',
     domain: 'web',
-    stack: ['astro', 'react', 'tailwindcss', 'typescript'],
+    stack: ['Astro', 'React', 'Tailwind CSS', 'TypeScript'],
     start: '2026-08',
     status: 'active',
     pinned: true,
@@ -16,7 +15,7 @@ export const PROJECTS = [
   {
     slug: 'campass',
     domain: 'web',
-    stack: ['react', 'tailwindcss', 'tanstack-router', 'vite', 'bun', 'typescript'],
+    stack: ['React', 'Tailwind CSS', 'TanStack Router', 'Vite', 'Bun', 'TypeScript'],
     start: '2024-11',
     end: '2024-11',
     status: 'shipped',
@@ -25,7 +24,7 @@ export const PROJECTS = [
   {
     slug: 'pingpong',
     domain: 'graphics',
-    stack: ['c++'],
+    stack: ['C++'],
     start: '2024-10',
     end: '2025-01',
     status: 'shipped',
@@ -34,7 +33,7 @@ export const PROJECTS = [
   {
     slug: 'neat',
     domain: 'systems',
-    stack: ['java', 'swing'],
+    stack: ['Java', 'Swing'],
     start: '2024-09',
     status: 'active',
     links: { repo: 'https://github.com/gsa-projects/artificial-aquarium' },
@@ -42,7 +41,7 @@ export const PROJECTS = [
   {
     slug: 'glance',
     domain: 'systems',
-    stack: ['java', 'kotlin'],
+    stack: ['Java', 'Kotlin'],
     start: '2024-06',
     status: 'active',
     links: {
@@ -53,7 +52,7 @@ export const PROJECTS = [
   {
     slug: 'fliggle',
     domain: 'web',
-    stack: ['dart', 'flutter', 'nest.js', 'prisma', 'figma'],
+    stack: ['Dart', 'Flutter', 'Nest.js', 'Prisma', 'Figma'],
     start: '2024-05',
     end: '2024-07',
     status: 'shipped',
@@ -62,7 +61,7 @@ export const PROJECTS = [
   {
     slug: 'idp',
     domain: 'web',
-    stack: ['react', 'typescript', 'tanstack-router', 'tailwindcss', 'openapi-typescript', 'vite'],
+    stack: ['React', 'TypeScript', 'TanStack Router', 'Tailwind CSS', 'OpenAPI TypeScript', 'Vite'],
     start: '2024-03',
     end: '2024-08',
     status: 'shipped',
@@ -71,7 +70,7 @@ export const PROJECTS = [
   {
     slug: 'particles',
     domain: 'graphics',
-    stack: ['c++'],
+    stack: ['C++'],
     start: '2024-03',
     end: '2024-11',
     status: 'shipped',
@@ -80,7 +79,7 @@ export const PROJECTS = [
   {
     slug: 'pattern',
     domain: 'systems',
-    stack: ['npm', 'typescript'],
+    stack: ['npm', 'TypeScript'],
     start: '2024-02',
     end: '2024-05',
     status: 'shipped',
@@ -92,7 +91,7 @@ export const PROJECTS = [
   {
     slug: 'datetime',
     domain: 'systems',
-    stack: ['npm', 'typescript'],
+    stack: ['npm', 'TypeScript'],
     start: '2024-01',
     end: '2024-04',
     status: 'shipped',
@@ -104,7 +103,7 @@ export const PROJECTS = [
   {
     slug: 'siunits',
     domain: 'systems',
-    stack: ['python'],
+    stack: ['Python'],
     start: '2023-12',
     status: 'active',
     links: {
@@ -115,7 +114,7 @@ export const PROJECTS = [
   {
     slug: 'gsa-bot',
     domain: 'backend',
-    stack: ['node.js', 'npm', 'typescript', 'javascript'],
+    stack: ['Node.js', 'npm', 'TypeScript', 'JavaScript'],
     start: '2023-09',
     end: '2024-02',
     status: 'active',
@@ -124,12 +123,12 @@ export const PROJECTS = [
   {
     slug: 'yolov3',
     domain: 'graphics',
-    stack: ['python', 'pytorch'],
+    stack: ['Python', 'PyTorch'],
     start: '2023-03',
     end: '2023-11',
     status: 'shipped',
     links: { repo: 'https://github.com/gsa-projects/2023-rne' },
   },
-] as const;
+] as const satisfies readonly ProjectData[];
 
 export type ProjectSlug = (typeof PROJECTS)[number]['slug'];

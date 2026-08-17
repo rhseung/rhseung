@@ -39,7 +39,6 @@ export function CareerList({
               <span
                 aria-hidden
                 className={cn(
-                  // ring이 배경색이라 점이 선을 깨끗하게 끊는다.
                   'ring-background absolute top-1.5 -left-1.25 size-2.5 rounded-full ring-4',
                   ongoing ? 'bg-primary' : 'bg-muted-foreground/40',
                 )}
@@ -74,7 +73,6 @@ export function CareerList({
             )}
 
             {(item.achievements?.length ?? 0) > 0 && (
-              // 항목에 딸린 것이지 나란한 게 아니다 — 한 단 더 들어간 레일로 표시한다.
               <ul className="border-border/60 mt-1 flex flex-col gap-1 border-l pl-3">
                 {item.achievements?.map((achievement) => (
                   <li key={achievement} className="text-muted-foreground text-xs leading-relaxed">
@@ -103,9 +101,7 @@ export declare namespace CareerList {
   export type Props = {
     entries: CareerEntry[];
     ongoingLabel: string;
-    /** 제목 레벨은 건너뛰면 안 된다 — 이력서 안에서는 h2 아래라 3, 섹션 페이지에서는 2. */
     headingLevel?: 2 | 3;
-    /** 기간이 핵심인 목록에 시간 축을 그린다. 진행 중인 항목은 점이 채워진다. */
     timeline?: boolean;
   };
 }

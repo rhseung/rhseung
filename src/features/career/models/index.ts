@@ -1,20 +1,19 @@
 import { DEFAULT_LANGUAGE, type Language } from '@/common/lib';
 
 import { AWARDS, EDUCATION, EXPERIENCE, SKILL_GROUPS } from './data';
-import { resumeTextEN } from './text.en';
-import { resumeTextKO } from './text.ko';
+import { careerTextEN } from './text.en';
+import { careerTextKO } from './text.ko';
 
-import type { Award, CareerEntry, Profile, ResumeText, SkillGroup } from './types';
+import type { Award, CareerEntry, CareerTexts, SkillGroup } from './types';
 
-export type { Award, CareerEntry, Profile, SkillGroup } from './types';
+export type { Award, CareerEntry, SkillGroup } from './types';
 
-const TEXT: Record<Language, ResumeText> = { ko: resumeTextKO, en: resumeTextEN };
+const TEXT: Record<Language, CareerTexts> = { ko: careerTextKO, en: careerTextEN };
 
 function text(lang: Language) {
   return TEXT[lang] ?? TEXT[DEFAULT_LANGUAGE];
 }
 
-/** 구조와 번역문을 슬러그로 이어 붙인다. 한쪽이 비면 타입이 먼저 막는다. */
 export function experienceOf(lang: Language): CareerEntry[] {
   return EXPERIENCE.map((entry) => ({ ...entry, ...text(lang).experience[entry.slug] }));
 }
@@ -29,8 +28,4 @@ export function awardsOf(lang: Language): Award[] {
 
 export function skillGroupsOf(lang: Language): SkillGroup[] {
   return SKILL_GROUPS.map((group) => ({ ...group, ...text(lang).skillGroups[group.slug] }));
-}
-
-export function profileOf(lang: Language): Profile {
-  return text(lang).profile;
 }
