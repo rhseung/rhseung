@@ -44,7 +44,7 @@ const SECTION_ICON: Record<Section, Icon> = {
 };
 
 const itemClass =
-  'text-muted-foreground hover:text-foreground hover:bg-muted flex size-11 items-center justify-center rounded-full transition-colors';
+  'text-muted-foreground hover:text-foreground hover:bg-muted flex size-10 items-center justify-center rounded-full transition-colors';
 
 export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) {
   const { t } = useTranslation('common');
@@ -135,7 +135,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  className="size-11 rounded-full"
+                  className="size-10 rounded-full"
                   onClick={toggleTheme}
                   aria-label={t(($) => $.actions.toggleTheme)}
                 />
@@ -152,7 +152,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  className="size-11 rounded-full sm:hidden"
+                  className="size-10 rounded-full sm:hidden"
                   aria-label={t(($) => $.nav.menu)}
                 />
               }
