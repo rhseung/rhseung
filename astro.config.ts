@@ -11,6 +11,10 @@ import { defineConfig } from 'astro/config';
  * `@astrojs/vercel`을 어댑터로 추가하고 `output: 'server'`로 바꾼다.
  */
 export default defineConfig({
+  // canonical·OG·sitemap·RSS가 전부 절대 URL을 요구한다. 이게 없으면 `Astro.site`가
+  // undefined라 레이아웃의 `new URL(path, Astro.site)`가 터진다.
+  site: 'https://rhseung.me',
+
   integrations: [react()],
 
   vite: {

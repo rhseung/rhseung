@@ -108,6 +108,11 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 - named export만. `export { default as X }` 금지, `export *`도 쓰지 않는다
   (예외: `common/lib/index.ts` — 부수효과 트리거를 겸한다).
 - `import/no-default-export`가 `src/**`에서 에러다. 스토리·`.astro` 파일만 예외.
+- **이름은 정의부와 사용부가 같다.** `import { Button as Btn }` 같은 리네임을 하지 않는다
+  (진짜 충돌이 날 때만). 심볼 하나를 레포 전체에서 한 이름으로 검색할 수 있어야 한다.
+- `.astro` 컴포넌트는 Astro가 default export를 강제한다 — 이름을 못 고정하는 유일한 자리다.
+  그래서 **파일명을 PascalCase로 그대로 옮긴 이름**을 쓴다:
+  `base-layout.astro` → `BaseLayout`. `Layout` 같은 축약은 쓰지 않는다.
 
 ### 완결 예시
 

@@ -1,20 +1,72 @@
 ---
+import { SITE, type Language } from '@/common/lib';
 import '@/styles.css';
 
 interface Props {
+  lang: Language;
   title: string;
+  description?: string;
+  /** 이 문서의 다른 언어판. 짝이 있는 문서만 넘긴다 — 없으면 hreflang을 아예 내지 않는다. */
+  alternates?: Partial<Record<Language, string>>;
+  /** OG 이미지 경로. 사이트 루트 기준. */
+  image?: string;
+  type?: 'website' | 'article';
 }
 
-const { title } = Astro.props;
+const {
+  lang,
+  title,
+  description = SITE.description[lang],
+  alternates,
+  image = SITE.ogImage,
+  type = 'website',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = image ? new URL(image, Astro.site) : undefined;
 ---
 
 <!doctype html>
-<html lang="ko" class="light">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
     <link rel="icon" href="/favicon.ico" />
+
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    {
+      alternates &&
+        Object.entries(alternates).map(([hreflang, href]) => (
+          <link rel="alternate" hreflang={hreflang} href={new URL(href, Astro.site)} />
+        ))
+    }
+
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'ko' ? 'ko_KR' : 'en_US'} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+
+    {
+      /*
+      테마를 아일랜드 하이드레이션이 정하면 HTML은 그 전에 이미 그려진다 — 다크 선호
+      사용자가 흰 화면 플래시를 본다. 블로킹 스크립트가 첫 페인트 전에 클래스를 박는다.
+      키 `theme`은 next-themes 기본 `storageKey`와 같아야 한다.
+    */
+    }
+    <script is:inline>
+      const stored = localStorage.getItem('theme') ?? 'system';
+      const dark =
+        stored === 'dark' ||
+        (stored === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.classList.toggle('dark', dark);
+    </script>
   </head>
   <body>
     <slot />
