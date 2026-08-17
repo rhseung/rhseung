@@ -27,16 +27,22 @@
 
 ### collection 스키마를 바꿨으면 `.astro/`를 지운다
 
-dev 서버는 파싱된 콘텐츠를 `.astro/data-store.json`에 캐시한다. **스키마를 바꿔도 그 캐시가
-갱신되지 않는 경우가 있다** — 그러면 dev가 옛 모양의 데이터를 넘겨서
-`undefined is not an object (evaluating 'resume.experience.length')` 같은 예외가 난다.
-빌드는 매번 새로 싱크하므로 멀쩡하다. 즉 **dev에서만 깨지고 CI는 통과한다.**
+파싱된 콘텐츠는 `.astro/data-store.json`에 캐시된다. 캐시는 **파일 내용**으로 갱신 여부를
+정하기 때문에, 스키마만 바꾸고 파일을 안 건드린 엔트리는 옛 모양 그대로 남는다.
+그러면 `Cannot read properties of undefined (reading 'length')` 같은 예외가 난다 —
+새 필드가 `.default([])`여도 채워지지 않는다.
+
+**dev와 빌드 둘 다 깨진다.** 안 깨지는 건 파일까지 같이 고친 엔트리뿐이라,
+일부만 멀쩡해서 더 헷갈린다.
 
 ```sh
-astro dev stop && rm -rf .astro && bun run dev
+astro dev stop && rm -rf .astro node_modules/.astro dist && bun run dev
 ```
 
-에러가 컴포넌트를 가리키기 때문에 캐시를 의심하기 어렵다. 스키마를 만졌는데 dev만
+**`node_modules/.astro`도 같이 지워야 한다.** `.astro`만 지우면 그대로 재현된다 —
+실제로 그렇게 한 번 헤맸다.
+
+에러가 컴포넌트를 가리키기 때문에 캐시를 의심하기 어렵다. 스키마를 만졌는데
 이상하면 이것부터 지운다.
 
 ### 생성물은 손대지 않는다

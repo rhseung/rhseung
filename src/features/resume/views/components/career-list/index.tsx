@@ -66,6 +66,17 @@ export function CareerList({
               <p className="text-muted-foreground text-sm leading-relaxed">{item.summary}</p>
             )}
 
+            {item.achievements.length > 0 && (
+              // 항목에 딸린 것이지 나란한 게 아니다 — 한 단 더 들어간 레일로 표시한다.
+              <ul className="border-border/60 mt-1 flex flex-col gap-1 border-l pl-3">
+                {item.achievements.map((achievement) => (
+                  <li key={achievement} className="text-muted-foreground text-xs leading-relaxed">
+                    {achievement}
+                  </li>
+                ))}
+              </ul>
+            )}
+
             {item.links?.site && (
               <ExternalLink
                 href={item.links.site}

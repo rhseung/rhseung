@@ -92,7 +92,7 @@ export default interface Resources {
   },
   "resume": {
     "awards": {
-      "title": "수상 및 성취"
+      "title": "수상"
     },
     "career": {
       "empty": "아직 채우지 않았습니다",

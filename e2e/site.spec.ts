@@ -39,7 +39,7 @@ test('이력서 PDF가 실제로 있다', async ({ request }) => {
 test('이력서가 각 컬렉션에서 채워진다', async ({ page }) => {
   await page.goto('/ko/resume/');
 
-  for (const section of ['경력', '학력', '주요 프로젝트', '수상 및 성취', '기술']) {
+  for (const section of ['경력', '학력', '주요 프로젝트', '수상', '기술']) {
     await expect(page.getByRole('heading', { level: 2, name: section, exact: true })).toBeVisible();
   }
 
@@ -51,7 +51,7 @@ test('커리어 페이지가 세 섹션을 갖는다', async ({ page }) => {
   await page.goto('/ko/career/');
 
   await expect(page.getByRole('heading', { level: 1, name: '커리어' })).toBeVisible();
-  for (const section of ['경력', '학력', '수상 및 성취', '기술']) {
+  for (const section of ['경력', '학력', '수상', '기술']) {
     await expect(page.getByRole('heading', { level: 2, name: section, exact: true })).toBeVisible();
   }
 });

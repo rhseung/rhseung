@@ -12,7 +12,15 @@ import {
 import type { AwardSummary, CareerSummary, SkillGroup } from '../models';
 
 function career(slug: string, start: string): CareerSummary {
-  return { slug, role: '역할', org: '소속', start, hasDetail: false, draft: false };
+  return {
+    slug,
+    role: '역할',
+    org: '소속',
+    start,
+    achievements: [],
+    hasDetail: false,
+    draft: false,
+  };
 }
 
 describe('parseEntryId', () => {
