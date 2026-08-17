@@ -17,23 +17,37 @@ export function CareerList({
   const Heading = `h${headingLevel}` as const;
 
   return (
-    <ul className={cn('flex flex-col gap-6', timeline && 'border-border ml-1.5 border-l pl-6')}>
-      {entries.map((item) => {
-        const period = item.end
-          ? `${formatMonth(item.start)} – ${formatMonth(item.end)}`
-          : `${formatMonth(item.start)} – ${ongoingLabel}`;
+    // `pl-2.5`: 점 반지름만큼 선을 들여놔야 점이 컨테이너 밖으로 안 나간다.
+    <ul className={cn('flex flex-col', timeline ? 'gap-0 pl-2.5' : 'gap-6')}>
+      {entries.map((item, index) => {
+        const isLast = index === entries.length - 1;
+        const ongoing = item.end === undefined;
+        const period = ongoing
+          ? `${formatMonth(item.start)} – ${ongoingLabel}`
+          : `${formatMonth(item.start)} – ${formatMonth(item.end ?? '')}`;
         const href = item.hasDetail ? detailHref(item) : undefined;
 
         return (
           <li
             key={item.slug}
             className={cn(
-              'relative flex break-inside-avoid flex-col gap-1',
-              // 점을 선 위에 얹는다. 기간이 핵심인 목록이라 시간 축이 보여야 한다.
-              timeline &&
-                'before:bg-border before:absolute before:top-2 before:-left-7.25 before:size-2 before:rounded-full',
+              'flex break-inside-avoid flex-col gap-1',
+              // 선을 항목마다 그린다. ul 하나에 그으면 마지막 항목 아래로 삐져나간다.
+              timeline && 'relative border-l pl-6',
+              timeline && (isLast ? 'border-transparent pb-0' : 'border-border pb-8'),
             )}
           >
+            {timeline && (
+              <span
+                aria-hidden
+                className={cn(
+                  // ring이 배경색이라 점이 선을 깨끗하게 끊는다.
+                  'ring-background absolute top-1.5 -left-1.25 size-2.5 rounded-full ring-4',
+                  ongoing ? 'bg-primary' : 'bg-muted-foreground/40',
+                )}
+              />
+            )}
+
             <div className="flex flex-wrap items-baseline gap-x-2">
               <Heading className="font-medium">
                 {href ? (
@@ -74,7 +88,7 @@ export declare namespace CareerList {
     detailHref: (entry: CareerSummary) => string;
     /** 제목 레벨은 건너뛰면 안 된다 — 이력서 안에서는 h2 아래라 3, 섹션 페이지에서는 2. */
     headingLevel?: 2 | 3;
-    /** 기간이 핵심인 목록에 시간 축을 그린다. */
+    /** 기간이 핵심인 목록에 시간 축을 그린다. 진행 중인 항목은 점이 채워진다. */
     timeline?: boolean;
   };
 }

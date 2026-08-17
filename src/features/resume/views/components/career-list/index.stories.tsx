@@ -29,7 +29,7 @@ const meta = {
   title: 'Resume/CareerList',
   component: CareerList,
   parameters: { layout: 'padded' },
-  args: { entries, ongoingLabel: '현재', detailHref: (e) => `/ko/experience/${e.slug}/` },
+  args: { entries, ongoingLabel: '현재', detailHref: (e) => `/ko/career/${e.slug}/` },
 } satisfies Meta<typeof CareerList>;
 
 export default meta;
@@ -38,3 +38,8 @@ type Story = StoryObj<typeof meta>;
 
 /** 첫 항목은 본문이 있어 제목이 링크, 둘째는 아니다. */
 export const Default: Story = {};
+
+/** 타임라인 — 진행 중인 항목은 점이 채워지고, 선은 마지막 항목에서 끝난다. */
+export const Timeline: Story = {
+  args: { timeline: true },
+};
