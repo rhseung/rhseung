@@ -1,7 +1,7 @@
 import { ArrowLeftIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { Badge, ExternalLink, SiteHeader, buttonVariants } from '@/common/components';
+import { Badge, ExternalLink, SiteFooter, SiteHeader, buttonVariants } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
 
@@ -22,6 +22,7 @@ export function ProjectDetailPage({ lang, project, altHref, children }: ProjectD
   const links = [
     { key: 'repo', href: project.links?.repo, label: t(($) => $.links.repo) },
     { key: 'demo', href: project.links?.demo, label: t(($) => $.links.demo) },
+    { key: 'package', href: project.links?.package, label: t(($) => $.links.package) },
     { key: 'post', href: project.links?.post, label: t(($) => $.links.post) },
     { key: 'paper', href: project.links?.paper, label: t(($) => $.links.paper) },
   ].filter((link): link is typeof link & { href: string } => link.href !== undefined);
@@ -79,6 +80,8 @@ export function ProjectDetailPage({ lang, project, altHref, children }: ProjectD
         {/* MDX 본문. 여기 안에 인터랙티브 아일랜드를 넣으면 컨텍스트가 끊긴다. */}
         <div className="prose prose-zinc dark:prose-invert max-w-none">{children}</div>
       </main>
+
+      <SiteFooter lang={lang} />
     </div>
   );
 }

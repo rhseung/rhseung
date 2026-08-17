@@ -275,11 +275,12 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 
 `src/content/resume/{ko,en}.yaml` 하나가 두 곳으로 나간다.
 
-- `/about` — 이력서 본문을 HTML로 그린다. `bun run gen:resume`이 **같은 페이지**를 Chromium
-  인쇄 엔진으로 구워 `public/resume-{lang}.pdf`를 만든다. 화면과 PDF가 같은 컴포넌트에서
-  나오므로 어긋날 수가 없다 — 사이트 크롬은 `print:hidden`이 걷어낸다.
-- **주요 프로젝트 섹션은 yaml에 없다.** `projects` 컬렉션에서 자동으로 채워진다.
-  이력서용으로 프로젝트를 다시 쓰지 않는다.
+- `/{lang}/resume/` — 이력서 본문을 HTML로 그린다. `bun run gen:resume`이 **같은 페이지**를
+  Chromium 인쇄 엔진으로 구워 `public/resume-{lang}.pdf`를 만든다. 화면과 PDF가 같은
+  컴포넌트에서 나오므로 어긋날 수가 없다 — 사이트 크롬은 `print:hidden`이 걷어낸다.
+- **이력서는 아무 내용도 소유하지 않는다.** 경력·학력·수상·기술·프로젝트가 각자 컬렉션에서
+  온다. `resume/{ko,en}.yaml`엔 headline·intro·location·contact만 있다.
+- `/career`는 훑어보는 페이지, `/resume`는 PDF를 들고 나가는 페이지다. 출처는 하나다.
 
 브라우저 인쇄 대화상자를 쓰지 않는 이유는 `scripts/gen-resume.ts` 주석에 있다.
 

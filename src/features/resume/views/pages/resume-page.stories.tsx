@@ -1,12 +1,12 @@
 import { awards, education, experience, projects, resume, skills } from './fixtures';
 
-import { AboutPage } from '.';
+import { ResumePage } from '.';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Resume/Pages/AboutPage',
-  component: AboutPage,
+  title: 'Resume/Pages/ResumePage',
+  component: ResumePage,
   parameters: { layout: 'fullscreen' },
   args: {
     lang: 'ko',
@@ -19,7 +19,7 @@ const meta = {
     skills,
     resumeHref: '/resume-ko.pdf',
   },
-} satisfies Meta<typeof AboutPage>;
+} satisfies Meta<typeof ResumePage>;
 
 export default meta;
 

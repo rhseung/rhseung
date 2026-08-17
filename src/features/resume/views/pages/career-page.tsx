@@ -1,0 +1,114 @@
+import { useTranslation } from 'react-i18next';
+
+import { Empty, EmptyHeader, EmptyTitle, SiteFooter, SiteHeader } from '@/common/components';
+import { localeHref, type Language } from '@/common/lib';
+
+import {
+  groupAwardsByYear,
+  sortCareer,
+  sortSkillGroups,
+  type AwardSummary,
+  type CareerSummary,
+  type SkillGroup,
+} from '../../viewmodels';
+import { AwardList, CareerList, SkillGroups } from '../components';
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="flex flex-col gap-5">
+      <h2 className="border-border border-b pb-1 text-sm font-medium tracking-tight">{title}</h2>
+      {children}
+    </section>
+  );
+}
+
+export function CareerPage({ lang, experience, education, awards, skills }: CareerPage.Props) {
+  const { t } = useTranslation('resume');
+
+  const isEmpty =
+    experience.length === 0 && education.length === 0 && awards.length === 0 && skills.length === 0;
+
+  return (
+    <div className="bg-background min-h-dvh">
+      <SiteHeader
+        lang={lang}
+        current="career"
+        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/career')}
+      />
+
+      <main className="mx-auto flex max-w-2xl flex-col gap-12 px-4 py-12">
+        <h1 className="text-2xl font-semibold tracking-tight">{t(($) => $.career.title)}</h1>
+
+        {isEmpty && (
+          <Empty>
+            <EmptyHeader>
+              <EmptyTitle>{t(($) => $.career.empty)}</EmptyTitle>
+            </EmptyHeader>
+          </Empty>
+        )}
+
+        {experience.length > 0 && (
+          <Section title={t(($) => $.experience.title)}>
+            <CareerList
+              entries={sortCareer(experience)}
+              ongoingLabel={t(($) => $.period.ongoing)}
+              detailHref={(entry) => localeHref(lang, `/career/${entry.slug}`)}
+              timeline
+            />
+          </Section>
+        )}
+
+        {education.length > 0 && (
+          <Section title={t(($) => $.education.title)}>
+            <CareerList
+              entries={sortCareer(education)}
+              ongoingLabel={t(($) => $.period.ongoing)}
+              detailHref={(entry) => localeHref(lang, `/career/${entry.slug}`)}
+              timeline
+            />
+          </Section>
+        )}
+
+        {awards.length > 0 && (
+          <Section title={t(($) => $.awards.title)}>
+            {/* 17개가 한 줄로 이어지면 훑을 수 없다. 연도로 묶어 눈이 쉴 곳을 만든다. */}
+            <div className="flex flex-col gap-6">
+              {groupAwardsByYear(awards).map(([year, yearAwards]) => (
+                <div key={year} className="flex gap-4">
+                  <span className="text-muted-foreground w-10 shrink-0 pt-0.5 text-xs tabular-nums">
+                    {year}
+                  </span>
+                  <div className="flex-1">
+                    <AwardList
+                      awards={yearAwards}
+                      detailHref={(award) => localeHref(lang, `/career/${award.slug}`)}
+                      showDate={false}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {skills.length > 0 && (
+          <Section title={t(($) => $.skills.title)}>
+            <SkillGroups groups={sortSkillGroups(skills)} layout="grid" />
+          </Section>
+        )}
+      </main>
+
+      <SiteFooter lang={lang} />
+    </div>
+  );
+}
+
+export declare namespace CareerPage {
+  export type Props = {
+    lang: Language;
+    experience: CareerSummary[];
+    education: CareerSummary[];
+    awards: AwardSummary[];
+    skills: SkillGroup[];
+  };
+}

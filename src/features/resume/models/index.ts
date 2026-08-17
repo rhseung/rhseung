@@ -38,6 +38,8 @@ export const awardSchema = () =>
     title: z.string().min(1),
     issuer: z.string().optional(),
     date: yearOrMonth(),
+    /** 같은 해 안의 순서. 작을수록 먼저. */
+    order: z.number().default(0),
     summary: z.string().max(200).optional(),
     links: links().optional(),
     draft: z.boolean().default(false),

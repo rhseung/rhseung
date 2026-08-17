@@ -1,9 +1,8 @@
 ---
-import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 
-import { AboutIsland } from '@/pages/_islands/resume-islands';
+import { CareerIsland } from '@/pages/_islands/resume-islands';
 import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
-import { sortProjects, toProjectSummary } from '@/features/projects';
 import { toAwardSummary, toCareerSummary, toSkillGroup } from '@/features/resume';
 import BaseLayout from '@/layouts/base-layout.astro';
 
@@ -12,11 +11,6 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.props;
-
-const resume = await getEntry('resume', lang);
-if (!resume) throw new Error(`src/content/resume/${lang}.yaml 이 없습니다`);
-
-// 이력서는 아무 내용도 소유하지 않는다 — 섹션마다 자기 컬렉션에서 온다.
 const mine = (id: string) => id.startsWith(`${lang}/`);
 
 const experience: CollectionEntry<'experience'>[] = await getCollection(
@@ -35,30 +29,21 @@ const skills: CollectionEntry<'skills'>[] = await getCollection(
   'skills',
   ({ id, data }: CollectionEntry<'skills'>) => mine(id) && !data.draft,
 );
-const projectEntries: CollectionEntry<'projects'>[] = await getCollection(
-  'projects',
-  ({ id, data }: CollectionEntry<'projects'>) => mine(id) && !data.draft,
-);
 
 const t = i18n.getFixedT(lang, 'common');
 ---
 
 <BaseLayout
   lang={lang}
-  title={`${t(($) => $.nav.about)} — ${SITE.title[lang]}`}
-  description={resume.data.headline}
-  alternates={{ ko: localeHref('ko', '/about'), en: localeHref('en', '/about') }}
+  title={`${t(($) => $.nav.career)} — ${SITE.title[lang]}`}
+  alternates={{ ko: localeHref('ko', '/career'), en: localeHref('en', '/career') }}
 >
-  <AboutIsland
+  <CareerIsland
     lang={lang}
-    name={SITE.name[lang]}
-    resume={resume.data}
     experience={experience.map(toCareerSummary)}
     education={education.map(toCareerSummary)}
-    projects={sortProjects(projectEntries.map(toProjectSummary), { pinnedFirst: true })}
     awards={awards.map(toAwardSummary)}
     skills={skills.map(toSkillGroup)}
-    resumeHref={`/resume-${lang}.pdf`}
     client:load
   />
 </BaseLayout>

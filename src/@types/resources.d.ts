@@ -24,15 +24,16 @@ export default interface Resources {
     "app": {
       "name": "rhseung"
     },
+    "footer": {
+      "email": "이메일",
+      "label": "푸터"
+    },
     "nav": {
-      "about": "소개",
-      "awards": "수상",
       "blog": "글",
-      "education": "학력",
-      "experience": "경력",
+      "career": "커리어",
       "label": "주요 메뉴",
       "projects": "프로젝트",
-      "skills": "기술"
+      "resume": "이력서"
     },
     "notFound": {
       "action": "홈으로",
@@ -71,6 +72,7 @@ export default interface Resources {
     },
     "links": {
       "demo": "데모",
+      "package": "패키지",
       "paper": "논문",
       "post": "관련 글",
       "repo": "저장소"
@@ -90,18 +92,19 @@ export default interface Resources {
   },
   "resume": {
     "awards": {
-      "empty": "아직 없습니다",
       "title": "수상 및 성취"
+    },
+    "career": {
+      "empty": "아직 채우지 않았습니다",
+      "title": "커리어"
     },
     "download": {
       "label": "PDF로 저장"
     },
     "education": {
-      "empty": "아직 없습니다",
       "title": "학력"
     },
     "experience": {
-      "empty": "아직 없습니다",
       "title": "경력"
     },
     "period": {
@@ -111,7 +114,6 @@ export default interface Resources {
       "title": "주요 프로젝트"
     },
     "skills": {
-      "empty": "아직 없습니다",
       "title": "기술"
     }
   }

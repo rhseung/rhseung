@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  groupAwardsByYear,
   parseEntryId,
   sortAwards,
   sortCareer,
@@ -43,11 +44,36 @@ describe('sortCareer', () => {
   });
 });
 
+describe('groupAwardsByYear', () => {
+  it('연도로 묶고 최신 연도가 먼저', () => {
+    const awards: AwardSummary[] = [
+      { slug: 'a', title: 'A', date: '2023-05', order: 0, hasDetail: false, draft: false },
+      { slug: 'b', title: 'B', date: '2025-01', order: 0, hasDetail: false, draft: false },
+      { slug: 'c', title: 'C', date: '2025', order: 0, hasDetail: false, draft: false },
+    ];
+
+    expect(groupAwardsByYear(awards).map(([year, list]) => [year, list.length])).toEqual([
+      ['2025', 2],
+      ['2023', 1],
+    ]);
+  });
+
+  // 안 주면 파일명 순서로 서서 참가한 대회가 수상보다 위에 온다.
+  it('같은 해 안에서는 order 가 작은 것이 먼저', () => {
+    const awards: AwardSummary[] = [
+      { slug: 'join', title: '참가', date: '2025', order: 5, hasDetail: false, draft: false },
+      { slug: 'win', title: '수상', date: '2025', order: 0, hasDetail: false, draft: false },
+    ];
+
+    expect(sortAwards(awards).map((a) => a.slug)).toEqual(['win', 'join']);
+  });
+});
+
 describe('sortAwards', () => {
   it('최신순', () => {
     const awards: AwardSummary[] = [
-      { slug: 'a', title: 'A', date: '2023-05', hasDetail: false, draft: false },
-      { slug: 'b', title: 'B', date: '2025-01', hasDetail: false, draft: false },
+      { slug: 'a', title: 'A', date: '2023-05', order: 0, hasDetail: false, draft: false },
+      { slug: 'b', title: 'B', date: '2025-01', order: 0, hasDetail: false, draft: false },
     ];
 
     expect(sortAwards(awards).map((a) => a.slug)).toEqual(['b', 'a']);

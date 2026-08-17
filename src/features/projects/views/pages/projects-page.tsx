@@ -6,6 +6,7 @@ import {
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
+  SiteFooter,
   SiteHeader,
 } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
@@ -90,6 +91,8 @@ export function ProjectsPage({ lang, projects }: ProjectsPage.Props) {
           </ul>
         )}
       </main>
+
+      <SiteFooter lang={lang} />
     </div>
   );
 }

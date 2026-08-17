@@ -8,6 +8,7 @@ export {
 export type { Award, AwardSummary, CareerEntry, CareerSummary, Resume, SkillGroup } from './models';
 
 export {
+  groupAwardsByYear,
   parseEntryId,
   sortAwards,
   sortCareer,
@@ -18,12 +19,10 @@ export {
 } from './viewmodels';
 
 export {
-  AboutPage,
   AwardList,
-  AwardsPage,
   CareerList,
-  ExperiencePage,
+  CareerPage,
   ResumeDocument,
+  ResumePage,
   SkillGroups,
-  SkillsPage,
 } from './views';

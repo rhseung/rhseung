@@ -35,6 +35,8 @@ export const projectSchema = () =>
       .object({
         repo: z.url().optional(),
         demo: z.url().optional(),
+        /** 배포된 패키지 — PyPI·npm·Modrinth 등. 저장소도 데모도 아니다. */
+        package: z.url().optional(),
         post: z.url().optional(),
         paper: z.url().optional(),
       })

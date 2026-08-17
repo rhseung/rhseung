@@ -1,4 +1,10 @@
-import { ArrowSquareOutIcon, FileTextIcon, GithubLogoIcon, PlayIcon } from '@phosphor-icons/react';
+import {
+  ArrowSquareOutIcon,
+  FileTextIcon,
+  GithubLogoIcon,
+  PackageIcon,
+  PlayIcon,
+} from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 import { Badge, Card, CardContent, CardHeader, CardTitle, ExternalLink } from '@/common/components';
@@ -22,6 +28,12 @@ export function ProjectCard({ project, detailHref }: ProjectCard.Props) {
   const links = [
     { key: 'repo', href: project.links?.repo, label: t(($) => $.links.repo), Icon: GithubLogoIcon },
     { key: 'demo', href: project.links?.demo, label: t(($) => $.links.demo), Icon: PlayIcon },
+    {
+      key: 'package',
+      href: project.links?.package,
+      label: t(($) => $.links.package),
+      Icon: PackageIcon,
+    },
     { key: 'post', href: project.links?.post, label: t(($) => $.links.post), Icon: FileTextIcon },
     {
       key: 'paper',

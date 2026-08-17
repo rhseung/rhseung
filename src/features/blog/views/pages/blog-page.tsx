@@ -1,6 +1,13 @@
 import { useTranslation } from 'react-i18next';
 
-import { Empty, EmptyDescription, EmptyHeader, EmptyTitle, SiteHeader } from '@/common/components';
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+  SiteFooter,
+  SiteHeader,
+} from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
 
 import { sortPosts, type PostSummary } from '../../viewmodels';
@@ -46,6 +53,8 @@ export function BlogPage({ lang, posts }: BlogPage.Props) {
           </ul>
         )}
       </main>
+
+      <SiteFooter lang={lang} />
     </div>
   );
 }

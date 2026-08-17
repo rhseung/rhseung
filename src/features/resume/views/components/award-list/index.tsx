@@ -1,6 +1,11 @@
 import type { AwardSummary } from '../../../viewmodels';
 
-export function AwardList({ awards, detailHref, headingLevel = 3 }: AwardList.Props) {
+export function AwardList({
+  awards,
+  detailHref,
+  headingLevel = 3,
+  showDate = true,
+}: AwardList.Props) {
   const Heading = `h${headingLevel}` as const;
   return (
     <ul className="flex flex-col gap-4">
@@ -19,9 +24,11 @@ export function AwardList({ awards, detailHref, headingLevel = 3 }: AwardList.Pr
                   award.title
                 )}
               </Heading>
-              <span className="text-muted-foreground ml-auto text-xs tabular-nums">
-                {award.date.replace('-', '.')}
-              </span>
+              {showDate && (
+                <span className="text-muted-foreground ml-auto text-xs tabular-nums">
+                  {award.date.replace('-', '.')}
+                </span>
+              )}
             </div>
 
             {award.issuer && <p className="text-primary text-sm">{award.issuer}</p>}
@@ -38,5 +45,7 @@ export declare namespace AwardList {
     awards: AwardSummary[];
     detailHref: (award: AwardSummary) => string;
     headingLevel?: 2 | 3;
+    /** 연도로 묶어 보여줄 땐 항목마다 날짜를 반복하지 않는다. */
+    showDate?: boolean;
   };
 }

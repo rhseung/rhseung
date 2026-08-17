@@ -9,7 +9,7 @@ import { ResumeDocument } from '../components';
 
 import type { AwardSummary, CareerSummary, Resume, SkillGroup } from '../../viewmodels';
 
-export function AboutPage({
+export function ResumePage({
   lang,
   name,
   resume,
@@ -19,7 +19,7 @@ export function AboutPage({
   awards,
   skills,
   resumeHref,
-}: AboutPage.Props) {
+}: ResumePage.Props) {
   const { t } = useTranslation('resume');
 
   return (
@@ -27,8 +27,8 @@ export function AboutPage({
       <div className="print:hidden">
         <SiteHeader
           lang={lang}
-          current="about"
-          altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/about')}
+          current="resume"
+          altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/resume')}
         />
       </div>
 
@@ -49,7 +49,7 @@ export function AboutPage({
             projects={projects}
             awards={awards}
             skills={skills}
-            detailHref={(section, slug) => localeHref(lang, `/${section}/${slug}`)}
+            detailHref={(_section, slug) => localeHref(lang, `/career/${slug}`)}
           />
         </div>
       </main>
@@ -57,7 +57,7 @@ export function AboutPage({
   );
 }
 
-export declare namespace AboutPage {
+export declare namespace ResumePage {
   export type Props = {
     lang: Language;
     name: string;

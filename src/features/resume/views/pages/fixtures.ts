@@ -39,6 +39,7 @@ export const awards: AwardSummary[] = [
     title: '무슨 대회 대상',
     issuer: '주최기관',
     date: '2025-06',
+    order: 0,
     hasDetail: false,
     draft: false,
   },

@@ -34,7 +34,8 @@ export function projectHref(
 ): { href: string; external: boolean } | null {
   if (project.hasDetail) return { href: detailHref, external: false };
 
-  const fallback = project.links?.repo ?? project.links?.demo ?? project.links?.post;
+  const fallback =
+    project.links?.repo ?? project.links?.demo ?? project.links?.package ?? project.links?.post;
   return fallback ? { href: fallback, external: true } : null;
 }
 

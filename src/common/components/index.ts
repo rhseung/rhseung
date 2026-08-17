@@ -40,4 +40,5 @@ export { Skeleton } from './ui/skeleton';
 export { AppProviders } from './layout/app-providers';
 export { ExternalLink } from './layout/external-link';
 export { NotFound } from './layout/not-found';
+export { SiteFooter } from './layout/site-footer';
 export { SiteHeader } from './layout/site-header';

@@ -6,15 +6,16 @@
   "app": {
     "name": "rhseung"
   },
+  "footer": {
+    "email": "이메일",
+    "label": "푸터"
+  },
   "nav": {
-    "about": "소개",
-    "awards": "수상",
     "blog": "글",
-    "education": "학력",
-    "experience": "경력",
+    "career": "커리어",
     "label": "주요 메뉴",
     "projects": "프로젝트",
-    "skills": "기술"
+    "resume": "이력서"
   },
   "notFound": {
     "action": "홈으로",

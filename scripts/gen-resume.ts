@@ -2,7 +2,7 @@ import { preview } from 'astro';
 import { chromium } from 'playwright';
 
 /**
- * `/about`을 Chromium 인쇄 엔진으로 구워 `public/resume-{lang}.pdf`를 만든다.
+ * `/{lang}/resume/`를 Chromium 인쇄 엔진으로 구워 `public/resume-{lang}.pdf`를 만든다.
  * 화면과 PDF가 같은 컴포넌트에서 나오므로 둘이 어긋날 수가 없다 — 사이트 크롬은
  * `print:hidden`이 걷어낸다.
  *
@@ -15,8 +15,8 @@ import { chromium } from 'playwright';
 const PORT = 4326;
 
 const TARGETS = [
-  { lang: 'ko', path: '/ko/about/', title: '류현승 — 이력서' },
-  { lang: 'en', path: '/en/about/', title: 'Ryu Hyunseung — Résumé' },
+  { lang: 'ko', path: '/ko/resume/', title: '류현승 — 이력서' },
+  { lang: 'en', path: '/en/resume/', title: 'Ryu Hyunseung — Résumé' },
 ] as const;
 
 const server = await preview({ server: { port: PORT } });

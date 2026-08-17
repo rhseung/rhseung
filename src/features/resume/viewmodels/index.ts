@@ -8,6 +8,7 @@ export type {
 } from '../models';
 
 export {
+  groupAwardsByYear,
   parseEntryId,
   sortAwards,
   sortCareer,

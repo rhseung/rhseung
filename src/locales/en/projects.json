@@ -18,6 +18,7 @@
   },
   "links": {
     "demo": "Demo",
+    "package": "Package",
     "paper": "Paper",
     "post": "Write-up",
     "repo": "Repository"

@@ -6,15 +6,16 @@
   "app": {
     "name": "rhseung"
   },
+  "footer": {
+    "email": "Email",
+    "label": "Footer"
+  },
   "nav": {
-    "about": "About",
-    "awards": "Awards",
     "blog": "Writing",
-    "education": "Education",
-    "experience": "Experience",
+    "career": "Career",
     "label": "Main",
     "projects": "Projects",
-    "skills": "Skills"
+    "resume": "Résumé"
   },
   "notFound": {
     "action": "Back to home",

@@ -7,15 +7,7 @@ import { cn } from '@/common/utils';
 
 import { Button, buttonVariants } from '../../ui/button';
 
-const NAV_SECTIONS = [
-  'projects',
-  'blog',
-  'experience',
-  'education',
-  'awards',
-  'skills',
-  'about',
-] as const;
+const NAV_SECTIONS = ['projects', 'blog', 'career', 'resume'] as const;
 
 type NavSection = (typeof NAV_SECTIONS)[number];
 
@@ -29,11 +21,8 @@ export function SiteHeader({ lang, current, altHref, className }: SiteHeader.Pro
   const navLabel: Record<NavSection, string> = {
     projects: t(($) => $.nav.projects),
     blog: t(($) => $.nav.blog),
-    experience: t(($) => $.nav.experience),
-    education: t(($) => $.nav.education),
-    awards: t(($) => $.nav.awards),
-    skills: t(($) => $.nav.skills),
-    about: t(($) => $.nav.about),
+    career: t(($) => $.nav.career),
+    resume: t(($) => $.nav.resume),
   };
 
   return (

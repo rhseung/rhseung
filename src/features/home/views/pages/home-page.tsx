@@ -1,7 +1,7 @@
 import { ArrowRightIcon, GithubLogoIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { ExternalLink, SiteHeader, buttonVariants } from '@/common/components';
+import { ExternalLink, SiteFooter, SiteHeader, buttonVariants } from '@/common/components';
 import { localeHref, SITE, type Language } from '@/common/lib';
 import { PostListItem, type PostSummary } from '@/features/blog';
 import { ProjectCard, type ProjectSummary } from '@/features/projects';
@@ -80,6 +80,8 @@ export function HomePage({ lang, headline, intro, pinned, recent }: HomePage.Pro
           </a>
         </section>
       </main>
+
+      <SiteFooter lang={lang} />
     </div>
   );
 }

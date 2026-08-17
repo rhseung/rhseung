@@ -18,6 +18,7 @@
   },
   "links": {
     "demo": "데모",
+    "package": "패키지",
     "paper": "논문",
     "post": "관련 글",
     "repo": "저장소"
