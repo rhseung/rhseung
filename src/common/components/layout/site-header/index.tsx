@@ -7,7 +7,15 @@ import { cn } from '@/common/utils';
 
 import { Button, buttonVariants } from '../../ui/button';
 
-const NAV_SECTIONS = ['projects', 'blog', 'about'] as const;
+const NAV_SECTIONS = [
+  'projects',
+  'blog',
+  'experience',
+  'education',
+  'awards',
+  'skills',
+  'about',
+] as const;
 
 type NavSection = (typeof NAV_SECTIONS)[number];
 
@@ -21,6 +29,10 @@ export function SiteHeader({ lang, current, altHref, className }: SiteHeader.Pro
   const navLabel: Record<NavSection, string> = {
     projects: t(($) => $.nav.projects),
     blog: t(($) => $.nav.blog),
+    experience: t(($) => $.nav.experience),
+    education: t(($) => $.nav.education),
+    awards: t(($) => $.nav.awards),
+    skills: t(($) => $.nav.skills),
     about: t(($) => $.nav.about),
   };
 
@@ -40,7 +52,7 @@ export function SiteHeader({ lang, current, altHref, className }: SiteHeader.Pro
         </a>
 
         <nav aria-label={t(($) => $.nav.label)}>
-          <ul className="flex items-center gap-3">
+          <ul className="flex flex-wrap items-center gap-x-3 gap-y-1">
             {NAV_SECTIONS.map((section) => (
               <li key={section}>
                 <a

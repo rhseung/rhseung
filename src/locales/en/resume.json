@@ -1,0 +1,27 @@
+{
+  "awards": {
+    "empty": "Nothing here yet",
+    "title": "Awards & achievements"
+  },
+  "download": {
+    "label": "Download PDF"
+  },
+  "education": {
+    "empty": "Nothing here yet",
+    "title": "Education"
+  },
+  "experience": {
+    "empty": "Nothing here yet",
+    "title": "Experience"
+  },
+  "period": {
+    "ongoing": "Present"
+  },
+  "projects": {
+    "title": "Selected projects"
+  },
+  "skills": {
+    "empty": "Nothing here yet",
+    "title": "Skills"
+  }
+}

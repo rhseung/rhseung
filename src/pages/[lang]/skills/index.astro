@@ -1,0 +1,29 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+import { SkillsIsland } from '@/pages/_islands/resume-islands';
+import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
+import { toSkillGroup } from '@/features/resume';
+import BaseLayout from '@/layouts/base-layout.astro';
+
+export function getStaticPaths() {
+  return languagePaths();
+}
+
+const { lang } = Astro.props;
+
+const entries: CollectionEntry<'skills'>[] = await getCollection(
+  'skills',
+  ({ id, data }: CollectionEntry<'skills'>) => id.startsWith(`${lang}/`) && !data.draft,
+);
+
+const t = i18n.getFixedT(lang, 'common');
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${t(($) => $.nav.skills)} — ${SITE.title[lang]}`}
+  alternates={{ ko: localeHref('ko', '/skills'), en: localeHref('en', '/skills') }}
+>
+  <SkillsIsland lang={lang} groups={entries.map(toSkillGroup)} client:load />
+</BaseLayout>

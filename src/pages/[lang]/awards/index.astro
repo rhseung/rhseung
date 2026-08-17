@@ -1,0 +1,29 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+import { AwardsIsland } from '@/pages/_islands/resume-islands';
+import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
+import { toAwardSummary } from '@/features/resume';
+import BaseLayout from '@/layouts/base-layout.astro';
+
+export function getStaticPaths() {
+  return languagePaths();
+}
+
+const { lang } = Astro.props;
+
+const entries: CollectionEntry<'awards'>[] = await getCollection(
+  'awards',
+  ({ id, data }: CollectionEntry<'awards'>) => id.startsWith(`${lang}/`) && !data.draft,
+);
+
+const t = i18n.getFixedT(lang, 'common');
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${t(($) => $.nav.awards)} — ${SITE.title[lang]}`}
+  alternates={{ ko: localeHref('ko', '/awards'), en: localeHref('en', '/awards') }}
+>
+  <AwardsIsland lang={lang} awards={entries.map(toAwardSummary)} client:load />
+</BaseLayout>

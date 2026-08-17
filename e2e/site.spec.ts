@@ -36,12 +36,27 @@ test('이력서 PDF가 실제로 있다', async ({ request }) => {
 
 // 이력서의 프로젝트 섹션은 yaml에 없다 — projects 컬렉션에서 채워진다.
 // 배선이 끊기면 섹션이 통째로 사라지는데, yaml만 보면 눈치채지 못한다.
-test('이력서 프로젝트 섹션이 컬렉션에서 채워진다', async ({ page }) => {
+test('이력서가 각 컬렉션에서 채워진다', async ({ page }) => {
   await page.goto('/ko/about/');
 
-  const section = page.getByRole('heading', { name: '주요 프로젝트' });
-  await expect(section).toBeVisible();
+  for (const section of ['경력', '학력', '주요 프로젝트', '수상 및 성취', '기술']) {
+    await expect(page.getByRole('heading', { level: 2, name: section, exact: true })).toBeVisible();
+  }
+
   await expect(page.getByText('Astro 아일랜드 위에 올린 개인 사이트')).toBeVisible();
+});
+
+// 섹션마다 자기 라우트가 있고, 이력서는 그 데이터를 모으기만 한다.
+test('섹션 라우트가 각각 선다', async ({ page }) => {
+  for (const [path, heading] of [
+    ['/ko/experience/', '경력'],
+    ['/ko/education/', '학력'],
+    ['/ko/awards/', '수상 및 성취'],
+    ['/ko/skills/', '기술'],
+  ]) {
+    await page.goto(path);
+    await expect(page.getByRole('heading', { level: 1, name: heading })).toBeVisible();
+  }
 });
 
 test('RSS와 sitemap이 나간다', async ({ request }) => {

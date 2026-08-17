@@ -8,9 +8,13 @@
   },
   "nav": {
     "about": "About",
+    "awards": "Awards",
     "blog": "Writing",
+    "education": "Education",
+    "experience": "Experience",
     "label": "Main",
-    "projects": "Projects"
+    "projects": "Projects",
+    "skills": "Skills"
   },
   "notFound": {
     "action": "Back to home",

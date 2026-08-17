@@ -1,7 +1,7 @@
-# Screen (/en/about) and PDF (public/resume-en.pdf) both come from this file.
-# Edit it, run `bun run gen:resume`, and both update.
+# Screen (/en/about) and PDF (public/resume-en.pdf) come from this file.
 #
-# There is no projects section here — it fills itself from `src/content/projects/en/*.mdx`.
+# Experience, education, awards, skills and projects are not here — each fills itself
+# from its own collection under src/content/*/en/.
 
 headline: I build web apps — and the languages and runtimes they run on.
 
@@ -15,9 +15,3 @@ contact:
   email: ryu@rhseung.me
   github: https://github.com/rhseung
   site: https://rhseung.me
-
-# TODO: most recent first. Empty means the section is dropped.
-experience: []
-education: []
-awards: []
-skills: []

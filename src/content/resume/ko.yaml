@@ -1,7 +1,7 @@
-# 화면(/about)과 PDF(public/resume-ko.pdf)가 이 파일 하나에서 나온다.
-# 고치고 `bun run gen:resume` 하면 둘 다 갱신된다.
+# 화면(/about)과 PDF(public/resume-ko.pdf)가 이 파일에서 나온다.
 #
-# 프로젝트 섹션은 여기 없다 — `src/content/projects/ko/*.mdx` 에서 자동으로 채워진다.
+# 경력·학력·수상·기술·프로젝트는 여기 없다 — 각자 컬렉션에서 자동으로 채워진다.
+#   src/content/{experience,education,awards,skills,projects}/ko/
 
 headline: 웹 앱을 만들고, 그게 도는 언어와 런타임도 만듭니다.
 
@@ -15,19 +15,3 @@ contact:
   email: ryu@rhseung.me
   github: https://github.com/rhseung
   site: https://rhseung.me
-
-# TODO: 최신 순으로. 비워두면 /about에서 이 섹션이 통째로 빠진다.
-experience: []
-# - period: 2025. 3. — 현재
-#   org: 어딘가
-#   role: 프론트엔드 엔지니어
-#   description: 한 줄 설명.
-
-education: []
-awards: []
-# - year: '2025'
-#   title: 무슨 대회 대상
-#   issuer: 주최기관
-#   note: 한 줄 부연
-
-skills: []

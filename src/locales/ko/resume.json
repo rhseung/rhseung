@@ -1,0 +1,27 @@
+{
+  "awards": {
+    "empty": "아직 없습니다",
+    "title": "수상 및 성취"
+  },
+  "download": {
+    "label": "PDF로 저장"
+  },
+  "education": {
+    "empty": "아직 없습니다",
+    "title": "학력"
+  },
+  "experience": {
+    "empty": "아직 없습니다",
+    "title": "경력"
+  },
+  "period": {
+    "ongoing": "현재"
+  },
+  "projects": {
+    "title": "주요 프로젝트"
+  },
+  "skills": {
+    "empty": "아직 없습니다",
+    "title": "기술"
+  }
+}

@@ -8,9 +8,13 @@
   },
   "nav": {
     "about": "소개",
+    "awards": "수상",
     "blog": "글",
+    "education": "학력",
+    "experience": "경력",
     "label": "주요 메뉴",
-    "projects": "프로젝트"
+    "projects": "프로젝트",
+    "skills": "기술"
   },
   "notFound": {
     "action": "홈으로",
