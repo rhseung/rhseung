@@ -13,9 +13,9 @@ const posts = defineCollection({
   schema: postSchema(),
 });
 
-/** 프로젝트 상세는 산문뿐이다. 메타데이터는 `features/projects/models/data.ts`에 있다. */
+/** 프로젝트 폴더 하나에 `index.ts`(메타데이터)와 언어별 본문이 같이 산다. 여기는 본문만 본다. */
 const projects = defineCollection({
-  loader: glob({ base: './src/content/projects', pattern: '**/*.mdx' }),
+  loader: glob({ base: './src/content/projects', pattern: '*/{ko,en}.mdx' }),
   schema: z.object({}),
 });
 

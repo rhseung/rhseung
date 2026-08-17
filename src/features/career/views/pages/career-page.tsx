@@ -30,7 +30,7 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
 
   return (
     <div className="bg-background min-h-dvh">
-      <main className="mx-auto flex max-w-2xl flex-col gap-12 px-4 py-12">
+      <main className="mx-auto flex max-w-3xl flex-col gap-12 px-4 py-12">
         <h1 className="text-2xl font-semibold tracking-tight">{t(($) => $.career.title)}</h1>
 
         {isEmpty && (

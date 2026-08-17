@@ -1,6 +1,7 @@
 {
   "hero": {
-    "projects": "See projects"
+    "projects": "See projects",
+    "resume": "View CV"
   },
   "sections": {
     "about": "More about me →",

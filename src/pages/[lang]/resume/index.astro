@@ -5,7 +5,7 @@ import { ResumeIsland } from '@/pages/_islands/resume-islands';
 import { i18n, languagePaths, profileOf, SITE, localeHref } from '@/common/lib';
 import { projectsOf, sortProjects } from '@/features/projects';
 import { awardsOf, educationOf, experienceOf, skillGroupsOf } from '@/features/career';
-import BaseLayout from '@/layouts/base-layout.astro';
+import Layout from '@/layouts/layout.astro';
 
 export function getStaticPaths() {
   return languagePaths();
@@ -15,13 +15,13 @@ const { lang } = Astro.props;
 
 const details: CollectionEntry<'projects'>[] = await getCollection('projects');
 const detailSlugs = new Set(
-  details.filter((entry) => entry.id.startsWith(`${lang}/`)).map((entry) => entry.id.split('/')[1]),
+  details.filter((entry) => entry.id.endsWith(`/${lang}`)).map((entry) => entry.id.split('/')[0]),
 );
 
 const t = i18n.getFixedT(lang, 'common');
 ---
 
-<BaseLayout
+<Layout
   lang={lang}
   title={`${t(($) => $.nav.resume)} — ${SITE.title[lang]}`}
   description={profileOf(lang).headline}
@@ -39,4 +39,4 @@ const t = i18n.getFixedT(lang, 'common');
     resumeHref={`/resume-${lang}.pdf`}
     client:load
   />
-</BaseLayout>
+</Layout>

@@ -13,7 +13,7 @@ export function BlogPage({ lang, posts }: BlogPage.Props) {
 
   return (
     <div className="bg-background min-h-dvh">
-      <main className="mx-auto flex max-w-2xl flex-col gap-8 px-4 py-12">
+      <main className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-12">
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-semibold tracking-tight">{t(($) => $.page.title)}</h1>
           <p className="text-muted-foreground text-sm">{t(($) => $.page.description)}</p>

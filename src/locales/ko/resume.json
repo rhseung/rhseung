@@ -15,6 +15,10 @@
   "experience": {
     "title": "경력"
   },
+  "page": {
+    "description": "PDF로 들고 갈 수 있는 CV입니다.",
+    "title": "이력서"
+  },
   "period": {
     "ongoing": "현재"
   },

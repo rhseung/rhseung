@@ -41,7 +41,8 @@ export default interface Resources {
   },
   "home": {
     "hero": {
-      "projects": "프로젝트 보기"
+      "projects": "프로젝트 보기",
+      "resume": "CV 보기"
     },
     "sections": {
       "about": "더 자세히 →",
@@ -104,6 +105,10 @@ export default interface Resources {
     },
     "experience": {
       "title": "경력"
+    },
+    "page": {
+      "description": "PDF로 들고 갈 수 있는 CV입니다.",
+      "title": "이력서"
     },
     "period": {
       "ongoing": "현재"

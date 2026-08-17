@@ -1,4 +1,4 @@
-import { ArrowRightIcon, GithubLogoIcon } from '@phosphor-icons/react';
+import { ArrowRightIcon, GithubLogoIcon, ReadCvLogoIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 import { ExternalLink, SiteDock, buttonVariants } from '@/common/components';
@@ -11,7 +11,7 @@ export function HomePage({ lang, headline, intro, pinned, recent }: HomePage.Pro
 
   return (
     <div className="bg-background min-h-dvh">
-      <main className="mx-auto flex max-w-2xl flex-col gap-12 px-4 py-16">
+      <main className="mx-auto flex max-w-3xl flex-col gap-12 px-4 py-16">
         <header className="flex flex-col gap-5">
           <p className="text-muted-foreground text-sm">{SITE.name[lang]}</p>
           <h1 className="text-3xl leading-snug font-semibold tracking-tight">{headline}</h1>
@@ -20,6 +20,13 @@ export function HomePage({ lang, headline, intro, pinned, recent }: HomePage.Pro
             <a href={localeHref(lang, '/projects')} className={buttonVariants({ size: 'sm' })}>
               {t(($) => $.hero.projects)}
               <ArrowRightIcon data-icon="inline-end" />
+            </a>
+            <a
+              href={localeHref(lang, '/resume')}
+              className={buttonVariants({ variant: 'outline', size: 'sm' })}
+            >
+              <ReadCvLogoIcon data-icon="inline-start" />
+              {t(($) => $.hero.resume)}
             </a>
             <ExternalLink
               href={SITE.github}
@@ -71,7 +78,7 @@ export function HomePage({ lang, headline, intro, pinned, recent }: HomePage.Pro
           {intro && <p className="text-muted-foreground text-sm leading-relaxed">{intro}</p>}
 
           <a
-            href={localeHref(lang, '/about')}
+            href={localeHref(lang, '/career')}
             className="text-muted-foreground hover:text-foreground text-sm hover:underline"
           >
             {t(($) => $.sections.about)}

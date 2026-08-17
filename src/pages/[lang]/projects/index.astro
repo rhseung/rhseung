@@ -4,7 +4,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { ProjectsIsland } from '@/pages/_islands/projects-island';
 import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
 import { projectsOf } from '@/features/projects';
-import BaseLayout from '@/layouts/base-layout.astro';
+import Layout from '@/layouts/layout.astro';
 
 export function getStaticPaths() {
   return languagePaths();
@@ -15,14 +15,14 @@ const { lang } = Astro.props;
 // 상세 페이지는 그 언어로 MDX 본문이 있는 프로젝트만 갖는다.
 const details: CollectionEntry<'projects'>[] = await getCollection('projects');
 const detailSlugs = new Set(
-  details.filter((entry) => entry.id.startsWith(`${lang}/`)).map((entry) => entry.id.split('/')[1]),
+  details.filter((entry) => entry.id.endsWith(`/${lang}`)).map((entry) => entry.id.split('/')[0]),
 );
 ---
 
-<BaseLayout
+<Layout
   lang={lang}
   title={`${i18n.getFixedT(lang, 'common')(($) => $.nav.projects)} — ${SITE.title[lang]}`}
   alternates={{ ko: localeHref('ko', '/projects'), en: localeHref('en', '/projects') }}
 >
   <ProjectsIsland lang={lang} projects={projectsOf(lang, detailSlugs)} client:load />
-</BaseLayout>
+</Layout>

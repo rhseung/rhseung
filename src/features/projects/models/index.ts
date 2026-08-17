@@ -1,26 +1,29 @@
-import { DEFAULT_LANGUAGE, type Language } from '@/common/lib';
+import type { Language } from '@/common/lib';
 
-import { PROJECTS } from './data';
-import { projectsTextEN } from './text.en';
-import { projectsTextKO } from './text.ko';
+import type { Project, ProjectItem } from './types';
 
-import type { Project, ProjectsText } from './types';
-
+export { defineProject } from './define';
 export { PROJECT_DOMAINS, PROJECT_STATUSES } from './types';
 export type { Project, ProjectDomain, ProjectStatus } from './types';
 
-const TEXT: Record<Language, ProjectsText> = { ko: projectsTextKO, en: projectsTextEN };
+// 본문 없는 프로젝트는 `<slug>.ts` 하나, 본문 있는 프로젝트는 `<slug>/index.ts` + `{ko,en}.mdx`.
+const modules = import.meta.glob<{ default: ProjectItem }>(
+  ['@/content/projects/*.ts', '@/content/projects/*/index.ts'],
+  { eager: true },
+);
+
+export const PROJECT_ITEMS: ProjectItem[] = Object.keys(modules)
+  .sort()
+  .map((path) => modules[path].default);
 
 /** `detailSlugs`는 그 언어로 MDX 본문이 있는 슬러그 — 라우트가 실제 있는 것만. */
 export function projectsOf(
   lang: Language,
   detailSlugs: ReadonlySet<string> = new Set(),
 ): Project[] {
-  const text = TEXT[lang] ?? TEXT[DEFAULT_LANGUAGE];
-
-  return PROJECTS.map((project) => ({
-    ...project,
-    ...text[project.slug],
-    hasDetail: detailSlugs.has(project.slug),
+  return PROJECT_ITEMS.map(({ ko, en, ...rest }) => ({
+    ...rest,
+    ...(lang === 'en' ? en : ko),
+    hasDetail: detailSlugs.has(rest.slug),
   }));
 }

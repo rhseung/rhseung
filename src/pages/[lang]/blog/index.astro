@@ -4,7 +4,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { BlogIsland } from '@/pages/_islands/blog-island';
 import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
 import { toPostSummary } from '@/features/blog';
-import BaseLayout from '@/layouts/base-layout.astro';
+import Layout from '@/layouts/layout.astro';
 
 export function getStaticPaths() {
   return languagePaths();
@@ -22,11 +22,11 @@ const t = i18n.getFixedT(lang, 'common');
 const tBlog = i18n.getFixedT(lang, 'blog');
 ---
 
-<BaseLayout
+<Layout
   lang={lang}
   title={`${t(($) => $.nav.blog)} — ${SITE.title[lang]}`}
   description={tBlog(($) => $.page.description)}
   alternates={{ ko: localeHref('ko', '/blog'), en: localeHref('en', '/blog') }}
 >
   <BlogIsland lang={lang} posts={posts} client:load />
-</BaseLayout>
+</Layout>

@@ -29,7 +29,7 @@ export function ProjectDetailPage({ lang, project, altHref, children }: ProjectD
 
   return (
     <div className="bg-background min-h-dvh">
-      <main className="mx-auto flex max-w-2xl flex-col gap-8 px-4 py-12">
+      <main className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-12">
         <a
           href={localeHref(lang, '/projects')}
           className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), '-ml-2 self-start')}

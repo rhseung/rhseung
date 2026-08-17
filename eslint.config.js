@@ -25,6 +25,14 @@ export default [
     rules: { 'check-file/folder-naming-convention': 'off' },
   },
   {
+    // 항목 하나가 파일 하나다. glob 로더가 default export 를 집어가므로 named export 로 못 쓴다.
+    files: ['src/content/**/*.ts'],
+    rules: {
+      'import/no-default-export': 'off',
+      'no-restricted-imports': 'off',
+    },
+  },
+  {
     files: ['src/**/*.{astro,tsx}'],
     ignores: ['src/common/components/layout/external-link/**'],
     rules: {

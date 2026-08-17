@@ -2,7 +2,7 @@
 import { CareerIsland } from '@/pages/_islands/resume-islands';
 import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
 import { awardsOf, educationOf, experienceOf, skillGroupsOf } from '@/features/career';
-import BaseLayout from '@/layouts/base-layout.astro';
+import Layout from '@/layouts/layout.astro';
 
 export function getStaticPaths() {
   return languagePaths();
@@ -12,7 +12,7 @@ const { lang } = Astro.props;
 const t = i18n.getFixedT(lang, 'common');
 ---
 
-<BaseLayout
+<Layout
   lang={lang}
   title={`${t(($) => $.nav.career)} — ${SITE.title[lang]}`}
   alternates={{ ko: localeHref('ko', '/career'), en: localeHref('en', '/career') }}
@@ -25,4 +25,4 @@ const t = i18n.getFixedT(lang, 'common');
     skills={skillGroupsOf(lang)}
     client:load
   />
-</BaseLayout>
+</Layout>

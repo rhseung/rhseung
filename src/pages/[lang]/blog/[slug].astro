@@ -4,7 +4,8 @@ import { getCollection, render, type CollectionEntry } from 'astro:content';
 import { PostDetailIsland } from '@/pages/_islands/post-detail-island';
 import { SITE } from '@/common/lib';
 import { toPostSummary } from '@/features/blog';
-import BaseLayout from '@/layouts/base-layout.astro';
+import { MDX_COMPONENTS } from '@/common/components';
+import Layout from '@/layouts/layout.astro';
 
 /**
  * 글은 번역하지 않는다 — 쓴 언어 접두사 아래에만 존재한다. 한국어 글은 `/ko/blog/<slug>/`
@@ -28,13 +29,13 @@ const post = toPostSummary(entry);
 const { Content } = await render(entry);
 ---
 
-<BaseLayout
+<Layout
   lang={post.lang}
   title={`${post.title} — ${SITE.title[post.lang]}`}
   description={post.summary}
   type="article"
 >
   <PostDetailIsland post={post} client:idle>
-    <Content />
+    <Content components={MDX_COMPONENTS} />
   </PostDetailIsland>
-</BaseLayout>
+</Layout>

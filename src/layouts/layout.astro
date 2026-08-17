@@ -1,4 +1,7 @@
 ---
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
+
 import { SITE, type Language } from '@/common/lib';
 import '@/styles.css';
 
@@ -76,5 +79,9 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
   </head>
   <body>
     <slot />
+
+    {/* Vercel 밖(로컬·Storybook)에서는 스크립트가 no-op 이라 조건 분기가 필요 없다. */}
+    <Analytics />
+    <SpeedInsights />
   </body>
 </html>

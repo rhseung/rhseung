@@ -6,7 +6,7 @@ import { languagePaths, profileOf, SITE, localeHref } from '@/common/lib';
 import { pickRecent, toPostSummary } from '@/features/blog';
 import { pickPinned, projectsOf } from '@/features/projects';
 
-import BaseLayout from '@/layouts/base-layout.astro';
+import Layout from '@/layouts/layout.astro';
 
 export function getStaticPaths() {
   return languagePaths();
@@ -27,7 +27,7 @@ const postEntries: CollectionEntry<'posts'>[] = await getCollection(
 const profile = profileOf(lang);
 ---
 
-<BaseLayout
+<Layout
   lang={lang}
   title={SITE.title[lang]}
   alternates={{ ko: localeHref('ko', '/'), en: localeHref('en', '/') }}
@@ -40,4 +40,4 @@ const profile = profileOf(lang);
     recent={pickRecent(postEntries.map(toPostSummary), 3)}
     client:load
   />
-</BaseLayout>
+</Layout>

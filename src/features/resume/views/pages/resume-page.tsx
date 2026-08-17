@@ -22,16 +22,25 @@ export function ResumePage({
   const { t } = useTranslation('resume');
 
   return (
-    <div className="bg-muted/40 min-h-dvh print:bg-transparent">
-      <main className="mx-auto flex max-w-3xl flex-col gap-4 px-4 py-10 print:max-w-none print:gap-0 print:px-0 print:py-0">
-        <div className="flex items-center justify-end print:hidden">
-          <a href={resumeHref} download className={buttonVariants({ size: 'sm' })}>
+    <div className="bg-background min-h-dvh">
+      <main className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-12 print:max-w-none print:gap-0 print:px-0 print:py-0">
+        <div className="flex items-start justify-between gap-4 print:hidden">
+          <div className="flex flex-col gap-2">
+            <h1 className="text-2xl font-semibold tracking-tight">{t(($) => $.page.title)}</h1>
+            <p className="text-muted-foreground text-sm">{t(($) => $.page.description)}</p>
+          </div>
+
+          <a
+            href={resumeHref}
+            download
+            className={buttonVariants({ size: 'sm', variant: 'outline' })}
+          >
             <DownloadSimpleIcon data-icon="inline-start" />
             {t(($) => $.download.label)}
           </a>
         </div>
 
-        <div className="bg-card border-border rounded-xl border p-8 shadow-sm sm:p-12 print:rounded-none print:border-0 print:p-0 print:shadow-none">
+        <div className="border-border bg-card/40 rounded-xl border p-6 sm:p-8 print:rounded-none print:border-0 print:bg-transparent print:p-0">
           <ResumeDocument
             name={name}
             profile={profile}
