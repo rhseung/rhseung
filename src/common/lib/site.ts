@@ -9,24 +9,32 @@ import { DEFAULT_LANGUAGE, LANGUAGES, type Language } from './languages';
  */
 export const SITE = {
   url: 'https://rhseung.me',
-  author: 'rhseung',
+  handle: 'rhseung',
   github: 'https://github.com/rhseung',
-  /** `public/og.png`을 넣으면 켜진다. 없는 동안은 og:image를 아예 내지 않는다. */
-  ogImage: undefined,
+  email: 'ryu@rhseung.me',
+  ogImage: '/og.png',
 
+  name: {
+    ko: '류현승',
+    en: 'Ryu Hyeonseung',
+  },
+  // 탭·검색 결과에 뜨는 이름. 핸들이 곧 도메인이라 그걸 쓴다.
   title: {
     ko: 'rhseung',
     en: 'rhseung',
   },
+  // 검색 결과 스니펫과 OG 카드에 그대로 나가는 문장. 포지셔닝 + 사이트에 뭐가 있는지.
   description: {
-    ko: '웹 앱을 만들고, 그게 도는 언어와 런타임도 만듭니다.',
-    en: 'I build web apps — and the languages and runtimes they run on.',
+    ko: '웹 앱을 만들고, 그게 도는 언어와 런타임도 만듭니다. 류현승의 프로젝트와 글.',
+    en: 'I build web apps — and the languages and runtimes they run on. Projects and writing by Ryu Hyeonseung.',
   },
 } as const satisfies {
   url: string;
-  author: string;
+  handle: string;
   github: string;
-  ogImage: string | undefined;
+  email: string;
+  ogImage: string;
+  name: Record<Language, string>;
   title: Record<Language, string>;
   description: Record<Language, string>;
 };

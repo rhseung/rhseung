@@ -11,6 +11,15 @@ test('홈이 뜬다', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('lang', 'ko');
 });
 
+// 메타는 `/og.png`를 가리킨다. 파일이 없으면 공유 카드가 빈 채로 나가는데
+// 그건 브라우저에서 안 보여서 조용히 썩는다 — 여기서 시끄럽게 깨뜨린다.
+test('og 이미지가 실제로 있다', async ({ request }) => {
+  const response = await request.get('/og.png');
+
+  expect(response.status()).toBe(200);
+  expect(response.headers()['content-type']).toContain('image/png');
+});
+
 test('없는 경로는 404 페이지로 간다', async ({ page }) => {
   await page.goto('/no-such-page');
 
