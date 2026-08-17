@@ -42,7 +42,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/** 이력서 문서를 카드에 담아 그대로 보여준다. PDF는 다운로드 버튼으로만. */
 export const Default: Story = {};
 
 export const English: Story = {

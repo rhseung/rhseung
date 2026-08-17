@@ -19,7 +19,6 @@ export function ProjectCard({ project, detailHref }: ProjectCard.Props) {
 
   const target = projectHref(project, detailHref);
 
-  // 카드가 프로젝트를 설명하는 주된 자리다. 링크도 여기서 다 걸어준다.
   const links = [
     { key: 'repo', href: project.links?.repo, label: t(($) => $.links.repo), Icon: GithubLogoIcon },
     { key: 'demo', href: project.links?.demo, label: t(($) => $.links.demo), Icon: PlayIcon },
@@ -94,7 +93,6 @@ export function ProjectCard({ project, detailHref }: ProjectCard.Props) {
 export declare namespace ProjectCard {
   export type Props = {
     project: ProjectSummary;
-    /** 본문이 있는 프로젝트만 여기로 간다. 없으면 카드가 저장소·데모로 바로 보낸다. */
     detailHref: string;
   };
 }

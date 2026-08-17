@@ -17,7 +17,6 @@ const project: ProjectSummary = {
   links: { repo: 'https://github.com/rhseung/lumen' },
 };
 
-/** 실제로는 Astro가 MDX를 렌더해 슬롯으로 넣는다. */
 const body = (
   <>
     <h2>왜 만들었나</h2>
@@ -47,7 +46,6 @@ export const WithHighlight: Story = {
   args: { project: { ...project, highlight: '파싱 3.2× 빠름 (12k LOC 기준)' } },
 };
 
-/** 영어판이 없는 문서. */
 export const WithoutAlternate: Story = {
   args: { altHref: undefined },
 };

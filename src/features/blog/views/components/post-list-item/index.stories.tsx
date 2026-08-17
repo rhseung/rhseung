@@ -27,7 +27,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** UI 언어와 글 언어가 다를 때. */
 export const WithLanguageBadge: Story = {
   args: { showLanguage: true },
 };

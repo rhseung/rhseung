@@ -15,10 +15,8 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/** 본문 안 링크. */
 export const Default: Story = {};
 
-/** 버튼 모양으로 쓸 때도 아이콘은 그대로 붙는다. */
 export const AsButton: Story = {
   args: { className: buttonVariants({ variant: 'outline', size: 'sm' }) },
 };

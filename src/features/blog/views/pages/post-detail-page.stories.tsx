@@ -13,7 +13,6 @@ const post: PostSummary = {
   date: '2026-08-17T00:00:00.000Z',
 };
 
-/** 실제로는 Astro가 MDX를 렌더해 슬롯으로 넣는다. */
 const body = (
   <>
     <h2>원인</h2>
@@ -34,7 +33,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** 영어 글 — 페이지 크롬도 글 언어를 따라간다. */
 export const English: Story = {
   args: { post: { ...post, lang: 'en', title: 'One provider blanked the whole page' } },
 };

@@ -6,10 +6,6 @@ import { localeHref, SITE, type Language } from '@/common/lib';
 import { PostListItem, type PostSummary } from '@/features/blog';
 import { ProjectCard, type ProjectSummary } from '@/features/projects';
 
-/**
- * 홈은 분야를 나열하지 않는다. 넓이는 pinned 세 개가 서로 다른 도메인이라는 배치가 증명한다 —
- * `Frontend / Backend / Systems / Graphics` 4단 그리드가 정확히 잡탕의 시각적 형태다.
- */
 export function HomePage({ lang, headline, pinned, recent }: HomePage.Props) {
   const { t } = useTranslation('home');
 
@@ -86,7 +82,6 @@ export function HomePage({ lang, headline, pinned, recent }: HomePage.Props) {
 export declare namespace HomePage {
   export type Props = {
     lang: Language;
-    /** 이력서 yaml의 headline을 그대로 쓴다 — 포지셔닝 문장이 두 군데로 갈리지 않게. */
     headline: string;
     pinned: ProjectSummary[];
     recent: PostSummary[];

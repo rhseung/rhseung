@@ -16,7 +16,6 @@ export function parseProjectId(id: string): { lang: Language; slug: string } {
   return { lang: dir, slug };
 }
 
-/** `astro:content`를 import하지 않으려고 구조만 받는다 — `CollectionEntry`가 들어맞는다. */
 export function toProjectSummary(entry: {
   id: string;
   data: Project;
@@ -29,7 +28,6 @@ export function toProjectSummary(entry: {
   };
 }
 
-/** 카드가 어디로 보낼지. 본문이 있으면 상세, 없으면 저장소·데모로 바로 나간다. */
 export function projectHref(
   project: ProjectSummary,
   detailHref: string,

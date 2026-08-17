@@ -14,7 +14,6 @@ export function AboutPage({ lang, name, resume, projects, resumeHref }: AboutPag
 
   return (
     <div className="bg-muted/40 min-h-dvh print:bg-transparent">
-      {/* 인쇄물에는 사이트 크롬이 들어가지 않는다. Tailwind `print:` 변형이면 충분하다. */}
       <div className="print:hidden">
         <SiteHeader
           lang={lang}
@@ -50,7 +49,6 @@ export declare namespace AboutPage {
     name: string;
     resume: Resume;
     projects: ProjectSummary[];
-    /** `bun run gen:resume`이 구워둔 PDF 경로. */
     resumeHref: string;
   };
 }

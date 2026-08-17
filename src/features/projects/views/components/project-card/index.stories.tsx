@@ -62,7 +62,6 @@ export const WithHighlight: Story = {
   },
 };
 
-/** 끝난 프로젝트. */
 export const Archived: Story = {
   args: {
     project: { ...meta.args.project, status: 'archived', end: '2024-11', pinned: false },

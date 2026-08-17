@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import './fonts.css';
 
 /* MDX 본문(`prose`). */
 @plugin '@tailwindcss/typography';
@@ -75,6 +76,12 @@
 /* 토큰 → Tailwind 유틸리티. 이게 Tailwind v4 설정의 전부다.
    이 프로젝트에는 tailwind.config.js가 없고, 그건 의도다. */
 @theme inline {
+  /* Stack Sans엔 한글이 없다 — 스택 다음 자리의 Pretendard로 글리프 단위 폴백된다. */
+  --font-sans: 'Stack Sans Text', 'Pretendard Variable', sans-serif;
+  --font-display: 'Stack Sans Headline', 'Pretendard Variable', sans-serif;
+  --font-logo: 'Stack Sans Notch', 'Pretendard Variable', sans-serif;
+  --font-mono: 'Monaspace Neon Var', ui-monospace, monospace;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -112,6 +119,21 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1,
+  h2 {
+    @apply font-display;
+  }
+
+  /* Monaspace의 texture healing — 글자폭을 이웃에 맞춰 흘려서 코드 덩어리가 고르게 보인다. */
+  code,
+  kbd,
+  pre,
+  samp {
+    font-feature-settings:
+      'calt' 1,
+      'liga' 1;
   }
 }

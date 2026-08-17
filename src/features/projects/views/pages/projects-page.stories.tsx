@@ -57,10 +57,8 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/** pinned가 오래됐어도 위에 온다. */
 export const Default: Story = {};
 
-/** 도메인 하나로 좁혔을 때. */
 export const Filtered: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

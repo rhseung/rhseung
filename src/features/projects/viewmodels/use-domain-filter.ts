@@ -4,7 +4,6 @@ import { PROJECT_DOMAINS, type ProjectDomain } from '../models';
 
 const PARAM = 'domain';
 
-/** `pushState`는 `popstate`를 안 띄운다. 직접 바꿨을 때 구독자를 깨우는 신호. */
 const CHANGE_EVENT = 'projects:domainchange';
 
 function readParam(): ProjectDomain | null {

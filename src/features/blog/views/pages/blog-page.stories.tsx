@@ -35,7 +35,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/** 한국어 UI — 영어 글에만 언어 배지가 붙는다. */
 export const Default: Story = {};
 
 export const EmptyState: Story = {

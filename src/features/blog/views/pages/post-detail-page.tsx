@@ -10,7 +10,6 @@ import type { PostSummary } from '../../viewmodels';
 export function PostDetailPage({ post, children }: PostDetailPage.Props) {
   const { t } = useTranslation('blog');
 
-  // 글의 언어가 곧 페이지 크롬의 언어다 — 글은 번역되지 않으므로 언어 미러가 없다.
   const lang = post.lang;
 
   return (

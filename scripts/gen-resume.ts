@@ -15,12 +15,11 @@ import { chromium } from 'playwright';
 const PORT = 4326;
 
 const TARGETS = [
-  { lang: 'ko', path: '/about/', title: '류현승 — 이력서' },
+  { lang: 'ko', path: '/ko/about/', title: '류현승 — 이력서' },
   { lang: 'en', path: '/en/about/', title: 'Ryu Hyunseung — Résumé' },
 ] as const;
 
 const server = await preview({ server: { port: PORT } });
-// 테마 토글이 남긴 값과 무관하게 항상 밝은 배경으로 굽는다.
 const browser = await chromium.launch();
 const context = await browser.newContext({ colorScheme: 'light' });
 
@@ -28,7 +27,14 @@ try {
   for (const { lang, path, title } of TARGETS) {
     const page = await context.newPage();
 
-    await page.goto(`http://localhost:${PORT}${path}`, { waitUntil: 'networkidle' });
+    const response = await page.goto(`http://localhost:${PORT}${path}`, {
+      waitUntil: 'networkidle',
+    });
+
+    // `goto`는 404에도 예외를 안 던진다. 라우트가 바뀌면 404 페이지가 이력서로 구워진다.
+    if (response?.status() !== 200) {
+      throw new Error(`${path} 가 ${response?.status()} 입니다`);
+    }
     await page.emulateMedia({ media: 'print' });
 
     // Chromium은 PDF의 `/Title`을 문서 제목에서 가져온다. 그대로 두면 사이트 라우트 제목

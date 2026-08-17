@@ -87,7 +87,6 @@ export declare namespace ProjectDetailPage {
   export type Props = {
     lang: Language;
     project: ProjectSummary;
-    /** 없으면 헤더의 언어 버튼이 사라진다. */
     altHref?: string;
     children: React.ReactNode;
   };

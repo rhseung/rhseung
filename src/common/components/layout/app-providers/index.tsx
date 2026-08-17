@@ -14,7 +14,7 @@ let mockingReady: Promise<void> | null = null;
 
 function ensureMocking(): Promise<void> {
   if (import.meta.env.PUBLIC_ENABLE_MSW !== 'true') {
-    mockingReady ??= import('@/mocks/browser').then(({ unregisterStaleWorker }) =>
+    mockingReady ??= import('@/mocks/unregister').then(({ unregisterStaleWorker }) =>
       unregisterStaleWorker(),
     );
     return mockingReady;
@@ -25,7 +25,6 @@ function ensureMocking(): Promise<void> {
 }
 
 export function AppProviders({ lang, children }: AppProviders.Props) {
-  // 아일랜드마다 새 React 루트라서 클라이언트도 마운트마다 새로 만든다.
   const [queryClient] = useState(
     () => new QueryClient({ defaultOptions: { queries: { retry: 1, staleTime: 30_000 } } }),
   );
@@ -34,9 +33,6 @@ export function AppProviders({ lang, children }: AppProviders.Props) {
 
   // 워커를 띄우되 렌더를 막지 않는다. 여기서 자식을 가리면 그 null이 SSR 결과가 되어
   // 본문이 하이드레이션용 <template>에 갇힌다 — JS가 꺼지면 백지다.
-  //
-  // ponytail: 지금은 런타임 쿼리가 0개라 경합이 없다. 실제 fetch가 생기면 렌더를 막는
-  // 대신 그 쿼리에 `enabled: mocksReady`를 건다.
   useEffect(() => {
     void ensureMocking();
   }, []);

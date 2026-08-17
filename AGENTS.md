@@ -193,6 +193,18 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
   ```
   `declare`를 빼면 `react-refresh/only-export-components`가 경고한다.
 
+### 폰트
+
+- 라틴은 **Stack Sans**(Notch=로고, Headline=제목, Text=본문), 한글은 **Pretendard**.
+- Stack Sans엔 한글 글리프가 없어서 폰트 스택 다음 자리의 Pretendard로 **글리프 단위
+  폴백**된다. 언어를 감지해 폰트를 바꾸는 코드를 쓰지 않는다.
+- 코드는 **Monaspace Neon Var**. texture healing(`calt`)이 켜져 있어 코드 덩어리가 고르게
+  보인다 — `styles.css`의 `code, kbd, pre, samp` 블록.
+- 토큰은 `--font-sans`(본문)·`--font-display`(h1/h2)·`--font-logo`·`--font-mono`.
+- `src/fonts.css`는 **생성물**이다. 손으로 고치지 않고 파일 헤더의 출처에서 다시 받는다.
+  자체 호스팅인 이유: 외부 CDN이면 첫 페인트가 남의 서버에 묶이고 `gen:resume`이 굽는
+  PDF도 네트워크 상태를 탄다.
+
 ### 스타일
 
 - 손으로 쓰는 variants는 `tailwind-variants`(`tv()`). shadcn이 만든 CVA는 그대로 둔다.

@@ -38,12 +38,7 @@ function EntryList({ entries }: { entries: readonly ResumeEntry[] }) {
   );
 }
 
-/**
- * 이력서 본문. `/about`이 화면에 그리고, `bun run gen:resume`이 같은 페이지를 Chromium
- * 인쇄 엔진으로 구워 PDF를 만든다 — 그래서 화면과 PDF가 어긋날 수가 없다.
- *
- * 프로젝트 섹션은 yaml이 아니라 `projects` 컬렉션에서 온다. 이력서용으로 다시 쓰지 않는다.
- */
+/** `/about`이 화면에 그리고 `gen:resume`이 같은 페이지를 PDF로 굽는다. */
 export function ResumeDocument({ name, resume, projects }: ResumeDocument.Props) {
   const { t } = useTranslation('about');
 
@@ -139,7 +134,6 @@ export declare namespace ResumeDocument {
   export type Props = {
     name: string;
     resume: Resume;
-    /** `projects` 컬렉션에서 온다 — 이력서용으로 다시 쓰지 않는다. */
     projects: ProjectSummary[];
   };
 }

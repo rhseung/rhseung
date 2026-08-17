@@ -73,7 +73,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/** pinned 셋의 도메인이 서로 다르다 — 넓이를 말이 아니라 배치로 증명하는 자리. */
 export const Default: Story = {};
 
 /** 콘텐츠를 채우기 전. 빈 섹션은 통째로 빠진다. */
