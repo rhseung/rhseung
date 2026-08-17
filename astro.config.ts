@@ -15,6 +15,18 @@ export default defineConfig({
   // undefined라 레이아웃의 `new URL(path, Astro.site)`가 터진다.
   site: 'https://rhseung.me',
 
+  /**
+   * 언어를 URL이 정한다. 클라이언트 런타임 토글은 정적 사이트에서 사실상 단일언어였다 —
+   * 크롤러가 보는 HTML이 한 벌뿐이라 hreflang·언어별 canonical을 만들 방법이 없었다.
+   *
+   * `prefixDefaultLocale: false` — 홈 URL(`/`)에 리다이렉트 홉을 붙이지 않는다.
+   */
+  i18n: {
+    defaultLocale: 'ko',
+    locales: ['ko', 'en'],
+    routing: { prefixDefaultLocale: false },
+  },
+
   integrations: [react()],
 
   vite: {

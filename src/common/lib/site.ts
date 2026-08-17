@@ -1,4 +1,4 @@
-import type { Language } from './languages';
+import { DEFAULT_LANGUAGE, LANGUAGES, type Language } from './languages';
 
 /**
  * 문서 메타데이터 문자열은 `locales/`가 아니라 여기 둔다.
@@ -37,6 +37,20 @@ export const SITE = {
  */
 export function localeHref(lang: Language, path: string): string {
   const absolute = path.startsWith('/') ? path : `/${path}`;
-  if (lang === 'ko') return absolute;
-  return absolute === '/' ? '/en' : `/en${absolute}`;
+  const prefixed =
+    lang === DEFAULT_LANGUAGE ? absolute : `/${lang}${absolute === '/' ? '' : absolute}`;
+
+  // 끝에 슬래시를 붙인다. Astro의 디렉토리 빌드가 `/en/projects/`로 서빙하고
+  // `Astro.url.pathname`에서 나오는 canonical도 그 형태다 — 여기서 안 맞추면
+  // 문서가 hreflang으로 자기 자신을 다른 URL로 가리킨다.
+  return prefixed.endsWith('/') ? prefixed : `${prefixed}/`;
 }
+
+/**
+ * `[...lang]` 라우트가 두 언어를 한 파일에서 내게 하는 경로 목록.
+ * `getStaticPaths`가 이걸 그대로 반환하면 `/projects`와 `/en/projects`가 같이 생긴다.
+ */
+export const LANGUAGE_PATHS = LANGUAGES.map((lang) => ({
+  params: { lang: lang === DEFAULT_LANGUAGE ? undefined : lang },
+  props: { lang },
+}));

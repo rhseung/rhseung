@@ -4,7 +4,7 @@ import { initReactI18next } from 'react-i18next';
 import commonEn from '@/locales/en/common.json';
 import commonKo from '@/locales/ko/common.json';
 
-import { detectLanguage } from './languages';
+import { DEFAULT_LANGUAGE } from './languages';
 
 export const I18N_NAMESPACES = ['common'] as const;
 
@@ -17,8 +17,10 @@ void i18next.use(initReactI18next).init({
     ko: { common: commonKo },
     en: { common: commonEn },
   },
-  lng: detectLanguage(),
-  fallbackLng: 'ko',
+  // 언어는 URL이 정한다 — `AppProviders`가 라우트의 lang으로 즉시 갈아끼운다.
+  // 리소스가 정적 import라 `changeLanguage`가 동기라서 첫 렌더 전에 끝난다.
+  lng: DEFAULT_LANGUAGE,
+  fallbackLng: DEFAULT_LANGUAGE,
   defaultNS: 'common',
   ns: [...I18N_NAMESPACES],
   nsSeparator: ':',

@@ -1,0 +1,19 @@
+---
+import { HomeIsland } from '@/pages/_islands/home-island';
+import { LANGUAGE_PATHS, SITE, localeHref } from '@/common/lib';
+import BaseLayout from '@/layouts/base-layout.astro';
+
+export function getStaticPaths() {
+  return LANGUAGE_PATHS;
+}
+
+const { lang } = Astro.props;
+---
+
+<BaseLayout
+  lang={lang}
+  title={SITE.title[lang]}
+  alternates={{ ko: localeHref('ko', '/'), en: localeHref('en', '/') }}
+>
+  <HomeIsland lang={lang} client:load />
+</BaseLayout>
