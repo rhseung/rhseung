@@ -4,7 +4,7 @@
   },
   "career": {
     "empty": "아직 채우지 않았습니다",
-    "title": "커리어"
+    "title": "이력"
   },
   "download": {
     "label": "PDF로 저장"
@@ -16,7 +16,7 @@
     "title": "경력"
   },
   "page": {
-    "description": "PDF로 들고 갈 수 있는 CV입니다.",
+    "description": "PDF로 들고 갈 수 있는 이력서입니다.",
     "title": "이력서"
   },
   "period": {

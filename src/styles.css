@@ -138,3 +138,27 @@
       'liga' 1;
   }
 }
+
+/**
+ * Shiki 듀얼 테마. `defaultColor: false` 라서 색이 인라인으로 안 박히고 변수로만 나온다 —
+ * 여기서 골라 쓴다. 이렇게 해야 테마 토글 한 번에 코드 블록도 같이 넘어간다.
+ */
+@layer base {
+  .astro-code,
+  .astro-code span {
+    color: var(--shiki-light);
+    background-color: var(--shiki-light-bg);
+    font-style: var(--shiki-light-font-style);
+    font-weight: var(--shiki-light-font-weight);
+    text-decoration: var(--shiki-light-text-decoration);
+  }
+
+  .dark .astro-code,
+  .dark .astro-code span {
+    color: var(--shiki-dark);
+    background-color: var(--shiki-dark-bg);
+    font-style: var(--shiki-dark-font-style);
+    font-weight: var(--shiki-dark-font-weight);
+    text-decoration: var(--shiki-dark-text-decoration);
+  }
+}

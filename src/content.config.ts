@@ -1,5 +1,5 @@
 import { glob } from 'astro/loaders';
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
 
 import { postSchema } from '@/features/blog/models';
 
@@ -13,10 +13,12 @@ const posts = defineCollection({
   schema: postSchema(),
 });
 
-/** 프로젝트 폴더 하나에 `index.ts`(메타데이터)와 언어별 본문이 같이 산다. 여기는 본문만 본다. */
+/**
+ * 프로젝트 폴더 하나에 `index.ts`(메타데이터)와 언어별 본문이 같이 산다. 여기는 본문만 본다 —
+ * frontmatter 가 아예 없어서 스키마도 없다.
+ */
 const projects = defineCollection({
   loader: glob({ base: './src/content/projects', pattern: '*/{ko,en}.mdx' }),
-  schema: z.object({}),
 });
 
 export const collections = { posts, projects };

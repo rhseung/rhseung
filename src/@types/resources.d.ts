@@ -26,7 +26,7 @@ export default interface Resources {
     },
     "nav": {
       "blog": "글",
-      "career": "커리어",
+      "career": "이력",
       "home": "홈",
       "label": "주요 메뉴",
       "menu": "메뉴",
@@ -42,7 +42,7 @@ export default interface Resources {
   "home": {
     "hero": {
       "projects": "프로젝트 보기",
-      "resume": "CV 보기"
+      "resume": "이력서 보기"
     },
     "sections": {
       "about": "더 자세히 →",
@@ -95,7 +95,7 @@ export default interface Resources {
     },
     "career": {
       "empty": "아직 채우지 않았습니다",
-      "title": "커리어"
+      "title": "이력"
     },
     "download": {
       "label": "PDF로 저장"
@@ -107,7 +107,7 @@ export default interface Resources {
       "title": "경력"
     },
     "page": {
-      "description": "PDF로 들고 갈 수 있는 CV입니다.",
+      "description": "PDF로 들고 갈 수 있는 이력서입니다.",
       "title": "이력서"
     },
     "period": {

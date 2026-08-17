@@ -36,6 +36,18 @@ export default defineConfig({
   // 본문 이미지 기본값. 원본 크기를 넘지 않는 선에서 컨테이너에 맞추고 srcset을 자동 생성한다.
   image: { layout: 'constrained' },
 
+  /**
+   * 코드 하이라이팅은 Astro 내장 Shiki 다 — 빌드 때 색을 CSS 변수로 굽고 클라이언트로
+   * 아무것도 안 보낸다.
+   *
+   * `defaultColor: false` 라야 두 테마 색이 인라인이 아니라 `--shiki-light`/`--shiki-dark`
+   * 변수로 나온다. 실제 전환은 `styles.css` 의 `.dark` 규칙이 한다 — 테마 토글이 클래스를
+   * 바꾸는 그 순간 코드 블록도 같이 따라간다.
+   */
+  markdown: {
+    shikiConfig: { themes: { light: 'min-light', dark: 'monokai' }, defaultColor: false },
+  },
+
   integrations: [
     react(),
     mdx(),
