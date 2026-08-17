@@ -195,9 +195,11 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 
 ### 폰트
 
-- 라틴은 **Stack Sans**(Notch=로고, Headline=제목, Text=본문), 한글은 **Pretendard**.
-- Stack Sans엔 한글 글리프가 없어서 폰트 스택 다음 자리의 Pretendard로 **글리프 단위
-  폴백**된다. 언어를 감지해 폰트를 바꾸는 코드를 쓰지 않는다.
+- 본문은 **Pretendard 단독**이다. 라틴까지 Pretendard가 덮는다 — Stack Sans를 본문에 쓰면
+  한 문단 안에서 라틴만 얼굴이 달라져 섞인 티가 난다.
+- **Stack Sans**는 로고(Notch)와 제목(Headline)에만. 한글 글리프가 없어서 폰트 스택 다음
+  자리의 Pretendard로 **글리프 단위 폴백**된다 — 그래서 한글 제목은 Pretendard로 나온다.
+  언어를 감지해 폰트를 바꾸는 코드를 쓰지 않는다.
 - 코드는 **Monaspace Neon Var**. texture healing(`calt`)이 켜져 있어 코드 덩어리가 고르게
   보인다 — `styles.css`의 `code, kbd, pre, samp` 블록.
 - 토큰은 `--font-sans`(본문)·`--font-display`(h1/h2)·`--font-logo`·`--font-mono`.

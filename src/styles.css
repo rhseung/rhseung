@@ -76,8 +76,8 @@
 /* 토큰 → Tailwind 유틸리티. 이게 Tailwind v4 설정의 전부다.
    이 프로젝트에는 tailwind.config.js가 없고, 그건 의도다. */
 @theme inline {
+  --font-sans: 'Pretendard Variable', sans-serif;
   /* Stack Sans엔 한글이 없다 — 스택 다음 자리의 Pretendard로 글리프 단위 폴백된다. */
-  --font-sans: 'Stack Sans Text', 'Pretendard Variable', sans-serif;
   --font-display: 'Stack Sans Headline', 'Pretendard Variable', sans-serif;
   --font-logo: 'Stack Sans Notch', 'Pretendard Variable', sans-serif;
   --font-mono: 'Monaspace Neon Var', ui-monospace, monospace;
