@@ -29,11 +29,8 @@ jobs:
       - run: bun run typecheck
 
       # 생성물이 커밋되어 있으므로 재생성은 no-op이어야 한다. 트리가 더러워지면
-      # 누군가 `t()` 키나 라우트를 추가했거나 API 스펙을 바꾸고 `bun run gen`을
-      # 안 돌린 것이다. `removeUnusedKeys` 덕에 유령 로케일 키도 같은 스텝에서 잡힌다.
-      #
-      # 참고: OPENAPI_INPUT이 살아있는 백엔드를 가리키면 이 스텝이 거기 닿아야 한다.
-      # 문제가 되면 `gen:i18n`만 따로 떼어낸다.
+      # 누군가 `t()` 키를 추가하고 `bun run gen`을 안 돌린 것이다.
+      # `removeUnusedKeys` 덕에 유령 로케일 키도 같은 스텝에서 잡힌다.
       - run: bun run gen
       - name: generated output is stale
         run: git diff --exit-code || { echo '::error::run `bun run gen` and commit'; exit 1; }

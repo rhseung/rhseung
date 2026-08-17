@@ -2,13 +2,11 @@ import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 import commonEn from '@/locales/en/common.json';
-import todosEn from '@/locales/en/todos.json';
 import commonKo from '@/locales/ko/common.json';
-import todosKo from '@/locales/ko/todos.json';
 
 import { detectLanguage } from './languages';
 
-export const I18N_NAMESPACES = ['common', 'todos'] as const;
+export const I18N_NAMESPACES = ['common'] as const;
 
 export type I18nNamespace = (typeof I18N_NAMESPACES)[number];
 
@@ -16,8 +14,8 @@ export type I18nNamespace = (typeof I18N_NAMESPACES)[number];
 // 요청 워터폴 없이 그대로 돈다. 로케일 파일이 커지면 그때 재검토.
 void i18next.use(initReactI18next).init({
   resources: {
-    ko: { common: commonKo, todos: todosKo },
-    en: { common: commonEn, todos: todosEn },
+    ko: { common: commonKo },
+    en: { common: commonEn },
   },
   lng: detectLanguage(),
   fallbackLng: 'ko',

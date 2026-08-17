@@ -1,38 +1,9 @@
-import { HttpResponse, http } from 'msw';
+import type { RequestHandler } from 'msw';
 
-import type { CreateTodo, Todo, UpdateTodo } from '@/api/types.gen';
-
-let nextId = 4;
-
-let todos: Todo[] = [
-  { id: 1, title: '템플릿 훑어보기', done: true, createdAt: '2026-08-01T09:00:00.000Z' },
-  {
-    id: 2,
-    title: 'openapi/example.json 을 진짜 백엔드로 교체',
-    done: false,
-    createdAt: '2026-08-02T09:00:00.000Z',
-  },
-  { id: 3, title: 'features/todos 지우기', done: false, createdAt: '2026-08-03T09:00:00.000Z' },
-];
-
-export const handlers = [
-  http.get('/api/todos', () => HttpResponse.json(todos)),
-
-  http.post('/api/todos', async ({ request }) => {
-    const { title } = (await request.json()) as CreateTodo;
-    const todo: Todo = { id: nextId++, title, done: false, createdAt: new Date().toISOString() };
-    todos = [...todos, todo];
-    return HttpResponse.json(todo, { status: 201 });
-  }),
-
-  http.patch('/api/todos/:id', async ({ params, request }) => {
-    const id = Number(params.id);
-    const patch = (await request.json()) as UpdateTodo;
-    const found = todos.find((todo) => todo.id === id);
-    if (!found) return new HttpResponse(null, { status: 404 });
-
-    const updated: Todo = { ...found, ...patch };
-    todos = todos.map((todo) => (todo.id === id ? updated : todo));
-    return HttpResponse.json(updated);
-  }),
-];
+/**
+ * dev·Storybook·vitest·Playwright가 공유하는 목 핸들러. 픽스처 하나, 소비자 넷.
+ *
+ * 이 사이트의 콘텐츠는 전부 빌드타임 content collection이라 네트워크를 타지 않는다.
+ * 여기 들어올 것은 런타임에 실제로 부르는 외부 API뿐이다 — GitHub(star 수, 기여 그래프) 등.
+ */
+export const handlers: RequestHandler[] = [];
