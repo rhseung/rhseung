@@ -1,0 +1,35 @@
+---
+import { getEntry } from 'astro:content';
+
+import { AboutIsland } from '@/pages/_islands/about-island';
+import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
+import BaseLayout from '@/layouts/base-layout.astro';
+
+export function getStaticPaths() {
+  return languagePaths();
+}
+
+const { lang } = Astro.props;
+
+const entry = await getEntry('resume', lang);
+if (!entry) throw new Error(`src/content/resume/${lang}.yaml 이 없습니다`);
+
+// 라우트 제목은 SiteHeader가 실제로 렌더하는 nav 라벨을 재사용한다 — `.astro`는
+// i18next-cli 추출 대상이 아니라서, 여기서만 쓰는 키는 다음 `bun run gen`에 사라진다.
+const t = i18n.getFixedT(lang, 'common');
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${t(($) => $.nav.about)} — ${SITE.title[lang]}`}
+  description={entry.data.headline}
+  alternates={{ ko: localeHref('ko', '/about'), en: localeHref('en', '/about') }}
+>
+  <AboutIsland
+    lang={lang}
+    name={SITE.name[lang]}
+    resume={entry.data}
+    resumeHref={`/resume-${lang}.pdf`}
+    client:load
+  />
+</BaseLayout>

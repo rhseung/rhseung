@@ -1,0 +1,16 @@
+{
+  "contact": {
+    "download": "이력서 PDF",
+    "title": "연락"
+  },
+  "resume": {
+    "fallback": "이 브라우저는 PDF를 바로 보여주지 못합니다.",
+    "title": "이력서"
+  },
+  "skills": {
+    "title": "기술"
+  },
+  "timeline": {
+    "title": "이력"
+  }
+}

@@ -1,0 +1,58 @@
+import { useTranslation } from 'react-i18next';
+
+import { Empty, EmptyDescription, EmptyHeader, EmptyTitle, SiteHeader } from '@/common/components';
+import { localeHref, type Language } from '@/common/lib';
+
+import { sortPosts, type PostSummary } from '../../viewmodels';
+import { PostListItem } from '../components';
+
+export function BlogPage({ lang, posts }: BlogPage.Props) {
+  const { t } = useTranslation('blog');
+
+  const visible = sortPosts(posts);
+
+  return (
+    <div className="bg-background min-h-dvh">
+      <SiteHeader
+        lang={lang}
+        current="blog"
+        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/blog')}
+      />
+
+      <main className="mx-auto flex max-w-2xl flex-col gap-8 px-4 py-12">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-2xl font-semibold tracking-tight">{t(($) => $.page.title)}</h1>
+          <p className="text-muted-foreground text-sm">{t(($) => $.page.description)}</p>
+        </div>
+
+        {visible.length === 0 ? (
+          <Empty>
+            <EmptyHeader>
+              <EmptyTitle>{t(($) => $.empty.title)}</EmptyTitle>
+              <EmptyDescription>{t(($) => $.empty.description)}</EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        ) : (
+          <ul className="flex flex-col gap-8">
+            {visible.map((post) => (
+              <li key={post.slug}>
+                <PostListItem
+                  post={post}
+                  href={`/blog/${post.slug}`}
+                  showLanguage={post.lang !== lang}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+      </main>
+    </div>
+  );
+}
+
+export declare namespace BlogPage {
+  export type Props = {
+    lang: Language;
+    posts: PostSummary[];
+  };
+}

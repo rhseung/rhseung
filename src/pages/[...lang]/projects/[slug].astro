@@ -1,0 +1,57 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+
+import { ProjectDetailIsland } from '@/pages/_islands/project-detail-island';
+import { LANGUAGES, localeHref, DEFAULT_LANGUAGE, SITE } from '@/common/lib';
+import { parseProjectId, toProjectSummary } from '@/features/projects';
+import BaseLayout from '@/layouts/base-layout.astro';
+
+export async function getStaticPaths() {
+  const entries: CollectionEntry<'projects'>[] = await getCollection(
+    'projects',
+    ({ data }: CollectionEntry<'projects'>) => !data.draft,
+  );
+  const parsed = entries.map((entry) => ({ entry, ...parseProjectId(entry.id) }));
+
+  const slugsByLang = new Map(
+    LANGUAGES.map((lang) => [
+      lang,
+      new Set(parsed.filter((item) => item.lang === lang).map((item) => item.slug)),
+    ]),
+  );
+
+  return parsed.map(({ entry, lang, slug }) => {
+    // 짝 문서가 있는 언어만 hreflang·언어 버튼에 넣는다.
+    const alternates = Object.fromEntries(
+      LANGUAGES.filter((other) => slugsByLang.get(other)?.has(slug)).map((other) => [
+        other,
+        localeHref(other, `/projects/${slug}`),
+      ]),
+    );
+
+    return {
+      params: { lang: lang === DEFAULT_LANGUAGE ? undefined : lang, slug },
+      props: { lang, entry, alternates },
+    };
+  });
+}
+
+const { lang, entry, alternates } = Astro.props;
+
+const project = toProjectSummary(entry);
+const { Content } = await render(entry);
+
+const otherLang = lang === DEFAULT_LANGUAGE ? 'en' : DEFAULT_LANGUAGE;
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${project.title} — ${SITE.title[lang]}`}
+  description={project.summary}
+  type="article"
+  alternates={Object.keys(alternates).length > 1 ? alternates : undefined}
+>
+  <ProjectDetailIsland lang={lang} project={project} altHref={alternates[otherLang]} client:idle>
+    <Content />
+  </ProjectDetailIsland>
+</BaseLayout>

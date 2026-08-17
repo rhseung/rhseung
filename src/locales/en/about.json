@@ -1,0 +1,16 @@
+{
+  "contact": {
+    "download": "Résumé PDF",
+    "title": "Contact"
+  },
+  "resume": {
+    "fallback": "This browser cannot display the PDF inline.",
+    "title": "Résumé"
+  },
+  "skills": {
+    "title": "Skills"
+  },
+  "timeline": {
+    "title": "Experience"
+  }
+}

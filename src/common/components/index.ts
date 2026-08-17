@@ -1,4 +1,5 @@
 // ui/ — shadcn CLI 생성물, 손으로 고치지 않는다.
+export { Badge, badgeVariants } from './ui/badge';
 export { Button, buttonVariants } from './ui/button';
 export {
   Card,

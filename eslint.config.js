@@ -24,4 +24,21 @@ export default [
     files: ['src/pages/_islands/**'],
     rules: { 'check-file/folder-naming-convention': 'off' },
   },
+  {
+    // 날 `<img>`는 최적화를 통째로 건너뛴다 — WebP 변환도, srcset도, width/height도 없다.
+    // 브라우저에선 멀쩡해 보여서 리뷰에서 안 걸리고 조용히 원본 4000px가 나간다.
+    files: ['src/**/*.{astro,tsx}'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'JSXOpeningElement[name.name="img"]',
+          message:
+            '`<img>` 대신 `astro:assets`의 `<Image />`/`<Picture />`를 쓰세요. ' +
+            'React 아일랜드라 `<Image />`를 못 쓴다면 `.astro`에서 `getImage()`로 만든 ' +
+            'src·srcset·width·height를 props로 받고, 그 줄에만 예외를 답니다.',
+        },
+      ],
+    },
+  },
 ];

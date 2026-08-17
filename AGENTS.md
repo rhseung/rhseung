@@ -13,25 +13,29 @@
   type-aware 린팅이 통째로 깨진다. 올리지 말 것.
 - `es-toolkit`이 있다. 유틸을 직접 만들기 전에 먼저 찾아본다.
 
-| 명령                | 언제                                                       |
-| ------------------- | ---------------------------------------------------------- |
-| `bun run dev`       | 개발 (:4321, MSW 켜짐)                                     |
-| `bun run storybook` | 컴포넌트 작업 (:6006)                                      |
-| `bun run check`     | **커밋 전** — prettier --write + eslint --fix              |
-| `bun run verify`    | **PR 전** — format+lint+typecheck(astro check)+doctor+test |
-| `bun run gen`       | 스펙/키를 바꾼 뒤                                          |
-| `bun run ui:add`    | shadcn 컴포넌트 추가                                       |
+| 명령                 | 언제                                                       |
+| -------------------- | ---------------------------------------------------------- |
+| `bun run dev`        | 개발 (:4321)                                               |
+| `bun run storybook`  | 컴포넌트 작업 (:6006)                                      |
+| `bun run check`      | **커밋 전** — prettier --write + eslint --fix              |
+| `bun run verify`     | **PR 전** — format+lint+typecheck(astro check)+doctor+test |
+| `bun run gen`        | `t()` 키를 추가·삭제한 뒤                                  |
+| `bun run gen:resume` | `src/content/resume/*.yaml`을 고친 뒤 (PDF 재생성)         |
+| `bun run ui:add`     | shadcn 컴포넌트 추가                                       |
 
 `typecheck`는 `tsc`가 아니라 `astro check`다 — `.astro` 파일은 tsc가 못 읽는다.
 
 ### 생성물은 손대지 않는다
 
-`src/api/`, `src/@types/`는 생성물이고 **커밋되어 있다**.
-(Bun이 루트 패키지의 `prepare`/`postinstall`을 실행하지 않아서, 설치 시 재생성 훅은
-조용히 아무 일도 안 한다. 그래서 커밋한다.)
+`src/@types/`, `src/locales/**`(값 제외), `public/resume-*.pdf`는 생성물이고
+**커밋되어 있다**. (Bun이 루트 패키지의 `prepare`/`postinstall`을 실행하지 않아서,
+설치 시 재생성 훅은 조용히 아무 일도 안 한다. 그래서 커밋한다.)
 
-손으로 고치면 다음 `bun run gen`에 사라진다. 에디터에서도 읽기 전용으로 잠겨 있다.
-CI는 `bun run gen` 후 `git diff --exit-code`로 최신인지 검증한다.
+손으로 고치면 다음 `bun run gen`에 사라진다. CI는 `bun run gen` 후
+`git diff --exit-code`로 최신인지 검증한다.
+
+**PDF만 예외로 CI에서 안 만든다.** GitHub Actions의 우분투 이미지에는 한글 폰트가 없어서
+글자가 전부 두부(□)로 나온다. 로컬에서 `bun run gen:resume`을 돌려 커밋한다.
 
 ## 2. 아키텍처 — MVVM + feature-first
 
@@ -41,12 +45,14 @@ src/
 │   ├── components/
 │   │   ├── ui/                #   프리미티브 (shadcn CLI 생성, 손으로 안 만든다)
 │   │   └── layout/            #   앱을 아는 조합 컴포넌트 (AppProviders 포함)
-│   ├── lib/                   #   라이브러리 설정·싱글턴 (i18n, dayjs, api)
+│   ├── lib/                   #   라이브러리 설정·싱글턴 (i18n, dayjs, site)
 │   └── utils/                 #   순수 헬퍼 (cn)
+├── content.config.ts          # collection 정의. 스키마는 각 feature의 models가 소유한다
+├── content/                   # MDX·yaml 원본 (projects, posts, resume)
 ├── features/<name>/
 │   ├── index.ts               #   feature 배럴 — 바깥에서 볼 수 있는 유일한 표면
-│   ├── models/                #   생성 타입·zod를 도메인 이름으로 재export
-│   ├── viewmodels/            #   훅. 쿼리·뮤테이션·클라이언트 상태·순수 로직
+│   ├── models/                #   콘텐츠 zod 스키마와 도메인 타입
+│   ├── viewmodels/            #   훅과 순수 선택·정렬 로직
 │   └── views/
 │       ├── components/        #     props만 받는 표현 컴포넌트
 │       └── pages/             #     ViewModel을 호출하는 화면 전체 프레임
@@ -54,19 +60,27 @@ src/
 ├── pages/
 │   ├── _islands/               #   페이지가 마운트하는 하이드레이션 경계 하나.
 │   │                           #   `_` 접두사는 Astro 라우터가 라우트로 안 보게 하는 관례
-│   ├── index.astro, 404.astro  #   라우팅 + 아일랜드 마운트
+│   ├── [...lang]/              #   ko(`/`)와 en(`/en/`)을 한 파일에서 낸다
+│   ├── blog/[slug].astro       #   글은 원본 언어 한 벌이라 `[...lang]` 밖이다
+│   ├── resume/[lang].astro     #   PDF 원본. noindex
+│   ├── rss.xml.ts, 404.astro   #   피드 + 라우팅
 ├── locales/{ko,en}/           # i18next-cli 생성
 └── mocks/                     # MSW. dev·Storybook·vitest·Playwright 공유
 ```
 
 ### 계층 접근 규칙
 
-| 계층         | 책임                                 | 생성 API 접근                      |
-| ------------ | ------------------------------------ | ---------------------------------- |
-| Model        | 도메인 타입·zod. 로직 없음.          | `@/api/zod.gen`, `@/api/types.gen` |
-| ViewModel    | 페치·뮤테이션·무효화·클라이언트 상태 | `@/api/@tanstack/react-query.gen`  |
-| View         | UI                                   | **없음** — ViewModel 훅만          |
-| Page(.astro) | feature page 마운트                  | feature 배럴 + `pages/_islands/`만 |
+| 계층         | 책임                                | 콘텐츠 접근                      |
+| ------------ | ----------------------------------- | -------------------------------- |
+| Model        | zod 스키마·도메인 타입. 로직 없음.  | **`astro:content` 금지** — zod만 |
+| ViewModel    | 훅·선택·정렬·클라이언트 상태        | 없음 (props로 받는다)            |
+| View         | UI                                  | **없음** — ViewModel 훅만        |
+| Page(.astro) | `getCollection` → 아일랜드로 넘기기 | **`astro:content`는 여기서만**   |
+
+**Model이 `astro:content`를 import하면 안 되는 이유**: Storybook과 vitest가 그 가상 모듈을
+해석하지 못한다. `verbatimModuleSyntax: true`라서 `import { type CollectionEntry }`가 빈
+side-effect import로 런타임에 살아남아 실제로 터진다. 그래서 스키마의 방향이
+`features/*/models` → `src/content.config.ts`다 (반대가 아니다).
 
 한 방향이다. View↛Model, ViewModel↛View, Model↛상위.
 `eslint-plugin-boundaries`가 한국어 메시지로 막는다.
@@ -101,7 +115,7 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 - `@/common/<area>`만. `@/common`(루트 배럴)은 없고, `@/common/components/ui/button`은 금지.
 - 다른 feature는 `@/features/<name>` 배럴만. 내부 경로 직접 접근 금지.
 - 같은 feature 안에서는 `../models`, `../../viewmodels` 처럼 **디렉토리**를 가리킨다.
-- `@/api/**`는 위 표에 적힌 파일에서만.
+- `astro:content`·`astro:assets` 같은 Astro 빌드타임 가상 모듈은 `.astro`에서만.
 
 ### 배럴 규칙
 
@@ -116,30 +130,31 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 
 ### 완결 예시
 
-`src/features/todos/`가 전 계층을 한 번씩 다 보여준다. 새 기능을 만들 땐 여기를 그대로 베낀다.
+`src/features/projects/`가 전 계층을 한 번씩 다 보여준다. 새 기능을 만들 땐 여기를 베낀다.
 
-- `models/index.ts` — 생성 zod 재export + `TODO_TITLE_MAX` 같은 UI 상수
-- `viewmodels/sort-todos.ts` — React 없는 순수 로직 (+ `.test.ts`)
-- `viewmodels/use-todos.ts` — `useQuery(getTodosOptions())` + 뮤테이션 + **수동 invalidate**
-- `viewmodels/use-todo-filter.ts` — zustand + persist
-- `views/components/todo-list/` — props만 받음. `namespace Props`, `tv()`, dayjs
-- `views/components/todo-form/` — TanStack Form + ViewModel이 넘겨준 zod 스키마
-- `views/pages/todos-page.tsx` — 두 ViewModel 호출 + 화면 전체 조립
-- `pages/_islands/todos-island.tsx` — `AppProviders` + `TodosPage` 합본, 4줄
-- `pages/index.astro` — 그 아일랜드 하나에 `client:load`
+- `models/index.ts` — `projectSchema`(zod) + `PROJECT_DOMAINS` 같은 도메인 상수
+- `viewmodels/select-projects.ts` — React 없는 순수 로직 (+ `.test.ts`)
+- `viewmodels/use-domain-filter.ts` — URL 쿼리를 `useSyncExternalStore`로 읽는다
+- `views/components/project-card/` — props만 받음. `namespace Props`
+- `views/pages/projects-page.tsx` — ViewModel 호출 + 화면 조립
+- `pages/_islands/projects-island.tsx` — `AppProviders` + 페이지 합본
+- `pages/[...lang]/projects/index.astro` — `getCollection` → props → `client:load`
 
 ## 3. 새 기능 추가 절차
 
 `/new-feature <name>` 커맨드가 아래를 다 해준다. 손으로 할 때 빠뜨리기 쉬운 게 4·5번이다.
 
 1. `src/features/<name>/{models,viewmodels,views/{components,pages}}` + 각 `index.ts`
-2. `models/index.ts`에 생성 타입·zod 재export
-3. `viewmodels/use-<name>.ts` — 쿼리/뮤테이션. **invalidate는 여기서 손으로 쓴다** (코드젠이 안 넣어준다)
-4. `src/locales/{ko,en}/<name>.json` 생성
-5. `src/common/lib/i18n.ts`의 `I18N_NAMESPACES`와 `resources`에 등록
-6. `src/pages/_islands/<name>-island.tsx` — `AppProviders` + feature page 합본
-7. `src/pages/<name>.astro` — 그 아일랜드 하나만 `client:load`로 마운트
+2. `models/index.ts`에 zod 스키마. 콘텐츠면 `src/content.config.ts`가 그걸 import한다
+3. `viewmodels/select-<name>.ts` — 순수 선택·정렬 로직 (+ `.test.ts`)
+4. `src/common/lib/i18n.ts`의 `I18N_NAMESPACES`와 `resources`에 네임스페이스 등록
+5. `src/pages/_islands/<name>-island.tsx` — `AppProviders` + feature page 합본
+6. `src/pages/[...lang]/<name>/index.astro` — `getCollection` → props → 아일랜드
+7. `src/common/components/layout/site-header`의 `NAV_SECTIONS`에 한 줄
 8. `bun run gen && bun run check`
+
+로케일 JSON은 4번에서 만들지 않는다 — `t()`를 쓰고 `bun run gen:i18n`이 만든다.
+그 파일이 생긴 뒤에 i18n.ts에서 import한다(순서를 바꾸면 import가 깨진다).
 
 ## 4. UI
 
@@ -172,35 +187,55 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 - 색을 하드코딩하지 않는다. `src/styles.css`의 시맨틱 토큰(`bg-card`, `text-muted-foreground`)만.
 - 정렬은 `prettier-plugin-tailwindcss`가 한다. 손으로 정렬하지 않는다.
 
+### 이미지
+
+- **날 `<img>`는 린트 에러다.** `astro:assets`의 `<Image />`/`<Picture />`를 쓴다 —
+  WebP 변환·srcset·width/height가 자동으로 붙는다.
+- 최적화 대상은 `src/` 안의 이미지뿐이다. `public/`은 그대로 나간다(파비콘·OG·PDF만).
+- MDX 본문의 `![](../../assets/x.png)`도 같은 최적화를 탄다.
+- React 아일랜드는 `<Image />`를 못 쓴다. 그럴 땐 `.astro`에서 `getImage()`로 만든
+  src·srcset·width·height를 props로 넘기고, 그 줄에만 예외를 단다.
+
 ## 5. 데이터
 
-### Hey API 코드젠
+서버가 없다. 모든 콘텐츠는 빌드 타임에 `src/content/`에서 읽어 HTML로 굳는다.
 
-`openapi/example.json`(또는 `.env`의 `OPENAPI_INPUT`) → `bun run gen:api` → `src/api/`.
+### Content Collections
 
-| 필요한 것          | 어디서                                               |
-| ------------------ | ---------------------------------------------------- |
-| 타입               | `@/api/types.gen` (models에서만)                     |
-| zod 스키마         | `@/api/zod.gen` (models에서만)                       |
-| 쿼리/뮤테이션 옵션 | `@/api/@tanstack/react-query.gen` (viewmodels에서만) |
+| 컬렉션     | 원본                                 | 언어 처리                      |
+| ---------- | ------------------------------------ | ------------------------------ |
+| `projects` | `src/content/projects/{ko,en}/*.mdx` | 디렉토리. 슬러그가 hreflang 짝 |
+| `posts`    | `src/content/posts/*.mdx`            | frontmatter `lang`. 번역 없음  |
+| `resume`   | `src/content/resume/{ko,en}.yaml`    | 파일명이 곧 언어               |
 
-- GET → `getXxxOptions()` + `useQuery`
-- POST/PATCH/DELETE → `xxxMutation()` + `useMutation`
-- **무효화는 ViewModel에서 손으로.** `queryClient.invalidateQueries({ queryKey: getXxxQueryKey() })`
-- SDK가 `validator: true`로 응답을 이미 검증한다. ViewModel에서 다시 parse하지 않는다.
-- ViewModel은 mutation 객체를 그대로 반환하지 않는다. 좁은 도메인 액션·불리언·스키마만 준다.
+- 스키마는 **feature의 `models/`가 소유**하고 `src/content.config.ts`가 import한다.
+  방향을 뒤집으면 Storybook·vitest가 Model을 못 읽는다(2장 참고).
+- `getCollection()`은 빌드 타임 전용이다. `.astro`가 읽어서 아일랜드에 props로 넘긴다.
+- collection id를 손으로 자르지 않는다 — `parseProjectId()`처럼 검증하는 함수를 쓴다.
+  `as` 캐스트로 넘기면 잘못 놓인 파일이 조용히 이상한 라우트를 만든다.
+- `Date`는 경계에서 ISO 문자열로 바꾼다(`toPostSummary`). props로 넘어가며 어차피
+  직렬화되므로, 안 바꾸면 타입이 거짓말을 한다.
 
-### 폼
+### 런타임 상태
 
-`@tanstack/react-form`. react-hook-form 금지.
-zod v4는 Standard Schema라서 resolver 패키지 없이 `validators`에 그대로 넣는다.
-스키마는 ViewModel이 prop으로 넘긴다 — View가 Model을 import하지 않게.
+- `@tanstack/react-query`는 남아 있지만 **소비자가 아직 없다.** GitHub API(star 수,
+  기여 그래프)를 붙일 때 첫 소비자가 생긴다.
+- MSW도 같은 이유로 배선만 있다. `.env`의 `PUBLIC_ENABLE_MSW`는 기본 `false`다 —
+  목킹할 게 없는데 켜두면 서비스워커가 모든 요청을 경유시키다 `passthrough` 실패를 던진다.
+- **렌더를 막는 게이트를 만들지 않는다.** `if (!ready) return null`은 클라이언트에선 한
+  프레임이지만 빌드 타임에는 영원이다 — 아일랜드가 SSR을 통째로 건너뛰고 본문이
+  하이드레이션 `<template>`에 갇힌다. 로딩이 필요하면 그 쿼리에 `enabled`를 건다.
+- 폼이 필요해지면 `@tanstack/react-form`을 그때 다시 깐다. 지금은 `mailto:`뿐이다.
 
-### 상태
+### 이력서 PDF
 
-- 서버 상태 → TanStack Query. **zustand에 복사하지 않는다.**
-- 전역 클라이언트 상태 → zustand (`viewmodels/` 안에).
-- 화면 상태 → page의 `useState`.
+`src/content/resume/{ko,en}.yaml` 하나가 두 곳으로 나간다.
+
+- `/resume/{lang}/` — 인쇄용 문서, `noindex`. `bun run gen:resume`이 Chromium 인쇄
+  엔진으로 구워 `public/resume-{lang}.pdf`를 만든다.
+- `/about` — 그 PDF를 `<object>` 뷰어로 보여준다. 원본과 표시가 갈려 있어야 재귀가 없다.
+
+브라우저 인쇄 대화상자를 쓰지 않는 이유는 `scripts/gen-resume.ts` 주석에 있다.
 
 ## 6. i18n & dayjs
 
@@ -226,8 +261,8 @@ CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한
 - **키는 문자열이 아니라 셀렉터 함수로 부른다** (`enableSelector: true`, `i18next.config.ts`):
   `t(($) => $.form.submit)`. `t('form.submit')`은 쓰지 않는다 — 자동완성·정의로 이동·
   오타 시 컴파일 에러가 이 형태에서만 나온다.
-- 컴포넌트는 **네임스페이스 하나를 바인딩**한다: `useTranslation('todos')`.
-  셀렉터는 그 네임스페이스 기준으로 풀린다 (`$.form.submit` = `todos:form.submit`).
+- 컴포넌트는 **네임스페이스 하나를 바인딩**한다: `useTranslation('projects')`.
+  셀렉터는 그 네임스페이스 기준으로 풀린다 (`$.page.title` = `projects:page.title`).
 - 다른 네임스페이스 키가 필요하면 `t(($) => $.actions.switchLanguage, { ns: 'common' })`처럼
   옵션으로 넘긴다.
 - 값 보간은 옵션 객체로: `t(($) => $.page.remaining, { value: remaining })`.
@@ -235,15 +270,23 @@ CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한
 - **`extractFromComments`가 켜져 있다.** 주석 안에 번역 호출을 그대로 써두면 진짜 키가 생긴다.
   주석에는 설명만 쓰고 호출 형태를 붙여넣지 않는다.
 - 동적 키는 셀렉터로 표현할 수 없다 — 정적 맵을 만들어서 각 항목을 셀렉터로 호출한다
-  (`todos-page.tsx`의 `filterLabel` 참고).
+  (`use-project-labels.ts` 참고).
 - `src/@types/i18next.d.ts`도 생성물이다. `enableSelector`를 바꾸려면 이 파일이 아니라
   `i18next.config.ts`의 `types.enableSelector`를 고치고 파일을 지운 뒤 `bun run gen:i18n`한다
   — 이미 존재하는 파일은 i18next-cli가 다시 쓰지 않는다 (최초 생성 시에만 config를 반영).
+- **문서 메타데이터는 `locales/`가 아니라 `common/lib/site.ts`에 둔다.** `<title>`·
+  description·OG는 `.astro`에서만 쓰이는데 `.astro`는 추출 대상이 아니라, 억지로 키를
+  만들면 `removeUnusedKeys`가 다음 `bun run gen`에 지운다.
+- 라우트 제목은 **`common:nav.*`를 재사용한다** (`i18n.getFixedT(lang, 'common')`).
+  그 키는 `SiteHeader`가 실제로 렌더해서 절대 안 지워진다. `.astro`에서만 쓰는 새 키를
+  만드는 순간 조용히 사라지는 쪽으로 간다.
 - dayjs 로케일은 `common/lib/dayjs.ts`가 i18next를 따라가게 해뒀다. 직접 `dayjs.locale()`을 부르지 않는다.
-- `navigator.language`로 브라우저 언어를 감지하는데, Astro는 초기 HTML을 서버(Node/Bun)에서도
-  한 번 그린다 — 거기 내장 `navigator`엔 `.language`가 없다. `common/lib/languages.ts`의
-  `detectLanguage()`가 이미 방어하고 있으니 그 패턴을 따른다 (`?.language` 한 군데만 옵셔널
-  체이닝하면 다음 `.split()`에서 터진다 — `?.language?.split()`까지 체이닝해야 한다).
+- **언어는 URL이 정한다.** `/`가 ko, `/en/`이 en이고 `[...lang]` rest 파라미터 하나가 둘을
+  같이 낸다. 브라우저 언어는 보지 않는다 — 정적 사이트에서 런타임 감지는 크롤러에게
+  한 벌만 보여줘서 hreflang을 만들 수 없다.
+- `getStaticPaths`가 반환하는 객체는 **매번 새로 만든다**(`languagePaths()`가 함수인 이유).
+  Astro가 라우트별로 그 객체에 내부 상태를 붙여서, 같은 인스턴스를 여러 라우트가 공유하면
+  두 번째 라우트부터 `NoMatchingStaticPathFound`로 빌드가 깨진다.
 
 ## 7. 테스트
 
@@ -251,7 +294,12 @@ CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한
   `play()`가 있으면 인터랙션 테스트가 된다. a11y 위반은 실패다.
 - 순수 로직만 `*.test.ts` (jsdom 프로젝트).
 - e2e는 사용자 여정 하나에 spec 하나. 컴포넌트 상태 조합은 Storybook이 이미 커버한다.
-- 목 데이터는 `src/mocks/handlers.ts` 한 곳. 네 군데가 공유한다.
+- **e2e는 dev가 아니라 빌드 결과물(`astro preview`)을 상대로 돈다.** RSS·sitemap·PDF 같은
+  빌드 산출물을 검사하고, dev 데몬과 포트를 다투지 않기 위해서다. `test:e2e`가 먼저 빌드한다.
+- 아일랜드는 Playwright의 actionability로 하이드레이션 여부를 알 수 없다. 클릭 전에
+  `astro-island[ssr]`가 0개가 될 때까지 기다린다(`e2e/projects.spec.ts`의 `waitForHydration`).
+- JS를 끈 컨텍스트로 본문이 읽히는지 보는 회귀 테스트가 있다. 아일랜드가 SSR을 건너뛰는
+  버그가 실제로 났었고, 브라우저에서는 안 보인다.
 - 비동기로 갱신되는 컨트롤은 Playwright `check()` 말고 `click()` + `toBeChecked()`.
   `check()`는 상태가 오기 전에 다시 클릭해서 되돌린다.
 - `bun run test:e2e`가 Claude Code 같은 AI 에이전트 환경에서 막히면 — Astro 7은 그런 환경을
@@ -280,14 +328,18 @@ CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한
 - 린트 규칙을 끄는 커밋을 만들지 않는다. 막히면 물어본다.
 - 생성물(`src/api`, `src/@types`)을 편집하지 않는다.
 
-## 11. 예제 지우기
+## 11. 지금 있는 것
 
-`bun run init`에서 이미 물어봤다면 끝났다. 나중에 지우려면:
+| 라우트                           | 내용                                   |
+| -------------------------------- | -------------------------------------- |
+| `/`, `/en/`                      | 히어로 + pinned 프로젝트 3 + 최근 글 3 |
+| `/projects/`, `/en/projects/`    | 도메인 필터(`?domain=`) + 카드 목록    |
+| `/projects/<slug>/` (+`/en/`)    | MDX 상세                               |
+| `/blog/`, `/en/blog/`            | 글 목록 (UI만 이중언어)                |
+| `/blog/<slug>/`                  | MDX 본문. 원본 언어 한 벌              |
+| `/about/`, `/en/about/`          | 소개·연락 + 이력서 PDF 뷰어            |
+| `/resume/{ko,en}/`               | PDF 원본. `noindex`                    |
+| `/rss.xml`, `/sitemap-index.xml` | 피드·색인                              |
 
-```sh
-rm -rf src/features/todos src/pages/_islands/todos-island.tsx src/locales/*/todos.json \
-       e2e/todos.spec.ts openapi/example.json
-```
-
-그리고 `src/common/lib/i18n.ts`(네임스페이스), `src/mocks/handlers.ts`(빈 배열)를 정리하고
-`src/pages/index.astro`가 새 아일랜드를 가리키도록 고친다.
+아직 안 채운 것: `src/content/resume/*.yaml`의 `timeline`·`skills`가 빈 배열이고,
+프로젝트가 하나뿐이다. `public/og.png`는 있다.

@@ -13,15 +13,19 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/** 툴바의 테마 스위처로 light/dark를 확인한다. */
 export const Default: Story = {};
 
-/** 영어판. 언어 버튼은 KO로 돌아가는 링크가 된다. */
+/** 섹션 안에 있을 때. 해당 네비 항목이 `aria-current="page"`로 강조된다. */
+export const CurrentSection: Story = {
+  args: { current: 'projects' },
+};
+
+/** 언어 버튼이 KO로 돌아가는 링크가 된다. */
 export const English: Story = {
   args: { lang: 'en', altHref: '/' },
 };
 
-/** 짝 문서가 없는 페이지 — 언어 버튼이 아예 안 나온다. */
+/** 짝 문서가 없는 페이지. */
 export const WithoutAlternate: Story = {
   args: { altHref: undefined },
 };

@@ -1,0 +1,43 @@
+---
+title: rhseung.me
+summary: A personal site built on Astro islands. This page is the result.
+domain: web
+stack: [astro, react, tailwindcss, typescript]
+start: 2026-08
+status: active
+pinned: true
+links:
+  repo: https://github.com/rhseung/rhseung
+---
+
+## Why
+
+A dozen repositories had piled up, and a list of GitHub repos showed none of what mattered:
+what each thing is, and why it was built that way. READMEs explain features, not judgment.
+
+## How
+
+**How much React belongs in a static site.** All-React hides the content behind JavaScript;
+all-Astro means hand-writing every interaction again. Astro islands split the difference —
+content freezes into HTML at build time, and exactly one island hydrates per route.
+With JavaScript off, the project list still reads.
+
+**Language moved into the URL.** It started as a client-side `i18n.changeLanguage()` toggle,
+which on a static site is effectively monolingual: crawlers see one copy of the HTML, so
+there is no way to emit hreflang or per-language canonicals. A single `[...lang]` rest
+parameter now emits `/` and `/en/` from one file.
+
+**The content schema is owned by the feature, not the config.** Putting the zod schema in
+`content.config.ts` would tie the Model layer to `astro:content`, which Storybook and vitest
+cannot resolve. Inverting the direction lets four consumers share one schema.
+
+## Result
+
+No theme flash on first paint, per-language URLs indexed separately, and a story for every
+component so accessibility violations fail CI. The résumé renders to screen and PDF from the
+same YAML.
+
+## Limits
+
+Project write-ups are still thin, and filtering has one axis — domain — so you cannot narrow
+by stack. That waits until there are more than a dozen entries.

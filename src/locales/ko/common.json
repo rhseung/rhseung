@@ -4,7 +4,13 @@
     "toggleTheme": "테마 바꾸기"
   },
   "app": {
-    "name": "template-fe / ssg"
+    "name": "rhseung"
+  },
+  "nav": {
+    "about": "소개",
+    "blog": "글",
+    "label": "주요 메뉴",
+    "projects": "프로젝트"
   },
   "notFound": {
     "action": "홈으로",

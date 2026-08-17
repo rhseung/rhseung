@@ -1,0 +1,37 @@
+{
+  "detail": {
+    "back": "All projects"
+  },
+  "domain": {
+    "backend": "Backend",
+    "graphics": "Graphics",
+    "systems": "Systems",
+    "web": "Web"
+  },
+  "empty": {
+    "description": "Try another domain.",
+    "title": "Nothing here yet"
+  },
+  "filter": {
+    "all": "All",
+    "label": "Filter by domain"
+  },
+  "links": {
+    "demo": "Demo",
+    "paper": "Paper",
+    "post": "Write-up",
+    "repo": "Repository"
+  },
+  "page": {
+    "description": "Things I built. Narrow by domain.",
+    "title": "Projects"
+  },
+  "period": {
+    "ongoing": "Present"
+  },
+  "status": {
+    "active": "Active",
+    "archived": "Archived",
+    "shipped": "Shipped"
+  }
+}

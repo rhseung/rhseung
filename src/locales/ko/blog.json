@@ -1,0 +1,16 @@
+{
+  "detail": {
+    "back": "글 목록"
+  },
+  "empty": {
+    "description": "곧 채웁니다.",
+    "title": "아직 쓴 글이 없습니다"
+  },
+  "item": {
+    "writtenIn": "글이 쓰인 언어"
+  },
+  "page": {
+    "description": "요즘 파고 있는 것들. 글은 쓴 언어 그대로 둡니다.",
+    "title": "글"
+  }
+}

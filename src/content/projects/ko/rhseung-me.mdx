@@ -1,0 +1,41 @@
+---
+title: rhseung.me
+summary: Astro 아일랜드 위에 올린 개인 사이트. 이 페이지가 그 결과물이다.
+domain: web
+stack: [astro, react, tailwindcss, typescript]
+start: 2026-08
+status: active
+pinned: true
+links:
+  repo: https://github.com/rhseung/rhseung
+---
+
+## 왜 만들었나
+
+프로젝트가 열 개 넘게 쌓였는데 GitHub 저장소 목록만으로는 "무엇을 왜 그렇게 만들었는지"가
+전혀 안 보였다. README는 기능을 설명하지 판단을 설명하지 않는다.
+
+## 어떻게 만들었나
+
+**정적 사이트에 React를 어디까지 넣을 것인가.** 전부 React로 가면 콘텐츠가 JS 뒤에 숨고,
+전부 Astro로 가면 필터·테마 토글 같은 상호작용을 다시 손으로 짜야 한다.
+Astro 아일랜드로 갈랐다 — 콘텐츠는 빌드타임에 HTML로 굳고, 라우트당 아일랜드 하나만
+하이드레이션된다. JS가 꺼져도 프로젝트 목록은 그대로 읽힌다.
+
+**언어를 URL로 옮겼다.** 처음엔 `i18n.changeLanguage()`로 토글했는데, 정적 사이트에서
+그건 사실상 단일언어다 — 크롤러가 보는 HTML이 한 벌뿐이라 hreflang도 언어별 canonical도
+만들 수 없다. `[...lang]` rest 파라미터 하나로 `/`와 `/en/`을 같은 파일에서 낸다.
+
+**콘텐츠 스키마를 feature가 소유하게 뒤집었다.** zod 스키마를 `content.config.ts`에 두면
+Model 계층이 `astro:content`에 묶여 Storybook과 vitest가 컴포넌트를 못 읽는다.
+방향을 반대로 두니 같은 스키마를 네 곳(Astro·Storybook·vitest·아일랜드)이 공유한다.
+
+## 결과
+
+첫 페인트에 테마 플래시가 없고, 언어별 URL이 각각 색인되고, 컴포넌트마다 스토리가 붙어
+있어 a11y 위반이 CI에서 잡힌다. 이력서는 같은 YAML에서 화면과 PDF로 동시에 나간다.
+
+## 한계
+
+프로젝트 상세가 아직 얇다. 필터도 도메인 한 축뿐이라 스택으로는 못 좁힌다 —
+항목이 열댓 개를 넘기면 그때 붙일 생각이다.

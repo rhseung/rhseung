@@ -1,0 +1,37 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+
+import { PostDetailIsland } from '@/pages/_islands/post-detail-island';
+import { SITE } from '@/common/lib';
+import { toPostSummary } from '@/features/blog';
+import BaseLayout from '@/layouts/base-layout.astro';
+
+/**
+ * `[...lang]` 밖이다 — 글은 쓴 언어 그대로 한 벌뿐이라, 언어별 URL을 두면 같은 본문이
+ * 두 주소에 걸려 중복 콘텐츠가 된다.
+ */
+export async function getStaticPaths() {
+  const entries: CollectionEntry<'posts'>[] = await getCollection(
+    'posts',
+    ({ data }: CollectionEntry<'posts'>) => !data.draft,
+  );
+
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+
+const post = toPostSummary(entry);
+const { Content } = await render(entry);
+---
+
+<BaseLayout
+  lang={post.lang}
+  title={`${post.title} — ${SITE.title[post.lang]}`}
+  description={post.summary}
+  type="article"
+>
+  <PostDetailIsland post={post} client:idle>
+    <Content />
+  </PostDetailIsland>
+</BaseLayout>

@@ -4,7 +4,13 @@
     "toggleTheme": "Toggle theme"
   },
   "app": {
-    "name": "template-fe / ssg"
+    "name": "rhseung"
+  },
+  "nav": {
+    "about": "About",
+    "blog": "Writing",
+    "label": "Main",
+    "projects": "Projects"
   },
   "notFound": {
     "action": "Back to home",

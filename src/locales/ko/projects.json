@@ -1,0 +1,37 @@
+{
+  "detail": {
+    "back": "프로젝트 목록"
+  },
+  "domain": {
+    "backend": "백엔드",
+    "graphics": "그래픽스",
+    "systems": "시스템",
+    "web": "웹"
+  },
+  "empty": {
+    "description": "다른 분야를 골라보세요.",
+    "title": "해당하는 프로젝트가 없습니다"
+  },
+  "filter": {
+    "all": "전체",
+    "label": "분야로 좁히기"
+  },
+  "links": {
+    "demo": "데모",
+    "paper": "논문",
+    "post": "관련 글",
+    "repo": "저장소"
+  },
+  "page": {
+    "description": "직접 만든 것들. 분야로 좁혀서 볼 수 있습니다.",
+    "title": "프로젝트"
+  },
+  "period": {
+    "ongoing": "현재"
+  },
+  "status": {
+    "active": "진행 중",
+    "archived": "보관",
+    "shipped": "완료"
+  }
+}

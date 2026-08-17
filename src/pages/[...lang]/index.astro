@@ -1,13 +1,32 @@
 ---
+import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+
 import { HomeIsland } from '@/pages/_islands/home-island';
-import { LANGUAGE_PATHS, SITE, localeHref } from '@/common/lib';
+import { languagePaths, SITE, localeHref } from '@/common/lib';
+import { pickRecent, toPostSummary } from '@/features/blog';
+import { pickPinned, toProjectSummary } from '@/features/projects';
 import BaseLayout from '@/layouts/base-layout.astro';
 
 export function getStaticPaths() {
-  return LANGUAGE_PATHS;
+  return languagePaths();
 }
 
 const { lang } = Astro.props;
+
+const projectEntries: CollectionEntry<'projects'>[] = await getCollection(
+  'projects',
+  ({ id, data }: CollectionEntry<'projects'>) => id.startsWith(`${lang}/`) && !data.draft,
+);
+const postEntries: CollectionEntry<'posts'>[] = await getCollection(
+  'posts',
+  ({ data }: CollectionEntry<'posts'>) => !data.draft,
+);
+
+const resume = await getEntry('resume', lang);
+if (!resume) throw new Error(`src/content/resume/${lang}.yaml 이 없습니다`);
+
+const pinned = pickPinned(projectEntries.map(toProjectSummary), 3);
+const recent = pickRecent(postEntries.map(toPostSummary), 3);
 ---
 
 <BaseLayout
@@ -15,5 +34,11 @@ const { lang } = Astro.props;
   title={SITE.title[lang]}
   alternates={{ ko: localeHref('ko', '/'), en: localeHref('en', '/') }}
 >
-  <HomeIsland lang={lang} client:load />
+  <HomeIsland
+    lang={lang}
+    headline={resume.data.headline}
+    pinned={pinned}
+    recent={recent}
+    client:load
+  />
 </BaseLayout>

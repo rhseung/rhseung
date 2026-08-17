@@ -1,4 +1,6 @@
+import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 
@@ -27,7 +29,15 @@ export default defineConfig({
     routing: { prefixDefaultLocale: false },
   },
 
-  integrations: [react()],
+  // 본문 이미지 기본값. 원본 크기를 넘지 않는 선에서 컨테이너에 맞추고 srcset을 자동 생성한다.
+  image: { layout: 'constrained' },
+
+  integrations: [
+    react(),
+    mdx(),
+    // `[...lang]` 라우팅과 맞물려 alternate 링크가 자동으로 들어간다.
+    sitemap({ i18n: { defaultLocale: 'ko', locales: { ko: 'ko-KR', en: 'en-US' } } }),
+  ],
 
   vite: {
     plugins: [tailwindcss()],

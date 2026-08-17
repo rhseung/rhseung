@@ -1,0 +1,19 @@
+# Screen (/en/about) and PDF (public/resume-en.pdf) both come from this file.
+# Edit it, run `bun run gen:resume`, and both update.
+
+headline: I build web apps — and the languages and runtimes they run on.
+
+intro: >-
+  I move between frontend work and systems programming. Using an abstraction
+  layer and building one teach different things, and I want both.
+
+contact:
+  email: ryu@rhseung.me
+  github: https://github.com/rhseung
+  site: https://rhseung.me
+
+# TODO: schools, jobs, roles — most recent first. Empty means the section is dropped.
+timeline: []
+
+# TODO: grouped. No proficiency bars — breadth reads as "mediocre at everything".
+skills: []

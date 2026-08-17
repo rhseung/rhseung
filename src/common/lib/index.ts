@@ -5,4 +5,4 @@ import './dayjs';
 export { dayjs } from './dayjs';
 export { I18N_NAMESPACES, i18n, type I18nNamespace } from './i18n';
 export { DEFAULT_LANGUAGE, LANGUAGES, isLanguage, langFromParam, type Language } from './languages';
-export { LANGUAGE_PATHS, SITE, localeHref } from './site';
+export { languagePaths, SITE, localeHref } from './site';

@@ -1,6 +1,9 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+/* MDX 본문(`prose`). */
+@plugin '@tailwindcss/typography';
+
 /* shadcn/ui는 `.dark`를 토글한다. `[data-theme=dark]`를 같이 둔 건 SSR/SSG로 옮겼을 때
    <html>에 속성을 박아 깜빡임 없이 처리하기 위해서다. 둘 다 동작한다. */
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *, .dark, .dark *));

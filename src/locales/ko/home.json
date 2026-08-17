@@ -1,0 +1,10 @@
+{
+  "hero": {
+    "projects": "프로젝트 보기"
+  },
+  "sections": {
+    "about": "더 자세히 →",
+    "posts": "최근 글",
+    "projects": "골라둔 것"
+  }
+}

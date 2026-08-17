@@ -1,0 +1,10 @@
+{
+  "hero": {
+    "projects": "See projects"
+  },
+  "sections": {
+    "about": "More about me →",
+    "posts": "Recent writing",
+    "projects": "Selected work"
+  }
+}

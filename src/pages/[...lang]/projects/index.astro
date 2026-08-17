@@ -1,0 +1,30 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+import { ProjectsIsland } from '@/pages/_islands/projects-island';
+import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
+import { toProjectSummary } from '@/features/projects';
+import BaseLayout from '@/layouts/base-layout.astro';
+
+export function getStaticPaths() {
+  return languagePaths();
+}
+
+const { lang } = Astro.props;
+
+// `getCollection()`은 빌드타임 전용이다 — 아일랜드(클라이언트)에서는 못 부른다.
+// 그래서 `.astro`가 읽어서 props로 넘긴다. 이게 이 프로젝트에서 `.astro`가 하는 유일한 일이다.
+const entries = await getCollection(
+  'projects',
+  ({ id, data }: CollectionEntry<'projects'>) => id.startsWith(`${lang}/`) && !data.draft,
+);
+const projects = entries.map(toProjectSummary);
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${i18n.getFixedT(lang, 'common')(($) => $.nav.projects)} — ${SITE.title[lang]}`}
+  alternates={{ ko: localeHref('ko', '/projects'), en: localeHref('en', '/projects') }}
+>
+  <ProjectsIsland lang={lang} projects={projects} client:load />
+</BaseLayout>

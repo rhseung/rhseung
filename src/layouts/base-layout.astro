@@ -11,6 +11,8 @@ interface Props {
   /** OG 이미지 경로. 사이트 루트 기준. */
   image?: string;
   type?: 'website' | 'article';
+  /** PDF 원본처럼 사람이 직접 볼 페이지가 아닌 라우트. */
+  noindex?: boolean;
 }
 
 const {
@@ -20,6 +22,7 @@ const {
   alternates,
   image = SITE.ogImage,
   type = 'website',
+  noindex = false,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -37,6 +40,7 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
 
     {
       alternates &&
@@ -52,6 +56,8 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
     <meta property="og:locale" content={lang === 'ko' ? 'ko_KR' : 'en_US'} />
     {ogImage && <meta property="og:image" content={ogImage} />}
     <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+
+    <link rel="alternate" type="application/rss+xml" title={SITE.title[lang]} href="/rss.xml" />
 
     {
       /*

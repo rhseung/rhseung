@@ -1,0 +1,25 @@
+---
+import { getEntry } from 'astro:content';
+
+import { ResumeIsland } from '@/pages/_islands/resume-island';
+import { LANGUAGES, SITE } from '@/common/lib';
+import BaseLayout from '@/layouts/base-layout.astro';
+
+/**
+ * PDF 원본. `bun run gen:resume`이 이 페이지를 Chromium 인쇄 엔진으로 구워
+ * `public/resume-{lang}.pdf`를 만든다. 사람이 직접 볼 페이지가 아니라 `noindex`다 —
+ * 방문자는 `/about`의 뷰어로 본다.
+ */
+export function getStaticPaths() {
+  return LANGUAGES.map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props;
+
+const entry = await getEntry('resume', lang);
+if (!entry) throw new Error(`src/content/resume/${lang}.yaml 이 없습니다`);
+---
+
+<BaseLayout lang={lang} title={`${SITE.name[lang]} — CV`} noindex>
+  <ResumeIsland lang={lang} name={SITE.name[lang]} resume={entry.data} />
+</BaseLayout>
