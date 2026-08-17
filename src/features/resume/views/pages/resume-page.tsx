@@ -1,18 +1,18 @@
 import { DownloadSimpleIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { buttonVariants } from '@/common/components';
+import { SiteDock, buttonVariants } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
-import type { ProjectSummary } from '@/features/projects';
+import type { Project } from '@/features/projects';
 
 import { ResumeDocument } from '../components';
 
-import type { AwardSummary, CareerSummary, Resume, SkillGroup } from '../../viewmodels';
+import type { Award, CareerEntry, Profile, SkillGroup } from '../../viewmodels';
 
 export function ResumePage({
   lang,
   name,
-  resume,
+  profile,
   experience,
   education,
   projects,
@@ -24,8 +24,6 @@ export function ResumePage({
 
   return (
     <div className="bg-muted/40 min-h-dvh print:bg-transparent">
-      <div className="print:hidden"></div>
-
       <main className="mx-auto flex max-w-3xl flex-col gap-4 px-4 py-10 print:max-w-none print:gap-0 print:px-0 print:py-0">
         <div className="flex items-center justify-end print:hidden">
           <a href={resumeHref} download className={buttonVariants({ size: 'sm' })}>
@@ -37,16 +35,21 @@ export function ResumePage({
         <div className="bg-card border-border rounded-xl border p-8 shadow-sm sm:p-12 print:rounded-none print:border-0 print:p-0 print:shadow-none">
           <ResumeDocument
             name={name}
-            resume={resume}
+            profile={profile}
             experience={experience}
             education={education}
             projects={projects}
             awards={awards}
             skills={skills}
-            detailHref={(_section, slug) => localeHref(lang, `/career/${slug}`)}
           />
         </div>
       </main>
+
+      <SiteDock
+        lang={lang}
+        current="resume"
+        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/resume')}
+      />
     </div>
   );
 }
@@ -55,12 +58,13 @@ export declare namespace ResumePage {
   export type Props = {
     lang: Language;
     name: string;
-    resume: Resume;
-    experience: CareerSummary[];
-    education: CareerSummary[];
-    projects: ProjectSummary[];
-    awards: AwardSummary[];
+    profile: Profile;
+    experience: CareerEntry[];
+    education: CareerEntry[];
+    projects: Project[];
+    awards: Award[];
     skills: SkillGroup[];
+    /** 빌드가 구워둔 PDF 경로. */
     resumeHref: string;
   };
 }

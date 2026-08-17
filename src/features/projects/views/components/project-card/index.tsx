@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Badge, Card, CardContent, CardHeader, CardTitle, ExternalLink } from '@/common/components';
 
-import { projectHref, useProjectLabels, type ProjectSummary } from '../../../viewmodels';
+import { projectHref, useProjectLabels, type Project } from '../../../viewmodels';
 
 function formatMonth(value: string) {
   return value.replace('-', '.');
@@ -104,7 +104,7 @@ export function ProjectCard({ project, detailHref }: ProjectCard.Props) {
 
 export declare namespace ProjectCard {
   export type Props = {
-    project: ProjectSummary;
+    project: Project;
     detailHref: string;
   };
 }

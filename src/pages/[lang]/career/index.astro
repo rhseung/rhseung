@@ -1,9 +1,7 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
-
 import { CareerIsland } from '@/pages/_islands/resume-islands';
 import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
-import { toAwardSummary, toCareerSummary, toSkillGroup } from '@/features/resume';
+import { awardsOf, educationOf, experienceOf, skillGroupsOf } from '@/features/resume';
 import BaseLayout from '@/layouts/base-layout.astro';
 
 export function getStaticPaths() {
@@ -11,25 +9,6 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.props;
-const mine = (id: string) => id.startsWith(`${lang}/`);
-
-const experience: CollectionEntry<'experience'>[] = await getCollection(
-  'experience',
-  ({ id, data }: CollectionEntry<'experience'>) => mine(id) && !data.draft,
-);
-const education: CollectionEntry<'education'>[] = await getCollection(
-  'education',
-  ({ id, data }: CollectionEntry<'education'>) => mine(id) && !data.draft,
-);
-const awards: CollectionEntry<'awards'>[] = await getCollection(
-  'awards',
-  ({ id, data }: CollectionEntry<'awards'>) => mine(id) && !data.draft,
-);
-const skills: CollectionEntry<'skills'>[] = await getCollection(
-  'skills',
-  ({ id, data }: CollectionEntry<'skills'>) => mine(id) && !data.draft,
-);
-
 const t = i18n.getFixedT(lang, 'common');
 ---
 
@@ -40,10 +19,10 @@ const t = i18n.getFixedT(lang, 'common');
 >
   <CareerIsland
     lang={lang}
-    experience={experience.map(toCareerSummary)}
-    education={education.map(toCareerSummary)}
-    awards={awards.map(toAwardSummary)}
-    skills={skills.map(toSkillGroup)}
+    experience={experienceOf(lang)}
+    education={educationOf(lang)}
+    awards={awardsOf(lang)}
+    skills={skillGroupsOf(lang)}
     client:load
   />
 </BaseLayout>

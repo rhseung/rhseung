@@ -1,51 +1,29 @@
-import { z } from 'zod';
+import { DEFAULT_LANGUAGE, type Language } from '@/common/lib';
 
-export const PROJECT_DOMAINS = ['web', 'systems', 'backend', 'graphics'] as const;
+import { PROJECTS } from './data';
+import { projectsTextEN } from './text.en';
+import { projectsTextKO } from './text.ko';
 
-export type ProjectDomain = (typeof PROJECT_DOMAINS)[number];
+import type { Project, ProjectsText } from './types';
 
-export const PROJECT_STATUSES = ['active', 'shipped', 'archived'] as const;
+export { PROJECT_DOMAINS, PROJECT_STATUSES } from './types';
+export type { Project, ProjectDomain, ProjectStatus } from './types';
 
-export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
-
-export const PROJECT_SUMMARY_MAX = 160;
-
-export const PROJECT_STACK_MAX = 6;
-
-const yearMonth = () =>
-  z.string().regex(/^\d{4}-(?:0[1-9]|1[0-2])$/, 'YYYY-MM 형식이어야 합니다 (예: 2024-03)');
+const TEXT: Record<Language, ProjectsText> = { ko: projectsTextKO, en: projectsTextEN };
 
 /**
- * 이 스키마가 곧 `src/content.config.ts`의 collection 스키마다. 방향이 반대면
- * Model이 `astro:content`에 의존하는데, Storybook과 vitest는 그 가상 모듈을 못 읽는다.
+ * 구조와 번역문을 슬러그로 이어 붙인다.
+ * `detailSlugs`는 그 언어로 MDX 본문이 있는 슬러그 — 라우트가 실제로 존재하는 것만 담는다.
  */
-export const projectSchema = () =>
-  z.object({
-    title: z.string().min(1),
-    summary: z.string().min(1).max(PROJECT_SUMMARY_MAX),
-    domain: z.enum(PROJECT_DOMAINS),
-    stack: z.array(z.string()).min(1).max(PROJECT_STACK_MAX),
-    start: yearMonth(),
-    end: yearMonth().optional(),
-    status: z.enum(PROJECT_STATUSES),
+export function projectsOf(
+  lang: Language,
+  detailSlugs: ReadonlySet<string> = new Set(),
+): Project[] {
+  const text = TEXT[lang] ?? TEXT[DEFAULT_LANGUAGE];
 
-    pinned: z.boolean().default(false),
-    highlight: z.string().optional(),
-    links: z
-      .object({
-        repo: z.url().optional(),
-        demo: z.url().optional(),
-        /** 배포된 패키지 — PyPI·npm·Modrinth 등. 저장소도 데모도 아니다. */
-        package: z.url().optional(),
-        post: z.url().optional(),
-        paper: z.url().optional(),
-      })
-      .optional(),
-    cover: z.string().optional(),
-    draft: z.boolean().default(false),
-  });
-
-export type Project = z.infer<ReturnType<typeof projectSchema>>;
-
-/** `hasDetail`이 false면 상세 페이지가 없고 카드가 저장소·데모로 보낸다. */
-export type ProjectSummary = Project & { slug: string; hasDetail: boolean };
+  return PROJECTS.map((project) => ({
+    ...project,
+    ...text[project.slug],
+    hasDetail: detailSlugs.has(project.slug),
+  }));
+}

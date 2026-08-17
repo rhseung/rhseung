@@ -1,7 +1,7 @@
 import { ExternalLink } from '@/common/components';
 import { cn } from '@/common/utils';
 
-import type { CareerSummary } from '../../../viewmodels';
+import type { CareerEntry } from '../../../viewmodels';
 
 function formatMonth(value: string) {
   return value.replace('-', '.');
@@ -10,7 +10,6 @@ function formatMonth(value: string) {
 export function CareerList({
   entries,
   ongoingLabel,
-  detailHref,
   headingLevel = 3,
   timeline = false,
 }: CareerList.Props) {
@@ -25,7 +24,6 @@ export function CareerList({
         const period = ongoing
           ? `${formatMonth(item.start)} – ${ongoingLabel}`
           : `${formatMonth(item.start)} – ${formatMonth(item.end ?? '')}`;
-        const href = item.hasDetail ? detailHref(item) : undefined;
 
         return (
           <li
@@ -66,15 +64,7 @@ export function CareerList({
                 />
               )}
               {/* 소속이 제목, 역할이 부제 — 이력서를 훑을 때 눈이 먼저 찾는 건 학교·회사다. */}
-              <Heading className="font-medium">
-                {href ? (
-                  <a href={href} className="hover:underline">
-                    {item.org}
-                  </a>
-                ) : (
-                  item.org
-                )}
-              </Heading>
+              <Heading className="font-medium">{item.org}</Heading>
               <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
             </div>
 
@@ -83,10 +73,10 @@ export function CareerList({
               <p className="text-muted-foreground text-sm leading-relaxed">{item.summary}</p>
             )}
 
-            {item.achievements.length > 0 && (
+            {(item.achievements?.length ?? 0) > 0 && (
               // 항목에 딸린 것이지 나란한 게 아니다 — 한 단 더 들어간 레일로 표시한다.
               <ul className="border-border/60 mt-1 flex flex-col gap-1 border-l pl-3">
-                {item.achievements.map((achievement) => (
+                {item.achievements?.map((achievement) => (
                   <li key={achievement} className="text-muted-foreground text-xs leading-relaxed">
                     {achievement}
                   </li>
@@ -111,9 +101,8 @@ export function CareerList({
 
 export declare namespace CareerList {
   export type Props = {
-    entries: CareerSummary[];
+    entries: CareerEntry[];
     ongoingLabel: string;
-    detailHref: (entry: CareerSummary) => string;
     /** 제목 레벨은 건너뛰면 안 된다 — 이력서 안에서는 h2 아래라 3, 섹션 페이지에서는 2. */
     headingLevel?: 2 | 3;
     /** 기간이 핵심인 목록에 시간 축을 그린다. 진행 중인 항목은 점이 채워진다. */

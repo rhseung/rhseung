@@ -19,7 +19,6 @@ const meta = {
       status: 'active',
       pinned: true,
       hasDetail: true,
-      draft: false,
       links: { repo: 'https://github.com/rhseung/lumen' },
     },
   },

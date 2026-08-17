@@ -1,12 +1,12 @@
 import { AppProviders } from '@/common/components';
 import type { Language } from '@/common/lib';
-import type { ProjectSummary } from '@/features/projects';
+import type { Project } from '@/features/projects';
 import {
   CareerPage,
   ResumePage,
-  type AwardSummary,
-  type CareerSummary,
-  type Resume,
+  type Award,
+  type CareerEntry,
+  type Profile,
   type SkillGroup,
 } from '@/features/resume';
 
@@ -35,9 +35,9 @@ export function ResumeIsland(props: ResumeIsland.Props) {
 export declare namespace CareerIsland {
   export type Props = {
     lang: Language;
-    experience: CareerSummary[];
-    education: CareerSummary[];
-    awards: AwardSummary[];
+    experience: CareerEntry[];
+    education: CareerEntry[];
+    awards: Award[];
     skills: SkillGroup[];
   };
 }
@@ -46,11 +46,11 @@ export declare namespace ResumeIsland {
   export type Props = {
     lang: Language;
     name: string;
-    resume: Resume;
-    experience: CareerSummary[];
-    education: CareerSummary[];
-    projects: ProjectSummary[];
-    awards: AwardSummary[];
+    profile: Profile;
+    experience: CareerEntry[];
+    education: CareerEntry[];
+    projects: Project[];
+    awards: Award[];
     skills: SkillGroup[];
     resumeHref: string;
   };

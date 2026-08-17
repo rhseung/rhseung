@@ -2,10 +2,10 @@ import { expect, userEvent, within } from 'storybook/test';
 
 import { ProjectsPage } from '.';
 
-import type { ProjectSummary } from '../../viewmodels';
+import type { Project } from '../../viewmodels';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-const projects: ProjectSummary[] = [
+const projects: Project[] = [
   {
     slug: 'lumen',
     title: 'Lumen',
@@ -16,7 +16,6 @@ const projects: ProjectSummary[] = [
     status: 'active',
     pinned: true,
     highlight: '파싱 3.2× 빠름 (12k LOC 기준)',
-    draft: false,
     hasDetail: true,
   },
   {
@@ -28,7 +27,6 @@ const projects: ProjectSummary[] = [
     start: '2026-08',
     status: 'active',
     pinned: true,
-    draft: false,
     hasDetail: true,
   },
   {
@@ -41,7 +39,6 @@ const projects: ProjectSummary[] = [
     end: '2023-09',
     status: 'archived',
     pinned: false,
-    draft: false,
     hasDetail: true,
   },
 ];

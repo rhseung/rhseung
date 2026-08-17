@@ -1,10 +1,11 @@
 ---
-import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 
 import { HomeIsland } from '@/pages/_islands/home-island';
 import { languagePaths, SITE, localeHref } from '@/common/lib';
 import { pickRecent, toPostSummary } from '@/features/blog';
-import { pickPinned, toProjectSummary } from '@/features/projects';
+import { pickPinned, projectsOf } from '@/features/projects';
+import { profileOf } from '@/features/resume';
 import BaseLayout from '@/layouts/base-layout.astro';
 
 export function getStaticPaths() {
@@ -13,20 +14,17 @@ export function getStaticPaths() {
 
 const { lang } = Astro.props;
 
-const projectEntries: CollectionEntry<'projects'>[] = await getCollection(
-  'projects',
-  ({ id, data }: CollectionEntry<'projects'>) => id.startsWith(`${lang}/`) && !data.draft,
+const details: CollectionEntry<'projects'>[] = await getCollection('projects');
+const detailSlugs = new Set(
+  details.filter((entry) => entry.id.startsWith(`${lang}/`)).map((entry) => entry.id.split('/')[1]),
 );
+
 const postEntries: CollectionEntry<'posts'>[] = await getCollection(
   'posts',
   ({ data }: CollectionEntry<'posts'>) => !data.draft,
 );
 
-const resume = await getEntry('resume', lang);
-if (!resume) throw new Error(`src/content/resume/${lang}.yaml 이 없습니다`);
-
-const pinned = pickPinned(projectEntries.map(toProjectSummary), 3);
-const recent = pickRecent(postEntries.map(toPostSummary), 3);
+const profile = profileOf(lang);
 ---
 
 <BaseLayout
@@ -36,10 +34,10 @@ const recent = pickRecent(postEntries.map(toPostSummary), 3);
 >
   <HomeIsland
     lang={lang}
-    headline={resume.data.headline}
-    intro={resume.data.intro}
-    pinned={pinned}
-    recent={recent}
+    headline={profile.headline}
+    intro={profile.intro}
+    pinned={pickPinned(projectsOf(lang, detailSlugs), 3)}
+    recent={pickRecent(postEntries.map(toPostSummary), 3)}
     client:load
   />
 </BaseLayout>

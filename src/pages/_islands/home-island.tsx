@@ -2,7 +2,7 @@ import { AppProviders } from '@/common/components';
 import type { Language } from '@/common/lib';
 import type { PostSummary } from '@/features/blog';
 import { HomePage } from '@/features/home';
-import type { ProjectSummary } from '@/features/projects';
+import type { Project } from '@/features/projects';
 
 /**
  * `.astro`에서 프레임워크 컴포넌트를 직접 중첩하면 Astro가 자식을 별도 렌더 패스로 처리해서
@@ -21,7 +21,7 @@ export declare namespace HomeIsland {
     lang: Language;
     headline: string;
     intro?: string;
-    pinned: ProjectSummary[];
+    pinned: Project[];
     recent: PostSummary[];
   };
 }

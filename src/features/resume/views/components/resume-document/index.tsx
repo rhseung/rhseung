@@ -1,14 +1,15 @@
 import { useTranslation } from 'react-i18next';
 
-import type { ProjectSummary } from '@/features/projects';
+import { SITE } from '@/common/lib';
+import type { Project } from '@/features/projects';
 
 import {
   sortAwards,
   sortCareer,
   sortSkillGroups,
-  type AwardSummary,
-  type CareerSummary,
-  type Resume,
+  type Award,
+  type CareerEntry,
+  type Profile,
   type SkillGroup,
 } from '../../../viewmodels';
 import { AwardList } from '../award-list';
@@ -27,19 +28,18 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 /**
- * `/about`이 화면에 그리고 `gen:resume`이 같은 페이지를 PDF로 굽는다.
+ * `/{lang}/resume/`가 화면에 그리고 빌드가 같은 페이지를 PDF로 굽는다.
  *
- * 섹션 내용은 이 문서가 소유하지 않는다 — 각 컬렉션에서 와서 여기로 모인다.
+ * 섹션 내용은 이 문서가 소유하지 않는다 — 각 데이터 모듈에서 와서 여기로 모인다.
  */
 export function ResumeDocument({
   name,
-  resume,
+  profile,
   experience,
   education,
   projects,
   awards,
   skills,
-  detailHref,
 }: ResumeDocument.Props) {
   const { t } = useTranslation('resume');
 
@@ -47,37 +47,28 @@ export function ResumeDocument({
     <article className="flex flex-col gap-8">
       <header className="flex flex-col gap-3">
         <h1 className="text-3xl font-semibold tracking-tight">{name}</h1>
-        <p className="text-sm leading-relaxed">{resume.headline}</p>
-        {resume.intro && (
-          <p className="text-muted-foreground text-sm leading-relaxed">{resume.intro}</p>
+        <p className="text-sm leading-relaxed">{profile.headline}</p>
+        {profile.intro && (
+          <p className="text-muted-foreground text-sm leading-relaxed">{profile.intro}</p>
         )}
 
         <ul className="text-muted-foreground flex flex-wrap gap-x-4 gap-y-1 text-xs">
-          {resume.location && <li>{resume.location}</li>}
-          <li>{resume.contact.email}</li>
-          <li>{resume.contact.github.replace('https://', '')}</li>
-          {resume.contact.linkedin && <li>{resume.contact.linkedin.replace('https://', '')}</li>}
-          {resume.contact.site && <li>{resume.contact.site.replace('https://', '')}</li>}
+          {profile.location && <li>{profile.location}</li>}
+          <li>{SITE.email}</li>
+          <li>{SITE.github.replace('https://', '')}</li>
+          <li>{SITE.url.replace('https://', '')}</li>
         </ul>
       </header>
 
       {experience.length > 0 && (
         <Section title={t(($) => $.experience.title)}>
-          <CareerList
-            entries={sortCareer(experience)}
-            ongoingLabel={t(($) => $.period.ongoing)}
-            detailHref={(entry) => detailHref('experience', entry.slug)}
-          />
+          <CareerList entries={sortCareer(experience)} ongoingLabel={t(($) => $.period.ongoing)} />
         </Section>
       )}
 
       {education.length > 0 && (
         <Section title={t(($) => $.education.title)}>
-          <CareerList
-            entries={sortCareer(education)}
-            ongoingLabel={t(($) => $.period.ongoing)}
-            detailHref={(entry) => detailHref('education', entry.slug)}
-          />
+          <CareerList entries={sortCareer(education)} ongoingLabel={t(($) => $.period.ongoing)} />
         </Section>
       )}
 
@@ -103,10 +94,7 @@ export function ResumeDocument({
 
       {awards.length > 0 && (
         <Section title={t(($) => $.awards.title)}>
-          <AwardList
-            awards={sortAwards(awards)}
-            detailHref={(award) => detailHref('awards', award.slug)}
-          />
+          <AwardList awards={sortAwards(awards)} />
         </Section>
       )}
 
@@ -122,12 +110,11 @@ export function ResumeDocument({
 export declare namespace ResumeDocument {
   export type Props = {
     name: string;
-    resume: Resume;
-    experience: CareerSummary[];
-    education: CareerSummary[];
-    projects: ProjectSummary[];
-    awards: AwardSummary[];
+    profile: Profile;
+    experience: CareerEntry[];
+    education: CareerEntry[];
+    projects: Project[];
+    awards: Award[];
     skills: SkillGroup[];
-    detailHref: (section: 'experience' | 'education' | 'awards', slug: string) => string;
   };
 }

@@ -1,48 +1,9 @@
-import { isLanguage, type Language } from '@/common/lib';
-
-import type { Project, ProjectDomain, ProjectSummary } from '../models';
-
-/**
- * collection id는 `<lang>/<slug>` 형태여야 한다. 캐스트로 넘기면 잘못 놓인 파일이
- * 조용히 `lang: "misc"` 같은 라우트를 만든다 — 여기서 빌드를 세운다.
- */
-export function parseProjectId(id: string): { lang: Language; slug: string } {
-  const [dir, slug, ...rest] = id.split('/');
-
-  if (!isLanguage(dir) || slug === undefined || slug === '' || rest.length > 0) {
-    throw new Error(`프로젝트는 src/content/projects/<lang>/<slug>.mdx 여야 합니다: ${id}`);
-  }
-
-  return { lang: dir, slug };
-}
-
-export function toProjectSummary(entry: {
-  id: string;
-  data: Project;
-  body?: string | undefined;
-}): ProjectSummary {
-  return {
-    ...entry.data,
-    slug: parseProjectId(entry.id).slug,
-    hasDetail: (entry.body ?? '').trim().length > 0,
-  };
-}
-
-export function projectHref(
-  project: ProjectSummary,
-  detailHref: string,
-): { href: string; external: boolean } | null {
-  if (project.hasDetail) return { href: detailHref, external: false };
-
-  const fallback =
-    project.links?.repo ?? project.links?.demo ?? project.links?.package ?? project.links?.post;
-  return fallback ? { href: fallback, external: true } : null;
-}
+import type { Project, ProjectDomain } from '../models';
 
 export function filterByDomain(
-  projects: readonly ProjectSummary[],
+  projects: readonly Project[],
   domain: ProjectDomain | null,
-): ProjectSummary[] {
+): Project[] {
   return domain === null ? [...projects] : projects.filter((project) => project.domain === domain);
 }
 
@@ -51,17 +12,17 @@ export function filterByDomain(
  * 앞세우면 순서를 설명할 방법이 없다. `start`는 `YYYY-MM`이라 문자열 비교가 곧 시간순이다.
  */
 export function sortProjects(
-  projects: readonly ProjectSummary[],
+  projects: readonly Project[],
   { pinnedFirst }: { pinnedFirst: boolean },
-): ProjectSummary[] {
+): Project[] {
   return [...projects].sort((a, b) => {
-    if (pinnedFirst && a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+    if (pinnedFirst && (a.pinned ?? false) !== (b.pinned ?? false)) return a.pinned ? -1 : 1;
     return b.start.localeCompare(a.start);
   });
 }
 
 /** 홈에 세울 것. */
-export function pickPinned(projects: readonly ProjectSummary[], count: number): ProjectSummary[] {
+export function pickPinned(projects: readonly Project[], count: number): Project[] {
   return sortProjects(projects, { pinnedFirst: true })
     .filter((project) => project.pinned)
     .slice(0, count);
@@ -69,11 +30,23 @@ export function pickPinned(projects: readonly ProjectSummary[], count: number): 
 
 /** 필터 버튼 배지에 쓴다. */
 export function countByDomain(
-  projects: readonly ProjectSummary[],
+  projects: readonly Project[],
 ): Partial<Record<ProjectDomain, number>> {
   const counts: Partial<Record<ProjectDomain, number>> = {};
   for (const project of projects) {
     counts[project.domain] = (counts[project.domain] ?? 0) + 1;
   }
   return counts;
+}
+
+/** 카드가 어디로 보낼지. 본문이 있으면 상세, 없으면 저장소·데모로 바로 나간다. */
+export function projectHref(
+  project: Project,
+  detailHref: string,
+): { href: string; external: boolean } | null {
+  if (project.hasDetail) return { href: detailHref, external: false };
+
+  const fallback =
+    project.links?.repo ?? project.links?.demo ?? project.links?.package ?? project.links?.post;
+  return fallback ? { href: fallback, external: true } : null;
 }

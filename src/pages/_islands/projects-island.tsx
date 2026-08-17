@@ -1,6 +1,6 @@
 import { AppProviders } from '@/common/components';
 import type { Language } from '@/common/lib';
-import { ProjectsPage, type ProjectSummary } from '@/features/projects';
+import { ProjectsPage, type Project } from '@/features/projects';
 
 export function ProjectsIsland({ lang, projects }: ProjectsIsland.Props) {
   return (
@@ -13,6 +13,6 @@ export function ProjectsIsland({ lang, projects }: ProjectsIsland.Props) {
 export declare namespace ProjectsIsland {
   export type Props = {
     lang: Language;
-    projects: ProjectSummary[];
+    projects: Project[];
   };
 }

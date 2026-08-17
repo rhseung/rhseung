@@ -1,4 +1,4 @@
-import { awards, education, experience, projects, resume, skills } from './fixtures';
+import { awards, education, experience, profile, projects, skills } from './fixtures';
 
 import { ResumePage } from '.';
 
@@ -11,7 +11,7 @@ const meta = {
   args: {
     lang: 'ko',
     name: '류현승',
-    resume,
+    profile,
     experience,
     education,
     projects,

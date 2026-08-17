@@ -16,7 +16,7 @@ import {
   sortProjects,
   useDomainFilter,
   useProjectLabels,
-  type ProjectSummary,
+  type Project,
 } from '../../viewmodels';
 import { ProjectCard } from '../components';
 
@@ -98,6 +98,6 @@ export declare namespace ProjectsPage {
   export type Props = {
     lang: Language;
     /** `.astro`가 빌드타임에 collection에서 읽어 넘긴다. */
-    projects: ProjectSummary[];
+    projects: Project[];
   };
 }

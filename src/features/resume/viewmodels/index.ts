@@ -1,19 +1,3 @@
-export type {
-  Award,
-  AwardSummary,
-  CareerEntry,
-  CareerSummary,
-  Resume,
-  SkillGroup,
-} from '../models';
+export type { Award, CareerEntry, Profile, SkillGroup } from '../models';
 
-export {
-  groupAwardsByYear,
-  parseEntryId,
-  sortAwards,
-  sortCareer,
-  sortSkillGroups,
-  toAwardSummary,
-  toCareerSummary,
-  toSkillGroup,
-} from './select-resume';
+export { groupAwardsByYear, sortAwards, sortCareer, sortSkillGroups } from './select-resume';

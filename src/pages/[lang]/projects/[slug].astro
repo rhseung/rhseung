@@ -2,47 +2,37 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 
 import { ProjectDetailIsland } from '@/pages/_islands/project-detail-island';
-import { LANGUAGES, localeHref, DEFAULT_LANGUAGE, SITE } from '@/common/lib';
-import { parseProjectId, toProjectSummary } from '@/features/projects';
+import { LANGUAGES, localeHref, SITE } from '@/common/lib';
+import { projectsOf } from '@/features/projects';
 import BaseLayout from '@/layouts/base-layout.astro';
 
 export async function getStaticPaths() {
-  const entries: CollectionEntry<'projects'>[] = await getCollection(
-    'projects',
-    // 본문이 있는 프로젝트만 상세 페이지를 갖는다. 나머지는 카드가 저장소·데모로 보낸다.
-    (entry: CollectionEntry<'projects'>) => !entry.data.draft && (entry.body ?? '').trim() !== '',
-  );
-  const parsed = entries.map((entry) => ({ entry, ...parseProjectId(entry.id) }));
+  const entries: CollectionEntry<'projects'>[] = await getCollection('projects');
 
-  const slugsByLang = new Map(
-    LANGUAGES.map((lang) => [
-      lang,
-      new Set(parsed.filter((item) => item.lang === lang).map((item) => item.slug)),
-    ]),
-  );
+  return entries.map((entry) => {
+    const [lang, slug] = entry.id.split('/') as [(typeof LANGUAGES)[number], string];
+    const siblings = entries
+      .filter((other) => other.id.endsWith(`/${slug}`))
+      .map((other) => other.id.split('/')[0]);
 
-  return parsed.map(({ entry, lang, slug }) => {
-    // 짝 문서가 있는 언어만 hreflang·언어 버튼에 넣는다.
     const alternates = Object.fromEntries(
-      LANGUAGES.filter((other) => slugsByLang.get(other)?.has(slug)).map((other) => [
+      LANGUAGES.filter((other) => siblings.includes(other)).map((other) => [
         other,
         localeHref(other, `/projects/${slug}`),
       ]),
     );
 
-    return {
-      params: { lang, slug },
-      props: { lang, entry, alternates },
-    };
+    return { params: { lang, slug }, props: { lang, slug, entry, alternates } };
   });
 }
 
-const { lang, entry, alternates } = Astro.props;
+const { lang, slug, entry, alternates } = Astro.props;
 
-const project = toProjectSummary(entry);
+const project = projectsOf(lang, new Set([slug])).find((item) => item.slug === slug);
+if (!project) throw new Error(`PROJECTS 에 ${slug} 가 없습니다`);
+
 const { Content } = await render(entry);
-
-const otherLang = lang === DEFAULT_LANGUAGE ? 'en' : DEFAULT_LANGUAGE;
+const otherLang = lang === 'ko' ? 'en' : 'ko';
 ---
 
 <BaseLayout

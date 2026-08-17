@@ -5,7 +5,7 @@ import { Badge, ExternalLink, SiteDock, buttonVariants } from '@/common/componen
 import { localeHref, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
 
-import { useProjectLabels, type ProjectSummary } from '../../viewmodels';
+import { useProjectLabels, type Project } from '../../viewmodels';
 
 function formatMonth(value: string) {
   return value.replace('-', '.');
@@ -87,7 +87,7 @@ export function ProjectDetailPage({ lang, project, altHref, children }: ProjectD
 export declare namespace ProjectDetailPage {
   export type Props = {
     lang: Language;
-    project: ProjectSummary;
+    project: Project;
     altHref?: string;
     children: React.ReactNode;
   };

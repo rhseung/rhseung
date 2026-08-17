@@ -245,32 +245,28 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 
 서버가 없다. 모든 콘텐츠는 빌드 타임에 `src/content/`에서 읽어 HTML로 굳는다.
 
-### Content Collections
+### 데이터는 TS, 산문은 MDX
 
-| 컬렉션     | 원본                                 | 언어 처리                      |
-| ---------- | ------------------------------------ | ------------------------------ |
-| `projects` | `src/content/projects/{ko,en}/*.mdx` | 디렉토리. 슬러그가 hreflang 짝 |
-| `posts`    | `src/content/posts/*.mdx`            | frontmatter `lang`. 번역 없음  |
-| `resume`   | `src/content/resume/{ko,en}.yaml`    | 파일명이 곧 언어               |
+|                                                       | 어디에                   | 왜                                                      |
+| ----------------------------------------------------- | ------------------------ | ------------------------------------------------------- |
+| 언어 무관 구조 (`slug`·`date`·`stack`·`links`·`logo`) | `models/data.ts`         | 한 곳에만 있어 언어별로 어긋날 수 없다                  |
+| 번역되는 문자열 (`title`·`org`·`summary`)             | `models/text.{ko,en}.ts` | `Record<Slug, …>` — 한쪽을 빠뜨리면 **컴파일이 깨진다** |
+| 긴 산문 (글 본문, 프로젝트 상세)                      | `src/content/**.mdx`     | 본문은 객체에 안 들어간다                               |
 
-- 스키마는 **feature의 `models/`가 소유**하고 `src/content.config.ts`가 import한다.
-  방향을 뒤집으면 Storybook·vitest가 Model을 못 읽는다(2장 참고).
-- `getCollection()`은 빌드 타임 전용이다. `.astro`가 읽어서 아일랜드에 props로 넘긴다.
-- collection id를 손으로 자르지 않는다 — `parseProjectId()`처럼 검증하는 함수를 쓴다.
-  `as` 캐스트로 넘기면 잘못 놓인 파일이 조용히 이상한 라우트를 만든다.
-- `Date`는 경계에서 ISO 문자열로 바꾼다(`toPostSummary`). props로 넘어가며 어차피
-  직렬화되므로, 안 바꾸면 타입이 거짓말을 한다.
+**컬렉션에는 본문이 있는 것만 둔다.** 경력·학력·대회·기술은 본문이 없어서 TS 모듈이다.
+전에는 `content/awards/{ko,en}/<slug>.mdx`처럼 항목마다 파일 두 개였는데, `date`·`order`가
+양쪽에 복제돼 한쪽만 고치면 언어별로 정렬이 달라졌다. 아무것도 그걸 안 잡아줬다.
 
-### 프로젝트는 글이 아니다
+`skills`가 특히 그랬다 — `items`(고유명사)가 두 언어에서 완전히 같은데 통째로 복제됐다.
 
-**카드가 본체다.** 프로젝트 대부분은 카드 한 장(요약·highlight·스택·링크)으로 끝나고,
-제목이 저장소나 데모로 바로 나간다. MDX 본문은 선택이다.
+남은 컬렉션은 둘뿐이다.
 
-- 본문이 있으면(`hasDetail`) 상세 페이지가 생기고 제목이 거기로 간다
-- 없으면 `projectHref()`가 `links.repo → demo → post` 순으로 대체 목적지를 고른다
-- 둘 다 없으면 제목은 링크가 아니다
+| 컬렉션     | 원본                                      | 언어 처리                                                |
+| ---------- | ----------------------------------------- | -------------------------------------------------------- |
+| `posts`    | `src/content/posts/*.mdx`                 | frontmatter `lang`. 번역물이 아니라 한 언어로 쓰인 한 벌 |
+| `projects` | `src/content/projects/{ko,en}/<slug>.mdx` | **산문만.** 메타데이터는 `models/data.ts`                |
 
-10개를 ko/en 두 벌씩 긴 글로 쓰는 건 현실적으로 안 써진다. 대표작 두어 개만 깊게 쓴다.
+프로젝트 상세 페이지는 그 언어로 MDX가 **있는 것만** 생긴다. 파일이 곧 `hasDetail`이다.
 
 ### 런타임 상태
 

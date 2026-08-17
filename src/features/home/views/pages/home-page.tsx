@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ExternalLink, SiteDock, buttonVariants } from '@/common/components';
 import { localeHref, SITE, type Language } from '@/common/lib';
 import { PostListItem, type PostSummary } from '@/features/blog';
-import { ProjectCard, type ProjectSummary } from '@/features/projects';
+import { ProjectCard, type Project } from '@/features/projects';
 
 export function HomePage({ lang, headline, intro, pinned, recent }: HomePage.Props) {
   const { t } = useTranslation('home');
@@ -89,7 +89,7 @@ export declare namespace HomePage {
     lang: Language;
     headline: string;
     intro?: string;
-    pinned: ProjectSummary[];
+    pinned: Project[];
     recent: PostSummary[];
   };
 }

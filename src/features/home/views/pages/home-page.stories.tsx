@@ -1,11 +1,11 @@
 import type { PostSummary } from '@/features/blog';
-import type { ProjectSummary } from '@/features/projects';
+import type { Project } from '@/features/projects';
 
 import { HomePage } from '.';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-const pinned: ProjectSummary[] = [
+const pinned: Project[] = [
   {
     slug: 'lumen',
     title: 'Lumen',
@@ -15,7 +15,6 @@ const pinned: ProjectSummary[] = [
     start: '2024-03',
     status: 'active',
     pinned: true,
-    draft: false,
     hasDetail: true,
   },
   {
@@ -27,7 +26,6 @@ const pinned: ProjectSummary[] = [
     start: '2026-08',
     status: 'active',
     pinned: true,
-    draft: false,
     hasDetail: true,
   },
   {
@@ -40,7 +38,6 @@ const pinned: ProjectSummary[] = [
     end: '2023-09',
     status: 'archived',
     pinned: true,
-    draft: false,
     hasDetail: true,
   },
 ];

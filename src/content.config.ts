@@ -1,49 +1,22 @@
 import { glob } from 'astro/loaders';
-import { defineCollection } from 'astro:content';
+import { defineCollection, z } from 'astro:content';
 
 import { postSchema } from '@/features/blog/models';
-import { projectSchema } from '@/features/projects/models';
-import {
-  awardSchema,
-  educationSchema,
-  experienceSchema,
-  resumeSchema,
-  skillGroupSchema,
-} from '@/features/resume/models';
 
-const projects = defineCollection({
-  loader: glob({ base: './src/content/projects', pattern: '**/*.mdx' }),
-  schema: projectSchema(),
-});
-
+/**
+ * 컬렉션에는 **본문이 있는 것만** 둔다. 경력·학력·대회·기술처럼 본문이 없는 구조 데이터는
+ * feature 의 `models` TS 모듈에 있다 — 거기서는 언어를 빠뜨리면 컴파일이 깨지고,
+ * 언어 무관 필드가 한 곳에만 있어 어긋날 수가 없다.
+ */
 const posts = defineCollection({
   loader: glob({ base: './src/content/posts', pattern: '**/*.mdx' }),
   schema: postSchema(),
 });
 
-const resume = defineCollection({
-  loader: glob({ base: './src/content/resume', pattern: '*.yaml' }),
-  schema: resumeSchema(),
+/** 프로젝트 상세는 산문뿐이다. 메타데이터는 `features/projects/models/data.ts`에 있다. */
+const projects = defineCollection({
+  loader: glob({ base: './src/content/projects', pattern: '**/*.mdx' }),
+  schema: z.object({}),
 });
 
-const experience = defineCollection({
-  loader: glob({ base: './src/content/experience', pattern: '**/*.mdx' }),
-  schema: experienceSchema(),
-});
-
-const education = defineCollection({
-  loader: glob({ base: './src/content/education', pattern: '**/*.mdx' }),
-  schema: educationSchema(),
-});
-
-const awards = defineCollection({
-  loader: glob({ base: './src/content/awards', pattern: '**/*.mdx' }),
-  schema: awardSchema(),
-});
-
-const skills = defineCollection({
-  loader: glob({ base: './src/content/skills', pattern: '**/*.mdx' }),
-  schema: skillGroupSchema(),
-});
-
-export const collections = { awards, education, experience, posts, projects, resume, skills };
+export const collections = { posts, projects };

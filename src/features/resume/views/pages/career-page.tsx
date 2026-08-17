@@ -7,8 +7,8 @@ import {
   groupAwardsByYear,
   sortCareer,
   sortSkillGroups,
-  type AwardSummary,
-  type CareerSummary,
+  type Award,
+  type CareerEntry,
   type SkillGroup,
 } from '../../viewmodels';
 import { AwardList, CareerList, SkillGroups } from '../components';
@@ -46,7 +46,6 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
             <CareerList
               entries={sortCareer(experience)}
               ongoingLabel={t(($) => $.period.ongoing)}
-              detailHref={(entry) => localeHref(lang, `/career/${entry.slug}`)}
               timeline
             />
           </Section>
@@ -57,7 +56,6 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
             <CareerList
               entries={sortCareer(education)}
               ongoingLabel={t(($) => $.period.ongoing)}
-              detailHref={(entry) => localeHref(lang, `/career/${entry.slug}`)}
               timeline
             />
           </Section>
@@ -65,7 +63,7 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
 
         {awards.length > 0 && (
           <Section title={t(($) => $.awards.title)}>
-            {/* 17개가 한 줄로 이어지면 훑을 수 없다. 연도로 묶어 눈이 쉴 곳을 만든다. */}
+            {/* 여럿이 한 줄로 이어지면 훑을 수 없다. 연도로 묶어 눈이 쉴 곳을 만든다. */}
             <div className="flex flex-col gap-6">
               {groupAwardsByYear(awards).map(([year, yearAwards]) => (
                 <div key={year} className="flex gap-4">
@@ -73,11 +71,7 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
                     {year}
                   </span>
                   <div className="flex-1">
-                    <AwardList
-                      awards={yearAwards}
-                      detailHref={(award) => localeHref(lang, `/career/${award.slug}`)}
-                      showDate={false}
-                    />
+                    <AwardList awards={yearAwards} showDate={false} />
                   </div>
                 </div>
               ))}
@@ -104,9 +98,9 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
 export declare namespace CareerPage {
   export type Props = {
     lang: Language;
-    experience: CareerSummary[];
-    education: CareerSummary[];
-    awards: AwardSummary[];
+    experience: CareerEntry[];
+    education: CareerEntry[];
+    awards: Award[];
     skills: SkillGroup[];
   };
 }

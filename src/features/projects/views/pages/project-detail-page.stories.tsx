@@ -1,9 +1,9 @@
 import { ProjectDetailPage } from '.';
 
-import type { ProjectSummary } from '../../viewmodels';
+import type { Project } from '../../viewmodels';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-const project: ProjectSummary = {
+const project: Project = {
   slug: 'lumen',
   title: 'Lumen',
   summary: '타입 추론이 있는 작은 스크립트 언어.',
@@ -12,7 +12,6 @@ const project: ProjectSummary = {
   start: '2024-03',
   status: 'active',
   pinned: true,
-  draft: false,
   hasDetail: true,
   links: { repo: 'https://github.com/rhseung/lumen' },
 };
