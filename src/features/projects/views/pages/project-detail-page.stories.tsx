@@ -13,6 +13,7 @@ const project: ProjectSummary = {
   status: 'active',
   pinned: true,
   draft: false,
+  hasDetail: true,
   links: { repo: 'https://github.com/rhseung/lumen' },
 };
 

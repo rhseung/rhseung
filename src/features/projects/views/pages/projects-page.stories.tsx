@@ -17,6 +17,7 @@ const projects: ProjectSummary[] = [
     pinned: true,
     highlight: '파싱 3.2× 빠름 (12k LOC 기준)',
     draft: false,
+    hasDetail: true,
   },
   {
     slug: 'rhseung-me',
@@ -28,6 +29,7 @@ const projects: ProjectSummary[] = [
     status: 'active',
     pinned: true,
     draft: false,
+    hasDetail: true,
   },
   {
     slug: 'raymarch',
@@ -40,6 +42,7 @@ const projects: ProjectSummary[] = [
     status: 'archived',
     pinned: false,
     draft: false,
+    hasDetail: true,
   },
 ];
 

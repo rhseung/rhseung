@@ -9,7 +9,8 @@ import BaseLayout from '@/layouts/base-layout.astro';
 export async function getStaticPaths() {
   const entries: CollectionEntry<'projects'>[] = await getCollection(
     'projects',
-    ({ data }: CollectionEntry<'projects'>) => !data.draft,
+    // 본문이 있는 프로젝트만 상세 페이지를 갖는다. 나머지는 카드가 저장소·데모로 보낸다.
+    (entry: CollectionEntry<'projects'>) => !entry.data.draft && (entry.body ?? '').trim() !== '',
   );
   const parsed = entries.map((entry) => ({ entry, ...parseProjectId(entry.id) }));
 

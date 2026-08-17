@@ -13,6 +13,7 @@ export {
   filterByDomain,
   parseProjectId,
   pickPinned,
+  projectHref,
   sortProjects,
   toProjectSummary,
 } from './viewmodels';

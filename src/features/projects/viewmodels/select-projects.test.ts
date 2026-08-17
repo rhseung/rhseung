@@ -5,6 +5,7 @@ import {
   filterByDomain,
   parseProjectId,
   pickPinned,
+  projectHref,
   sortProjects,
   toProjectSummary,
 } from './select-projects';
@@ -20,6 +21,7 @@ function project(overrides: Partial<ProjectSummary> & { slug: string }): Project
     start: '2024-01',
     status: 'shipped',
     pinned: false,
+    hasDetail: false,
     draft: false,
     ...overrides,
   };
@@ -40,6 +42,22 @@ describe('parseProjectId', () => {
 });
 
 describe('toProjectSummary', () => {
+  it('본문이 있으면 hasDetail', () => {
+    const withBody = toProjectSummary({
+      id: 'ko/a',
+      data: project({ slug: 'a' }),
+      body: '## 왜 만들었나\n\n내용',
+    });
+    const withoutBody = toProjectSummary({
+      id: 'ko/b',
+      data: project({ slug: 'b' }),
+      body: '  \n',
+    });
+
+    expect(withBody.hasDetail).toBe(true);
+    expect(withoutBody.hasDetail).toBe(false);
+  });
+
   it('언어 디렉토리를 떼서 슬러그를 만든다', () => {
     const summary = toProjectSummary({
       id: 'en/my-compiler',
@@ -117,5 +135,36 @@ describe('countByDomain', () => {
     ]);
 
     expect(counts).toEqual({ web: 2 });
+  });
+});
+
+describe('projectHref', () => {
+  it('본문이 있으면 상세로', () => {
+    const target = projectHref(project({ slug: 'a', hasDetail: true }), '/projects/a/');
+
+    expect(target).toEqual({ href: '/projects/a/', external: false });
+  });
+
+  // 프로젝트 대부분은 본문이 없다 — 카드가 바로 저장소로 보낸다.
+  it('본문이 없으면 저장소로 나간다', () => {
+    const target = projectHref(
+      project({ slug: 'a', links: { repo: 'https://github.com/x/y' } }),
+      '/projects/a/',
+    );
+
+    expect(target).toEqual({ href: 'https://github.com/x/y', external: true });
+  });
+
+  it('저장소가 없으면 데모, 그다음 글 순서', () => {
+    const target = projectHref(
+      project({ slug: 'a', links: { demo: 'https://demo', post: 'https://post' } }),
+      '/projects/a/',
+    );
+
+    expect(target?.href).toBe('https://demo');
+  });
+
+  it('갈 데가 없으면 null — 제목이 링크가 아니게 된다', () => {
+    expect(projectHref(project({ slug: 'a' }), '/projects/a/')).toBeNull();
   });
 });

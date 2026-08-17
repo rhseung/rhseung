@@ -7,17 +7,20 @@ const meta = {
   component: ProjectCard,
   parameters: { layout: 'padded' },
   args: {
-    href: '/projects/lumen/',
+    detailHref: '/projects/lumen/',
     project: {
       slug: 'lumen',
       title: 'Lumen',
-      summary: '타입 추론이 있는 작은 스크립트 언어. 트리워킹 인터프리터부터 시작했다.',
+      summary:
+        '타입 추론이 있는 작은 스크립트 언어. 트리워킹 인터프리터로 시작해 바이트코드 VM으로 옮겼고, Hindley–Milner 추론기를 직접 구현했다.',
       domain: 'systems',
       stack: ['rust', 'llvm', 'typescript'],
       start: '2024-03',
       status: 'active',
       pinned: true,
+      hasDetail: true,
       draft: false,
+      links: { repo: 'https://github.com/rhseung/lumen' },
     },
   },
 } satisfies Meta<typeof ProjectCard>;
@@ -26,8 +29,32 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/** 종료월이 없으면 진행 중으로 읽힌다. */
-export const Default: Story = {};
+/** 본문이 있는 프로젝트 — 제목이 상세 페이지로 간다. */
+export const WithDetail: Story = {};
+
+/**
+ * 본문이 없는 프로젝트 — 대부분이 여기 해당한다.
+ * 제목이 저장소로 바로 나가고 아이콘이 외부 링크임을 알린다.
+ */
+export const CardOnly: Story = {
+  args: {
+    project: {
+      ...meta.args.project,
+      hasDetail: false,
+      links: {
+        repo: 'https://github.com/rhseung/lumen',
+        demo: 'https://lumen.rhseung.me',
+      },
+    },
+  },
+};
+
+/** 링크도 본문도 없으면 제목은 링크가 아니다. */
+export const NoLinks: Story = {
+  args: {
+    project: { ...meta.args.project, hasDetail: false, links: undefined },
+  },
+};
 
 export const WithHighlight: Story = {
   args: {
@@ -35,24 +62,9 @@ export const WithHighlight: Story = {
   },
 };
 
+/** 끝난 프로젝트. */
 export const Archived: Story = {
   args: {
-    project: {
-      ...meta.args.project,
-      status: 'archived',
-      end: '2024-11',
-      pinned: false,
-    },
-  },
-};
-
-/** 스택 상한(6개)까지 채웠을 때 칩이 감기는 모양. */
-export const FullStack: Story = {
-  args: {
-    project: {
-      ...meta.args.project,
-      domain: 'web',
-      stack: ['typescript', 'astro', 'react', 'tailwindcss', 'vitest', 'playwright'],
-    },
+    project: { ...meta.args.project, status: 'archived', end: '2024-11', pinned: false },
   },
 };

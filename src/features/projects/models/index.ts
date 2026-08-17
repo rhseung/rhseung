@@ -13,8 +13,13 @@ export const PROJECT_STATUSES = ['active', 'shipped', 'archived'] as const;
 
 export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
 
-/** 카드 본문이자 meta description이자 OG 설명. 한 줄을 넘기면 셋 다 깨진다. */
-export const PROJECT_SUMMARY_MAX = 80;
+/**
+ * 카드 본문이자 meta description이자 OG 설명.
+ *
+ * 카드가 이 사이트에서 프로젝트를 설명하는 주된 자리다 — 상세 페이지는 본문을 쓴
+ * 프로젝트에만 생긴다. 그래서 한 줄이 아니라 두어 줄까지 허용한다.
+ */
+export const PROJECT_SUMMARY_MAX = 160;
 
 /** 카드 하단 칩이 한 줄에 들어가는 한계. */
 export const PROJECT_STACK_MAX = 6;
@@ -56,5 +61,10 @@ export const projectSchema = z.object({
 
 export type Project = z.infer<typeof projectSchema>;
 
-/** 목록·카드가 다루는 단위. */
-export type ProjectSummary = Project & { slug: string };
+/**
+ * 목록·카드가 다루는 단위.
+ *
+ * `hasDetail`은 MDX 본문이 있는지다. 없으면 상세 페이지를 만들지 않고 카드가 바로
+ * 저장소·데모로 보낸다 — 프로젝트 대부분은 카드 한 장으로 끝난다.
+ */
+export type ProjectSummary = Project & { slug: string; hasDetail: boolean };

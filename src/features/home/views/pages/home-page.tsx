@@ -48,7 +48,7 @@ export function HomePage({ lang, headline, pinned, recent }: HomePage.Props) {
                 <li key={project.slug}>
                   <ProjectCard
                     project={project}
-                    href={localeHref(lang, `/projects/${project.slug}`)}
+                    detailHref={localeHref(lang, `/projects/${project.slug}`)}
                   />
                 </li>
               ))}

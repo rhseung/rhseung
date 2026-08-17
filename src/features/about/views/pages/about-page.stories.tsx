@@ -26,6 +26,7 @@ const projects: ProjectSummary[] = [
     start: '2026-08',
     status: 'active',
     pinned: true,
+    hasDetail: true,
     draft: false,
   },
 ];

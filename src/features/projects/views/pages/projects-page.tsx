@@ -83,7 +83,7 @@ export function ProjectsPage({ lang, projects }: ProjectsPage.Props) {
               <li key={project.slug}>
                 <ProjectCard
                   project={project}
-                  href={localeHref(lang, `/projects/${project.slug}`)}
+                  detailHref={localeHref(lang, `/projects/${project.slug}`)}
                 />
               </li>
             ))}

@@ -16,6 +16,7 @@ const pinned: ProjectSummary[] = [
     status: 'active',
     pinned: true,
     draft: false,
+    hasDetail: true,
   },
   {
     slug: 'rhseung-me',
@@ -27,6 +28,7 @@ const pinned: ProjectSummary[] = [
     status: 'active',
     pinned: true,
     draft: false,
+    hasDetail: true,
   },
   {
     slug: 'raymarch',
@@ -39,6 +41,7 @@ const pinned: ProjectSummary[] = [
     status: 'archived',
     pinned: true,
     draft: false,
+    hasDetail: true,
   },
 ];
 
