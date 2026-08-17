@@ -230,6 +230,17 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 - `Date`는 경계에서 ISO 문자열로 바꾼다(`toPostSummary`). props로 넘어가며 어차피
   직렬화되므로, 안 바꾸면 타입이 거짓말을 한다.
 
+### 프로젝트는 글이 아니다
+
+**카드가 본체다.** 프로젝트 대부분은 카드 한 장(요약·highlight·스택·링크)으로 끝나고,
+제목이 저장소나 데모로 바로 나간다. MDX 본문은 선택이다.
+
+- 본문이 있으면(`hasDetail`) 상세 페이지가 생기고 제목이 거기로 간다
+- 없으면 `projectHref()`가 `links.repo → demo → post` 순으로 대체 목적지를 고른다
+- 둘 다 없으면 제목은 링크가 아니다
+
+10개를 ko/en 두 벌씩 긴 글로 쓰는 건 현실적으로 안 써진다. 대표작 두어 개만 깊게 쓴다.
+
 ### 런타임 상태
 
 - `@tanstack/react-query`는 남아 있지만 **소비자가 아직 없다.** GitHub API(star 수,
@@ -350,7 +361,7 @@ CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한
 | -------------------------------- | -------------------------------------- |
 | `/`, `/en/`                      | 히어로 + pinned 프로젝트 3 + 최근 글 3 |
 | `/projects/`, `/en/projects/`    | 도메인 필터(`?domain=`) + 카드 목록    |
-| `/projects/<slug>/` (+`/en/`)    | MDX 상세                               |
+| `/projects/<slug>/` (+`/en/`)    | MDX 상세. 본문을 쓴 프로젝트만 생긴다  |
 | `/blog/`, `/en/blog/`            | 글 목록 (UI만 이중언어)                |
 | `/blog/<slug>/`                  | MDX 본문. 원본 언어 한 벌              |
 | `/about/`, `/en/about/`          | 소개·연락 + 이력서 PDF 뷰어            |
