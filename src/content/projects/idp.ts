@@ -1,11 +1,13 @@
+import dayjs from 'dayjs';
+
 import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'idp',
   domain: 'web',
   stack: ['React', 'TypeScript', 'TanStack Router', 'Tailwind CSS', 'OpenAPI TypeScript', 'Vite'],
-  start: '2024-03',
-  end: '2024-08',
+  start: dayjs('2024-03'),
+  end: dayjs('2024-08'),
   status: 'shipped',
   links: {
     repo: 'https://github.com/gsainfoteam/idp-fe',

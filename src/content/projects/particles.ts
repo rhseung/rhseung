@@ -1,11 +1,13 @@
+import dayjs from 'dayjs';
+
 import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'particles',
   domain: 'graphics',
   stack: ['C++'],
-  start: '2024-03',
-  end: '2024-11',
+  start: dayjs('2024-03'),
+  end: dayjs('2024-11'),
   status: 'shipped',
   links: {
     repo: 'https://github.com/rhseung/particles',

@@ -1,5 +1,8 @@
 import type { Tech, Url, YearMonth } from '@/common/lib';
 
+import type { Dayjs } from 'dayjs';
+
+
 export const PROJECT_LINK_KINDS = ['repo', 'demo', 'package', 'post', 'paper'] as const;
 
 export type ProjectLinkKind = (typeof PROJECT_LINK_KINDS)[number];
@@ -25,8 +28,8 @@ export type ProjectItem = {
   slug: string;
   domain: ProjectDomain;
   stack: readonly Tech[];
-  start: YearMonth;
-  end?: YearMonth;
+  start: Dayjs;
+  end?: Dayjs;
   status: ProjectStatus;
   pinned?: boolean;
   links?: ProjectLinks;
@@ -34,4 +37,9 @@ export type ProjectItem = {
   en: ProjectText;
 };
 
-export type Project = ProjectText & Omit<ProjectItem, 'ko' | 'en'> & { hasDetail: boolean };
+export type Project = ProjectText &
+  Omit<ProjectItem, 'ko' | 'en' | 'start' | 'end'> & {
+    start: YearMonth;
+    end?: YearMonth;
+    hasDetail: boolean;
+  };

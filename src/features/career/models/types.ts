@@ -1,5 +1,8 @@
 import type { LogoPath, Tech, Url, YearMonth, YearOrMonth } from '@/common/lib';
 
+import type { Dayjs } from 'dayjs';
+
+
 export type CareerText = {
   org: string;
   role: string;
@@ -22,8 +25,8 @@ type Translated<T> = { ko: T; en: T };
 
 export type CareerItem = Translated<CareerText> & {
   slug: string;
-  start: YearMonth;
-  end?: YearMonth;
+  start: Dayjs;
+  end?: Dayjs;
   logo?: LogoPath;
   links?: { site?: Url };
 };
@@ -41,6 +44,7 @@ export type SkillGroupItem = Translated<SkillGroupText> & {
   items: readonly Tech[];
 };
 
-export type CareerEntry = CareerText & Omit<CareerItem, 'ko' | 'en'>;
+export type CareerEntry = CareerText &
+  Omit<CareerItem, 'ko' | 'en' | 'start' | 'end'> & { start: YearMonth; end?: YearMonth };
 export type Award = AwardText & Omit<AwardItem, 'ko' | 'en'>;
 export type SkillGroup = SkillGroupText & Omit<SkillGroupItem, 'ko' | 'en'>;

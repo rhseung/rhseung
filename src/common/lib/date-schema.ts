@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs, { type Dayjs } from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { z } from 'zod';
 
@@ -6,9 +6,10 @@ dayjs.extend(customParseFormat);
 
 const parse = (value: string, format: string) => dayjs(value, format, true);
 
-export const monthly = z
-  .string()
-  .refine((value) => parse(value, 'YYYY-MM').isValid(), 'YYYY-MM 이어야 합니다');
+export const yearMonth = z.custom<Dayjs>(
+  (value) => dayjs.isDayjs(value) && value.isValid(),
+  'dayjs 로 만든 유효한 날짜여야 합니다',
+);
 
 export const yearOrMonth = z
   .string()
@@ -17,8 +18,6 @@ export const yearOrMonth = z
     'YYYY 또는 YYYY-MM 이어야 합니다',
   );
 
-export function endsAfterStart(entry: { start: string; end?: string }): boolean {
-  return (
-    entry.end === undefined || !parse(entry.end, 'YYYY-MM').isBefore(parse(entry.start, 'YYYY-MM'))
-  );
+export function endsAfterStart(entry: { start: Dayjs; end?: Dayjs }): boolean {
+  return entry.end === undefined || !entry.end.isBefore(entry.start);
 }

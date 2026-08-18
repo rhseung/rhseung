@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { endsAfterStart, monthly } from '@/common/lib/date-schema';
+import { endsAfterStart, yearMonth } from '@/common/lib/date-schema';
 
 import { PROJECT_DOMAINS, PROJECT_STATUSES } from './types';
 
@@ -27,8 +27,8 @@ const schema = z.object({
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'kebab-case 여야 합니다'),
   domain: z.enum(PROJECT_DOMAINS),
   stack: z.array(filled).min(1).max(6),
-  start: monthly,
-  end: monthly.optional(),
+  start: yearMonth,
+  end: yearMonth.optional(),
   status: z.enum(PROJECT_STATUSES),
   pinned: z.boolean().optional(),
   links: z

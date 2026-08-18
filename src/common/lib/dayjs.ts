@@ -1,10 +1,12 @@
-import dayjs from 'dayjs';
+import dayjs, { type Dayjs } from 'dayjs';
 import 'dayjs/locale/en';
 import 'dayjs/locale/ko';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 import { i18n } from './i18n';
+
+import type { YearMonth } from './scalars';
 
 dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
@@ -16,6 +18,11 @@ dayjs.locale(i18n.language);
 i18n.on('languageChanged', (language) => {
   dayjs.locale(language);
 });
+
+/** 아일랜드 props 는 JSON 으로 직렬화된다 - Dayjs 객체는 그 경계를 못 넘는다. */
+export function toYearMonth(value: Dayjs): YearMonth {
+  return value.format('YYYY-MM') as YearMonth;
+}
 
 /** `2024-03` → `2024.03`. 연도만 아는 항목은 그대로 둔다. */
 export function formatYearMonth(value: string): string {

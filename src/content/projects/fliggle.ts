@@ -1,11 +1,13 @@
+import dayjs from 'dayjs';
+
 import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'fliggle',
   domain: 'web',
   stack: ['Dart', 'Flutter', 'Nest.js', 'Prisma', 'Figma'],
-  start: '2024-05',
-  end: '2024-07',
+  start: dayjs('2024-05'),
+  end: dayjs('2024-07'),
   status: 'shipped',
   links: {
     repo: 'https://github.com/rhseung/toonflix-fe',

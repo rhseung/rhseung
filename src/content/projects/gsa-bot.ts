@@ -1,11 +1,13 @@
+import dayjs from 'dayjs';
+
 import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'gsa-bot',
   domain: 'backend',
   stack: ['Node.js', 'npm', 'TypeScript', 'JavaScript'],
-  start: '2023-09',
-  end: '2024-02',
+  start: dayjs('2023-09'),
+  end: dayjs('2024-02'),
   status: 'active',
   links: {
     repo: 'https://github.com/GSAStudentCouncil/gsa-bot',

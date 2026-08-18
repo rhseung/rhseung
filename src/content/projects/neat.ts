@@ -1,10 +1,12 @@
+import dayjs from 'dayjs';
+
 import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'neat',
   domain: 'systems',
   stack: ['Java', 'Swing'],
-  start: '2024-09',
+  start: dayjs('2024-09'),
   status: 'active',
   links: {
     repo: 'https://github.com/gsa-projects/artificial-aquarium',

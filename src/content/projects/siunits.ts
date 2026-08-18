@@ -1,10 +1,12 @@
+import dayjs from 'dayjs';
+
 import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'siunits',
   domain: 'systems',
   stack: ['Python'],
-  start: '2023-12',
+  start: dayjs('2023-12'),
   status: 'active',
   links: {
     repo: 'https://github.com/rhseung/siunits',

@@ -1,11 +1,13 @@
+import dayjs from 'dayjs';
+
 import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'campass',
   domain: 'web',
   stack: ['React', 'Tailwind CSS', 'TanStack Router', 'Vite', 'Bun', 'TypeScript'],
-  start: '2024-11',
-  end: '2024-11',
+  start: dayjs('2024-11'),
+  end: dayjs('2024-11'),
   status: 'shipped',
   links: {
     demo: 'https://campass-fe.vercel.app/',

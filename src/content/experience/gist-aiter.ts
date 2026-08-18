@@ -1,8 +1,10 @@
+import dayjs from 'dayjs';
+
 import { defineCareer } from '@/features/career/models/define';
 
 export default defineCareer({
   slug: 'gist-aiter',
-  start: '2025-09',
+  start: dayjs('2025-09'),
   logo: '/logos/gist-ai.png',
   links: {
     site: 'https://aiter.gist.ac.kr/',

@@ -1,4 +1,4 @@
-import type { Language } from '@/common/lib';
+import { toYearMonth, type Language } from '@/common/lib';
 
 import type {
   Award,
@@ -34,11 +34,21 @@ const skillGroups = collect<SkillGroupItem>(
 const pick = (lang: Language) => (lang === 'en' ? 'en' : 'ko');
 
 export function experienceOf(lang: Language): CareerEntry[] {
-  return experience.map(({ ko, en, ...rest }) => ({ ...rest, ...{ ko, en }[pick(lang)] }));
+  return experience.map(({ ko, en, start, end, ...rest }) => ({
+    ...rest,
+    start: toYearMonth(start),
+    end: end && toYearMonth(end),
+    ...{ ko, en }[pick(lang)],
+  }));
 }
 
 export function educationOf(lang: Language): CareerEntry[] {
-  return education.map(({ ko, en, ...rest }) => ({ ...rest, ...{ ko, en }[pick(lang)] }));
+  return education.map(({ ko, en, start, end, ...rest }) => ({
+    ...rest,
+    start: toYearMonth(start),
+    end: end && toYearMonth(end),
+    ...{ ko, en }[pick(lang)],
+  }));
 }
 
 export function awardsOf(lang: Language): Award[] {
