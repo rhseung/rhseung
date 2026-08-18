@@ -34,6 +34,12 @@ export default [
     },
   },
   {
+    // 테스트는 프로덕션 그래프 밖이다 - zod 를 쓰는 검증 헬퍼를 배럴에 올리면 그 배럴을
+    // import 하는 모든 아일랜드가 zod 52KB 를 같이 내려받는다.
+    files: ['src/**/*.test.ts'],
+    rules: { 'no-restricted-imports': 'off' },
+  },
+  {
     // 항목 하나가 파일 하나다. glob 로더가 default export 를 집어가므로 named export 로 못 쓴다.
     files: ['src/content/**/*.ts'],
     rules: {

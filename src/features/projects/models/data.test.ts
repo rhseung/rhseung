@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
+import { endsAfterStart, monthly } from '@/common/lib/date-schema';
+
 import { PROJECT_DOMAINS, PROJECT_STATUSES } from './types';
 
 import { PROJECT_ITEMS } from './index';
@@ -13,7 +15,6 @@ import { PROJECT_ITEMS } from './index';
  */
 const SUMMARY_MAX = 200;
 
-const monthly = z.string().regex(/^\d{4}-(?:0[1-9]|1[0-2])$/, 'YYYY-MM 이어야 합니다');
 const filled = z.string().trim().min(1);
 
 const text = z.object({
@@ -60,10 +61,7 @@ describe('PROJECT_ITEMS', () => {
     expect(new Set(slugs).size).toBe(slugs.length);
   });
 
-  // 타입은 두 문자열이 `YYYY-MM` 인 것까지만 안다. 순서는 모른다.
   it('끝난 날짜가 시작보다 빠르지 않다', () => {
-    for (const project of PROJECT_ITEMS) {
-      if (project.end) expect(project.end >= project.start, project.slug).toBe(true);
-    }
+    for (const project of PROJECT_ITEMS) expect(endsAfterStart(project), project.slug).toBe(true);
   });
 });

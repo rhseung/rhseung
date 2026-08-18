@@ -3,14 +3,12 @@ import { existsSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
+import { endsAfterStart, monthly, yearOrMonth } from '@/common/lib/date-schema';
+
 import { CAREER_ITEMS } from './index';
 
 const SUMMARY_MAX = 200;
 
-const monthly = z.string().regex(/^\d{4}-(?:0[1-9]|1[0-2])$/, 'YYYY-MM 이어야 합니다');
-const yearly = z
-  .string()
-  .regex(/^\d{4}(?:-(?:0[1-9]|1[0-2]))?$/, 'YYYY 또는 YYYY-MM 이어야 합니다');
 const slug = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'kebab-case 여야 합니다');
 const filled = z.string().trim().min(1);
 const summary = z.string().trim().min(1).max(SUMMARY_MAX).optional();
@@ -35,7 +33,7 @@ const career = z.object({
 
 const award = z.object({
   slug,
-  date: yearly,
+  date: yearOrMonth,
   order: z.number().int().min(0),
   ...translated(z.object({ title: filled, issuer: filled.optional(), summary })),
 });
@@ -57,11 +55,8 @@ describe.each([
     for (const entry of entries) expect(career.safeParse(entry).error, entry.slug).toBeUndefined();
   });
 
-  // 타입은 두 문자열이 `YYYY-MM` 인 것까지만 안다. 순서는 모른다.
   it('끝난 날짜가 시작보다 빠르지 않다', () => {
-    for (const entry of entries) {
-      if (entry.end) expect(entry.end >= entry.start, entry.slug).toBe(true);
-    }
+    for (const entry of entries) expect(endsAfterStart(entry), entry.slug).toBe(true);
   });
 
   it('로고 파일이 실제로 있다', () => {
