@@ -1,8 +1,11 @@
+import { unified } from '@astrojs/markdown-remark';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
+import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
 
 /**
  * `output: 'static'`(기본값)이 CSR의 `vite build`와 같은 자리다 — 결과물은 정적 파일뿐이고
@@ -42,6 +45,15 @@ export default defineConfig({
    */
   markdown: {
     shikiConfig: { themes: { light: 'snazzy-light', dark: 'tokyo-night' }, defaultColor: false },
+
+    /**
+     * 기본 프로세서(Sätteri)에는 수식이 없다. remark/rehype 파이프라인으로 되돌려
+     * KaTeX 를 끼운다 — 빌드 때 HTML 로 굳어서 클라이언트로 나가는 건 CSS 뿐이다.
+     */
+    processor: unified({
+      remarkPlugins: [remarkMath],
+      rehypePlugins: [rehypeKatex],
+    }),
   },
 
   integrations: [
