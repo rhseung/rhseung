@@ -70,7 +70,7 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
                     {year}
                   </span>
                   <div className="flex-1">
-                    <AwardList awards={yearAwards} showDate={false} />
+                    <AwardList awards={yearAwards} lang={lang} showDate={false} />
                   </div>
                 </div>
               ))}
