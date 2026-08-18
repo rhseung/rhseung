@@ -3,7 +3,6 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
-import rehypeExternalLinks from 'rehype-external-links';
 
 /**
  * `output: 'static'`(기본값)이 CSR의 `vite build`와 같은 자리다 — 결과물은 정적 파일뿐이고
@@ -43,12 +42,6 @@ export default defineConfig({
    */
   markdown: {
     shikiConfig: { themes: { light: 'snazzy-light', dark: 'tokyo-night' }, defaultColor: false },
-
-    /**
-     * 본문에서 나가는 링크는 `<ExternalLink />` 를 못 쓴다 — 마크다운이 내는 건 날 `<a>` 다.
-     * 여기서 같은 규칙(새 탭 + `rel`)을 붙이고 ↗ 는 `styles.css` 가 그린다.
-     */
-    rehypePlugins: [[rehypeExternalLinks, { target: '_blank', rel: ['noreferrer', 'noopener'] }]],
   },
 
   integrations: [

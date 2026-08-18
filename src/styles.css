@@ -219,9 +219,9 @@
     @apply my-0;
   }
 
-  /* 본문 안의 각주 번호. 링크지만 외부가 아니라 ↗ 를 붙이지 않는다. */
+  /* 본문 안의 각주 번호. 흐리면 안 보이고 밑줄을 주면 링크로 읽힌다 — 색만 올린다. */
   .prose sup a {
-    @apply text-muted-foreground no-underline;
+    @apply text-primary font-medium no-underline;
   }
 
   /* 헤더와 본문의 경계는 행 사이 선보다 진해야 표가 읽힌다. */
