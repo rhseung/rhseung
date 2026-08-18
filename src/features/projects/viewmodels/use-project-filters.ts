@@ -82,6 +82,13 @@ export function useProjectFilters() {
     [filters],
   );
 
+  const setStack = useCallback(
+    (stack: readonly string[]) => {
+      commit({ ...filters, stack });
+    },
+    [filters],
+  );
+
   const toggleStack = useCallback(
     (item: string) => {
       const stack = filters.stack.includes(item)
@@ -105,5 +112,14 @@ export function useProjectFilters() {
 
   const active = filters.domain !== null || filters.stack.length > 0 || filters.query !== '';
 
-  return { filters, setDomain, toggleStack, setQuery, reset, active, domains: PROJECT_DOMAINS };
+  return {
+    filters,
+    setDomain,
+    setStack,
+    toggleStack,
+    setQuery,
+    reset,
+    active,
+    domains: PROJECT_DOMAINS,
+  };
 }

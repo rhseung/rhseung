@@ -66,7 +66,6 @@ export default interface Resources {
       "title": "해당하는 프로젝트가 없습니다"
     },
     "filter": {
-      "all": "전체",
       "label": "분야로 좁히기",
       "reset": "필터 지우기",
       "results": "{{count}}개",

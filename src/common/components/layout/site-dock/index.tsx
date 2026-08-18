@@ -22,6 +22,7 @@ import { cn } from '@/common/utils';
 import { useThemeTransition } from '@/common/viewmodels';
 
 import { Button } from '../../ui/button';
+import { Separator } from '../../ui/separator';
 import {
   Sheet,
   SheetContent,
@@ -92,7 +93,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
             current={current === undefined}
           />
 
-          <span className="bg-border mx-0.5 hidden h-6 w-px sm:block" />
+          <Separator orientation="vertical" className="mx-0.5 hidden !h-6 sm:block" />
 
           <div className="hidden items-center gap-1 sm:flex">
             {SECTIONS.map((section) => (
@@ -105,14 +106,14 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
               />
             ))}
 
-            <span className="bg-border mx-0.5 h-6 w-px" />
+            <Separator orientation="vertical" className="mx-0.5 !h-6" />
 
             {external.map(({ key, href, label, Icon, blank }) => (
               <DockLink key={key} href={href} label={label} Icon={Icon} blank={blank} />
             ))}
           </div>
 
-          <span className="bg-border mx-0.5 h-6 w-px" />
+          <Separator orientation="vertical" className="mx-0.5 !h-6" />
 
           {altHref && (
             <DockLink

@@ -43,6 +43,8 @@ export {
 } from './ui/input-group';
 export { Label } from './ui/label';
 export { Separator } from './ui/separator';
+export { Toggle } from './ui/toggle';
+export { ToggleGroup, ToggleGroupItem } from './ui/toggle-group';
 export {
   Sheet,
   SheetClose,

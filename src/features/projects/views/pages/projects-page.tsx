@@ -2,8 +2,6 @@ import { MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 import {
-  Badge,
-  Button,
   Empty,
   EmptyDescription,
   EmptyHeader,
@@ -13,9 +11,10 @@ import {
   InputGroupButton,
   InputGroupInput,
   SiteDock,
+  ToggleGroup,
+  ToggleGroupItem,
 } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
-import { cn } from '@/common/utils';
 
 import {
   countByDomain,
@@ -26,6 +25,7 @@ import {
   useProjectFilters,
   useProjectLabels,
   type Project,
+  type ProjectDomain,
 } from '../../viewmodels';
 import { ProjectCard } from '../components';
 
@@ -35,7 +35,8 @@ const STACK_CHIPS = 10;
 export function ProjectsPage({ lang, projects }: ProjectsPage.Props) {
   const { t } = useTranslation('projects');
   const label = useProjectLabels();
-  const { filters, setDomain, toggleStack, setQuery, reset, active, domains } = useProjectFilters();
+  const { filters, setDomain, setStack, toggleStack, setQuery, reset, active, domains } =
+    useProjectFilters();
 
   const counts = countByDomain(projects);
   const visible = sortProjects(filterProjects(projects, filters), {
@@ -84,69 +85,49 @@ export function ProjectsPage({ lang, projects }: ProjectsPage.Props) {
             )}
           </InputGroup>
 
-          <div className="flex flex-wrap gap-1" role="group" aria-label={t(($) => $.filter.label)}>
-            <Button
-              size="sm"
-              variant={filters.domain === null ? 'secondary' : 'ghost'}
-              aria-pressed={filters.domain === null}
-              onClick={() => setDomain(null)}
-            >
-              {t(($) => $.filter.all)}
-              <span className="text-muted-foreground ml-1.5 tabular-nums">{projects.length}</span>
-            </Button>
-
+          <ToggleGroup
+            size="sm"
+            aria-label={t(($) => $.filter.label)}
+            value={filters.domain ? [filters.domain] : []}
+            onValueChange={([next]) => setDomain((next as ProjectDomain | undefined) ?? null)}
+          >
             {domains.map((value) => (
-              <Button
-                key={value}
-                size="sm"
-                variant={filters.domain === value ? 'secondary' : 'ghost'}
-                aria-pressed={filters.domain === value}
-                disabled={!counts[value]}
-                onClick={() => setDomain(filters.domain === value ? null : value)}
-              >
+              <ToggleGroupItem key={value} value={value} disabled={!counts[value]}>
                 {label.domain[value]}
                 <span className="text-muted-foreground ml-1.5 tabular-nums">
                   {counts[value] ?? 0}
                 </span>
-              </Button>
+              </ToggleGroupItem>
             ))}
-          </div>
+          </ToggleGroup>
 
-          <ul className="flex flex-wrap gap-1.5" aria-label={t(($) => $.filter.stack)}>
-            {chips.map((item) => {
-              const selected = filters.stack.includes(item);
+          <ToggleGroup
+            multiple
+            size="sm"
+            variant="outline"
+            className="flex-wrap"
+            aria-label={t(($) => $.filter.stack)}
+            value={[...filters.stack]}
+            onValueChange={(next) => setStack(next)}
+          >
+            {chips.map((item) => (
+              <ToggleGroupItem key={item} value={item}>
+                {item}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
 
-              return (
-                <li key={item}>
-                  <button
-                    type="button"
-                    aria-pressed={selected}
-                    onClick={() => toggleStack(item)}
-                    className="cursor-pointer"
-                  >
-                    <Badge
-                      variant={selected ? 'secondary' : 'outline'}
-                      className={cn('gap-1', selected && 'pr-1.5')}
-                    >
-                      {item}
-                      {selected && <XIcon aria-hidden className="size-3" />}
-                    </Badge>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+          <div className="text-muted-foreground flex items-center gap-3 text-xs">
+            <span className="tabular-nums">
+              {t(($) => $.filter.results, { count: visible.length })}
+            </span>
 
-          {active && (
-            <div className="text-muted-foreground flex items-center gap-3 text-xs">
-              <span className="tabular-nums">
-                {t(($) => $.filter.results, { count: visible.length })}
-              </span>
+            {active && (
               <button type="button" onClick={reset} className="hover:text-foreground underline">
                 {t(($) => $.filter.reset)}
               </button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         {visible.length === 0 ? (

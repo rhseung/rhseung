@@ -1,7 +1,7 @@
 import { ArrowRightIcon, GithubLogoIcon, ReadCvLogoIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { ExternalLink, SiteDock, buttonVariants } from '@/common/components';
+import { ExternalLink, Separator, SiteDock, buttonVariants } from '@/common/components';
 import { localeHref, SITE, type Language } from '@/common/lib';
 import { PostListItem, type PostSummary } from '@/features/blog';
 import { ProjectCard, type Project } from '@/features/projects';
@@ -73,7 +73,9 @@ export function HomePage({ lang, headline, intro, pinned, recent }: HomePage.Pro
           </section>
         )}
 
-        <section className="border-border flex flex-col gap-3 border-t pt-8">
+        <Separator />
+
+        <section className="flex flex-col gap-3">
           <h2 className="text-sm font-medium tracking-tight">{t(($) => $.sections.intro)}</h2>
           {intro && <p className="text-muted-foreground text-sm leading-relaxed">{intro}</p>}
 

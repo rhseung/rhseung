@@ -13,7 +13,6 @@
     "title": "Nothing here yet"
   },
   "filter": {
-    "all": "All",
     "label": "Filter by domain",
     "reset": "Clear filters",
     "results_one": "filter.results",
