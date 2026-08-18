@@ -37,10 +37,10 @@ const SECTIONS = ['projects', 'research', 'blog', 'career'] as const;
 
 /** 가장 높은 겹이 독의 세로 중앙까지 온다: `bottom-4`(1rem) + 독 높이의 절반. */
 const BLUR_LAYERS = [
-  { height: '3.5rem', blur: '3px' },
-  { height: '2.5rem', blur: '6px' },
-  { height: '1.5rem', blur: '12px' },
-  { height: '0.75rem', blur: '24px' },
+  { height: '2.8rem', blur: '3px' },
+  { height: '2rem', blur: '6px' },
+  { height: '1.2rem', blur: '12px' },
+  { height: '0.6rem', blur: '24px' },
 ];
 
 type Section = (typeof SECTIONS)[number];
