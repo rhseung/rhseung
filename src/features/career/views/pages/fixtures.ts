@@ -30,6 +30,6 @@ export const awards: Award[] = [
 ];
 
 export const skills: SkillGroup[] = [
-  { slug: 'lang', group: '언어', items: ['TypeScript', 'Rust'], order: 0 },
-  { slug: 'web', group: '웹', items: ['Astro', 'React'], order: 1 },
+  { slug: 'lang', group: '언어', items: ['TypeScript', 'Rust'] },
+  { slug: 'web', group: '웹', items: ['Astro', 'React'] },
 ];

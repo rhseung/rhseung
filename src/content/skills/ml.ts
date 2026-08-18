@@ -2,7 +2,6 @@ import { defineSkillGroup } from '@/features/career/models/define';
 
 export default defineSkillGroup({
   slug: 'ml',
-  order: 3,
   items: [
     'PyTorch',
     'TensorFlow',

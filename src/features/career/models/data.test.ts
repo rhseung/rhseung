@@ -39,7 +39,6 @@ const award = z.object({
 
 const skillGroup = z.object({
   slug,
-  order: z.number().int().min(0),
   items: z.array(filled).min(1),
   ...translated(z.object({ group: filled })),
 });

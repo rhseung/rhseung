@@ -2,7 +2,6 @@ import { defineSkillGroup } from '@/features/career/models/define';
 
 export default defineSkillGroup({
   slug: 'web',
-  order: 1,
   items: [
     'React',
     'Next.js',

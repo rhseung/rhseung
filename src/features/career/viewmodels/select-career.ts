@@ -23,5 +23,5 @@ export function groupAwardsByYear(awards: readonly Award[]): [year: number, awar
 }
 
 export function sortSkillGroups(groups: readonly SkillGroup[]): SkillGroup[] {
-  return [...groups].sort((a, b) => a.order - b.order || a.group.localeCompare(b.group));
+  return [...groups].sort((a, b) => a.group.localeCompare(b.group));
 }

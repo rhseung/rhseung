@@ -35,7 +35,6 @@ export type AwardItem = Translated<AwardText> & {
 
 export type SkillGroupItem = Translated<SkillGroupText> & {
   slug: string;
-  order: number;
   items: readonly Tech[];
 };
 

@@ -56,11 +56,11 @@ describe('groupAwardsByYear', () => {
 });
 
 describe('sortSkillGroups', () => {
-  it('order 먼저, 같으면 이름순', () => {
+  it('이름순', () => {
     const groups: SkillGroup[] = [
-      { slug: 'web', group: '웹', items: ['Astro'], order: 1 },
-      { slug: 'lang', group: '언어', items: ['Rust'], order: 0 },
-      { slug: 'infra', group: '인프라', items: ['Bun'], order: 1 },
+      { slug: 'web', group: '웹', items: ['Astro'] },
+      { slug: 'lang', group: '언어', items: ['Rust'] },
+      { slug: 'infra', group: '인프라', items: ['Bun'] },
     ];
 
     expect(sortSkillGroups(groups).map((g) => g.group)).toEqual(['언어', '웹', '인프라']);

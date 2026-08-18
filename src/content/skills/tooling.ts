@@ -2,7 +2,6 @@ import { defineSkillGroup } from '@/features/career/models/define';
 
 export default defineSkillGroup({
   slug: 'tooling',
-  order: 5,
   items: ['Bun', 'npm', 'Yarn', 'PyPI', 'Figma', 'LaTeX'],
   ko: {
     group: '도구',
