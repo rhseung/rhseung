@@ -78,9 +78,6 @@
    이 프로젝트에는 tailwind.config.js가 없고, 그건 의도다. */
 @theme inline {
   --font-sans: 'Pretendard Variable', sans-serif;
-  /* Stack Sans엔 한글이 없다 — 스택 다음 자리의 Pretendard로 글리프 단위 폴백된다. */
-  --font-display: 'Stack Sans Headline', 'Pretendard Variable', sans-serif;
-  --font-logo: 'Stack Sans Notch', 'Pretendard Variable', sans-serif;
   --font-mono: 'Monaspace Neon Var', ui-monospace, monospace;
 
   --color-background: var(--background);
@@ -122,11 +119,6 @@
   body {
     /* 독이 화면 아래에 떠 있다 — 마지막 콘텐츠가 그 아래로 숨지 않게 자리를 비운다. */
     @apply bg-background text-foreground pb-28 font-sans antialiased print:pb-0;
-  }
-
-  h1,
-  h2 {
-    @apply font-display;
   }
 
   /* Monaspace의 texture healing — 글자폭을 이웃에 맞춰 흘려서 코드 덩어리가 고르게 보인다. */

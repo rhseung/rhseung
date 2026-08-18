@@ -7,7 +7,6 @@ export default defineCareer({
   ko: {
     org: 'GIST (광주과학기술원)',
     role: '전기전자컴퓨터공학부 · AI융합학과 복수전공 (학사)',
-    summary: '1학년은 도전탐색과정(무전공). 과기원이라 2학년부터 전공을 정한다.',
     achievements: [
       '2025년 입학식 학부 신입생 대표',
       '2025년 1학기 이공계 성적우수 장학생',
@@ -18,7 +17,6 @@ export default defineCareer({
   en: {
     org: 'Gwangju Institute of Science and Technology (GIST)',
     role: 'B.S., School of EECS and Department of AI Convergence (double major)',
-    summary: 'First year is undeclared; majors are chosen from the second year.',
     achievements: [
       'Freshman representative, 2025 matriculation ceremony',
       'Academic excellence scholarship, spring 2025',

@@ -4,20 +4,12 @@
  * 외부 CDN을 쓰면 첫 페인트가 남의 서버에 묶이고, `bun run gen:resume`이 굽는 PDF도
  * 네트워크 상태에 따라 달라진다.
  *
- * Stack Sans (OFL) — Google Fonts. 로고(Notch)와 제목(Headline)에만 쓴다.
- * 본문까지 쓰면 한 문단 안에서 라틴만 얼굴이 달라져 섞인 티가 난다:
- *   https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@200..700
- *     &family=Stack+Sans+Notch:wght@200..700&display=swap
- *
  * Pretendard Variable (OFL) v1.3.9 — 동적 서브셋 92개. 브라우저가 쓰는 범위만 받는다:
  *   https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css
  *
  * Monaspace Neon Var (OFL) v1.200 — 가변축 wght/wdth/slnt, texture healing(`calt`):
  *   https://cdn.jsdelivr.net/gh/githubnext/monaspace@v1.200/fonts/webfonts/
- *
- * Stack Sans엔 한글 글리프가 없어서 폰트 스택 다음 자리의 Pretendard로 자동 폴백된다.
- * 본문(`--font-sans`)은 Pretendard 단독이다.
- */
+ * */
 
 @font-face {
   font-family: 'Monaspace Neon Var';
@@ -25,52 +17,6 @@
   font-weight: 200 800;
   font-display: swap;
   src: url(/fonts/monaspace-neon-var.woff2) format('woff2-variations');
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Stack Sans Headline';
-  font-style: normal;
-  font-weight: 200 700;
-  font-display: swap;
-  src: url(/fonts/stack-sans-headline-latin-ext.woff2) format('woff2');
-  unicode-range:
-    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
-    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
-    U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Stack Sans Headline';
-  font-style: normal;
-  font-weight: 200 700;
-  font-display: swap;
-  src: url(/fonts/stack-sans-headline-latin.woff2) format('woff2');
-  unicode-range:
-    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
-    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Stack Sans Notch';
-  font-style: normal;
-  font-weight: 200 700;
-  font-display: swap;
-  src: url(/fonts/stack-sans-notch-latin-ext.woff2) format('woff2');
-  unicode-range:
-    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
-    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
-    U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Stack Sans Notch';
-  font-style: normal;
-  font-weight: 200 700;
-  font-display: swap;
-  src: url(/fonts/stack-sans-notch-latin.woff2) format('woff2');
-  unicode-range:
-    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
-    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 /* latin-ext */
 /* latin */
