@@ -73,7 +73,6 @@ export function countByDomain(
   return counts;
 }
 
-/** 카드가 어디로 보낼지. 본문이 있으면 상세, 없으면 저장소·데모로 바로 나간다. */
 export function projectHref(
   project: Project,
   detailHref: string,

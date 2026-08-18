@@ -17,11 +17,6 @@ import {
   type ProjectStatus,
 } from '../models';
 
-/**
- * 셀렉터에 브래킷 접근이 통한다 — i18next-cli 도 이 형태를 읽어서 그 하위 키를 안 지운다.
- * 단 `t(($) => $.x[key])` 가 **소스에 그대로** 보여야 한다. 헬퍼 함수로 감싸면 추출기가
- * 못 읽고 다음 `bun run gen` 에 키가 통째로 사라진다.
- */
 export function useProjectLabels() {
   const { t } = useTranslation('projects');
 

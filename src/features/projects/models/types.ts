@@ -22,7 +22,6 @@ export type ProjectText = {
   highlight?: string;
 };
 
-/** 두 블록이 다 필수라 한쪽 언어를 빠뜨리면 그 파일에서 컴파일이 깨진다. */
 export type ProjectItem = {
   slug: string;
   domain: ProjectDomain;

@@ -18,10 +18,6 @@ export type SkillGroupText = {
   group: string;
 };
 
-/**
- * 항목 하나가 파일 하나다. 언어 무관 필드는 위에 한 번, 번역문은 `ko`·`en` 블록에.
- * 두 블록이 **타입상 필수**라 한쪽을 빠뜨리면 그 파일에서 컴파일이 깨진다.
- */
 type Translated<T> = { ko: T; en: T };
 
 export type CareerItem = Translated<CareerText> & {
