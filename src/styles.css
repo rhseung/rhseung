@@ -176,14 +176,18 @@
     @apply border-border my-0 rounded-lg border;
   }
 
-  /* 체크박스를 마커 자리로 빼야 글머리가 `ul`·`ol` 과 같은 축에 선다. */
+  /*
+   * 체크박스를 마커 자리로 빼야 글머리가 `ul`·`ol` 과 같은 축에 선다.
+   * `1.375em` = 체크박스 폭(1em) + typography 가 `li` 에 주는 `padding-left`(0.375em) —
+   * 마커는 우측 정렬이라 맞춰야 하는 건 왼쪽이 아니라 오른쪽 끝이다.
+   */
   .prose li:has(> input[type='checkbox']) {
     @apply relative list-none;
   }
 
   /* shadcn `Checkbox` 를 CSS 로 다시 그린다. 체크는 mask 라야 색이 토큰을 따라간다. */
   .prose input[type='checkbox'] {
-    @apply border-input dark:bg-input/30 absolute top-[0.3em] -left-[1.6em] inline-grid size-4 shrink-0 appearance-none place-content-center rounded-[4px] border transition-colors;
+    @apply border-input dark:bg-input/30 absolute top-[0.3em] -left-[1.375em] inline-grid size-4 shrink-0 appearance-none place-content-center rounded-[4px] border transition-colors;
   }
 
   .prose input[type='checkbox']:checked {

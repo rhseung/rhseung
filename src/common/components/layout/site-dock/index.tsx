@@ -74,10 +74,10 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
 
   return (
     <TooltipProvider>
-      {/* 독 중앙부터 화면 바닥까지. 독에 직접 걸면 원형 테두리에서 뚝 끊긴다. */}
+      {/* 높이 = `bottom-4` + 독 높이의 절반. 독에 직접 걸면 원형 테두리에서 뚝 끊긴다. */}
       <div
         aria-hidden
-        className="pointer-events-none fixed inset-x-0 bottom-0 z-10 h-12 mask-[linear-gradient(to_top,black_35%,transparent)] backdrop-blur-sm print:hidden"
+        className="pointer-events-none fixed inset-x-0 bottom-0 z-10 h-[2.8rem] mask-[linear-gradient(to_top,black_70%,transparent)] backdrop-blur-sm print:hidden"
       />
 
       <nav
