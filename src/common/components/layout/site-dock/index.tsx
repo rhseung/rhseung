@@ -53,12 +53,9 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
 
   const nextLanguage = LANGUAGES[(LANGUAGES.indexOf(lang) + 1) % LANGUAGES.length];
 
-  const sectionLabel: Record<Section, string> = {
-    projects: t(($) => $.nav.projects),
-    blog: t(($) => $.nav.blog),
-    career: t(($) => $.nav.career),
-    resume: t(($) => $.nav.resume),
-  };
+  const sectionLabel = Object.fromEntries(
+    SECTIONS.map((key) => [key, t(($) => $.nav[key])]),
+  ) as Record<Section, string>;
 
   const external = [
     { key: 'github', href: SITE.github, label: 'GitHub', Icon: GithubLogoIcon, blank: true },
