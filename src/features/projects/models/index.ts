@@ -15,7 +15,6 @@ export const PROJECT_ITEMS: ProjectItem[] = Object.keys(modules)
   .sort()
   .map((path) => modules[path].default);
 
-/** `detailSlugs`는 그 언어로 MDX 본문이 있는 슬러그 — 라우트가 실제 있는 것만. */
 export function projectsOf(
   lang: Language,
   detailSlugs: ReadonlySet<string> = new Set(),

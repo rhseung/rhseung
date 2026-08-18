@@ -12,7 +12,6 @@ export function getStaticPaths() {
 
 const { lang } = Astro.props;
 
-// 상세 페이지는 그 언어로 MDX 본문이 있는 프로젝트만 갖는다.
 const details: CollectionEntry<'projects'>[] = await getCollection('projects');
 const detailSlugs = new Set(
   details.filter((entry) => entry.id.endsWith(`/${lang}`)).map((entry) => entry.id.split('/')[0]),

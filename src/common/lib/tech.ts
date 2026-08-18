@@ -1,7 +1,3 @@
-/**
- * 기술 이름의 정본. 프로젝트 스택과 기술 그룹이 같은 어휘를 쓴다 —
- * 한쪽에 `typscript`를 적으면 컴파일이 깨지고, 같은 것이 두 이름으로 갈리지도 않는다.
- */
 export const TECH = [
   'TypeScript',
   'JavaScript',

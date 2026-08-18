@@ -1,4 +1,3 @@
-// ui/ — shadcn CLI 생성물, 손으로 고치지 않는다.
 export { Alert, AlertAction, AlertDescription, AlertTitle } from './ui/alert';
 export { Badge, badgeVariants } from './ui/badge';
 export { Button, buttonVariants } from './ui/button';
@@ -58,11 +57,9 @@ export {
 export { Skeleton } from './ui/skeleton';
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
-// layout/ — 앱을 아는 조합 컴포넌트.
 export { AppProviders } from './layout/app-providers';
 export { ExternalLink } from './layout/external-link';
 export { NotFound } from './layout/not-found';
 export { SiteDock } from './layout/site-dock';
 
-// mdx/ — 본문에서만 쓰는 컴포넌트.
 export { Callout, Detail, Figure, MDX_COMPONENTS, Stat, Stats, Step, Steps } from './mdx';

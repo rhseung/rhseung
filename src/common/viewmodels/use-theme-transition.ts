@@ -6,8 +6,6 @@ import { flushSync } from 'react-dom';
 const DURATION = 450;
 
 /**
- * 테마를 누른 버튼 자리에서 원이 퍼지듯 바꾼다.
- *
  * `startViewTransition` 콜백이 동기라 `flushSync` 로 상태를 즉시 커밋해야 스냅숏 시점이 맞는다.
  */
 export function useThemeTransition() {

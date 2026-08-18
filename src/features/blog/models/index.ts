@@ -18,5 +18,4 @@ export const postSchema = () =>
 
 export type Post = z.infer<ReturnType<typeof postSchema>>;
 
-/** `date`가 문자열인 건 의도다 — props로 넘어가며 어차피 직렬화된다. */
 export type PostSummary = Omit<Post, 'date'> & { slug: string; date: string };

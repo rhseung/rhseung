@@ -31,8 +31,6 @@ export function AppProviders({ lang, children }: AppProviders.Props) {
 
   if (i18n.language !== lang) void i18n.changeLanguage(lang);
 
-  // 워커를 띄우되 렌더를 막지 않는다. 여기서 자식을 가리면 그 null이 SSR 결과가 되어
-  // 본문이 하이드레이션용 <template>에 갇힌다 — JS가 꺼지면 백지다.
   useEffect(() => {
     void ensureMocking();
   }, []);

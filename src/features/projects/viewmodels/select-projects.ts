@@ -25,7 +25,6 @@ function matchesQuery(project: Project, query: string): boolean {
   return haystack.includes(needle);
 }
 
-/** 스택은 AND 다 — 여럿 고르면 그걸 다 쓴 프로젝트만 남는다. */
 export function filterProjects(projects: readonly Project[], filters: ProjectFilters): Project[] {
   return filterByDomain(projects, filters.domain)
     .filter((project) =>
@@ -43,10 +42,6 @@ export function countByStack(projects: readonly Project[]): [string, number][] {
   return [...counts].sort(([a, countA], [b, countB]) => countB - countA || a.localeCompare(b));
 }
 
-/**
- * 필터가 걸린 목록에서는 pinned 가중치를 뺀다 — 좁혀서 보는 사람에게 그 안에서까지
- * 앞세우면 순서를 설명할 방법이 없다. `start`는 `YYYY-MM`이라 문자열 비교가 곧 시간순이다.
- */
 export function sortProjects(
   projects: readonly Project[],
   { pinnedFirst }: { pinnedFirst: boolean },

@@ -71,7 +71,6 @@ function commit(next: ProjectFilters) {
   window.dispatchEvent(new Event(CHANGE_EVENT));
 }
 
-/** 필터 상태는 URL 쿼리에 산다 — 공유되고 뒤로가기가 동작한다. */
 export function useProjectFilters() {
   const filters = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 

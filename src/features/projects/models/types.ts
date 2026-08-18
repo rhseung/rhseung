@@ -1,6 +1,5 @@
 import type { Tech, Url, YearMonth } from '@/common/lib';
 
-/** 카드·상세가 이 순서로 보여준다. */
 export const PROJECT_LINK_KINDS = ['repo', 'demo', 'package', 'post', 'paper'] as const;
 
 export type ProjectLinkKind = (typeof PROJECT_LINK_KINDS)[number];

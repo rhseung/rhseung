@@ -42,7 +42,6 @@ export function PostDetailPage({ post, children }: PostDetailPage.Props) {
           )}
         </header>
 
-        {/* MDX 본문. 여기 안에 인터랙티브 아일랜드를 넣으면 컨텍스트가 끊긴다. */}
         <div className="prose prose-zinc dark:prose-invert max-w-none">{children}</div>
       </main>
 

@@ -7,10 +7,6 @@ import { toPostSummary } from '@/features/blog';
 import { MDX_COMPONENTS } from '@/common/components';
 import Layout from '@/layouts/layout.astro';
 
-/**
- * 글은 번역하지 않는다 — 쓴 언어 접두사 아래에만 존재한다. 한국어 글은 `/ko/blog/<slug>/`
- * 하나뿐이고 `/en/`엔 없다. 그래서 언어 미러도 hreflang도 걸지 않는다.
- */
 export async function getStaticPaths() {
   const entries: CollectionEntry<'posts'>[] = await getCollection(
     'posts',

@@ -1,6 +1,5 @@
 import type { Award, CareerEntry, SkillGroup } from '../models';
 
-/** `start`가 `YYYY-MM`이라 문자열 비교가 곧 시간순이다. */
 export function sortCareer(entries: readonly CareerEntry[]): CareerEntry[] {
   return [...entries].sort((a, b) => b.start.localeCompare(a.start));
 }

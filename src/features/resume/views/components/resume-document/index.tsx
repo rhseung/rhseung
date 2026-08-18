@@ -25,7 +25,6 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-/** 섹션 내용은 이 문서가 소유하지 않는다 — 각 데이터 모듈에서 모인다. */
 export function ResumeDocument({
   name,
   profile,

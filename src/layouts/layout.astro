@@ -11,7 +11,6 @@ interface Props {
   lang: Language;
   title: string;
   description?: string;
-  /** 이 문서의 다른 언어판. 짝이 있는 문서만 넘긴다 — 없으면 hreflang을 아예 내지 않는다. */
   alternates?: Partial<Record<Language, string>>;
   image?: string;
   type?: 'website' | 'article';

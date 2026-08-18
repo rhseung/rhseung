@@ -1,9 +1,5 @@
 import { LANGUAGES, type Language } from './languages';
 
-/**
- * 문서 메타데이터는 `locales/`가 아니라 여기 둔다 — i18next-cli는 `.astro`를 파싱하지
- * 못하고, `removeUnusedKeys: true`라서 키를 만들어도 다음 `bun run gen`에 사라진다.
- */
 export const SITE = {
   url: 'https://rhseung.me',
   handle: 'rhseung',
@@ -59,7 +55,6 @@ export function profileOf(lang: Language): Profile {
   return { headline: SITE.headline[lang], intro: SITE.intro[lang], location: SITE.location[lang] };
 }
 
-/** 모든 경로에 언어 접두사가 붙는다 — 기본 언어도 예외가 아니다. */
 export function localeHref(lang: Language, path: string): string {
   const absolute = path.startsWith('/') ? path : `/${path}`;
   const prefixed = `/${lang}${absolute === '/' ? '' : absolute}`;
@@ -70,8 +65,6 @@ export function localeHref(lang: Language, path: string): string {
 }
 
 /**
- * `[lang]` 라우트가 두 언어를 한 파일에서 내게 하는 경로 목록.
- *
  * 상수가 아니라 함수다 — Astro가 라우트별로 이 객체에 내부 상태를 붙여서, 같은 인스턴스를
  * 여러 라우트가 공유하면 두 번째 라우트부터 `NoMatchingStaticPathFound`로 빌드가 깨진다.
  */

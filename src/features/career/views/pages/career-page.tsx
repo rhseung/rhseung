@@ -63,7 +63,6 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
 
         {awards.length > 0 && (
           <Section title={t(($) => $.awards.title)}>
-            {/* 여럿이 한 줄로 이어지면 훑을 수 없다. 연도로 묶어 눈이 쉴 곳을 만든다. */}
             <div className="flex flex-col gap-6">
               {groupAwardsByYear(awards).map(([year, yearAwards]) => (
                 <div key={year} className="flex gap-4">

@@ -11,7 +11,6 @@ import {
   type Project,
 } from '../../../viewmodels';
 
-/** 넘치는 건 개수로만 알린다 — 카드 높이가 들쭉날쭉해지지 않게. */
 const STACK_SHOWN = 4;
 
 function formatMonth(value: string) {
@@ -72,7 +71,6 @@ export function ProjectCard({
         <p className="border-border border-l-2 pl-3 text-xs font-medium">{project.highlight}</p>
       )}
 
-      {/* 그리드에서 요약 길이가 달라도 밑변이 맞게 바닥에 붙인다. */}
       <ul className="mt-auto flex flex-wrap gap-1 pt-1">
         {stack.map((item) => {
           const selected = selectedStack.includes(item);
