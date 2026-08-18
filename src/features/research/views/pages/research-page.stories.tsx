@@ -1,4 +1,3 @@
-
 import { ResearchPage } from './research-page';
 
 import type { Research } from '../../viewmodels';

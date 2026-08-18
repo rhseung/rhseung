@@ -8,7 +8,6 @@ import {
   GithubLogoIcon,
   GlobeIcon,
   HouseIcon,
-  IdentificationCardIcon,
   ListIcon,
   MoonIcon,
   NotePencilIcon,
@@ -34,7 +33,7 @@ import {
 } from '../../ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../ui/tooltip';
 
-const SECTIONS = ['projects', 'research', 'blog', 'career', 'resume'] as const;
+const SECTIONS = ['projects', 'research', 'blog', 'career'] as const;
 
 /** 가장 높은 겹이 독의 세로 중앙까지 온다: `bottom-4`(1rem) + 독 높이의 절반. */
 const BLUR_LAYERS = [
@@ -51,7 +50,6 @@ const SECTION_ICON: Record<Section, Icon> = {
   research: FlaskIcon,
   blog: NotePencilIcon,
   career: BriefcaseIcon,
-  resume: IdentificationCardIcon,
 };
 
 const itemClass =

@@ -31,8 +31,7 @@ export default interface Resources {
       "label": "주요 메뉴",
       "menu": "메뉴",
       "projects": "프로젝트",
-      "research": "연구",
-      "resume": "이력서"
+      "research": "연구"
     },
     "notFound": {
       "action": "홈으로",

@@ -18,12 +18,12 @@ const detailSlugs = new Set(
   details.filter((entry) => entry.id.endsWith(`/${lang}`)).map((entry) => entry.id.split('/')[0]),
 );
 
-const t = i18n.getFixedT(lang, 'common');
+const t = i18n.getFixedT(lang, 'resume');
 ---
 
 <Layout
   lang={lang}
-  title={`${t(($) => $.nav.resume)} — ${SITE.title[lang]}`}
+  title={`${t(($) => $.page.title)} — ${SITE.title[lang]}`}
   description={profileOf(lang).headline}
   alternates={{ ko: localeHref('ko', '/resume'), en: localeHref('en', '/resume') }}
 >

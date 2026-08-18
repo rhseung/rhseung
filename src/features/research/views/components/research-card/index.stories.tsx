@@ -2,7 +2,6 @@ import { ResearchCard } from '.';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-
 const meta = {
   title: 'Research/ResearchCard',
   component: ResearchCard,
