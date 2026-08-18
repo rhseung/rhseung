@@ -331,6 +331,10 @@ CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한
 - `src/@types/i18next.d.ts`도 생성물이다. `enableSelector`를 바꾸려면 이 파일이 아니라
   `i18next.config.ts`의 `types.enableSelector`를 고치고 파일을 지운 뒤 `bun run gen:i18n`한다
   — 이미 존재하는 파일은 i18next-cli가 다시 쓰지 않는다 (최초 생성 시에만 config를 반영).
+- **`.astro` 는 추출 대상이 아니다.** `input` 에 `.astro` 를 넣어도 파서가 조용히 건너뛴다.
+  그래서 `.astro` 에서만 쓰는 키는 다음 `bun run gen` 에 사라지고, CI 의 `git diff --exit-code`
+  는 그걸 정상으로 통과시킨다. 라우트 제목이 쓰는 `common:nav.*` 만 `preservePatterns` 로
+  지켜뒀다 - 그 밖의 키를 `.astro` 에서 새로 만들지 않는다.
 - **문서 메타데이터는 `locales/`가 아니라 `common/lib/site.ts`에 둔다.** `<title>`·
   description·OG는 `.astro`에서만 쓰이는데 `.astro`는 추출 대상이 아니라, 억지로 키를
   만들면 `removeUnusedKeys`가 다음 `bun run gen`에 지운다.

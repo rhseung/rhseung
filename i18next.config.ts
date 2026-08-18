@@ -26,6 +26,10 @@ export default defineConfig({
     secondaryLanguages: ['en'],
 
     removeUnusedKeys: true,
+
+    // `.astro` 는 추출 대상이 아니라 거기서만 쓰는 키는 지워진다 - `input` 에 `.astro` 를
+    // 넣어도 파서가 조용히 건너뛴다. 라우트 제목이 쓰는 `nav.*` 만 예외로 지킨다.
+    preservePatterns: ['common:nav.*'],
     sort: true,
     indentation: 2,
     defaultValue: '',
