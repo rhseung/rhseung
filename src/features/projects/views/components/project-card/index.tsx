@@ -1,8 +1,11 @@
+import { TrophyIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
+
 
 import { Badge, ExternalLink } from '@/common/components';
 import { formatYearMonth } from '@/common/lib';
 import { cn } from '@/common/utils';
+import type { Award } from '@/features/career';
 
 import {
   PROJECT_LINK_ICON,
@@ -17,6 +20,7 @@ const STACK_SHOWN = 6;
 export function ProjectCard({
   project,
   detailHref,
+  awards = [],
   selectedStack = [],
   onToggleStack,
 }: ProjectCard.Props) {
@@ -59,6 +63,17 @@ export function ProjectCard({
       </div>
 
       <p className="text-muted-foreground text-sm leading-relaxed">{project.summary}</p>
+
+      {awards.length > 0 && (
+        <ul className="flex flex-col gap-0.5">
+          {awards.map((award) => (
+            <li key={award.slug} className="flex items-center gap-1.5 text-xs">
+              <TrophyIcon aria-hidden className="text-primary size-3.5 shrink-0" />
+              <span className="font-medium">{award.title}</span>
+            </li>
+          ))}
+        </ul>
+      )}
 
       {project.highlight && (
         <p className="border-border border-l-2 pl-3 text-xs font-medium">{project.highlight}</p>
@@ -127,6 +142,8 @@ export declare namespace ProjectCard {
   export type Props = {
     project: Project;
     detailHref: string;
+    /** 이 프로젝트로 받은 상. 라우트가 슬러그를 실제 항목으로 바꿔 넘긴다. */
+    awards?: Award[];
     selectedStack?: readonly string[];
     onToggleStack?: (item: string) => void;
   };

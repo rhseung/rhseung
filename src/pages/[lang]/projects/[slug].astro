@@ -3,6 +3,7 @@ import { getCollection, render, type CollectionEntry } from 'astro:content';
 
 import { ProjectDetailIsland } from '@/pages/_islands/project-detail-island';
 import { LANGUAGES, localeHref, SITE } from '@/common/lib';
+import { awardsOf } from '@/features/career';
 import { projectsOf } from '@/features/projects';
 import { MDX_COMPONENTS } from '@/common/components';
 import Layout from '@/layouts/layout.astro';
@@ -32,6 +33,9 @@ const { lang, slug, entry, alternates } = Astro.props;
 const project = projectsOf(lang, new Set([slug])).find((item) => item.slug === slug);
 if (!project) throw new Error(`PROJECTS 에 ${slug} 가 없습니다`);
 
+const linked = new Set(project.awards ?? []);
+const awards = awardsOf(lang).filter((award) => linked.has(award.slug));
+
 const { Content } = await render(entry);
 const otherLang = lang === 'ko' ? 'en' : 'ko';
 ---
@@ -43,7 +47,13 @@ const otherLang = lang === 'ko' ? 'en' : 'ko';
   type="article"
   alternates={Object.keys(alternates).length > 1 ? alternates : undefined}
 >
-  <ProjectDetailIsland lang={lang} project={project} altHref={alternates[otherLang]} client:idle>
+  <ProjectDetailIsland
+    lang={lang}
+    project={project}
+    awards={awards}
+    altHref={alternates[otherLang]}
+    client:idle
+  >
     <Content components={MDX_COMPONENTS} />
   </ProjectDetailIsland>
 </Layout>

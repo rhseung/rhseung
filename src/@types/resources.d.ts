@@ -122,7 +122,6 @@ export default interface Resources {
   },
   "resume": {
     "awards": {
-      "project": "관련 프로젝트",
       "title": "대회"
     },
     "career": {

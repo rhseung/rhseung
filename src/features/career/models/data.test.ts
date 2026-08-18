@@ -4,7 +4,6 @@ import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
 import { endsAfterStart, validDate, yearOrMonth } from '@/common/lib/date-schema';
-import { PROJECT_ITEMS } from '@/features/projects/models';
 
 import { CAREER_ITEMS } from './index';
 
@@ -68,15 +67,6 @@ describe.each([
 describe('awards', () => {
   it('스키마를 만족한다', () => {
     for (const entry of awards) expect(award.safeParse(entry).error, entry.slug).toBeUndefined();
-  });
-
-  // 모듈을 import 해서 참조하므로 오타는 안 나지만, 프로젝트를 지우면 여기서 걸린다.
-  it('연결한 프로젝트가 실제로 있다', () => {
-    const slugs = new Set(PROJECT_ITEMS.map((project) => project.slug));
-
-    for (const entry of awards) {
-      if (entry.project) expect(slugs.has(entry.project), entry.slug).toBe(true);
-    }
   });
 });
 

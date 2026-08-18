@@ -31,8 +31,6 @@ export type CareerItem = Translated<CareerText> & {
 export type AwardItem = Translated<AwardText> & {
   slug: string;
   date: YearOrMonth;
-  /** 이 대회에 낸 프로젝트. 항목 파일에서 `project: pingpong.slug` 로 넘긴다. */
-  project?: string;
 };
 
 export type SkillGroupItem = Translated<SkillGroupText> & {

@@ -1,13 +1,20 @@
-import { ArrowLeftIcon } from '@phosphor-icons/react';
+import { ArrowLeftIcon, TrophyIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 import { Badge, ExternalLink, SiteDock, buttonVariants } from '@/common/components';
 import { formatYearMonth, localeHref, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
+import type { Award } from '@/features/career';
 
 import { PROJECT_LINK_ICON, projectLinks, useProjectLabels, type Project } from '../../viewmodels';
 
-export function ProjectDetailPage({ lang, project, altHref, children }: ProjectDetailPage.Props) {
+export function ProjectDetailPage({
+  lang,
+  project,
+  awards = [],
+  altHref,
+  children,
+}: ProjectDetailPage.Props) {
   const { t } = useTranslation('projects');
   const label = useProjectLabels();
 
@@ -68,6 +75,20 @@ export function ProjectDetailPage({ lang, project, altHref, children }: ProjectD
               })}
             </div>
           )}
+          {awards.length > 0 && (
+            <ul className="flex flex-col gap-1">
+              {awards.map((award) => (
+                <li key={award.slug} className="flex flex-wrap items-baseline gap-x-2 text-sm">
+                  <TrophyIcon aria-hidden className="text-primary size-4 shrink-0" />
+                  <span className="font-medium">{award.title}</span>
+                  {award.issuer && <span className="text-muted-foreground">{award.issuer}</span>}
+                  <span className="text-muted-foreground text-xs tabular-nums">
+                    {formatYearMonth(award.date)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
         </header>
 
         <div className="prose prose-zinc dark:prose-invert max-w-none">{children}</div>
@@ -82,6 +103,7 @@ export declare namespace ProjectDetailPage {
   export type Props = {
     lang: Language;
     project: Project;
+    awards?: Award[];
     altHref?: string;
     children: React.ReactNode;
   };

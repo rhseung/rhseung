@@ -3,6 +3,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 
 import { ProjectsIsland } from '@/pages/_islands/projects-island';
 import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
+import { awardsOf } from '@/features/career';
 import { projectsOf } from '@/features/projects';
 import Layout from '@/layouts/layout.astro';
 
@@ -23,5 +24,10 @@ const detailSlugs = new Set(
   title={`${i18n.getFixedT(lang, 'common')(($) => $.nav.projects)} — ${SITE.title[lang]}`}
   alternates={{ ko: localeHref('ko', '/projects'), en: localeHref('en', '/projects') }}
 >
-  <ProjectsIsland lang={lang} projects={projectsOf(lang, detailSlugs)} client:load />
+  <ProjectsIsland
+    lang={lang}
+    projects={projectsOf(lang, detailSlugs)}
+    awards={awardsOf(lang)}
+    client:load
+  />
 </Layout>

@@ -15,6 +15,7 @@ import {
   ToggleGroupItem,
 } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
+import type { Award } from '@/features/career';
 
 import {
   countByDomain,
@@ -31,7 +32,7 @@ import { ProjectCard } from '../components';
 
 const STACK_CHIPS = 10;
 
-export function ProjectsPage({ lang, projects }: ProjectsPage.Props) {
+export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props) {
   const { t } = useTranslation('projects');
   const label = useProjectLabels();
   const { filters, setDomain, setStack, toggleStack, setQuery, reset, active, domains } =
@@ -142,6 +143,7 @@ export function ProjectsPage({ lang, projects }: ProjectsPage.Props) {
                 <ProjectCard
                   project={project}
                   detailHref={localeHref(lang, `/projects/${project.slug}`)}
+                  awards={awards.filter((award) => project.awards?.includes(award.slug))}
                   selectedStack={filters.stack}
                   onToggleStack={toggleStack}
                 />
@@ -164,5 +166,6 @@ export declare namespace ProjectsPage {
   export type Props = {
     lang: Language;
     projects: Project[];
+    awards?: Award[];
   };
 }

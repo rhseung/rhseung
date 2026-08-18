@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
 import { endsAfterStart, validDate } from '@/common/lib/date-schema';
+import { CAREER_ITEMS } from '@/features/career/models';
 
 import { PROJECT_DOMAINS, PROJECT_STATUSES } from './types';
 
@@ -55,6 +56,15 @@ describe('PROJECT_ITEMS', () => {
       expect(schema.safeParse(project).error).toBeUndefined();
     },
   );
+
+  // 모듈을 import 해서 참조하므로 오타는 안 나지만, 수상을 지우면 여기서 걸린다.
+  it('연결한 수상이 실제로 있다', () => {
+    const slugs = new Set(CAREER_ITEMS.awards.map((award) => award.slug));
+
+    for (const project of PROJECT_ITEMS) {
+      for (const slug of project.awards ?? []) expect(slugs.has(slug), project.slug).toBe(true);
+    }
+  });
 
   it('슬러그가 겹치지 않는다', () => {
     const slugs = PROJECT_ITEMS.map((p) => p.slug);

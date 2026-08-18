@@ -1,3 +1,4 @@
+import axChallenge from '@/content/awards/ax-challenge-2026';
 import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
@@ -6,6 +7,7 @@ export default defineProject({
   stack: ['C++'],
   start: { year: 2024, month: 10 },
   end: { year: 2025, month: 1 },
+  awards: [axChallenge.slug],
   status: 'shipped',
   links: {
     repo: 'https://github.com/studio-void/hinguri-pingpong',
