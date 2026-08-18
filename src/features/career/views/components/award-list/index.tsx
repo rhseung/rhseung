@@ -1,3 +1,5 @@
+import { formatYearMonth } from '@/common/lib';
+
 import type { Award } from '../../../viewmodels';
 
 export function AwardList({ awards, headingLevel = 3, showDate = true }: AwardList.Props) {
@@ -11,7 +13,7 @@ export function AwardList({ awards, headingLevel = 3, showDate = true }: AwardLi
               <Heading className="font-medium">{award.title}</Heading>
               {showDate && (
                 <span className="text-muted-foreground ml-auto text-xs tabular-nums">
-                  {award.date.replace('-', '.')}
+                  {formatYearMonth(award.date)}
                 </span>
               )}
             </div>

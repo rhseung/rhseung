@@ -1,11 +1,8 @@
 import { ExternalLink } from '@/common/components';
+import { formatYearMonth } from '@/common/lib';
 import { cn } from '@/common/utils';
 
 import type { CareerEntry } from '../../../viewmodels';
-
-function formatMonth(value: string) {
-  return value.replace('-', '.');
-}
 
 export function CareerList({
   entries,
@@ -22,8 +19,8 @@ export function CareerList({
         const isLast = index === entries.length - 1;
         const ongoing = item.end === undefined;
         const period = ongoing
-          ? `${formatMonth(item.start)} – ${ongoingLabel}`
-          : `${formatMonth(item.start)} – ${formatMonth(item.end ?? '')}`;
+          ? `${formatYearMonth(item.start)} – ${ongoingLabel}`
+          : `${formatYearMonth(item.start)} – ${formatYearMonth(item.end ?? '')}`;
 
         return (
           <li

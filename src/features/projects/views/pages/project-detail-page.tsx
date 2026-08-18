@@ -2,22 +2,18 @@ import { ArrowLeftIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 import { Badge, ExternalLink, SiteDock, buttonVariants } from '@/common/components';
-import { localeHref, type Language } from '@/common/lib';
+import { formatYearMonth, localeHref, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
 
 import { PROJECT_LINK_ICON, projectLinks, useProjectLabels, type Project } from '../../viewmodels';
-
-function formatMonth(value: string) {
-  return value.replace('-', '.');
-}
 
 export function ProjectDetailPage({ lang, project, altHref, children }: ProjectDetailPage.Props) {
   const { t } = useTranslation('projects');
   const label = useProjectLabels();
 
   const period = project.end
-    ? `${formatMonth(project.start)} – ${formatMonth(project.end)}`
-    : `${formatMonth(project.start)} – ${t(($) => $.period.ongoing)}`;
+    ? `${formatYearMonth(project.start)} – ${formatYearMonth(project.end)}`
+    : `${formatYearMonth(project.start)} – ${t(($) => $.period.ongoing)}`;
 
   const links = projectLinks(project);
 

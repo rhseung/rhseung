@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { SITE, type Profile } from '@/common/lib';
+import { formatYearMonth, SITE, type Profile } from '@/common/lib';
 import {
   AwardList,
   CareerList,
@@ -73,8 +73,8 @@ export function ResumeDocument({
                 <div className="flex flex-wrap items-baseline gap-x-2">
                   <span className="font-medium">{project.title}</span>
                   <span className="text-muted-foreground ml-auto text-xs tabular-nums">
-                    {project.start.replace('-', '.')}
-                    {project.end ? ` – ${project.end.replace('-', '.')}` : ''}
+                    {formatYearMonth(project.start)}
+                    {project.end ? ` – ${formatYearMonth(project.end)}` : ''}
                   </span>
                 </div>
                 <p className="text-muted-foreground text-sm leading-relaxed">{project.summary}</p>

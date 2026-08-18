@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { Badge, ExternalLink } from '@/common/components';
+import { formatYearMonth } from '@/common/lib';
 import { cn } from '@/common/utils';
 
 import {
@@ -13,10 +14,6 @@ import {
 
 const STACK_SHOWN = 4;
 
-function formatMonth(value: string) {
-  return value.replace('-', '.');
-}
-
 export function ProjectCard({
   project,
   detailHref,
@@ -27,8 +24,8 @@ export function ProjectCard({
   const label = useProjectLabels();
 
   const period = project.end
-    ? `${formatMonth(project.start)} – ${formatMonth(project.end)}`
-    : `${formatMonth(project.start)} – ${t(($) => $.period.ongoing)}`;
+    ? `${formatYearMonth(project.start)} – ${formatYearMonth(project.end)}`
+    : `${formatYearMonth(project.start)} – ${t(($) => $.period.ongoing)}`;
 
   const target = projectHref(project, detailHref);
   const ordered = [

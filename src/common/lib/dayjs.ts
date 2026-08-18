@@ -17,4 +17,9 @@ i18n.on('languageChanged', (language) => {
   dayjs.locale(language);
 });
 
+/** `2024-03` → `2024.03`. 연도만 아는 항목은 그대로 둔다. */
+export function formatYearMonth(value: string): string {
+  return value.includes('-') ? dayjs(value).format('YYYY.MM') : value;
+}
+
 export { dayjs };
