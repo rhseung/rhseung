@@ -2,7 +2,7 @@ import { defineAward } from '@/features/career/models/define';
 
 export default defineAward({
   slug: 'launch-ai-career-school',
-  date: '2025',
+  date: { year: 2025 },
   order: 8,
   ko: {
     title: 'L:AUNCH AI Career School 참가',

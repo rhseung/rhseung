@@ -1,4 +1,4 @@
-import { toYearMonth, type Language } from '@/common/lib';
+import type { Language } from '@/common/lib';
 
 import type { Project, ProjectItem } from './types';
 
@@ -19,10 +19,8 @@ export function projectsOf(
   lang: Language,
   detailSlugs: ReadonlySet<string> = new Set(),
 ): Project[] {
-  return PROJECT_ITEMS.map(({ ko, en, start, end, ...rest }) => ({
+  return PROJECT_ITEMS.map(({ ko, en, ...rest }) => ({
     ...rest,
-    start: toYearMonth(start),
-    end: end && toYearMonth(end),
     ...(lang === 'en' ? en : ko),
     hasDetail: detailSlugs.has(rest.slug),
   }));

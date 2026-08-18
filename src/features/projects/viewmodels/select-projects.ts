@@ -1,3 +1,5 @@
+import { yearMonthKey } from '@/common/lib';
+
 import {
   PROJECT_LINK_KINDS,
   type Project,
@@ -48,7 +50,7 @@ export function sortProjects(
 ): Project[] {
   return [...projects].sort((a, b) => {
     if (pinnedFirst && (a.pinned ?? false) !== (b.pinned ?? false)) return a.pinned ? -1 : 1;
-    return b.start.localeCompare(a.start);
+    return yearMonthKey(b.start) - yearMonthKey(a.start);
   });
 }
 

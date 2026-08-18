@@ -9,7 +9,7 @@ const project: Project = {
   summary: '타입 추론이 있는 작은 스크립트 언어.',
   domain: 'systems',
   stack: ['Rust', 'LLVM'],
-  start: '2024-03',
+  start: { year: 2024, month: 3 },
   status: 'active',
   pinned: true,
   hasDetail: true,

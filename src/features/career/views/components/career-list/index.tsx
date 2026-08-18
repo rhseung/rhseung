@@ -20,7 +20,7 @@ export function CareerList({
         const ongoing = item.end === undefined;
         const period = ongoing
           ? `${formatYearMonth(item.start)} – ${ongoingLabel}`
-          : `${formatYearMonth(item.start)} – ${formatYearMonth(item.end ?? '')}`;
+          : `${formatYearMonth(item.start)} – ${item.end ? formatYearMonth(item.end) : ongoingLabel}`;
 
         return (
           <li

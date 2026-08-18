@@ -2,7 +2,7 @@ import { defineAward } from '@/features/career/models/define';
 
 export default defineAward({
   slug: 'ax-challenge-2026',
-  date: '2026-08',
+  date: { year: 2026, month: 8 },
   order: 0,
   ko: {
     title: '2026 AX Challenge Track 1 3위',

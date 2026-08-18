@@ -1,12 +1,11 @@
-import { yearMonth } from '@/common/lib';
 import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'fliggle',
   domain: 'web',
   stack: ['Dart', 'Flutter', 'Nest.js', 'Prisma', 'Figma'],
-  start: yearMonth({ year: 2024, month: 5 }),
-  end: yearMonth({ year: 2024, month: 7 }),
+  start: { year: 2024, month: 5 },
+  end: { year: 2024, month: 7 },
   status: 'shipped',
   links: {
     repo: 'https://github.com/rhseung/toonflix-fe',

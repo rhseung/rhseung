@@ -2,7 +2,7 @@ import { defineAward } from '@/features/career/models/define';
 
 export default defineAward({
   slug: 'mini-tex-corps',
-  date: '2025',
+  date: { year: 2025 },
   order: 0,
   ko: {
     title: '2025 호남권역 Mini Tex-Corps 수상',

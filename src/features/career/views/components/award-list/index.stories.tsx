@@ -8,11 +8,11 @@ const awards: Award[] = [
     slug: 'big',
     title: '무슨 대회 대상',
     issuer: '주최기관',
-    date: '2025-06',
+    date: { year: 2025, month: 6 },
     order: 0,
     summary: '참가 120팀 중 1위',
   },
-  { slug: 'small', title: '장려상', date: '2024-11', order: 0 },
+  { slug: 'small', title: '장려상', date: { year: 2024, month: 11 }, order: 0 },
 ];
 
 const meta = {

@@ -16,7 +16,7 @@ function project(overrides: Partial<Project> & { slug: string }): Project {
     summary: '한 줄 요약',
     domain: 'web',
     stack: ['TypeScript'],
-    start: '2024-01',
+    start: { year: 2024, month: 1 },
     status: 'shipped',
     hasDetail: false,
     ...overrides,
@@ -25,9 +25,9 @@ function project(overrides: Partial<Project> & { slug: string }): Project {
 
 describe('sortProjects', () => {
   const projects = [
-    project({ slug: 'old-pinned', start: '2022-01', pinned: true }),
-    project({ slug: 'newest', start: '2025-06' }),
-    project({ slug: 'middle', start: '2024-03' }),
+    project({ slug: 'old-pinned', start: { year: 2022, month: 1 }, pinned: true }),
+    project({ slug: 'newest', start: { year: 2025, month: 6 } }),
+    project({ slug: 'middle', start: { year: 2024, month: 3 } }),
   ];
 
   it('pinnedFirst면 pinned가 오래됐어도 앞에 온다', () => {
@@ -73,9 +73,9 @@ describe('filterByDomain', () => {
 describe('pickPinned', () => {
   it('pinned만, 정렬된 채로, 개수만큼', () => {
     const projects = [
-      project({ slug: 'p1', pinned: true, start: '2023-01' }),
-      project({ slug: 'not-pinned', start: '2025-01' }),
-      project({ slug: 'p2', pinned: true, start: '2025-05' }),
+      project({ slug: 'p1', pinned: true, start: { year: 2023, month: 1 } }),
+      project({ slug: 'not-pinned', start: { year: 2025, month: 1 } }),
+      project({ slug: 'p2', pinned: true, start: { year: 2025, month: 5 } }),
     ];
 
     expect(pickPinned(projects, 1).map((p) => p.slug)).toEqual(['p2']);

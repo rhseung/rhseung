@@ -1,12 +1,11 @@
-import { yearMonth } from '@/common/lib';
 import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'particles',
   domain: 'graphics',
   stack: ['C++'],
-  start: yearMonth({ year: 2024, month: 3 }),
-  end: yearMonth({ year: 2024, month: 11 }),
+  start: { year: 2024, month: 3 },
+  end: { year: 2024, month: 11 },
   status: 'shipped',
   links: {
     repo: 'https://github.com/rhseung/particles',

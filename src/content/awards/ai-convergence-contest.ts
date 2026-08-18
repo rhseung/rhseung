@@ -2,7 +2,7 @@ import { defineAward } from '@/features/career/models/define';
 
 export default defineAward({
   slug: 'ai-convergence-contest',
-  date: '2025',
+  date: { year: 2025 },
   order: 8,
   ko: {
     title: 'AI 창의융합경진대회 참가',
