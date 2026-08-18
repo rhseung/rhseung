@@ -2,7 +2,6 @@ import type { Profile } from '@/common/lib';
 import type { Award, CareerEntry, SkillGroup } from '@/features/career';
 import type { Project } from '@/features/projects';
 
-/** 스토리 전용 픽스처. 여러 페이지가 같은 데이터를 쓴다. */
 export const profile: Profile = {
   headline: '웹 앱을 만들고, 그게 도는 언어와 런타임도 만듭니다.',
   intro: '프론트엔드와 시스템 프로그래밍 양쪽을 오갑니다.',

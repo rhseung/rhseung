@@ -32,7 +32,6 @@ export function ProjectCard({
     : `${formatMonth(project.start)} – ${t(($) => $.period.ongoing)}`;
 
   const target = projectHref(project, detailHref);
-  // 고른 스택은 잘리지 않게 앞으로 당긴다.
   const ordered = [
     ...project.stack.filter((item) => selectedStack.includes(item)),
     ...project.stack.filter((item) => !selectedStack.includes(item)),
@@ -135,9 +134,7 @@ export declare namespace ProjectCard {
   export type Props = {
     project: Project;
     detailHref: string;
-    /** 지금 걸린 스택 필터. 목록 밖(홈 등)에서는 넘기지 않는다. */
     selectedStack?: readonly string[];
-    /** 넘기면 스택 배지가 필터 토글이 된다. */
     onToggleStack?: (item: string) => void;
   };
 }

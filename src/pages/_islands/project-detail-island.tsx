@@ -2,7 +2,6 @@ import { AppProviders } from '@/common/components';
 import type { Language } from '@/common/lib';
 import { ProjectDetailPage, type Project } from '@/features/projects';
 
-/** children은 Astro가 렌더한 MDX 정적 HTML이다. */
 export function ProjectDetailIsland({
   lang,
   project,

@@ -14,7 +14,6 @@ export function filterByDomain(
   return domain === null ? [...projects] : projects.filter((project) => project.domain === domain);
 }
 
-/** 검색은 제목·요약·스택을 함께 본다 — 사람들이 "rust"로도 "컴파일러"로도 찾는다. */
 function matchesQuery(project: Project, query: string): boolean {
   const needle = query.trim().toLowerCase();
   if (needle === '') return true;
@@ -35,7 +34,6 @@ export function filterProjects(projects: readonly Project[], filters: ProjectFil
     .filter((project) => matchesQuery(project, filters.query));
 }
 
-/** 스택 칩에 쓴다. 많이 쓴 것부터. */
 export function countByStack(projects: readonly Project[]): [string, number][] {
   const counts = new Map<string, number>();
   for (const project of projects) {
@@ -59,14 +57,12 @@ export function sortProjects(
   });
 }
 
-/** 홈에 세울 것. */
 export function pickPinned(projects: readonly Project[], count: number): Project[] {
   return sortProjects(projects, { pinnedFirst: true })
     .filter((project) => project.pinned)
     .slice(0, count);
 }
 
-/** 필터 버튼 배지에 쓴다. */
 export function countByDomain(
   projects: readonly Project[],
 ): Partial<Record<ProjectDomain, number>> {
@@ -89,7 +85,6 @@ export function projectHref(
   return fallback ? { href: fallback, external: true } : null;
 }
 
-/** 링크가 있는 종류만, 정해진 순서로. */
 export function projectLinks(project: Project): { kind: ProjectLinkKind; href: string }[] {
   return PROJECT_LINK_KINDS.flatMap((kind) => {
     const href = project.links?.[kind];

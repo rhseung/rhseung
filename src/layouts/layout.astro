@@ -13,10 +13,8 @@ interface Props {
   description?: string;
   /** 이 문서의 다른 언어판. 짝이 있는 문서만 넘긴다 — 없으면 hreflang을 아예 내지 않는다. */
   alternates?: Partial<Record<Language, string>>;
-  /** OG 이미지 경로. 사이트 루트 기준. */
   image?: string;
   type?: 'website' | 'article';
-  /** PDF 원본처럼 사람이 직접 볼 페이지가 아닌 라우트. */
   noindex?: boolean;
 }
 

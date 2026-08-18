@@ -15,7 +15,6 @@ export function sortAwards(awards: readonly Award[]): Award[] {
   );
 }
 
-/** 연도별로 묶는다. 최신 연도가 먼저. */
 export function groupAwardsByYear(awards: readonly Award[]): [year: string, awards: Award[]][] {
   const byYear = new Map<string, Award[]>();
 

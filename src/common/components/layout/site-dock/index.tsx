@@ -214,7 +214,6 @@ function DockLink({ href, label, Icon, current, blank, hrefLang }: DockLink.Prop
           />
         }
       >
-        {/* 선택된 항목은 아이콘 자체가 상태를 말한다 — 배경색에만 기대지 않는다. */}
         <Icon aria-hidden weight={current ? 'fill' : 'regular'} className="size-5" />
       </TooltipTrigger>
       <TooltipContent>{label}</TooltipContent>

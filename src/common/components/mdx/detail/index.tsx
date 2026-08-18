@@ -1,6 +1,5 @@
 import { CaretRightIcon } from '@phosphor-icons/react';
 
-/** 네이티브 `<details>` — JS 를 꺼도 열린다. */
 export function Detail({ summary, children }: Detail.Props) {
   return (
     <details className="border-border group my-6 rounded-md border px-4 py-3 [&_p]:my-0 [&_p+p]:mt-2">

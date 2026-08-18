@@ -1,4 +1,3 @@
-/** 숫자를 문단 밖으로 꺼낸다. */
 export function Stats({ children }: Stats.Props) {
   return <div className="my-6 grid gap-3 sm:grid-cols-3">{children}</div>;
 }

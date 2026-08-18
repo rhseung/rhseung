@@ -49,5 +49,4 @@ export function skillGroupsOf(lang: Language): SkillGroup[] {
   return skillGroups.map(({ ko, en, ...rest }) => ({ ...rest, ...{ ko, en }[pick(lang)] }));
 }
 
-/** 테스트가 검증에 쓴다. */
 export const CAREER_ITEMS = { experience, education, awards, skillGroups };

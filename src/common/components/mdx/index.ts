@@ -10,5 +10,4 @@ export { Figure } from './figure';
 export { Stat, Stats } from './stat';
 export { Step, Steps } from './steps';
 
-/** `<Content components={MDX_COMPONENTS} />` 로 넘기면 MDX 가 import 없이 쓴다. */
 export const MDX_COMPONENTS = { Callout, Detail, Figure, Stat, Stats, Step, Steps };

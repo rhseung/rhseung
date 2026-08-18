@@ -36,5 +36,4 @@ export type ProjectItem = {
   en: ProjectText;
 };
 
-/** 화면이 다루는 단위 — 한 언어로 납작하게 편 것. */
 export type Project = ProjectText & Omit<ProjectItem, 'ko' | 'en'> & { hasDetail: boolean };

@@ -62,7 +62,6 @@ export function CareerList({
                   className="size-5 shrink-0 self-center rounded-sm object-contain"
                 />
               )}
-              {/* 소속이 제목, 역할이 부제 — 이력서를 훑을 때 눈이 먼저 찾는 건 학교·회사다. */}
               <Heading className="font-medium">{item.org}</Heading>
               <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
             </div>

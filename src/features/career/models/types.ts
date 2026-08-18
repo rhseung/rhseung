@@ -45,7 +45,6 @@ export type SkillGroupItem = Translated<SkillGroupText> & {
   items: readonly Tech[];
 };
 
-/** 화면이 다루는 단위 — 한 언어로 납작하게 편 것. */
 export type CareerEntry = CareerText & Omit<CareerItem, 'ko' | 'en'>;
 export type Award = AwardText & Omit<AwardItem, 'ko' | 'en'>;
 export type SkillGroup = SkillGroupText & Omit<SkillGroupItem, 'ko' | 'en'>;

@@ -3,7 +3,6 @@
  * 한쪽에 `typscript`를 적으면 컴파일이 깨지고, 같은 것이 두 이름으로 갈리지도 않는다.
  */
 export const TECH = [
-  // 언어
   'TypeScript',
   'JavaScript',
   'Python',
@@ -13,7 +12,6 @@ export const TECH = [
   'C++',
   'Dart',
   'Rust',
-  // 웹
   'React',
   'Next.js',
   'Astro',
@@ -28,14 +26,12 @@ export const TECH = [
   'HTML',
   'CSS',
   'OpenAPI TypeScript',
-  // 백엔드·데이터
   'Node.js',
   'Nest.js',
   'Flask',
   'Prisma',
   'MySQL',
   'PostgreSQL',
-  // 머신러닝
   'PyTorch',
   'TensorFlow',
   'Keras',
@@ -47,12 +43,10 @@ export const TECH = [
   'Seaborn',
   'Altair',
   'Jupyter',
-  // 앱·그래픽스
   'Flutter',
   'SFML',
   'Swing',
   'LLVM',
-  // 도구
   'Bun',
   'npm',
   'Yarn',

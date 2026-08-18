@@ -26,7 +26,6 @@ const callout = tv({
   defaultVariants: { tone: 'note' },
 });
 
-/** MDX 본문에서 문단 흐름을 끊고 하나를 강조한다. */
 export function Callout({ tone = 'note', title, children }: Callout.Props) {
   const Icon = TONES[tone];
   const styles = callout({ tone });
