@@ -381,6 +381,10 @@ CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한
 
 `<type>: <title>`, 명령형. PR 전에 `bun run verify`.
 
+한국어로 쓰되 **문장부호는 ASCII 만** 쓴다. `·` `—` `→` `…` `“”` 같은 유니코드 기호는
+터미널·훅·이슈 트래커마다 폭이 달라 정렬이 깨지고, `git log --oneline` 을 grep 하기도 나쁘다.
+쉼표와 하이픈으로 충분하다.
+
 `feat` 새 기능 · `fix` 버그 · `docs` 문서 · `style` 서식 · `refactor` 구조 ·
 `test` 테스트 · `chore` 잡무 · `ci` CI 설정
 
