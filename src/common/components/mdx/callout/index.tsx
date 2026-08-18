@@ -10,7 +10,7 @@ const TONES = {
 const callout = tv({
   slots: {
     // prose 가 자식 `<p>`에 1.25em 마진을 준다 — 그대로 두면 제목과 본문이 멀찍이 떨어진다.
-    root: 'my-6 rounded-r-md border-l-2 px-4 py-3 [&_p+p]:mt-2 [&_p]:my-0',
+    root: 'my-6 rounded-r-md border-l-4 px-4 py-3 [&_p+p]:mt-2 [&_p]:my-0',
     icon: 'mt-0.5 size-4 shrink-0',
     title: 'text-foreground text-sm font-medium',
     body: 'text-muted-foreground text-sm leading-relaxed [&_code]:text-[0.9em]',
