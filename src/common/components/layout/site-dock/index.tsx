@@ -3,6 +3,7 @@ import { useState } from 'react';
 import {
   BriefcaseIcon,
   EnvelopeSimpleIcon,
+  FlaskIcon,
   FolderIcon,
   GithubLogoIcon,
   GlobeIcon,
@@ -33,7 +34,7 @@ import {
 } from '../../ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../ui/tooltip';
 
-const SECTIONS = ['projects', 'blog', 'career', 'resume'] as const;
+const SECTIONS = ['projects', 'research', 'blog', 'career', 'resume'] as const;
 
 /** 가장 높은 겹이 독의 세로 중앙까지 온다: `bottom-4`(1rem) + 독 높이의 절반. */
 const BLUR_LAYERS = [
@@ -47,6 +48,7 @@ type Section = (typeof SECTIONS)[number];
 
 const SECTION_ICON: Record<Section, Icon> = {
   projects: FolderIcon,
+  research: FlaskIcon,
   blog: NotePencilIcon,
   career: BriefcaseIcon,
   resume: IdentificationCardIcon,

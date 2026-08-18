@@ -1,0 +1,20 @@
+---
+import { ResearchIsland } from '@/pages/_islands/research-island';
+import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
+import { researchOf } from '@/features/research';
+import Layout from '@/layouts/layout.astro';
+
+export function getStaticPaths() {
+  return languagePaths();
+}
+
+const { lang } = Astro.props;
+---
+
+<Layout
+  lang={lang}
+  title={`${i18n.getFixedT(lang, 'common')(($) => $.nav.research)} — ${SITE.title[lang]}`}
+  alternates={{ ko: localeHref('ko', '/research'), en: localeHref('en', '/research') }}
+>
+  <ResearchIsland lang={lang} items={researchOf(lang)} client:load />
+</Layout>

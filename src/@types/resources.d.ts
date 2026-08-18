@@ -31,6 +31,7 @@ export default interface Resources {
       "label": "주요 메뉴",
       "menu": "메뉴",
       "projects": "프로젝트",
+      "research": "연구",
       "resume": "이력서"
     },
     "notFound": {
@@ -94,6 +95,30 @@ export default interface Resources {
       "active": "진행 중",
       "archived": "보관",
       "shipped": "완료"
+    }
+  },
+  "research": {
+    "empty": {
+      "description": "곧 채웁니다.",
+      "title": "아직 공개한 연구가 없습니다"
+    },
+    "kind": {
+      "lab": "연구실",
+      "paper": "논문",
+      "rne": "R&E"
+    },
+    "links": {
+      "paper": "논문",
+      "poster": "포스터",
+      "repo": "저장소",
+      "site": "링크"
+    },
+    "page": {
+      "description": "학교와 연구실에서 한 것들.",
+      "title": "연구"
+    },
+    "period": {
+      "ongoing": "현재"
     }
   },
   "resume": {

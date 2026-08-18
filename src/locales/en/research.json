@@ -1,0 +1,24 @@
+{
+  "empty": {
+    "description": "Coming soon.",
+    "title": "Nothing published yet"
+  },
+  "kind": {
+    "lab": "Lab",
+    "paper": "Paper",
+    "rne": "R&E"
+  },
+  "links": {
+    "paper": "Paper",
+    "poster": "Poster",
+    "repo": "Repository",
+    "site": "Link"
+  },
+  "page": {
+    "description": "Work done at school and in the lab.",
+    "title": "Research"
+  },
+  "period": {
+    "ongoing": "Present"
+  }
+}
