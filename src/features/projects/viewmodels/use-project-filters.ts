@@ -26,10 +26,7 @@ function readFilters(): ProjectFilters {
   };
 }
 
-/**
- * `useSyncExternalStore` 는 스냅숏이 매번 같은 참조여야 무한 렌더를 안 한다. URL 이 안
- * 바뀌었으면 직전 객체를 그대로 돌려준다 — `readFilters()` 는 매번 새 객체를 만든다.
- */
+/** 스냅숏이 매번 새 객체면 `useSyncExternalStore` 가 무한 렌더한다. URL 을 키로 캐시한다. */
 let snapshot: ProjectFilters = EMPTY;
 let snapshotKey = '';
 
@@ -74,10 +71,7 @@ function commit(next: ProjectFilters) {
   window.dispatchEvent(new Event(CHANGE_EVENT));
 }
 
-/**
- * 필터 상태는 URL 쿼리에 산다 — 공유되고 뒤로가기가 동작한다. zustand+persist는 여기선
- * 버그다(방문자가 석 달 전 필터를 복원당한다).
- */
+/** 필터 상태는 URL 쿼리에 산다 — 공유되고 뒤로가기가 동작한다. */
 export function useProjectFilters() {
   const filters = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 

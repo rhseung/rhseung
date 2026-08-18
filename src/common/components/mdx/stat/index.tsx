@@ -1,4 +1,4 @@
-/** 글에서 실제로 기억되는 건 숫자다. 문단에 묻히지 않게 꺼내 놓는다. */
+/** 숫자를 문단 밖으로 꺼낸다. */
 export function Stats({ children }: Stats.Props) {
   return <div className="my-6 grid gap-3 sm:grid-cols-3">{children}</div>;
 }

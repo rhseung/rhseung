@@ -139,16 +139,10 @@
   }
 }
 
-/**
- * Shiki 듀얼 테마. `defaultColor: false` 라서 색이 인라인으로 안 박히고 변수로만 나온다 —
- * 여기서 골라 쓴다. 이렇게 해야 테마 토글 한 번에 코드 블록도 같이 넘어간다.
- *
- * 셀렉터에 `pre` 를 붙이는 건 특이도 때문이다. `@tailwindcss/typography` 의 `.prose pre` 가
- * 자기 배경·글자색을 깔고 있어서, 클래스 하나짜리 규칙은 같은 특이도로 밀린다 — 라이트
- * 모드에서 prose 의 어두운 `pre` 위에 밝은 테마의 어두운 토큰 색이 얹혀 글자가 사라졌다.
- *
- * 배경은 `<pre>` 에만 준다. CSS 변수는 상속되므로 `span` 에도 배경을 걸면 토큰마다
- * 테마 배경색 사각형이 깔린다.
+/*
+ * `pre` 를 붙인 건 특이도 때문이다 — typography 의 `.prose pre` 가 자기 배경을 깔아
+ * 클래스 하나짜리 규칙을 이긴다. 배경을 `span` 에도 주면 CSS 변수가 상속돼 토큰마다
+ * 배경 사각형이 깔린다.
  */
 @layer utilities {
   pre.astro-code {
@@ -177,37 +171,46 @@
 }
 
 @layer utilities {
-  /*
-   * 본문 이미지는 전부 같은 모서리를 갖는다 — MDX 마다 클래스를 붙이지 않게.
-   * 마진을 0으로 두는 건 typography 가 주는 2em 때문이다. 이미지는 항상 `<p>` 안에
-   * 들어가므로 그 문단 마진만으로 충분하고, 안 끄면 위아래가 두 번 벌어진다.
-   */
+  /* 마진 0 은 typography 의 2em 을 끄는 것이다 — 감싼 `<p>` 마진과 겹친다. */
   .prose :is(img, video) {
     @apply border-border my-0 rounded-lg border;
   }
 
-  /* GFM 체크리스트. typography 가 모르는 문법이라 불릿과 체크박스가 겹쳐 나온다. */
   .prose li:has(> input[type='checkbox']) {
     @apply list-none;
   }
 
+  /* shadcn `Checkbox` 를 CSS 로 다시 그린다. 체크는 mask 라야 색이 토큰을 따라간다. */
   .prose input[type='checkbox'] {
-    @apply accent-foreground mr-1.5 size-3.5 translate-y-[0.1em];
+    @apply border-input dark:bg-input/30 mr-2 inline-grid size-4 shrink-0 appearance-none place-content-center rounded-[4px] border align-text-bottom transition-colors;
   }
 
-  /* typography 는 인라인 코드에 백틱을 글자로 붙인다. 코드 스타일이 이미 구분을 하고 있다. */
+  .prose input[type='checkbox']:checked {
+    @apply border-primary bg-primary;
+  }
+
+  .prose input[type='checkbox']:checked::after {
+    @apply bg-primary-foreground size-3.5 content-[''];
+
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M232.49 80.49l-128 128a12 12 0 01-17 0l-56-56a12 12 0 1117-17L96 183 215.51 63.51a12 12 0 0117 17z'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+
+  /* GFM 은 체크박스를 항상 `disabled` 로 낸다. 읽기 전용일 뿐이다. */
+  .prose input[type='checkbox']:disabled {
+    @apply opacity-100;
+  }
+
+  /* typography 가 인라인 코드에 백틱을 글자로 붙인다. */
   .prose :where(code)::before,
   .prose :where(code)::after {
     content: none;
   }
 }
 
-/**
- * 테마 전환 클리핑. 기본 크로스페이드를 끄고 새 화면만 `clip-path` 로 열어야
- * 두 테마가 섞여 흐려지지 않는다 (`use-theme-transition.ts`).
- *
- * `[data-theme-transition]` 으로 스코프하는 이유: 이 규칙이 상시로 걸리면 `<ClientRouter />`
- * 가 쓰는 페이지 전환 애니메이션까지 같이 죽는다.
+/*
+ * 테마 전환 클리핑(`use-theme-transition.ts`). 스코프를 안 걸면 `<ClientRouter />` 의
+ * 페이지 전환 애니메이션까지 같이 죽는다.
  */
 html[data-theme-transition]::view-transition-old(root),
 html[data-theme-transition]::view-transition-new(root) {

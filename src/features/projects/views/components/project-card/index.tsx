@@ -12,7 +12,7 @@ import { cn } from '@/common/utils';
 
 import { projectHref, useProjectLabels, type Project } from '../../../viewmodels';
 
-/** 넘치는 스택은 개수로만 알린다 — 카드 높이가 프로젝트마다 들쭉날쭉해지지 않게. */
+/** 넘치는 건 개수로만 알린다 — 카드 높이가 들쭉날쭉해지지 않게. */
 const STACK_SHOWN = 4;
 
 function formatMonth(value: string) {
@@ -33,7 +33,7 @@ export function ProjectCard({
     : `${formatMonth(project.start)} – ${t(($) => $.period.ongoing)}`;
 
   const target = projectHref(project, detailHref);
-  // 고른 스택은 잘리지 않게 앞으로 당긴다 — 필터를 걸었는데 그 배지가 카드에 없으면 이상하다.
+  // 고른 스택은 잘리지 않게 앞으로 당긴다.
   const ordered = [
     ...project.stack.filter((item) => selectedStack.includes(item)),
     ...project.stack.filter((item) => !selectedStack.includes(item)),
@@ -90,7 +90,7 @@ export function ProjectCard({
         <p className="border-border border-l-2 pl-3 text-xs font-medium">{project.highlight}</p>
       )}
 
-      {/* 아래 두 줄은 카드 바닥에 붙는다 — 그리드에서 요약 길이가 달라도 밑변이 맞는다. */}
+      {/* 그리드에서 요약 길이가 달라도 밑변이 맞게 바닥에 붙인다. */}
       <ul className="mt-auto flex flex-wrap gap-1 pt-1">
         {stack.map((item) => {
           const selected = selectedStack.includes(item);

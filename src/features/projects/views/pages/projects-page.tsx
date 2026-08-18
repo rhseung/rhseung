@@ -26,7 +26,7 @@ import {
 } from '../../viewmodels';
 import { ProjectCard } from '../components';
 
-/** 스택이 서른 개가 넘어 다 보이면 칩이 아니라 태그 클라우드가 된다. */
+/** 다 보이면 칩이 아니라 태그 클라우드가 된다. */
 const STACK_CHIPS = 10;
 
 export function ProjectsPage({ lang, projects }: ProjectsPage.Props) {
@@ -39,7 +39,7 @@ export function ProjectsPage({ lang, projects }: ProjectsPage.Props) {
     pinnedFirst: !active,
   });
 
-  // 칩은 지금 고른 분야 안에서만 센다 — 눌러도 0건이 되는 칩을 보여주지 않기 위해서.
+  // 지금 고른 분야 안에서만 센다 — 눌러도 0건이 되는 칩이 안 나오게.
   const stacks = countByStack(filterByDomain(projects, filters.domain));
   const chips = [
     ...filters.stack,

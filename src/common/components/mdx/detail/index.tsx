@@ -1,9 +1,6 @@
 import { CaretRightIcon } from '@phosphor-icons/react';
 
-/**
- * 접히는 보충 설명. 네이티브 `<details>`라 JavaScript 를 한 바이트도 안 쓰고, JS 를 꺼도
- * 열린다. 본문 흐름을 끊지 않으면서 곁가지를 남길 자리.
- */
+/** 네이티브 `<details>` — JS 를 꺼도 열린다. */
 export function Detail({ summary, children }: Detail.Props) {
   return (
     <details className="border-border group my-6 rounded-md border px-4 py-3 [&_p]:my-0 [&_p+p]:mt-2">

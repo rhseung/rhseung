@@ -1,7 +1,4 @@
-/**
- * 번호 매긴 절차. prose 의 `<ol>` 은 마커가 본문 왼쪽 여백에 걸려 긴 단계에서 정렬이 흐트러진다.
- * 여기서는 번호를 고정폭 원으로 그려 단계가 몇 줄이든 왼쪽 축이 유지된다.
- */
+/** 번호를 고정폭 원으로 그린다 — prose 의 `<ol>` 마커는 단계가 길어지면 축이 흐트러진다. */
 export function Steps({ children }: Steps.Props) {
   return <ol className="my-6 flex list-none flex-col gap-4 pl-0">{children}</ol>;
 }
