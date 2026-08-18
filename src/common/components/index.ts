@@ -33,6 +33,14 @@ export {
   FieldTitle,
 } from './ui/field';
 export { Input } from './ui/input';
+export {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+  InputGroupTextarea,
+} from './ui/input-group';
 export { Label } from './ui/label';
 export { Separator } from './ui/separator';
 export {

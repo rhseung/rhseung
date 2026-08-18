@@ -25,6 +25,15 @@ export default [
     rules: { 'check-file/folder-naming-convention': 'off' },
   },
   {
+    // shadcn CLI 생성물. `input-group` 의 addon 이 컨테이너 div 에 클릭 핸들러를 단다 —
+    // 고치지 말고 재생성한다 (`eslint.base.js` 는 동기화 대상이라 예외를 여기 둔다).
+    files: ['src/common/components/ui/**/*.{ts,tsx}'],
+    rules: {
+      'jsx-a11y/click-events-have-key-events': 'off',
+      'jsx-a11y/no-noninteractive-element-interactions': 'off',
+    },
+  },
+  {
     // 항목 하나가 파일 하나다. glob 로더가 default export 를 집어가므로 named export 로 못 쓴다.
     files: ['src/content/**/*.ts'],
     rules: {

@@ -8,7 +8,9 @@ import {
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
-  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
   SiteDock,
 } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
@@ -55,20 +57,18 @@ export function ProjectsPage({ lang, projects }: ProjectsPage.Props) {
         </div>
 
         <div className="flex flex-col gap-3">
-          <div className="relative">
-            <MagnifyingGlassIcon
-              aria-hidden
-              className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2"
-            />
-            <Input
+          <InputGroup>
+            <InputGroupAddon>
+              <MagnifyingGlassIcon aria-hidden />
+            </InputGroupAddon>
+            <InputGroupInput
               type="search"
               value={filters.query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder={t(($) => $.search.placeholder)}
               aria-label={t(($) => $.search.label)}
-              className="pl-9"
             />
-          </div>
+          </InputGroup>
 
           <div className="flex flex-wrap gap-1" role="group" aria-label={t(($) => $.filter.label)}>
             <Button
