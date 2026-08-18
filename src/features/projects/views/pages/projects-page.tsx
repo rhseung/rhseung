@@ -136,9 +136,9 @@ export function ProjectsPage({ lang, projects }: ProjectsPage.Props) {
             </EmptyHeader>
           </Empty>
         ) : (
-          <ul className="grid gap-3 sm:grid-cols-2">
+          <ul className="flex flex-col gap-3">
             {visible.map((project) => (
-              <li key={project.slug} className="flex">
+              <li key={project.slug}>
                 <ProjectCard
                   project={project}
                   detailHref={localeHref(lang, `/projects/${project.slug}`)}

@@ -12,7 +12,7 @@ import {
   type Project,
 } from '../../../viewmodels';
 
-const STACK_SHOWN = 4;
+const STACK_SHOWN = 6;
 
 export function ProjectCard({
   project,
@@ -38,13 +38,8 @@ export function ProjectCard({
   const links = projectLinks(project);
 
   return (
-    <article className="border-border bg-card/40 hover:border-foreground/20 flex h-full flex-col gap-3 rounded-xl border p-4 transition-colors">
-      <div className="flex items-center gap-1.5">
-        <Badge variant="secondary">{label.domain[project.domain]}</Badge>
-        <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
-      </div>
-
-      <div className="flex flex-col gap-1.5">
+    <article className="border-border bg-card/40 hover:border-foreground/20 flex flex-col gap-2 rounded-xl border p-4 transition-colors">
+      <div className="flex flex-wrap items-center gap-2">
         <h2 className="text-sm font-semibold tracking-tight">
           {target === null && project.title}
           {target?.external === false && (
@@ -59,68 +54,71 @@ export function ProjectCard({
           )}
         </h2>
 
-        <p className="text-muted-foreground line-clamp-3 text-sm leading-relaxed">
-          {project.summary}
-        </p>
+        <Badge variant="secondary">{label.domain[project.domain]}</Badge>
+        <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
       </div>
+
+      <p className="text-muted-foreground text-sm leading-relaxed">{project.summary}</p>
 
       {project.highlight && (
         <p className="border-border border-l-2 pl-3 text-xs font-medium">{project.highlight}</p>
       )}
 
-      <ul className="mt-auto flex flex-wrap gap-1 pt-1">
-        {stack.map((item) => {
-          const selected = selectedStack.includes(item);
-          const badge = (
-            <Badge
-              variant={selected ? 'secondary' : 'outline'}
-              className={cn('text-[0.7rem]', onToggleStack && 'hover:border-foreground/30')}
-            >
-              {item}
-            </Badge>
-          );
-
-          return (
-            <li key={item}>
-              {onToggleStack ? (
-                <button
-                  type="button"
-                  aria-pressed={selected}
-                  onClick={() => onToggleStack(item)}
-                  className="cursor-pointer"
-                >
-                  {badge}
-                </button>
-              ) : (
-                badge
-              )}
-            </li>
-          );
-        })}
-        {overflow > 0 && (
-          <li className="text-muted-foreground self-center text-[0.7rem]">+{overflow}</li>
-        )}
-      </ul>
-
-      {links.length > 0 && (
-        <ul className="flex flex-wrap items-center gap-x-3 gap-y-1">
-          {links.map(({ kind, href }) => {
-            const Icon = PROJECT_LINK_ICON[kind];
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+        <ul className="flex flex-wrap gap-1">
+          {stack.map((item) => {
+            const selected = selectedStack.includes(item);
+            const badge = (
+              <Badge
+                variant={selected ? 'secondary' : 'outline'}
+                className={cn('text-[0.7rem]', onToggleStack && 'hover:border-foreground/30')}
+              >
+                {item}
+              </Badge>
+            );
 
             return (
-              <li key={kind}>
-                <ExternalLink
-                  href={href}
-                  className="text-muted-foreground hover:text-foreground text-xs hover:underline"
-                >
-                  <Icon aria-hidden className="size-3.5 shrink-0" />
-                  {label.link[kind]}
-                </ExternalLink>
+              <li key={item}>
+                {onToggleStack ? (
+                  <button
+                    type="button"
+                    aria-pressed={selected}
+                    onClick={() => onToggleStack(item)}
+                    className="cursor-pointer"
+                  >
+                    {badge}
+                  </button>
+                ) : (
+                  badge
+                )}
               </li>
             );
           })}
+          {overflow > 0 && (
+            <li className="text-muted-foreground self-center text-[0.7rem]">+{overflow}</li>
+          )}
         </ul>
-      )}
+
+        {links.length > 0 && (
+          <ul className="ml-auto flex flex-wrap items-center gap-x-3 gap-y-1">
+            {links.map(({ kind, href }) => {
+              const Icon = PROJECT_LINK_ICON[kind];
+
+              return (
+                <li key={kind}>
+                  <ExternalLink
+                    href={href}
+                    className="text-muted-foreground hover:text-foreground text-xs hover:underline"
+                  >
+                    <Icon aria-hidden className="size-3.5 shrink-0" />
+                    {label.link[kind]}
+                  </ExternalLink>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
     </article>
   );
 }
