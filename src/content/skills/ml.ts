@@ -2,19 +2,7 @@ import { defineSkillGroup } from '@/features/career/models/define';
 
 export default defineSkillGroup({
   slug: 'ml',
-  items: [
-    'PyTorch',
-    'TensorFlow',
-    'Keras',
-    'scikit-learn',
-    'OpenCV',
-    'NumPy',
-    'Pandas',
-    'Matplotlib',
-    'Seaborn',
-    'Altair',
-    'Jupyter',
-  ],
+  items: ['PyTorch', 'OpenCV', 'NumPy', 'Pandas'],
   ko: {
     group: '머신러닝',
   },

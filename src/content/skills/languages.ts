@@ -2,7 +2,7 @@ import { defineSkillGroup } from '@/features/career/models/define';
 
 export default defineSkillGroup({
   slug: 'languages',
-  items: ['TypeScript', 'JavaScript', 'Python', 'Java', 'Kotlin', 'C', 'C++', 'Dart'],
+  items: ['TypeScript', 'Python', 'Rust', 'C++', 'Java', 'Kotlin'],
   ko: {
     group: '언어',
   },
