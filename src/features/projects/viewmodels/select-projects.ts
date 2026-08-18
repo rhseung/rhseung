@@ -1,4 +1,10 @@
-import type { Project, ProjectDomain } from '../models';
+import {
+  PROJECT_LINK_KINDS,
+  type Project,
+  type ProjectDomain,
+  type ProjectLinkKind,
+} from '../models';
+
 import type { ProjectFilters } from './use-project-filters';
 
 export function filterByDomain(
@@ -81,4 +87,12 @@ export function projectHref(
   const fallback =
     project.links?.repo ?? project.links?.demo ?? project.links?.package ?? project.links?.post;
   return fallback ? { href: fallback, external: true } : null;
+}
+
+/** 링크가 있는 종류만, 정해진 순서로. */
+export function projectLinks(project: Project): { kind: ProjectLinkKind; href: string }[] {
+  return PROJECT_LINK_KINDS.flatMap((kind) => {
+    const href = project.links?.[kind];
+    return href ? [{ kind, href }] : [];
+  });
 }

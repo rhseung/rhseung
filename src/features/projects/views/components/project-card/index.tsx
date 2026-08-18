@@ -1,16 +1,15 @@
-import {
-  ArrowSquareOutIcon,
-  FileTextIcon,
-  GithubLogoIcon,
-  PackageIcon,
-  PlayIcon,
-} from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 import { Badge, ExternalLink } from '@/common/components';
 import { cn } from '@/common/utils';
 
-import { projectHref, useProjectLabels, type Project } from '../../../viewmodels';
+import {
+  PROJECT_LINK_ICON,
+  projectHref,
+  projectLinks,
+  useProjectLabels,
+  type Project,
+} from '../../../viewmodels';
 
 /** 넘치는 건 개수로만 알린다 — 카드 높이가 들쭉날쭉해지지 않게. */
 const STACK_SHOWN = 4;
@@ -41,23 +40,7 @@ export function ProjectCard({
   const stack = ordered.slice(0, STACK_SHOWN);
   const overflow = project.stack.length - stack.length;
 
-  const links = [
-    { key: 'repo', href: project.links?.repo, label: t(($) => $.links.repo), Icon: GithubLogoIcon },
-    { key: 'demo', href: project.links?.demo, label: t(($) => $.links.demo), Icon: PlayIcon },
-    {
-      key: 'package',
-      href: project.links?.package,
-      label: t(($) => $.links.package),
-      Icon: PackageIcon,
-    },
-    { key: 'post', href: project.links?.post, label: t(($) => $.links.post), Icon: FileTextIcon },
-    {
-      key: 'paper',
-      href: project.links?.paper,
-      label: t(($) => $.links.paper),
-      Icon: ArrowSquareOutIcon,
-    },
-  ].filter((link): link is typeof link & { href: string } => link.href !== undefined);
+  const links = projectLinks(project);
 
   return (
     <article className="border-border bg-card/40 hover:border-foreground/20 flex h-full flex-col gap-3 rounded-xl border p-4 transition-colors">
@@ -127,17 +110,21 @@ export function ProjectCard({
 
       {links.length > 0 && (
         <ul className="flex flex-wrap items-center gap-x-3 gap-y-1">
-          {links.map(({ key, href, label: linkLabel, Icon }) => (
-            <li key={key}>
-              <ExternalLink
-                href={href}
-                className="text-muted-foreground hover:text-foreground text-xs hover:underline"
-              >
-                <Icon aria-hidden className="size-3.5 shrink-0" />
-                {linkLabel}
-              </ExternalLink>
-            </li>
-          ))}
+          {links.map(({ kind, href }) => {
+            const Icon = PROJECT_LINK_ICON[kind];
+
+            return (
+              <li key={kind}>
+                <ExternalLink
+                  href={href}
+                  className="text-muted-foreground hover:text-foreground text-xs hover:underline"
+                >
+                  <Icon aria-hidden className="size-3.5 shrink-0" />
+                  {label.link[kind]}
+                </ExternalLink>
+              </li>
+            );
+          })}
         </ul>
       )}
     </article>

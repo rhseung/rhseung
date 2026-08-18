@@ -35,6 +35,7 @@
     "ongoing": "Present"
   },
   "search": {
+    "clear": "Clear search",
     "label": "Search projects",
     "placeholder": "Search by name, description, or tech"
   },

@@ -10,6 +10,7 @@ import {
   EmptyTitle,
   InputGroup,
   InputGroupAddon,
+  InputGroupButton,
   InputGroupInput,
   SiteDock,
 } from '@/common/components';
@@ -67,7 +68,20 @@ export function ProjectsPage({ lang, projects }: ProjectsPage.Props) {
               onChange={(event) => setQuery(event.target.value)}
               placeholder={t(($) => $.search.placeholder)}
               aria-label={t(($) => $.search.label)}
+              // 브라우저가 붙이는 취소 버튼은 OS 마다 얼굴이 다르다. 우리 걸 쓴다.
+              className="[&::-webkit-search-cancel-button]:appearance-none"
             />
+
+            {filters.query !== '' && (
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton
+                  aria-label={t(($) => $.search.clear)}
+                  onClick={() => setQuery('')}
+                >
+                  <XIcon aria-hidden />
+                </InputGroupButton>
+              </InputGroupAddon>
+            )}
           </InputGroup>
 
           <div className="flex flex-wrap gap-1" role="group" aria-label={t(($) => $.filter.label)}>

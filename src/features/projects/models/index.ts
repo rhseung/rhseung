@@ -3,8 +3,8 @@ import type { Language } from '@/common/lib';
 import type { Project, ProjectItem } from './types';
 
 export { defineProject } from './define';
-export { PROJECT_DOMAINS, PROJECT_STATUSES } from './types';
-export type { Project, ProjectDomain, ProjectStatus } from './types';
+export { PROJECT_DOMAINS, PROJECT_LINK_KINDS, PROJECT_STATUSES } from './types';
+export type { Project, ProjectDomain, ProjectLinkKind, ProjectStatus } from './types';
 
 // 본문 없는 프로젝트는 `<slug>.ts` 하나, 본문 있는 프로젝트는 `<slug>/index.ts` + `{ko,en}.mdx`.
 const modules = import.meta.glob<{ default: ProjectItem }>(

@@ -1,4 +1,4 @@
-export type { Project, ProjectDomain, ProjectStatus } from '../models';
+export type { Project, ProjectDomain, ProjectLinkKind, ProjectStatus } from '../models';
 
 export {
   countByDomain,
@@ -7,7 +7,8 @@ export {
   filterProjects,
   pickPinned,
   projectHref,
+  projectLinks,
   sortProjects,
 } from './select-projects';
 export { useProjectFilters, type ProjectFilters } from './use-project-filters';
-export { useProjectLabels } from './use-project-labels';
+export { PROJECT_LINK_ICON, useProjectLabels } from './use-project-labels';

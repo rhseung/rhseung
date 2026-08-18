@@ -87,6 +87,7 @@ export default interface Resources {
       "ongoing": "현재"
     },
     "search": {
+      "clear": "검색어 지우기",
       "label": "프로젝트 검색",
       "placeholder": "제목·설명·기술로 검색"
     },

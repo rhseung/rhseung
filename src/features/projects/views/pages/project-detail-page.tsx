@@ -5,7 +5,7 @@ import { Badge, ExternalLink, SiteDock, buttonVariants } from '@/common/componen
 import { localeHref, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
 
-import { useProjectLabels, type Project } from '../../viewmodels';
+import { PROJECT_LINK_ICON, projectLinks, useProjectLabels, type Project } from '../../viewmodels';
 
 function formatMonth(value: string) {
   return value.replace('-', '.');
@@ -19,13 +19,7 @@ export function ProjectDetailPage({ lang, project, altHref, children }: ProjectD
     ? `${formatMonth(project.start)} – ${formatMonth(project.end)}`
     : `${formatMonth(project.start)} – ${t(($) => $.period.ongoing)}`;
 
-  const links = [
-    { key: 'repo', href: project.links?.repo, label: t(($) => $.links.repo) },
-    { key: 'demo', href: project.links?.demo, label: t(($) => $.links.demo) },
-    { key: 'package', href: project.links?.package, label: t(($) => $.links.package) },
-    { key: 'post', href: project.links?.post, label: t(($) => $.links.post) },
-    { key: 'paper', href: project.links?.paper, label: t(($) => $.links.paper) },
-  ].filter((link): link is typeof link & { href: string } => link.href !== undefined);
+  const links = projectLinks(project);
 
   return (
     <div className="bg-background min-h-dvh">
@@ -62,15 +56,20 @@ export function ProjectDetailPage({ lang, project, altHref, children }: ProjectD
 
           {links.length > 0 && (
             <div className="flex flex-wrap gap-2">
-              {links.map((link) => (
-                <ExternalLink
-                  key={link.key}
-                  href={link.href}
-                  className={buttonVariants({ variant: 'outline', size: 'sm' })}
-                >
-                  {link.label}
-                </ExternalLink>
-              ))}
+              {links.map(({ kind, href }) => {
+                const Icon = PROJECT_LINK_ICON[kind];
+
+                return (
+                  <ExternalLink
+                    key={kind}
+                    href={href}
+                    className={buttonVariants({ variant: 'outline', size: 'sm' })}
+                  >
+                    <Icon data-icon="inline-start" />
+                    {label.link[kind]}
+                  </ExternalLink>
+                );
+              })}
             </div>
           )}
         </header>

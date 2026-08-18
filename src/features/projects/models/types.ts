@@ -1,13 +1,12 @@
 import type { Tech, Url, YearMonth } from '@/common/lib';
 
-export type ProjectLinks = {
-  repo?: Url;
-  demo?: Url;
-  /** 배포된 패키지 — PyPI·npm·Modrinth 등. 저장소도 데모도 아니다. */
-  package?: Url;
-  post?: Url;
-  paper?: Url;
-};
+/** 카드·상세가 이 순서로 보여준다. */
+export const PROJECT_LINK_KINDS = ['repo', 'demo', 'package', 'post', 'paper'] as const;
+
+export type ProjectLinkKind = (typeof PROJECT_LINK_KINDS)[number];
+
+/** `package` 는 배포된 패키지 — PyPI·npm·Modrinth 등. 저장소도 데모도 아니다. */
+export type ProjectLinks = Partial<Record<ProjectLinkKind, Url>>;
 
 export const PROJECT_DOMAINS = ['web', 'systems', 'backend', 'graphics'] as const;
 
