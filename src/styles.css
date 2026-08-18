@@ -206,11 +206,6 @@
     @apply opacity-100;
   }
 
-  /* `rehype-external-links` 가 단 표시. `<ExternalLink />` 와 같은 모양으로 맞춘다. */
-  .prose a[target='_blank']::after {
-    @apply text-muted-foreground ml-0.5 align-super text-[0.7em] content-['↗'];
-  }
-
   /* 각주는 본문이 끝난 뒤의 부록이다 — 선과 크기로 잘라낸다. */
   .prose .footnotes {
     @apply border-border text-muted-foreground mt-12 border-t pt-6 text-sm;
