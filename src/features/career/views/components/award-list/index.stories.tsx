@@ -9,10 +9,9 @@ const awards: Award[] = [
     title: '무슨 대회 대상',
     issuer: '주최기관',
     date: { year: 2025, month: 6 },
-    order: 0,
     summary: '참가 120팀 중 1위',
   },
-  { slug: 'small', title: '장려상', date: { year: 2024, month: 11 }, order: 0 },
+  { slug: 'small', title: '장려상', date: { year: 2024, month: 11 } },
 ];
 
 const meta = {

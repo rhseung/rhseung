@@ -3,7 +3,6 @@ import { defineAward } from '@/features/career/models/define';
 export default defineAward({
   slug: 'mini-tex-corps',
   date: { year: 2025 },
-  order: 0,
   ko: {
     title: '2025 호남권역 Mini Tex-Corps 수상',
     issuer: '과학기술정보통신부 · 과학기술사업화진흥원(COMPA)',

@@ -34,7 +34,6 @@ export const awards: Award[] = [
     title: '무슨 대회 대상',
     issuer: '주최기관',
     date: { year: 2025, month: 6 },
-    order: 0,
   },
 ];
 

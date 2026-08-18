@@ -34,7 +34,6 @@ const career = z.object({
 const award = z.object({
   slug,
   date: yearOrMonth,
-  order: z.number().int().min(0),
   ...translated(z.object({ title: filled, issuer: filled.optional(), summary })),
 });
 

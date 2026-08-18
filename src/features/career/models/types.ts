@@ -31,8 +31,6 @@ export type CareerItem = Translated<CareerText> & {
 export type AwardItem = Translated<AwardText> & {
   slug: string;
   date: YearOrMonth;
-  /** 같은 해 안의 순서. 작을수록 먼저. */
-  order: number;
 };
 
 export type SkillGroupItem = Translated<SkillGroupText> & {
