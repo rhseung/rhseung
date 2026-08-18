@@ -87,7 +87,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
           className,
         )}
       >
-        <div className="border-border bg-background/80 flex items-center gap-1 rounded-full border p-2 shadow-lg">
+        <div className="border-border bg-background/70 flex items-center gap-1 rounded-full border p-2 shadow-lg backdrop-blur-md">
           <DockLink
             href={localeHref(lang, '/')}
             label={t(($) => $.nav.home)}
