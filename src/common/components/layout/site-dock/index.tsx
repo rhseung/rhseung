@@ -35,6 +35,14 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../
 
 const SECTIONS = ['projects', 'blog', 'career', 'resume'] as const;
 
+/** 가장 높은 겹이 독의 세로 중앙까지 온다: `bottom-4`(1rem) + 독 높이의 절반. */
+const BLUR_LAYERS = [
+  { height: '3.5rem', blur: '3px' },
+  { height: '2.5rem', blur: '6px' },
+  { height: '1.5rem', blur: '12px' },
+  { height: '0.75rem', blur: '24px' },
+];
+
 type Section = (typeof SECTIONS)[number];
 
 const SECTION_ICON: Record<Section, Icon> = {
@@ -72,11 +80,18 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
 
   return (
     <TooltipProvider>
-      {/* 높이 = `bottom-4` + 독 높이의 절반. 독에 직접 걸면 원형 테두리에서 뚝 끊긴다. */}
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-x-0 bottom-0 z-10 h-[2.8rem] mask-[linear-gradient(to_top,black_70%,transparent)] backdrop-blur-sm print:hidden"
-      />
+      {/*
+        아래로 갈수록 세지는 블러. 한 겹에 마스크만 씌우면 흐림의 세기가 아니라 투명도가
+        변해서 경계가 눈에 남는다 - 겹마다 세기와 높이를 달리해 겹쳐 쌓는다.
+      */}
+      {BLUR_LAYERS.map(({ height, blur }) => (
+        <div
+          key={height}
+          aria-hidden
+          className="pointer-events-none fixed inset-x-0 bottom-0 z-10 mask-[linear-gradient(to_top,black_0%,transparent_100%)] print:hidden"
+          style={{ height, backdropFilter: `blur(${blur})` }}
+        />
+      ))}
 
       <nav
         aria-label={t(($) => $.nav.label)}
