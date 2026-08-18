@@ -1,13 +1,12 @@
-import dayjs from 'dayjs';
-
+import { yearMonth } from '@/common/lib';
 import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'pattern',
   domain: 'systems',
   stack: ['npm', 'TypeScript'],
-  start: dayjs('2024-02'),
-  end: dayjs('2024-05'),
+  start: yearMonth({ year: 2024, month: 2 }),
+  end: yearMonth({ year: 2024, month: 5 }),
   status: 'shipped',
   links: {
     repo: 'https://github.com/essentialib/pattern',

@@ -1,12 +1,11 @@
-import dayjs from 'dayjs';
-
+import { yearMonth } from '@/common/lib';
 import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'glance',
   domain: 'systems',
   stack: ['Java', 'Kotlin'],
-  start: dayjs('2024-06'),
+  start: yearMonth({ year: 2024, month: 6 }),
   status: 'active',
   links: {
     repo: 'https://github.com/rhseung-mods/glance',

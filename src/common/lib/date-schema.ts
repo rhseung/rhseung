@@ -6,7 +6,7 @@ dayjs.extend(customParseFormat);
 
 const parse = (value: string, format: string) => dayjs(value, format, true);
 
-export const yearMonth = z.custom<Dayjs>(
+export const validDate = z.custom<Dayjs>(
   (value) => dayjs.isDayjs(value) && value.isValid(),
   'dayjs 로 만든 유효한 날짜여야 합니다',
 );

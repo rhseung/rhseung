@@ -1,13 +1,12 @@
-import dayjs from 'dayjs';
-
+import { yearMonth } from '@/common/lib';
 import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'pingpong',
   domain: 'graphics',
   stack: ['C++'],
-  start: dayjs('2024-10'),
-  end: dayjs('2025-01'),
+  start: yearMonth({ year: 2024, month: 10 }),
+  end: yearMonth({ year: 2025, month: 1 }),
   status: 'shipped',
   links: {
     repo: 'https://github.com/studio-void/hinguri-pingpong',

@@ -2,7 +2,6 @@ import type { LogoPath, Tech, Url, YearMonth, YearOrMonth } from '@/common/lib';
 
 import type { Dayjs } from 'dayjs';
 
-
 export type CareerText = {
   org: string;
   role: string;

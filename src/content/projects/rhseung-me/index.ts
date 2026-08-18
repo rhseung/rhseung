@@ -1,12 +1,11 @@
-import dayjs from 'dayjs';
-
+import { yearMonth } from '@/common/lib';
 import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'rhseung-me',
   domain: 'web',
   stack: ['Astro', 'React', 'Tailwind CSS', 'TypeScript'],
-  start: dayjs('2026-08'),
+  start: yearMonth({ year: 2026, month: 8 }),
   status: 'active',
   pinned: true,
   links: {

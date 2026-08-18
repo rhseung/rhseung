@@ -1,13 +1,12 @@
-import dayjs from 'dayjs';
-
+import { yearMonth } from '@/common/lib';
 import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'datetime',
   domain: 'systems',
   stack: ['npm', 'TypeScript'],
-  start: dayjs('2024-01'),
-  end: dayjs('2024-04'),
+  start: yearMonth({ year: 2024, month: 1 }),
+  end: yearMonth({ year: 2024, month: 4 }),
   status: 'shipped',
   links: {
     repo: 'https://github.com/essentialib/datetime',

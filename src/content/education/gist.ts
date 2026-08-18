@@ -1,10 +1,9 @@
-import dayjs from 'dayjs';
-
+import { yearMonth } from '@/common/lib';
 import { defineCareer } from '@/features/career/models/define';
 
 export default defineCareer({
   slug: 'gist',
-  start: dayjs('2025-03'),
+  start: yearMonth({ year: 2025, month: 3 }),
   logo: '/logos/gist.svg',
   ko: {
     org: 'GIST (광주과학기술원)',

@@ -3,7 +3,7 @@ import { existsSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { endsAfterStart, yearMonth, yearOrMonth } from '@/common/lib/date-schema';
+import { endsAfterStart, validDate, yearOrMonth } from '@/common/lib/date-schema';
 
 import { CAREER_ITEMS } from './index';
 
@@ -24,8 +24,8 @@ const translated = <T extends z.ZodType>(text: T) => ({ ko: text, en: text });
 
 const career = z.object({
   slug,
-  start: yearMonth,
-  end: yearMonth.optional(),
+  start: validDate,
+  end: validDate.optional(),
   logo: z.string().optional(),
   links: z.object({ site: z.url().optional() }).optional(),
   ...translated(careerText),

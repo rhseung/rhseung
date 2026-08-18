@@ -2,7 +2,6 @@ import type { Tech, Url, YearMonth } from '@/common/lib';
 
 import type { Dayjs } from 'dayjs';
 
-
 export const PROJECT_LINK_KINDS = ['repo', 'demo', 'package', 'post', 'paper'] as const;
 
 export type ProjectLinkKind = (typeof PROJECT_LINK_KINDS)[number];

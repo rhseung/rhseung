@@ -1,13 +1,12 @@
-import dayjs from 'dayjs';
-
+import { yearMonth } from '@/common/lib';
 import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'yolov3',
   domain: 'graphics',
   stack: ['Python', 'PyTorch'],
-  start: dayjs('2023-03'),
-  end: dayjs('2023-11'),
+  start: yearMonth({ year: 2023, month: 3 }),
+  end: yearMonth({ year: 2023, month: 11 }),
   status: 'shipped',
   links: {
     repo: 'https://github.com/gsa-projects/2023-rne',
