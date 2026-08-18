@@ -328,8 +328,10 @@ CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한
 - 새 키를 넣었으면 `bun run gen:i18n`. ko를 먼저 채우고 en을 채운다.
 - **`extractFromComments`가 켜져 있다.** 주석 안에 번역 호출을 그대로 써두면 진짜 키가 생긴다.
   주석에는 설명만 쓰고 호출 형태를 붙여넣지 않는다.
-- 동적 키는 셀렉터로 표현할 수 없다 — 정적 맵을 만들어서 각 항목을 셀렉터로 호출한다
-  (`use-project-labels.ts` 참고).
+- **동적 키는 브래킷으로 쓴다**: `t(($) => $.domain[key])`. 추출기도 이 형태를 읽어서
+  `domain.*` 를 지우지 않는다 (`use-project-labels.ts` 참고).
+  단 그 호출이 **소스에 그대로** 보여야 한다 — `t` 를 헬퍼 함수로 감싸 넘기면 추출기가
+  못 읽고 다음 `bun run gen` 에 키가 통째로 사라진다. 실제로 그렇게 지워봤다.
 - `src/@types/i18next.d.ts`도 생성물이다. `enableSelector`를 바꾸려면 이 파일이 아니라
   `i18next.config.ts`의 `types.enableSelector`를 고치고 파일을 지운 뒤 `bun run gen:i18n`한다
   — 이미 존재하는 파일은 i18next-cli가 다시 쓰지 않는다 (최초 생성 시에만 config를 반영).
