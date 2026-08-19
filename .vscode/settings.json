@@ -28,6 +28,17 @@
     "**/bun.lock": true
   },
 
+  // flow-icons 가 이름으로 못 알아보는 feature 폴더만 짚어준다.
+  "flow-icons.folders.associations": {
+    "career": "job",
+    "research": "molecule",
+    "resume": "user",
+    "viewmodels": "hook",
+    "views": "views",
+    "models": "schema",
+    "_islands": "components"
+  },
+
   "tailwindCSS.experimental.configFile": "src/styles.css",
   "tailwindCSS.classFunctions": ["cn", "cva", "tv"],
 
