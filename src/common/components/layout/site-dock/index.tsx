@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 
 import {
   BriefcaseIcon,
@@ -108,27 +108,29 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
             current={current === undefined}
           />
 
-          <Separator orientation="vertical" className="mx-0.5 hidden !h-6 sm:block" />
+          <Separator orientation="vertical" className="mx-0.5 hidden h-6! w-px sm:block" />
 
           <div className="hidden items-center gap-1 sm:flex">
-            {SECTIONS.map((section) => (
-              <DockLink
-                key={section}
-                href={localeHref(lang, `/${section}`)}
-                label={sectionLabel[section]}
-                Icon={SECTION_ICON[section]}
-                current={current === section}
-              />
+            {SECTIONS.map((section, index) => (
+              <Fragment key={section}>
+                {index > 0 && <Separator orientation="vertical" className="mx-0.5 h-6! w-px" />}
+                <DockLink
+                  href={localeHref(lang, `/${section}`)}
+                  label={sectionLabel[section]}
+                  Icon={SECTION_ICON[section]}
+                  current={current === section}
+                />
+              </Fragment>
             ))}
 
-            <Separator orientation="vertical" className="mx-0.5 !h-6" />
+            <Separator orientation="vertical" className="mx-0.5 h-6! w-px" />
 
             {external.map(({ key, href, label, Icon, blank }) => (
               <DockLink key={key} href={href} label={label} Icon={Icon} blank={blank} />
             ))}
           </div>
 
-          <Separator orientation="vertical" className="mx-0.5 !h-6" />
+          <Separator orientation="vertical" className="mx-0.5 h-6! w-px" />
 
           {altHref && (
             <DockLink
