@@ -2,7 +2,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 import { ResumeIsland } from '@/pages/_islands/resume-islands';
-import { i18n, languagePaths, profileOf, SITE, localeHref } from '@/common/lib';
+import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
 import { projectsOf, sortProjects } from '@/features/projects';
 import { awardsOf, educationOf, experienceOf, skillGroupsOf } from '@/features/career';
 import Layout from '@/layouts/layout.astro';
@@ -23,14 +23,12 @@ const t = i18n.getFixedT(lang, 'resume');
 
 <Layout
   lang={lang}
-  title={`${t(($) => $.page.title)} — ${SITE.title[lang]}`}
-  description={profileOf(lang).headline}
+  title={`${t(($) => $.page.title)} — ${SITE.title}`}
+  description={i18n.getFixedT(lang, 'common')(($) => $.site.headline)}
   alternates={{ ko: localeHref('ko', '/resume'), en: localeHref('en', '/resume') }}
 >
   <ResumeIsland
     lang={lang}
-    name={SITE.name[lang]}
-    profile={profileOf(lang)}
     experience={experienceOf(lang)}
     education={educationOf(lang)}
     projects={sortProjects(projectsOf(lang, detailSlugs), { pinnedFirst: true })}

@@ -13,7 +13,7 @@ const { lang } = Astro.props;
 
 <Layout
   lang={lang}
-  title={`${i18n.getFixedT(lang, 'common')(($) => $.nav.research)} — ${SITE.title[lang]}`}
+  title={`${i18n.getFixedT(lang, 'common')(($) => $.nav.research)} — ${SITE.title}`}
   alternates={{ ko: localeHref('ko', '/research'), en: localeHref('en', '/research') }}
 >
   <ResearchIsland lang={lang} items={researchOf(lang)} client:load />

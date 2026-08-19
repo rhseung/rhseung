@@ -1,5 +1,5 @@
 import { AppProviders } from '@/common/components';
-import type { Language, Profile } from '@/common/lib';
+import type { Language } from '@/common/lib';
 import { CareerPage, type Award, type CareerEntry, type SkillGroup } from '@/features/career';
 import type { Project } from '@/features/projects';
 import { ResumePage } from '@/features/resume';
@@ -39,8 +39,6 @@ export declare namespace CareerIsland {
 export declare namespace ResumeIsland {
   export type Props = {
     lang: Language;
-    name: string;
-    profile: Profile;
     experience: CareerEntry[];
     education: CareerEntry[];
     projects: Project[];

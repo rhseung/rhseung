@@ -2,7 +2,7 @@ import { DownloadSimpleIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 import { SiteDock, buttonVariants } from '@/common/components';
-import { localeHref, type Language, type Profile } from '@/common/lib';
+import { localeHref, type Language } from '@/common/lib';
 import type { Award, CareerEntry, SkillGroup } from '@/features/career';
 import type { Project } from '@/features/projects';
 
@@ -10,8 +10,6 @@ import { ResumeDocument } from '../components/resume-document';
 
 export function ResumePage({
   lang,
-  name,
-  profile,
   experience,
   education,
   projects,
@@ -42,8 +40,6 @@ export function ResumePage({
 
         <div className="border-border bg-card/40 rounded-xl border p-6 sm:p-8 print:rounded-none print:border-0 print:bg-transparent print:p-0">
           <ResumeDocument
-            name={name}
-            profile={profile}
             experience={experience}
             education={education}
             projects={projects}
@@ -61,8 +57,6 @@ export function ResumePage({
 export declare namespace ResumePage {
   export type Props = {
     lang: Language;
-    name: string;
-    profile: Profile;
     experience: CareerEntry[];
     education: CareerEntry[];
     projects: Project[];

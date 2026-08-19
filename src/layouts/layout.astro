@@ -4,7 +4,7 @@ import { ClientRouter } from 'astro:transitions';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 
-import { SITE, type Language } from '@/common/lib';
+import { i18n, SITE, type Language } from '@/common/lib';
 import '@/styles.css';
 
 interface Props {
@@ -20,7 +20,7 @@ interface Props {
 const {
   lang,
   title,
-  description = SITE.description[lang],
+  description = i18n.getFixedT(lang, 'common')(($) => $.site.description),
   alternates,
   image = SITE.ogImage,
   type = 'website',
@@ -60,7 +60,7 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
     {ogImage && <meta property="og:image" content={ogImage} />}
     <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
 
-    <link rel="alternate" type="application/rss+xml" title={SITE.title[lang]} href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
 
     {
       /*

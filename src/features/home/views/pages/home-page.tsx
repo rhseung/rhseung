@@ -6,15 +6,17 @@ import { localeHref, SITE, type Language } from '@/common/lib';
 import { PostListItem, type PostSummary } from '@/features/blog';
 import { ProjectCard, type Project } from '@/features/projects';
 
-export function HomePage({ lang, headline, intro, pinned, recent }: HomePage.Props) {
+export function HomePage({ lang, pinned, recent }: HomePage.Props) {
   const { t } = useTranslation('home');
 
   return (
     <div className="bg-background min-h-dvh">
       <main className="mx-auto flex max-w-3xl flex-col gap-12 px-4 py-16">
         <header className="flex flex-col gap-5">
-          <p className="text-muted-foreground text-sm">{SITE.name[lang]}</p>
-          <h1 className="text-3xl leading-snug font-semibold tracking-tight">{headline}</h1>
+          <p className="text-muted-foreground text-sm">{t(($) => $.site.name, { ns: 'common' })}</p>
+          <h1 className="text-3xl leading-snug font-semibold tracking-tight">
+            {t(($) => $.site.headline, { ns: 'common' })}
+          </h1>
 
           <div className="flex flex-wrap gap-2">
             <a href={localeHref(lang, '/projects')} className={buttonVariants({ size: 'sm' })}>
@@ -77,7 +79,9 @@ export function HomePage({ lang, headline, intro, pinned, recent }: HomePage.Pro
 
         <section className="flex flex-col gap-3">
           <h2 className="text-sm font-medium tracking-tight">{t(($) => $.sections.intro)}</h2>
-          {intro && <p className="text-muted-foreground text-sm leading-relaxed">{intro}</p>}
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            {t(($) => $.site.intro, { ns: 'common' })}
+          </p>
 
           <a
             href={localeHref(lang, '/career')}
@@ -96,8 +100,6 @@ export function HomePage({ lang, headline, intro, pinned, recent }: HomePage.Pro
 export declare namespace HomePage {
   export type Props = {
     lang: Language;
-    headline: string;
-    intro?: string;
     pinned: Project[];
     recent: PostSummary[];
   };

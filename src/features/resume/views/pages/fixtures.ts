@@ -1,12 +1,5 @@
-import type { Profile } from '@/common/lib';
 import type { Award, CareerEntry, SkillGroup } from '@/features/career';
 import type { Project } from '@/features/projects';
-
-export const profile: Profile = {
-  headline: '웹 앱을 만들고, 그게 도는 언어와 런타임도 만듭니다.',
-  intro: '프론트엔드와 시스템 프로그래밍 양쪽을 오갑니다.',
-  location: '대한민국',
-};
 
 export const experience: CareerEntry[] = [
   {

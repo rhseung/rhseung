@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { formatYearMonth, SITE, type Profile } from '@/common/lib';
+import { formatYearMonth, SITE } from '@/common/lib';
 import {
   AwardList,
   CareerList,
@@ -26,8 +26,6 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 export function ResumeDocument({
-  name,
-  profile,
   experience,
   education,
   projects,
@@ -39,14 +37,16 @@ export function ResumeDocument({
   return (
     <article className="flex flex-col gap-8">
       <header className="flex flex-col gap-3">
-        <h1 className="text-3xl font-semibold tracking-tight">{name}</h1>
-        <p className="text-sm leading-relaxed">{profile.headline}</p>
-        {profile.intro && (
-          <p className="text-muted-foreground text-sm leading-relaxed">{profile.intro}</p>
-        )}
+        <h1 className="text-3xl font-semibold tracking-tight">
+          {t(($) => $.site.name, { ns: 'common' })}
+        </h1>
+        <p className="text-sm leading-relaxed">{t(($) => $.site.headline, { ns: 'common' })}</p>
+        <p className="text-muted-foreground text-sm leading-relaxed">
+          {t(($) => $.site.intro, { ns: 'common' })}
+        </p>
 
         <ul className="text-muted-foreground flex flex-wrap gap-x-4 gap-y-1 text-xs">
-          {profile.location && <li>{profile.location}</li>}
+          <li>{t(($) => $.site.location, { ns: 'common' })}</li>
           <li>{SITE.email}</li>
           <li>{SITE.github.replace('https://', '')}</li>
           <li>{SITE.url.replace('https://', '')}</li>
@@ -102,8 +102,6 @@ export function ResumeDocument({
 
 export declare namespace ResumeDocument {
   export type Props = {
-    name: string;
-    profile: Profile;
     experience: CareerEntry[];
     education: CareerEntry[];
     projects: Project[];

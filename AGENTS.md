@@ -254,7 +254,8 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 
 **의존 방향은 한쪽이다.** `resume`은 `career`·`projects`를 가져다 문서를 조립할 뿐,
 데이터를 소유하지 않는다. 반대 방향은 없다 — `career`는 `resume`을 모른다.
-사람 정보(headline·intro·location)는 이력서 것이 아니라 사이트 것이라 `common/lib/site.ts`에 있다.
+사람 정보(name·headline·intro·location·description)는 이력서 것이 아니라 사이트 것이라
+`common:site.*` 키에 있고, 쓰는 뷰가 `t(($) => $.site.headline, { ns: 'common' })`로 직접 읽는다.
 
 **컬렉션에는 본문이 있는 것만 둔다.** 경력·학력·대회·기술은 본문이 없어서 TS 모듈이다.
 전에는 `content/awards/{ko,en}/<slug>.mdx`처럼 항목마다 파일 두 개였는데, `date`·`order`가
@@ -336,11 +337,16 @@ CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한
   — 이미 존재하는 파일은 i18next-cli가 다시 쓰지 않는다 (최초 생성 시에만 config를 반영).
 - **`.astro` 는 추출 대상이 아니다.** `input` 에 `.astro` 를 넣어도 파서가 조용히 건너뛴다.
   그래서 `.astro` 에서만 쓰는 키는 다음 `bun run gen` 에 사라지고, CI 의 `git diff --exit-code`
-  는 그걸 정상으로 통과시킨다. 라우트 제목이 쓰는 `common:nav.*` 만 `preservePatterns` 로
-  지켜뒀다 - 그 밖의 키를 `.astro` 에서 새로 만들지 않는다.
-- **문서 메타데이터는 `locales/`가 아니라 `common/lib/site.ts`에 둔다.** `<title>`·
-  description·OG는 `.astro`에서만 쓰이는데 `.astro`는 추출 대상이 아니라, 억지로 키를
-  만들면 `removeUnusedKeys`가 다음 `bun run gen`에 지운다.
+  는 그걸 정상으로 통과시킨다. 그래서 `.astro` 가 읽는 키만 `preservePatterns` 로 지킨다 -
+  지금 `common:nav.*` 와 `common:site.description` 둘뿐이다.
+- **번역되는 사이트 텍스트는 `common:site.*` 다.** name·headline·intro·location 은 뷰가
+  `{ ns: 'common' }` 옵션으로 직접 읽는다 - 그래야 추출기가 호출부를 봐서 `preservePatterns`
+  로 지킬 필요가 없고, 안 쓰게 되면 키도 같이 사라진다. `.astro` 를 거쳐 props 로 내리면
+  호출부가 사라져 키가 지워진다.
+  `site.description` 만 예외다 - `<head>` 메타와 `rss.xml.ts` 로만 나가서 뷰에 호출부가 없다.
+- **`SITE` 에는 언어와 무관한 상수만 남긴다.** url·handle·github·email·ogImage·title.
+  `title` 은 브랜드 이름이라 ko/en 이 같다 - `Record<Language, string>` 으로 두면 언어별인
+  척하는 인덱싱이 호출부마다 붙는다.
 - 라우트 제목은 **`common:nav.*`를 재사용한다** (`i18n.getFixedT(lang, 'common')`).
   그 키는 `SiteHeader`가 실제로 렌더해서 절대 안 지워진다. `.astro`에서만 쓰는 새 키를
   만드는 순간 조용히 사라지는 쪽으로 간다.

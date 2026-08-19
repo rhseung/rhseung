@@ -2,7 +2,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 import { HomeIsland } from '@/pages/_islands/home-island';
-import { languagePaths, profileOf, SITE, localeHref } from '@/common/lib';
+import { languagePaths, SITE, localeHref } from '@/common/lib';
 import { pickRecent, toPostSummary } from '@/features/blog';
 import { pickPinned, projectsOf } from '@/features/projects';
 
@@ -23,19 +23,15 @@ const postEntries: CollectionEntry<'posts'>[] = await getCollection(
   'posts',
   ({ data }: CollectionEntry<'posts'>) => !data.draft,
 );
-
-const profile = profileOf(lang);
 ---
 
 <Layout
   lang={lang}
-  title={SITE.title[lang]}
+  title={SITE.title}
   alternates={{ ko: localeHref('ko', '/'), en: localeHref('en', '/') }}
 >
   <HomeIsland
     lang={lang}
-    headline={profile.headline}
-    intro={profile.intro}
     pinned={pickPinned(projectsOf(lang, detailSlugs), 3)}
     recent={pickRecent(postEntries.map(toPostSummary), 3)}
     client:load

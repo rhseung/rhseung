@@ -19,5 +19,12 @@
     "action": "Back to home",
     "description": "Check the address and try again.",
     "title": "Page not found"
+  },
+  "site": {
+    "description": "I build web apps — and the languages and runtimes they run on. Projects and writing by Ryu Hyunseung.",
+    "headline": "I build web apps — and the languages and runtimes they run on.",
+    "intro": "I move between frontend work and systems programming. Using an abstraction layer and building one teach different things, and I want both.",
+    "location": "South Korea",
+    "name": "Ryu Hyunseung"
   }
 }

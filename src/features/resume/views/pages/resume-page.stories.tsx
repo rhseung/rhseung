@@ -1,4 +1,4 @@
-import { awards, education, experience, profile, projects, skills } from './fixtures';
+import { awards, education, experience, projects, skills } from './fixtures';
 import { ResumePage } from './resume-page';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -9,8 +9,6 @@ const meta = {
   parameters: { layout: 'fullscreen' },
   args: {
     lang: 'ko',
-    name: '류현승',
-    profile,
     experience,
     education,
     projects,
