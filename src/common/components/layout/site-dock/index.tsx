@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 
 import {
   BriefcaseIcon,
@@ -35,7 +35,6 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../
 
 const SECTIONS = ['projects', 'research', 'blog', 'career'] as const;
 
-/** 가장 높은 겹이 독의 세로 중앙까지 온다: `bottom-4`(1rem) + 독 높이의 절반. */
 const BLUR_LAYERS = [
   { height: '2.8rem', blur: '3px' },
   { height: '2rem', blur: '6px' },
@@ -80,10 +79,6 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
 
   return (
     <TooltipProvider>
-      {/*
-        아래로 갈수록 세지는 블러. 한 겹에 마스크만 씌우면 흐림의 세기가 아니라 투명도가
-        변해서 경계가 눈에 남는다 - 겹마다 세기와 높이를 달리해 겹쳐 쌓는다.
-      */}
       {BLUR_LAYERS.map(({ height, blur }) => (
         <div
           key={height}
@@ -111,16 +106,14 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
           <Separator orientation="vertical" className="mx-0.5 hidden h-6! w-px sm:block" />
 
           <div className="hidden items-center gap-1 sm:flex">
-            {SECTIONS.map((section, index) => (
-              <Fragment key={section}>
-                {index > 0 && <Separator orientation="vertical" className="mx-0.5 h-6! w-px" />}
-                <DockLink
-                  href={localeHref(lang, `/${section}`)}
-                  label={sectionLabel[section]}
-                  Icon={SECTION_ICON[section]}
-                  current={current === section}
-                />
-              </Fragment>
+            {SECTIONS.map((section) => (
+              <DockLink
+                key={section}
+                href={localeHref(lang, `/${section}`)}
+                label={sectionLabel[section]}
+                Icon={SECTION_ICON[section]}
+                current={current === section}
+              />
             ))}
 
             <Separator orientation="vertical" className="mx-0.5 h-6! w-px" />
@@ -135,7 +128,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
           {altHref && (
             <DockLink
               href={altHref}
-              label={`${nextLanguage.toUpperCase()} — ${t(($) => $.actions.switchLanguage)}`}
+              label={t(($) => $.actions.switchLanguage)}
               Icon={GlobeIcon}
               hrefLang={nextLanguage}
             />
