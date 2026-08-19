@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { Empty, EmptyHeader, EmptyTitle, SiteDock } from '@/common/components';
+import { Empty, EmptyHeader, EmptyTitle, Separator, SiteDock } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
 
 import {
@@ -16,7 +16,10 @@ import { AwardList, CareerList, SkillGroups } from '../components';
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="flex flex-col gap-5">
-      <h2 className="border-border border-b pb-1 text-sm font-medium tracking-tight">{title}</h2>
+      <div className="flex flex-col gap-1">
+        <h2 className="text-sm font-medium tracking-tight">{title}</h2>
+        <Separator />
+      </div>
       {children}
     </section>
   );
