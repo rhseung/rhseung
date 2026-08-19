@@ -1,12 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import {
-  countByDomain,
-  filterByDomain,
-  pickPinned,
-  projectHref,
-  sortProjects,
-} from './select-projects';
+import { countByDomain, filterByDomain, projectHref, sortProjects } from './select-projects';
 
 import type { Project } from '../models';
 
@@ -25,33 +19,20 @@ function project(overrides: Partial<Project> & { slug: string }): Project {
 
 describe('sortProjects', () => {
   const projects = [
-    project({ slug: 'old-pinned', start: { year: 2022, month: 1 }, pinned: true }),
+    project({ slug: 'oldest', start: { year: 2022, month: 1 } }),
     project({ slug: 'newest', start: { year: 2025, month: 6 } }),
     project({ slug: 'middle', start: { year: 2024, month: 3 } }),
   ];
 
-  it('pinnedFirst면 pinned가 오래됐어도 앞에 온다', () => {
-    expect(sortProjects(projects, { pinnedFirst: true }).map((p) => p.slug)).toEqual([
-      'old-pinned',
-      'newest',
-      'middle',
-    ]);
-  });
-
-  // 좁혀서 보는 사람에게 그 안에서까지 pinned를 앞세우면 순서를 설명할 방법이 없다.
-  it('필터가 걸린 목록에서는 순수 최신순이다', () => {
-    expect(sortProjects(projects, { pinnedFirst: false }).map((p) => p.slug)).toEqual([
-      'newest',
-      'middle',
-      'old-pinned',
-    ]);
+  it('최신순이다', () => {
+    expect(sortProjects(projects).map((p) => p.slug)).toEqual(['newest', 'middle', 'oldest']);
   });
 
   it('입력 배열을 건드리지 않는다', () => {
     const input = [...projects];
-    sortProjects(input, { pinnedFirst: true });
+    sortProjects(input);
 
-    expect(input.map((p) => p.slug)).toEqual(['old-pinned', 'newest', 'middle']);
+    expect(input.map((p) => p.slug)).toEqual(['oldest', 'newest', 'middle']);
   });
 });
 
@@ -67,18 +48,6 @@ describe('filterByDomain', () => {
 
   it('도메인 하나로 좁힌다', () => {
     expect(filterByDomain(projects, 'systems').map((p) => p.slug)).toEqual(['b']);
-  });
-});
-
-describe('pickPinned', () => {
-  it('pinned만, 정렬된 채로, 개수만큼', () => {
-    const projects = [
-      project({ slug: 'p1', pinned: true, start: { year: 2023, month: 1 } }),
-      project({ slug: 'not-pinned', start: { year: 2025, month: 1 } }),
-      project({ slug: 'p2', pinned: true, start: { year: 2025, month: 5 } }),
-    ];
-
-    expect(pickPinned(projects, 1).map((p) => p.slug)).toEqual(['p2']);
   });
 });
 

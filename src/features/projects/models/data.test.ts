@@ -31,7 +31,6 @@ const schema = z.object({
   start: validDate,
   end: validDate.optional(),
   status: z.enum(PROJECT_STATUSES),
-  pinned: z.boolean().optional(),
   links: z
     .object({
       repo: z.url().optional(),

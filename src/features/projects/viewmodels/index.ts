@@ -5,7 +5,6 @@ export {
   countByStack,
   filterByDomain,
   filterProjects,
-  pickPinned,
   projectHref,
   projectLinks,
   sortProjects,

@@ -17,7 +17,6 @@ const meta = {
       stack: ['Rust', 'Rust', 'TypeScript'],
       start: { year: 2024, month: 3 },
       status: 'active',
-      pinned: true,
       hasDetail: true,
       links: { repo: 'https://github.com/rhseung/lumen' },
     },
@@ -61,7 +60,6 @@ export const Archived: Story = {
       ...meta.args.project,
       status: 'archived',
       end: { year: 2024, month: 11 },
-      pinned: false,
     },
   },
 };

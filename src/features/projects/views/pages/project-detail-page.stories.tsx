@@ -11,7 +11,6 @@ const project: Project = {
   stack: ['Rust', 'Rust'],
   start: { year: 2024, month: 3 },
   status: 'active',
-  pinned: true,
   hasDetail: true,
   links: { repo: 'https://github.com/rhseung/lumen' },
 };

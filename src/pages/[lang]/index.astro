@@ -4,7 +4,6 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { HomeIsland } from '@/pages/_islands/home-island';
 import { languagePaths, SITE, localeHref } from '@/common/lib';
 import { pickRecent, toPostSummary } from '@/features/blog';
-import { pickPinned, projectsOf } from '@/features/projects';
 
 import Layout from '@/layouts/layout.astro';
 
@@ -13,11 +12,6 @@ export function getStaticPaths() {
 }
 
 const { lang } = Astro.props;
-
-const details: CollectionEntry<'projects'>[] = await getCollection('projects');
-const detailSlugs = new Set(
-  details.filter((entry) => entry.id.startsWith(`${lang}/`)).map((entry) => entry.id.split('/')[1]),
-);
 
 const postEntries: CollectionEntry<'posts'>[] = await getCollection(
   'posts',
@@ -32,7 +26,6 @@ const postEntries: CollectionEntry<'posts'>[] = await getCollection(
 >
   <HomeIsland
     lang={lang}
-    pinned={pickPinned(projectsOf(lang, detailSlugs), 3)}
     recent={pickRecent(postEntries.map(toPostSummary), 3)}
     client:load
   />

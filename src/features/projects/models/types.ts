@@ -28,7 +28,6 @@ export type ProjectItem = {
   start: YearMonth;
   end?: YearMonth;
   status: ProjectStatus;
-  pinned?: boolean;
   links?: ProjectLinks;
   /** 이 프로젝트로 받은 상. 항목 파일에서 `awards: [axChallenge.slug]` 로 넘긴다. */
   awards?: readonly string[];

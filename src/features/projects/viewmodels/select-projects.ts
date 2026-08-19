@@ -44,20 +44,8 @@ export function countByStack(projects: readonly Project[]): [string, number][] {
   return [...counts].sort(([a, countA], [b, countB]) => countB - countA || a.localeCompare(b));
 }
 
-export function sortProjects(
-  projects: readonly Project[],
-  { pinnedFirst }: { pinnedFirst: boolean },
-): Project[] {
-  return [...projects].sort((a, b) => {
-    if (pinnedFirst && (a.pinned ?? false) !== (b.pinned ?? false)) return a.pinned ? -1 : 1;
-    return yearMonthKey(b.start) - yearMonthKey(a.start);
-  });
-}
-
-export function pickPinned(projects: readonly Project[], count: number): Project[] {
-  return sortProjects(projects, { pinnedFirst: true })
-    .filter((project) => project.pinned)
-    .slice(0, count);
+export function sortProjects(projects: readonly Project[]): Project[] {
+  return [...projects].sort((a, b) => yearMonthKey(b.start) - yearMonthKey(a.start));
 }
 
 export function countByDomain(

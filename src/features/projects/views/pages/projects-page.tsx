@@ -39,9 +39,7 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
     useProjectFilters();
 
   const counts = countByDomain(projects);
-  const visible = sortProjects(filterProjects(projects, filters), {
-    pinnedFirst: !active,
-  });
+  const visible = sortProjects(filterProjects(projects, filters));
 
   const stacks = countByStack(filterByDomain(projects, filters.domain));
   const chips = [

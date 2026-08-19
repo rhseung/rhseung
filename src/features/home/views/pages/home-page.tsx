@@ -4,9 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { ExternalLink, Separator, SiteDock, buttonVariants } from '@/common/components';
 import { localeHref, SITE, type Language } from '@/common/lib';
 import { PostListItem, type PostSummary } from '@/features/blog';
-import { ProjectCard, type Project } from '@/features/projects';
 
-export function HomePage({ lang, pinned, recent }: HomePage.Props) {
+export function HomePage({ lang, recent }: HomePage.Props) {
   const { t } = useTranslation('home');
 
   return (
@@ -39,23 +38,6 @@ export function HomePage({ lang, pinned, recent }: HomePage.Props) {
             </ExternalLink>
           </div>
         </header>
-
-        {pinned.length > 0 && (
-          <section className="flex flex-col gap-4">
-            <h2 className="text-sm font-medium tracking-tight">{t(($) => $.sections.projects)}</h2>
-
-            <ul className="flex flex-col gap-4">
-              {pinned.map((project) => (
-                <li key={project.slug}>
-                  <ProjectCard
-                    project={project}
-                    detailHref={localeHref(lang, `/projects/${project.slug}`)}
-                  />
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
 
         {recent.length > 0 && (
           <section className="flex flex-col gap-4">
@@ -100,7 +82,6 @@ export function HomePage({ lang, pinned, recent }: HomePage.Props) {
 export declare namespace HomePage {
   export type Props = {
     lang: Language;
-    pinned: Project[];
     recent: PostSummary[];
   };
 }

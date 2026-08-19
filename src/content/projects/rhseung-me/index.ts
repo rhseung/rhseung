@@ -6,7 +6,6 @@ export default defineProject({
   stack: ['Astro', 'React', 'Tailwind CSS', 'TypeScript'],
   start: { year: 2026, month: 8 },
   status: 'active',
-  pinned: true,
   links: {
     repo: 'https://github.com/rhseung/rhseung',
   },
