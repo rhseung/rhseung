@@ -143,8 +143,11 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 
 ### 배럴 규칙
 
-- named export만. `export { default as X }` 금지, `export *`도 쓰지 않는다
-  (예외: `common/lib/index.ts` — 부수효과 트리거를 겸한다).
+- named export만. `export { default as X }` 금지.
+- **`common/components`는 폴더마다 배럴을 두고 `export *`로 걷어올린다.** `ui/`·`layout/`·
+  `mdx/`가 각자 `index.ts`를 갖고, 루트 배럴은 그 셋을 재export하는 세 줄이다. 컴포넌트를
+  추가할 때 루트 배럴을 안 고쳐도 되고, 심볼을 빠뜨려 "있는데 안 보이는" 상태가 안 생긴다.
+  이름 충돌은 빌드가 잡는다.
 - `import/no-default-export`가 `src/**`에서 에러다. 스토리·`.astro` 파일만 예외.
 - **이름은 정의부와 사용부가 같다.** `import { Button as Btn }` 같은 리네임을 하지 않는다
   (진짜 충돌이 날 때만). 심볼 하나를 레포 전체에서 한 이름으로 검색할 수 있어야 한다.
