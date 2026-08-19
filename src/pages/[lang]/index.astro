@@ -1,9 +1,8 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { execSync } from 'node:child_process';
 
 import { HomeIsland } from '@/pages/_islands/home-island';
 import { languagePaths, SITE, localeHref } from '@/common/lib';
-import { pickRecent, toPostSummary } from '@/features/blog';
 
 import Layout from '@/layouts/layout.astro';
 
@@ -13,10 +12,15 @@ export function getStaticPaths() {
 
 const { lang } = Astro.props;
 
-const postEntries: CollectionEntry<'posts'>[] = await getCollection(
-  'posts',
-  ({ data }: CollectionEntry<'posts'>) => !data.draft,
-);
+// 빌드 시각이 아니라 마지막 커밋 시각이다 - 내용이 안 바뀐 재배포로 날짜가 움직이면
+// "마지막 업데이트"가 아무것도 말해주지 않는다. git 이 없는 환경에서는 빌드 시각으로 떨어진다.
+const updatedAt = (() => {
+  try {
+    return execSync('git log -1 --format=%cI').toString().trim();
+  } catch {
+    return new Date().toISOString();
+  }
+})();
 ---
 
 <Layout
@@ -24,9 +28,5 @@ const postEntries: CollectionEntry<'posts'>[] = await getCollection(
   title={SITE.title}
   alternates={{ ko: localeHref('ko', '/'), en: localeHref('en', '/') }}
 >
-  <HomeIsland
-    lang={lang}
-    recent={pickRecent(postEntries.map(toPostSummary), 3)}
-    client:load
-  />
+  <HomeIsland lang={lang} updatedAt={updatedAt} client:load />
 </Layout>

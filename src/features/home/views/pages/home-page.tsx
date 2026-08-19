@@ -1,77 +1,74 @@
-import { ArrowRightIcon, GithubLogoIcon, ReadCvLogoIcon } from '@phosphor-icons/react';
+import { GithubLogoIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { ExternalLink, Separator, SiteDock, buttonVariants } from '@/common/components';
-import { localeHref, SITE, type Language } from '@/common/lib';
-import { PostListItem, type PostSummary } from '@/features/blog';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  ExternalLink,
+  SiteDock,
+  buttonVariants,
+} from '@/common/components';
+import { dayjs, localeHref, SITE, type Language } from '@/common/lib';
+import { useSiteSections } from '@/common/viewmodels';
 
-export function HomePage({ lang, recent }: HomePage.Props) {
+export function HomePage({ lang, updatedAt }: HomePage.Props) {
   const { t } = useTranslation('home');
+
+  const sections = useSiteSections(lang);
+  const entryClass = buttonVariants({ variant: 'outline', size: 'sm' });
 
   return (
     <div className="bg-background min-h-dvh">
       <main className="mx-auto flex max-w-3xl flex-col gap-12 px-4 py-16">
-        <header className="flex flex-col gap-5">
-          <p className="text-muted-foreground text-sm">{t(($) => $.site.name, { ns: 'common' })}</p>
-          <h1 className="text-3xl leading-snug font-semibold tracking-tight">
-            {t(($) => $.site.headline, { ns: 'common' })}
-          </h1>
-
-          <div className="flex flex-wrap gap-2">
-            <a href={localeHref(lang, '/projects')} className={buttonVariants({ size: 'sm' })}>
-              {t(($) => $.hero.projects)}
-              <ArrowRightIcon data-icon="inline-end" />
-            </a>
-            <a
-              href={localeHref(lang, '/resume')}
-              className={buttonVariants({ variant: 'outline', size: 'sm' })}
-            >
-              <ReadCvLogoIcon data-icon="inline-start" />
-              {t(($) => $.hero.resume)}
-            </a>
-            <ExternalLink
-              href={SITE.github}
-              className={buttonVariants({ variant: 'outline', size: 'sm' })}
-            >
-              <GithubLogoIcon data-icon="inline-start" />
-              GitHub
-            </ExternalLink>
+        <header className="flex items-center gap-5">
+          <Avatar className="size-20">
+            <AvatarImage src="/profile.png" alt={SITE.handle} />
+            <AvatarFallback>{SITE.handle}</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col gap-1">
+            <h1 className="text-3xl leading-snug font-bold tracking-tight">
+              {t(($) => $.site.name, { ns: 'common' })}
+            </h1>
+            <p className="text-muted-foreground tracking-tight">
+              {t(($) => $.site.headline, { ns: 'common' })}
+            </p>
           </div>
         </header>
 
-        {recent.length > 0 && (
-          <section className="flex flex-col gap-4">
-            <h2 className="text-sm font-medium tracking-tight">{t(($) => $.sections.posts)}</h2>
-
-            <ul className="flex flex-col gap-6">
-              {recent.map((post) => (
-                <li key={post.slug}>
-                  <PostListItem
-                    post={post}
-                    href={localeHref(post.lang, `/blog/${post.slug}`)}
-                    showLanguage={post.lang !== lang}
-                  />
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        <Separator />
-
-        <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-medium tracking-tight">{t(($) => $.sections.intro)}</h2>
+        <section className="flex flex-col gap-4">
+          <div className="flex flex-col gap-1">
+            <h2 className="font-bold tracking-tight">{t(($) => $.sections.about)}</h2>
+          </div>
           <p className="text-muted-foreground text-sm leading-relaxed">
             {t(($) => $.site.intro, { ns: 'common' })}
           </p>
-
-          <a
-            href={localeHref(lang, '/career')}
-            className="text-muted-foreground hover:text-foreground text-sm hover:underline"
-          >
-            {t(($) => $.sections.about)}
-          </a>
         </section>
+
+        <nav aria-label={t(($) => $.entries.label)}>
+          <ul className="flex flex-wrap gap-2">
+            {sections.map(({ key, href, label, Icon }) => (
+              <li key={key}>
+                <a href={href} className={entryClass}>
+                  <Icon data-icon="inline-start" />
+                  {label}
+                </a>
+              </li>
+            ))}
+
+            <li>
+              <ExternalLink href={SITE.github} className={entryClass}>
+                <GithubLogoIcon data-icon="inline-start" />
+                GitHub
+              </ExternalLink>
+            </li>
+          </ul>
+        </nav>
+
+        <p className="text-muted-foreground mt-4 text-center text-xs">
+          {t(($) => $.footer.updated)}{' '}
+          <span className="text-foreground">{dayjs(updatedAt).format('ll')}</span>
+        </p>
       </main>
 
       <SiteDock lang={lang} altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/')} />
@@ -82,6 +79,6 @@ export function HomePage({ lang, recent }: HomePage.Props) {
 export declare namespace HomePage {
   export type Props = {
     lang: Language;
-    recent: PostSummary[];
+    updatedAt: string;
   };
 }

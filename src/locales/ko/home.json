@@ -1,12 +1,11 @@
 {
-  "hero": {
-    "projects": "프로젝트 보기",
-    "resume": "이력서 보기"
+  "entries": {
+    "label": "바로가기"
+  },
+  "footer": {
+    "updated": "마지막 업데이트"
   },
   "sections": {
-    "about": "더 자세히 →",
-    "intro": "소개",
-    "posts": "최근 글",
-    "projects": "골라둔 것"
+    "about": "소개"
   }
 }

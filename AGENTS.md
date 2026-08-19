@@ -417,16 +417,16 @@ CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한
 
 ## 11. 지금 있는 것
 
-| 라우트                           | 내용                                   |
-| -------------------------------- | -------------------------------------- |
-| `/`, `/en/`                      | 히어로 + 최근 글 3                     |
-| `/projects/`, `/en/projects/`    | 도메인 필터(`?domain=`) + 카드 목록    |
-| `/projects/<slug>/` (+`/en/`)    | MDX 상세. 본문을 쓴 프로젝트만 생긴다  |
-| `/blog/`, `/en/blog/`            | 글 목록 (UI만 이중언어)                |
-| `/blog/<slug>/`                  | MDX 본문. 원본 언어 한 벌              |
-| `/about/`, `/en/about/`          | 소개·연락 + 이력서 PDF 뷰어            |
-| `/resume/{ko,en}/`               | PDF 원본. `noindex`                    |
-| `/rss.xml`, `/sitemap-index.xml` | 피드·색인                              |
+| 라우트                           | 내용                                  |
+| -------------------------------- | ------------------------------------- |
+| `/`, `/en/`                      | 히어로 + 퀵 엔트리 + 최근 글 3        |
+| `/projects/`, `/en/projects/`    | 도메인 필터(`?domain=`) + 카드 목록   |
+| `/projects/<slug>/` (+`/en/`)    | MDX 상세. 본문을 쓴 프로젝트만 생긴다 |
+| `/blog/`, `/en/blog/`            | 글 목록 (UI만 이중언어)               |
+| `/blog/<slug>/`                  | MDX 본문. 원본 언어 한 벌             |
+| `/about/`, `/en/about/`          | 소개·연락 + 이력서 PDF 뷰어           |
+| `/resume/{ko,en}/`               | PDF 원본. `noindex`                   |
+| `/rss.xml`, `/sitemap-index.xml` | 피드·색인                             |
 
 아직 안 채운 것: `src/content/resume/*.yaml`의 `timeline`·`skills`가 빈 배열이고,
 프로젝트가 하나뿐이다. `public/og.png`는 있다.

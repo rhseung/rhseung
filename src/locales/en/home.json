@@ -1,12 +1,11 @@
 {
-  "hero": {
-    "projects": "See projects",
-    "resume": "View résumé"
+  "entries": {
+    "label": "Quick links"
+  },
+  "footer": {
+    "updated": "Last updated on"
   },
   "sections": {
-    "about": "More about me →",
-    "intro": "About me",
-    "posts": "Recent writing",
-    "projects": "Selected work"
+    "about": "About me"
   }
 }

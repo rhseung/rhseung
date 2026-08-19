@@ -31,24 +31,31 @@ export default interface Resources {
       "label": "주요 메뉴",
       "menu": "메뉴",
       "projects": "프로젝트",
-      "research": "연구"
+      "research": "연구",
+      "resume": "이력서"
     },
     "notFound": {
       "action": "홈으로",
       "description": "주소를 다시 확인해 주세요.",
       "title": "페이지를 찾을 수 없습니다"
+    },
+    "site": {
+      "description": "웹 앱을 만들고, 그게 도는 언어와 런타임도 만듭니다. 류현승의 프로젝트와 글.",
+      "headline": "웹 앱을 만들고, 그게 도는 언어와 런타임도 만듭니다.",
+      "intro": "프론트엔드와 시스템 프로그래밍 양쪽을 오갑니다. 추상화 층 하나를 쓰는 것과 그 층을 직접 만드는 것 사이에서 배우는 게 많다고 생각합니다.",
+      "location": "대한민국",
+      "name": "류현승"
     }
   },
   "home": {
-    "hero": {
-      "projects": "프로젝트 보기",
-      "resume": "이력서 보기"
+    "entries": {
+      "label": "바로가기"
+    },
+    "footer": {
+      "updated": "마지막 업데이트"
     },
     "sections": {
-      "about": "더 자세히 →",
-      "intro": "소개",
-      "posts": "최근 글",
-      "projects": "골라둔 것"
+      "about": "소개"
     }
   },
   "projects": {
