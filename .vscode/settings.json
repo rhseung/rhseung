@@ -9,8 +9,8 @@
     "source.organizeImports": "never"
   },
 
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true,
 
   // 생성물은 읽기 전용. 손으로 고치면 다음 `bun run gen`에 사라진다.
   "files.readonlyInclude": {
