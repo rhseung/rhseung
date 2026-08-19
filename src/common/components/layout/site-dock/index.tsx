@@ -1,16 +1,12 @@
 import { useState } from 'react';
 
 import {
-  BriefcaseIcon,
   EnvelopeSimpleIcon,
-  FlaskIcon,
-  FolderIcon,
   GithubLogoIcon,
   GlobeIcon,
   HouseIcon,
   ListIcon,
   MoonIcon,
-  PenNibIcon,
   RssIcon,
   SunIcon,
   type Icon,
@@ -19,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 
 import { LANGUAGES, SITE, localeHref, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
-import { useThemeTransition } from '@/common/viewmodels';
+import { useSiteSections, useThemeTransition, type SiteSection } from '@/common/viewmodels';
 
 import { Button } from '../../ui/button';
 import { Separator } from '../../ui/separator';
@@ -33,23 +29,12 @@ import {
 } from '../../ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../ui/tooltip';
 
-const SECTIONS = ['projects', 'research', 'blog', 'career'] as const;
-
 const BLUR_LAYERS = [
   { height: '2.8rem', blur: '3px' },
   { height: '2rem', blur: '6px' },
   { height: '1.2rem', blur: '12px' },
   { height: '0.6rem', blur: '24px' },
 ];
-
-type Section = (typeof SECTIONS)[number];
-
-const SECTION_ICON: Record<Section, Icon> = {
-  projects: FolderIcon,
-  research: FlaskIcon,
-  blog: PenNibIcon,
-  career: BriefcaseIcon,
-};
 
 const itemClass =
   'text-muted-foreground hover:text-foreground hover:bg-muted flex size-10 items-center justify-center rounded-full transition-colors';
@@ -60,10 +45,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
   const [menuOpen, setMenuOpen] = useState(false);
 
   const nextLanguage = LANGUAGES[(LANGUAGES.indexOf(lang) + 1) % LANGUAGES.length];
-
-  const sectionLabel = Object.fromEntries(
-    SECTIONS.map((key) => [key, t(($) => $.nav[key])]),
-  ) as Record<Section, string>;
+  const sections = useSiteSections(lang);
 
   const external = [
     { key: 'github', href: SITE.github, label: 'GitHub', Icon: GithubLogoIcon, blank: true },
@@ -106,14 +88,8 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
           <Separator orientation="vertical" className="mx-0.5 hidden h-6! w-px sm:block" />
 
           <div className="hidden items-center gap-1 sm:flex">
-            {SECTIONS.map((section) => (
-              <DockLink
-                key={section}
-                href={localeHref(lang, `/${section}`)}
-                label={sectionLabel[section]}
-                Icon={SECTION_ICON[section]}
-                current={current === section}
-              />
+            {sections.map(({ key, href, label, Icon }) => (
+              <DockLink key={key} href={href} label={label} Icon={Icon} current={current === key} />
             ))}
 
             <Separator orientation="vertical" className="mx-0.5 h-6! w-px" />
@@ -172,21 +148,18 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
               </SheetHeader>
 
               <ul className="flex flex-col px-4">
-                {SECTIONS.map((section) => {
-                  const SectionIcon = SECTION_ICON[section];
-                  return (
-                    <li key={section}>
-                      <a
-                        href={localeHref(lang, `/${section}`)}
-                        aria-current={current === section ? 'page' : undefined}
-                        className="hover:bg-muted flex items-center gap-3 rounded-md p-3 text-sm"
-                      >
-                        <SectionIcon aria-hidden className="size-4 shrink-0" />
-                        {sectionLabel[section]}
-                      </a>
-                    </li>
-                  );
-                })}
+                {sections.map(({ key, href, label, Icon }) => (
+                  <li key={key}>
+                    <a
+                      href={href}
+                      aria-current={current === key ? 'page' : undefined}
+                      className="hover:bg-muted flex items-center gap-3 rounded-md p-3 text-sm"
+                    >
+                      <Icon aria-hidden className="size-4 shrink-0" />
+                      {label}
+                    </a>
+                  </li>
+                ))}
 
                 {external.map(({ key, href, label, Icon, blank }) => (
                   <li key={key}>
@@ -245,7 +218,7 @@ declare namespace DockLink {
 export declare namespace SiteDock {
   export type Props = {
     lang: Language;
-    current?: Section;
+    current?: SiteSection;
     altHref?: string;
     className?: string;
   };

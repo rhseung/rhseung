@@ -13,7 +13,8 @@
     "label": "Main",
     "menu": "Menu",
     "projects": "Projects",
-    "research": "Research"
+    "research": "Research",
+    "resume": "Résumé"
   },
   "notFound": {
     "action": "Back to home",
