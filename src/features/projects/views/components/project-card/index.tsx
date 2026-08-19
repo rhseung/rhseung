@@ -1,7 +1,6 @@
 import { TrophyIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-
 import { Badge, ExternalLink } from '@/common/components';
 import { formatYearMonth } from '@/common/lib';
 import { cn } from '@/common/utils';

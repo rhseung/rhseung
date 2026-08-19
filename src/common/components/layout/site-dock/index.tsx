@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import {
   BriefcaseIcon,
+  ArticleIcon,
   EnvelopeSimpleIcon,
   FlaskIcon,
   FolderIcon,
@@ -10,7 +11,6 @@ import {
   HouseIcon,
   ListIcon,
   MoonIcon,
-  NotePencilIcon,
   RssIcon,
   SunIcon,
   type Icon,
@@ -48,7 +48,7 @@ type Section = (typeof SECTIONS)[number];
 const SECTION_ICON: Record<Section, Icon> = {
   projects: FolderIcon,
   research: FlaskIcon,
-  blog: NotePencilIcon,
+  blog: ArticleIcon,
   career: BriefcaseIcon,
 };
 
