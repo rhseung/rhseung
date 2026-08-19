@@ -8,7 +8,7 @@ export default defineCareer({
     org: 'GIST (광주과학기술원)',
     role: '전기전자컴퓨터공학부 · AI융합학과 복수전공 (학사)',
     achievements: [
-      '이공계 성적우수 장학생',
+      '국가우수장학금(이공계) 성적우수유형',
       '2025년 입학식 학부 신입생 대표자',
       '2026년 전기전자컴퓨터공학과 과대표자',
     ],
@@ -17,7 +17,7 @@ export default defineCareer({
     org: 'Gwangju Institute of Science and Technology (GIST)',
     role: 'B.S., Electrical Engineering and Computer Science; AI Convergence (double major)',
     achievements: [
-      'Academic excellence scholarship (science and engineering)',
+      'National Science and Engineering Scholarship, Korea Student Aid Foundation',
       'Freshman representative, 2025 matriculation ceremony',
       'Class representative, Electrical Engineering and Computer Science, 2026',
     ],
