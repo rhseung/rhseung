@@ -26,6 +26,12 @@
     "headline": "I build web apps — and the languages and runtimes they run on.",
     "intro": "I move between frontend work and systems programming. Using an abstraction layer and building one teach different things, and I want both.",
     "location": "South Korea",
-    "name": "Ryu Hyunseung"
+    "name": "Ryu Hyunseung",
+    "roles": [
+      "Open source contributor",
+      "Frontend developer",
+      "CS/AI researcher",
+      "Design engineer"
+    ]
   }
 }

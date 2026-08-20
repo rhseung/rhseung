@@ -12,6 +12,8 @@ import {
 import { dayjs, localeHref, SITE, type Language } from '@/common/lib';
 import { useSiteSections } from '@/common/viewmodels';
 
+import { RoleRotator } from '../components';
+
 export function HomePage({ lang, updatedAt }: HomePage.Props) {
   const { t } = useTranslation('home');
 
@@ -30,9 +32,9 @@ export function HomePage({ lang, updatedAt }: HomePage.Props) {
             <h1 className="text-3xl leading-snug font-bold tracking-tight">
               {t(($) => $.site.name, { ns: 'common' })}
             </h1>
-            <p className="text-muted-foreground tracking-tight">
-              {t(($) => $.site.headline, { ns: 'common' })}
-            </p>
+            <div className="text-muted-foreground tracking-tight">
+              <RoleRotator roles={t(($) => $.site.roles, { ns: 'common', returnObjects: true })} />
+            </div>
           </div>
         </header>
 
