@@ -11,7 +11,7 @@ const projects: Project[] = [
     title: 'Lumen',
     summary: '타입 추론이 있는 작은 스크립트 언어.',
     domain: 'systems',
-    stack: ['Rust', 'Rust'],
+    stack: ['Rust'],
     start: { year: 2024, month: 3 },
     status: 'active',
     highlight: '파싱 3.2× 빠름 (12k LOC 기준)',
