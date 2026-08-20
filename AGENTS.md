@@ -254,8 +254,8 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 
 **의존 방향은 한쪽이다.** `resume`은 `career`·`projects`를 가져다 문서를 조립할 뿐,
 데이터를 소유하지 않는다. 반대 방향은 없다 — `career`는 `resume`을 모른다.
-사람 정보(name·headline·intro·location·description)는 이력서 것이 아니라 사이트 것이라
-`common:site.*` 키에 있고, 쓰는 뷰가 `t(($) => $.site.headline, { ns: 'common' })`로 직접 읽는다.
+사람 정보(name·roles·intro·location·description)는 이력서 것이 아니라 사이트 것이라
+`common:site.*` 키에 있고, 쓰는 뷰가 `t(($) => $.site.roles, { ns: 'common' })`로 직접 읽는다.
 
 **컬렉션에는 본문이 있는 것만 둔다.** 경력·학력·대회·기술은 본문이 없어서 TS 모듈이다.
 전에는 `content/awards/{ko,en}/<slug>.mdx`처럼 항목마다 파일 두 개였는데, `date`·`order`가
@@ -339,7 +339,7 @@ CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한
   그래서 `.astro` 에서만 쓰는 키는 다음 `bun run gen` 에 사라지고, CI 의 `git diff --exit-code`
   는 그걸 정상으로 통과시킨다. 그래서 `.astro` 가 읽는 키만 `preservePatterns` 로 지킨다 -
   지금 `common:nav.*` 와 `common:site.description` 둘뿐이다.
-- **번역되는 사이트 텍스트는 `common:site.*` 다.** name·headline·intro·location 은 뷰가
+- **번역되는 사이트 텍스트는 `common:site.*` 다.** name·roles·intro·location 은 뷰가
   `{ ns: 'common' }` 옵션으로 직접 읽는다 - 그래야 추출기가 호출부를 봐서 `preservePatterns`
   로 지킬 필요가 없고, 안 쓰게 되면 키도 같이 사라진다. `.astro` 를 거쳐 props 로 내리면
   호출부가 사라져 키가 지워진다.

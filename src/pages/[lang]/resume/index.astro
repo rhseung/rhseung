@@ -24,7 +24,7 @@ const t = i18n.getFixedT(lang, 'resume');
 <Layout
   lang={lang}
   title={`${t(($) => $.page.title)} — ${SITE.title}`}
-  description={i18n.getFixedT(lang, 'common')(($) => $.site.headline)}
+  description={i18n.getFixedT(lang, 'common')(($) => $.site.description)}
   alternates={{ ko: localeHref('ko', '/resume'), en: localeHref('en', '/resume') }}
 >
   <ResumeIsland

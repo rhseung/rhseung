@@ -40,7 +40,6 @@ export function ResumeDocument({
         <h1 className="text-3xl font-semibold tracking-tight">
           {t(($) => $.site.name, { ns: 'common' })}
         </h1>
-        <p className="text-sm leading-relaxed">{t(($) => $.site.headline, { ns: 'common' })}</p>
         <p className="text-muted-foreground text-sm leading-relaxed">
           {t(($) => $.site.intro, { ns: 'common' })}
         </p>
