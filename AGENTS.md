@@ -285,13 +285,14 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 
 ### 이력서 PDF
 
-`src/content/resume/{ko,en}.yaml` 하나가 두 곳으로 나간다.
+이력서는 화면과 PDF 두 곳으로 나가지만 출처는 하나다.
 
 - `/{lang}/resume/` — 이력서 본문을 HTML로 그린다. `bun run gen:resume`이 **같은 페이지**를
   Chromium 인쇄 엔진으로 구워 `public/resume-{lang}.pdf`를 만든다. 화면과 PDF가 같은
   컴포넌트에서 나오므로 어긋날 수가 없다 — 사이트 크롬은 `print:hidden`이 걷어낸다.
-- **이력서는 아무 내용도 소유하지 않는다.** 경력·학력·수상·기술·프로젝트가 각자 컬렉션에서
-  온다. `resume/{ko,en}.yaml`엔 headline·intro·location·contact만 있다.
+- **이력서는 아무 내용도 소유하지 않는다.** 경력·학력·수상·기술·프로젝트가 `src/content/`
+  의 TS 항목 파일에서 온다. `resume` feature 에는 `models/` 가 아예 없다 - 뷰가 조립만 한다.
+  사람 정보는 `common:site.*` 키다.
 - `/career`는 훑어보는 페이지, `/resume`는 PDF를 들고 나가는 페이지다. 출처는 하나다.
 
 브라우저 인쇄 대화상자를 쓰지 않는 이유는 `scripts/gen-resume.ts` 주석에 있다.
@@ -424,9 +425,10 @@ CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한
 | `/projects/<slug>/` (+`/en/`)    | MDX 상세. 본문을 쓴 프로젝트만 생긴다 |
 | `/blog/`, `/en/blog/`            | 글 목록 (UI만 이중언어)               |
 | `/blog/<slug>/`                  | MDX 본문. 원본 언어 한 벌             |
-| `/about/`, `/en/about/`          | 소개·연락 + 이력서 PDF 뷰어           |
+| `/career/`, `/en/career/`        | 경력·학력·수상·기술                   |
+| `/research/`, `/en/research/`    | 연구 이력 (아직 항목 없음)            |
 | `/resume/{ko,en}/`               | PDF 원본. `noindex`                   |
 | `/rss.xml`, `/sitemap-index.xml` | 피드·색인                             |
 
-아직 안 채운 것: `src/content/resume/*.yaml`의 `timeline`·`skills`가 빈 배열이고,
-프로젝트가 하나뿐이다. `public/og.png`는 있다.
+아직 안 채운 것: `src/content/research/`가 비어 있고, 상세 MDX 를 쓴 프로젝트가
+하나뿐이다. `public/og.png`는 있다.
