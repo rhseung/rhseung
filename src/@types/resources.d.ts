@@ -48,6 +48,12 @@ export default interface Resources {
     }
   },
   "home": {
+    "contributions": {
+      "day": "{{date}}에 {{count, number}}회 기여",
+      "less": "적음",
+      "more": "많음",
+      "total": "지난 1년간 {{value, number}}회 기여"
+    },
     "entries": {
       "label": "바로가기"
     },
@@ -55,7 +61,8 @@ export default interface Resources {
       "updated": "마지막 업데이트"
     },
     "sections": {
-      "about": "소개"
+      "about": "소개",
+      "contributions": "기여 활동"
     }
   },
   "projects": {

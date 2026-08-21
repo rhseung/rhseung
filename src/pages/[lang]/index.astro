@@ -3,6 +3,7 @@ import { execSync } from 'node:child_process';
 
 import { HomeIsland } from '@/pages/_islands/home-island';
 import { languagePaths, SITE, localeHref } from '@/common/lib';
+import { fetchContributions, NO_CONTRIBUTIONS } from '@/features/home';
 
 import Layout from '@/layouts/layout.astro';
 
@@ -12,8 +13,6 @@ export function getStaticPaths() {
 
 const { lang } = Astro.props;
 
-// 빌드 시각이 아니라 마지막 커밋 시각이다 - 내용이 안 바뀐 재배포로 날짜가 움직이면
-// "마지막 업데이트"가 아무것도 말해주지 않는다. git 이 없는 환경에서는 빌드 시각으로 떨어진다.
 const updatedAt = (() => {
   try {
     return execSync('git log -1 --format=%cI').toString().trim();
@@ -21,6 +20,11 @@ const updatedAt = (() => {
     return new Date().toISOString();
   }
 })();
+
+const snapshot = await fetchContributions().then(
+  (contributions) => ({ contributions, fetchedAt: Date.now() }),
+  () => ({ contributions: NO_CONTRIBUTIONS, fetchedAt: 0 }),
+);
 ---
 
 <Layout
@@ -28,5 +32,11 @@ const updatedAt = (() => {
   title={SITE.title}
   alternates={{ ko: localeHref('ko', '/'), en: localeHref('en', '/') }}
 >
-  <HomeIsland lang={lang} updatedAt={updatedAt} client:load />
+  <HomeIsland
+    lang={lang}
+    updatedAt={updatedAt}
+    contributions={snapshot.contributions}
+    fetchedAt={snapshot.fetchedAt}
+    client:load
+  />
 </Layout>

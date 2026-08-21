@@ -12,10 +12,12 @@ import {
 import { dayjs, localeHref, SITE, type Language } from '@/common/lib';
 import { useSiteSections } from '@/common/viewmodels';
 
-import { RoleRotator } from '../components';
+import { useContributions, type Contributions } from '../../viewmodels';
+import { GithubContributionCalendar, RoleRotator } from '../components';
 
-export function HomePage({ lang, updatedAt }: HomePage.Props) {
+export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage.Props) {
   const { t } = useTranslation('home');
+  const { total, days } = useContributions({ initialData: contributions, fetchedAt });
 
   const sections = useSiteSections(lang);
   const entryClass = buttonVariants({ variant: 'outline', size: 'sm' });
@@ -46,6 +48,13 @@ export function HomePage({ lang, updatedAt }: HomePage.Props) {
             {t(($) => $.site.intro, { ns: 'common' })}
           </p>
         </section>
+
+        {days.length > 0 && (
+          <section className="flex flex-col gap-4">
+            <h2 className="font-bold tracking-tight">{t(($) => $.sections.contributions)}</h2>
+            <GithubContributionCalendar total={total} days={days} />
+          </section>
+        )}
 
         <nav aria-label={t(($) => $.entries.label)}>
           <ul className="flex flex-wrap gap-2">
@@ -82,5 +91,9 @@ export declare namespace HomePage {
   export type Props = {
     lang: Language;
     updatedAt: string;
+    /** 빌드 때 구운 스냅숏. 브라우저가 한 시간마다 이 위로 최신을 덮는다. */
+    contributions: Contributions;
+    /** 스냅숏을 받은 시각. 실패했으면 0이라 브라우저가 즉시 다시 받는다. */
+    fetchedAt: number;
   };
 }

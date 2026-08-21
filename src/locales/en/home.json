@@ -1,4 +1,11 @@
 {
+  "contributions": {
+    "day_one": "{{count, number}} contribution on {{date}}",
+    "day_other": "{{count, number}} contributions on {{date}}",
+    "less": "Less",
+    "more": "More",
+    "total": "{{value, number}} contributions in the last year"
+  },
   "entries": {
     "label": "Quick links"
   },
@@ -6,6 +13,7 @@
     "updated": "Last updated on"
   },
   "sections": {
-    "about": "About me"
+    "about": "About me",
+    "contributions": "Contributions"
   }
 }
