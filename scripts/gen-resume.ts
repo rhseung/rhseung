@@ -19,7 +19,7 @@ const PORT = 4326;
 
 const TARGETS = [
   { lang: 'ko', path: '/ko/resume/', title: '류현승 — 이력서' },
-  { lang: 'en', path: '/en/resume/', title: 'Ryu Hyunseung — Résumé' },
+  { lang: 'en', path: '/en/resume/', title: 'Hyunseung Ryu — Résumé' },
 ] as const;
 
 export async function generateResumePdfs() {
