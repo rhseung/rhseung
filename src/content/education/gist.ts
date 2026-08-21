@@ -11,7 +11,7 @@ export default defineCareer({
       '국가우수장학금(이공계) 성적우수유형',
       '2025년 입학식 학부 신입생 대표자',
       '2026년 전기전자컴퓨터공학과 과대표자',
-      "2026-1학기 Dean's List (GPA 4.406/4.5)",
+      "2026-1학기 Dean's List (GPA 4.406 / 4.5)",
     ],
   },
   en: {
@@ -21,7 +21,7 @@ export default defineCareer({
       'National Science and Engineering Scholarship, Korea Student Aid Foundation',
       'Freshman representative, 2025 matriculation ceremony',
       'Class representative, Electrical Engineering and Computer Science, 2026',
-      "Dean's List, Spring 2026 (GPA 4.406/4.5)",
+      "Dean's List, Spring 2026 (GPA 4.406 / 4.5)",
     ],
   },
 });
