@@ -1,7 +1,7 @@
 {
   "actions": {
-    "switchLanguage": "언어 바꾸기",
-    "toggleTheme": "테마 바꾸기"
+    "switchLanguage": "언어 변경",
+    "toggleTheme": "테마 변경"
   },
   "footer": {
     "email": "이메일"

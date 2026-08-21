@@ -9,7 +9,7 @@ export default interface Resources {
       "title": "아직 쓴 글이 없습니다"
     },
     "item": {
-      "writtenIn": "글이 쓰인 언어"
+      "writtenIn": "작성 언어"
     },
     "page": {
       "title": "글"
@@ -17,8 +17,8 @@ export default interface Resources {
   },
   "common": {
     "actions": {
-      "switchLanguage": "언어 바꾸기",
-      "toggleTheme": "테마 바꾸기"
+      "switchLanguage": "언어 변경",
+      "toggleTheme": "테마 변경"
     },
     "footer": {
       "email": "이메일"
@@ -62,7 +62,7 @@ export default interface Resources {
       "label": "바로가기"
     },
     "footer": {
-      "updated": "마지막 업데이트"
+      "updated": "최종 업데이트"
     },
     "sections": {
       "about": "소개",
@@ -80,12 +80,12 @@ export default interface Resources {
       "web": "웹"
     },
     "empty": {
-      "description": "다른 분야를 골라보세요.",
+      "description": "다른 분야를 선택해 보세요.",
       "title": "해당하는 프로젝트가 없습니다"
     },
     "filter": {
       "label": "분야로 좁히기",
-      "reset": "필터 지우기",
+      "reset": "필터 초기화",
       "results": "{{count}}개",
       "stack": "기술로 좁히기"
     },
@@ -103,7 +103,7 @@ export default interface Resources {
       "ongoing": "현재"
     },
     "search": {
-      "clear": "검색어 지우기",
+      "clear": "검색어 삭제",
       "label": "프로젝트 검색",
       "placeholder": "제목·설명·기술로 검색"
     },
