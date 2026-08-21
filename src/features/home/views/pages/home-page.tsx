@@ -22,8 +22,6 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
         <header className="flex items-center gap-5">
           <Avatar className="size-20">
             <AvatarImage src="/profile.png" alt={SITE.handle} />
-            {/* 기본 `text-muted-foreground`는 `bg-muted` 위에서 4.39:1이라 기준 미달이다.
-                이미지가 늦게 실리거나 깨진 사용자에게 실제로 보이는 상태다. */}
             <AvatarFallback className="text-foreground">{SITE.handle}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col gap-1">
