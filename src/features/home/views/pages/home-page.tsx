@@ -1,14 +1,7 @@
 import { GithubLogoIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  ExternalLink,
-  SiteDock,
-  buttonVariants,
-} from '@/common/components';
+import { Avatar, AvatarFallback, AvatarImage, ExternalLink, SiteDock } from '@/common/components';
 import { dayjs, localeHref, SITE, type Language } from '@/common/lib';
 import { useSiteSections } from '@/common/viewmodels';
 
@@ -18,9 +11,10 @@ import { GithubContributionCalendar, RoleRotator } from '../components';
 export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage.Props) {
   const { t } = useTranslation('home');
   const { total, days } = useContributions({ initialData: contributions, fetchedAt });
-
   const sections = useSiteSections(lang);
-  const entryClass = buttonVariants({ variant: 'outline', size: 'sm' });
+
+  const entryClass =
+    'border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 text-sm font-medium transition-colors';
 
   return (
     <div className="bg-background min-h-dvh">
@@ -48,7 +42,6 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
             {t(($) => $.site.intro, { ns: 'common' })}
           </p>
         </section>
-
         {days.length > 0 && (
           <section className="flex flex-col gap-4">
             <h2 className="font-bold tracking-tight">{t(($) => $.sections.contributions)}</h2>
@@ -57,11 +50,11 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
         )}
 
         <nav aria-label={t(($) => $.entries.label)}>
-          <ul className="flex flex-wrap gap-2">
+          <ul className="grid gap-3 sm:grid-cols-3">
             {sections.map(({ key, href, label, Icon }) => (
               <li key={key}>
                 <a href={href} className={entryClass}>
-                  <Icon data-icon="inline-start" />
+                  <Icon aria-hidden className="text-muted-foreground size-5" />
                   {label}
                 </a>
               </li>
@@ -69,7 +62,7 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
 
             <li>
               <ExternalLink href={SITE.github} className={entryClass}>
-                <GithubLogoIcon data-icon="inline-start" />
+                <GithubLogoIcon aria-hidden className="text-muted-foreground size-5" />
                 GitHub
               </ExternalLink>
             </li>
