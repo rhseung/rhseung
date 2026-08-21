@@ -43,7 +43,7 @@ export default interface Resources {
       "intro": "프론트엔드와 시스템 프로그래밍 양쪽을 오갑니다. 추상화 층 하나를 쓰는 것과 그 층을 직접 만드는 것 사이에서 배우는 게 많다고 생각합니다.",
       "location": "대한민국",
       "name": "류현승",
-      "roles": ["오픈소스 컨트리뷰터", "프론트엔드 개발자", "CS/AI 연구자", "디자인 엔지니어"]
+      "roles": ["오픈소스 기여자", "프론트엔드 개발자", "CS/AI 연구자", "디자인 엔지니어"]
     }
   },
   "home": {
@@ -61,7 +61,7 @@ export default interface Resources {
     },
     "sections": {
       "about": "소개",
-      "contributions": "기여 활동"
+      "contributions": "활동"
     }
   },
   "projects": {
