@@ -19,13 +19,12 @@ const entries: CollectionEntry<'posts'>[] = await getCollection(
 const posts = entries.map(toPostSummary);
 
 const t = i18n.getFixedT(lang, 'common');
-const tBlog = i18n.getFixedT(lang, 'blog');
 ---
 
 <Layout
   lang={lang}
   title={`${t(($) => $.nav.blog)} — ${SITE.title}`}
-  description={tBlog(($) => $.page.description)}
+  description={t(($) => $.site.description)}
   alternates={{ ko: localeHref('ko', '/blog'), en: localeHref('en', '/blog') }}
 >
   <BlogIsland lang={lang} posts={posts} client:load />

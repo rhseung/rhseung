@@ -12,7 +12,6 @@ export default interface Resources {
       "writtenIn": "글이 쓰인 언어"
     },
     "page": {
-      "description": "요즘 파고 있는 것들. 글은 쓴 언어 그대로 둡니다.",
       "title": "글"
     }
   },
@@ -93,7 +92,6 @@ export default interface Resources {
       "repo": "저장소"
     },
     "page": {
-      "description": "직접 만든 것들. 분야로 좁혀서 볼 수 있습니다.",
       "title": "프로젝트"
     },
     "period": {
@@ -127,7 +125,6 @@ export default interface Resources {
       "site": "링크"
     },
     "page": {
-      "description": "학교와 연구실에서 한 것들.",
       "title": "연구"
     },
     "period": {
@@ -152,7 +149,6 @@ export default interface Resources {
       "title": "경력"
     },
     "page": {
-      "description": "PDF로 들고 갈 수 있는 이력서입니다.",
       "title": "이력서"
     },
     "period": {

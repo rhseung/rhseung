@@ -52,7 +52,6 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
       <main className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-12">
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-semibold tracking-tight">{t(($) => $.page.title)}</h1>
-          <p className="text-muted-foreground text-sm">{t(($) => $.page.description)}</p>
         </div>
 
         <div className="flex flex-col gap-3">

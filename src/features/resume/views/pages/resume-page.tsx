@@ -26,7 +26,6 @@ export function ResumePage({
         <div className="flex items-start justify-between gap-4 print:hidden">
           <div className="flex flex-col gap-2">
             <h1 className="text-2xl font-semibold tracking-tight">{t(($) => $.page.title)}</h1>
-            <p className="text-muted-foreground text-sm">{t(($) => $.page.description)}</p>
           </div>
 
           <a
