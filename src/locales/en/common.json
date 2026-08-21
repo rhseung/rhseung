@@ -27,13 +27,14 @@
     "title": "Page not found"
   },
   "site": {
+    "approach": "I dig into something until it makes sense, and what I learn only becomes mine once I've built it myself. Research, engineering, design — the attitude doesn't change. I want what I understand and make to settle into someone's day, and shift it, a little.",
     "description": "I build web apps — and the languages and runtimes they run on. Projects and writing by Ryu Hyunseung.",
-    "intro": "I move between frontend work and systems programming. Using an abstraction layer and building one teach different things, and I want both.",
+    "intro": "Hi, I'm Ryu Hyunseung. I'm a graduate of Gwangju Science Academy for the Gifted, now studying EECS and AI Convergence at GIST. Physics, math, astronomy, and problems you solve through simulation have held my attention for a long time; over the past two years I've become someone who works across frontend, backend, apps, and design.",
     "location": "South Korea",
     "name": "Ryu Hyunseung",
     "roles": [
       "Open source contributor",
-      "Frontend developer",
+      "Full-stack developer",
       "CS/AI researcher",
       "Design engineer"
     ]

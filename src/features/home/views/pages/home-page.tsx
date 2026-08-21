@@ -40,9 +40,10 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
           <div className="flex flex-col gap-1">
             <h2 className="font-bold tracking-tight">{t(($) => $.sections.about)}</h2>
           </div>
-          <p className="text-muted-foreground text-sm leading-relaxed">
-            {t(($) => $.site.intro, { ns: 'common' })}
-          </p>
+          <div className="text-muted-foreground flex flex-col gap-3 text-sm leading-relaxed">
+            <p>{t(($) => $.site.intro, { ns: 'common' })}</p>
+            <p>{t(($) => $.site.approach, { ns: 'common' })}</p>
+          </div>
         </section>
         {days.length > 0 && (
           <section className="flex flex-col gap-4">
