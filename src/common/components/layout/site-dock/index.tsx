@@ -29,11 +29,17 @@ import {
 } from '../../ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../ui/tooltip';
 
+/**
+ * 화면 아래쪽 점진 블러. 아래로 갈수록 얇고 세게 겹쳐서 한 겹짜리 블러의 뚜렷한 경계선을 없앤다.
+ *
+ * 제일 높은 겹은 독의 윗변을 넘겨야 한다. 독은 `bottom-4`(1rem) 위에 서고 높이가 58px라
+ * 윗변이 4.6rem쯤인데, 여기가 그보다 낮으면 블러 띠가 독 중간에서 끊긴다.
+ */
 const BLUR_LAYERS = [
-  { height: '2.8rem', blur: '3px' },
-  { height: '2rem', blur: '6px' },
-  { height: '1.2rem', blur: '12px' },
-  { height: '0.6rem', blur: '24px' },
+  { height: '5rem', blur: '3px' },
+  { height: '3.5rem', blur: '6px' },
+  { height: '2.25rem', blur: '12px' },
+  { height: '1rem', blur: '24px' },
 ];
 
 const itemClass =
