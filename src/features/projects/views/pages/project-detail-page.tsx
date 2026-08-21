@@ -66,7 +66,7 @@ export function ProjectDetailPage({
                   <ExternalLink
                     key={kind}
                     href={href}
-                    className={buttonVariants({ variant: 'outline', size: 'sm' })}
+                    className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
                   >
                     <Icon data-icon="inline-start" />
                     {label.link[kind]}

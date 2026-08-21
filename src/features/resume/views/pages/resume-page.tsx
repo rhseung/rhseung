@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { SiteDock, buttonVariants } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
+import { cn } from '@/common/utils';
 import type { Award, CareerEntry, SkillGroup } from '@/features/career';
 import type { Project } from '@/features/projects';
 
@@ -31,7 +32,7 @@ export function ResumePage({
           <a
             href={resumeHref}
             download
-            className={buttonVariants({ size: 'sm', variant: 'outline' })}
+            className={cn(buttonVariants({ size: 'sm', variant: 'outline' }))}
           >
             <DownloadSimpleIcon data-icon="inline-start" />
             {t(($) => $.download.label)}

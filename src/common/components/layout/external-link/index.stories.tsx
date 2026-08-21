@@ -1,4 +1,5 @@
 import { buttonVariants } from '@/common/components';
+import { cn } from '@/common/utils';
 
 import { ExternalLink } from '.';
 
@@ -18,5 +19,5 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 export const AsButton: Story = {
-  args: { className: buttonVariants({ variant: 'outline', size: 'sm' }) },
+  args: { className: cn(buttonVariants({ variant: 'outline', size: 'sm' })) },
 };

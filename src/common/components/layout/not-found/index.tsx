@@ -9,6 +9,7 @@ import {
   buttonVariants,
 } from '@/common/components';
 import { DEFAULT_LANGUAGE, localeHref } from '@/common/lib';
+import { cn } from '@/common/utils';
 
 export function NotFound() {
   const { t } = useTranslation('common');
@@ -31,13 +32,13 @@ export function NotFound() {
             </a>
             <a
               href={localeHref(DEFAULT_LANGUAGE, '/projects')}
-              className={buttonVariants({ variant: 'outline', size: 'sm' })}
+              className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
             >
               {t(($) => $.nav.projects)}
             </a>
             <a
               href={localeHref(DEFAULT_LANGUAGE, '/blog')}
-              className={buttonVariants({ variant: 'outline', size: 'sm' })}
+              className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
             >
               {t(($) => $.nav.blog)}
             </a>
