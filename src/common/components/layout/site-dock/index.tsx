@@ -156,8 +156,9 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
               {suggested !== null && (
                 <PopoverContent
                   side="top"
-                  align="end"
-                  alignOffset={-4}
+                  align="center"
+                  sideOffset={8}
+                  className="w-auto max-w-80 p-4"
                   // 팝업이 role=dialog 라서 이름이 없으면 스크린 리더가 뭘 연 건지 못 읽는다.
                   aria-label={t(($) => $.actions.switchLanguage)}
                 >

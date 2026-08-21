@@ -18,6 +18,7 @@ function PopoverContent({
   alignOffset = 0,
   side = 'bottom',
   sideOffset = 4,
+  children,
   ...props
 }: PopoverPrimitive.Popup.Props &
   Pick<PopoverPrimitive.Positioner.Props, 'align' | 'alignOffset' | 'side' | 'sideOffset'>) {
@@ -37,7 +38,12 @@ function PopoverContent({
             className,
           )}
           {...props}
-        />
+        >
+          {children}
+          <PopoverPrimitive.Arrow className="relative z-50 block h-2 w-4 overflow-clip data-[side=bottom]:-top-2 data-[side=inline-end]:-left-3 data-[side=inline-end]:-rotate-90 data-[side=inline-start]:-right-3 data-[side=inline-start]:rotate-90 data-[side=left]:-right-3 data-[side=left]:rotate-90 data-[side=right]:-left-3 data-[side=right]:-rotate-90 data-[side=top]:-bottom-2 data-[side=top]:rotate-180">
+            <span className="bg-popover border-foreground/10 absolute bottom-0 left-1/2 size-[calc(8px*1.41421)] -translate-x-1/2 translate-y-1/2 rotate-45 border bg-clip-padding" />
+          </PopoverPrimitive.Arrow>
+        </PopoverPrimitive.Popup>
       </PopoverPrimitive.Positioner>
     </PopoverPrimitive.Portal>
   );
