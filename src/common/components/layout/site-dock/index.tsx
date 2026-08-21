@@ -158,7 +158,9 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
                   side="top"
                   align="center"
                   sideOffset={8}
-                  className="w-auto max-w-80 p-4"
+                  // 팝오버는 `document.body`로 포탈돼서 독의 `print:hidden` 밖으로 빠져나간다.
+                  // 안 걸면 이력서 PDF 머리에 언어 제안이 그대로 찍힌다.
+                  className="w-auto max-w-80 p-4 print:hidden"
                   // 팝업이 role=dialog 라서 이름이 없으면 스크린 리더가 뭘 연 건지 못 읽는다.
                   aria-label={t(($) => $.actions.switchLanguage)}
                 >
