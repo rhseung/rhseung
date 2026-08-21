@@ -6,6 +6,11 @@
   "footer": {
     "email": "Email"
   },
+  "language": {
+    "available": "This page is also available in {{name}}.",
+    "dismiss": "Dismiss",
+    "view": "View in {{name}}"
+  },
   "nav": {
     "blog": "Writing",
     "career": "Career",

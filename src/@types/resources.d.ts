@@ -23,6 +23,11 @@ export default interface Resources {
     "footer": {
       "email": "이메일"
     },
+    "language": {
+      "available": "이 페이지는 {{name}}로도 볼 수 있습니다.",
+      "dismiss": "닫기",
+      "view": "{{name}}로 보기"
+    },
     "nav": {
       "blog": "글",
       "career": "이력",

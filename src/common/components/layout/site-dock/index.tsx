@@ -15,9 +15,17 @@ import { useTranslation } from 'react-i18next';
 
 import { LANGUAGES, SITE, localeHref, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
-import { useSiteSections, useThemeTransition, type SiteSection } from '@/common/viewmodels';
+import {
+  useLanguageSuggestion,
+  useMediaQuery,
+  useSiteSections,
+  useThemeTransition,
+  type SiteSection,
+} from '@/common/viewmodels';
 
+import { Alert } from '../../ui/alert';
 import { Button } from '../../ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
 import { Separator } from '../../ui/separator';
 import {
   Sheet,
@@ -28,6 +36,7 @@ import {
   SheetTrigger,
 } from '../../ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../ui/tooltip';
+import { LanguageSuggestion } from '../language-suggestion';
 
 /**
  * 화면 아래쪽 점진 블러. 아래로 갈수록 얇고 세게 겹쳐서 한 겹짜리 블러의 뚜렷한 경계선을 없앤다.
@@ -44,6 +53,9 @@ const BLUR_LAYERS = [
 
 // 링크와 버튼이 같이 쓴다. `Button`에 맡기면 아이콘이 16px(`[&_svg:not([class*='size-'])]`)에
 // `text-foreground`로 나와서 링크들과 크기도 색도 어긋난다 - 아이콘 쪽 `size-5`도 같은 이유다.
+/** Tailwind의 `sm` 경계. 이 아래에서는 언어 버튼이 시트 안으로 숨어서 팝오버를 걸 자리가 없다. */
+const COMPACT_QUERY = '(max-width: 39.99rem)';
+
 const itemClass =
   'text-muted-foreground hover:text-foreground hover:bg-muted flex size-10 items-center justify-center rounded-full transition-colors';
 
@@ -51,6 +63,9 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
   const { t } = useTranslation('common');
   const { isDark, toggleTheme } = useThemeTransition();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const isCompact = useMediaQuery(COMPACT_QUERY);
+  const { suggested, dismiss } = useLanguageSuggestion(lang);
 
   const nextLanguage = LANGUAGES[(LANGUAGES.indexOf(lang) + 1) % LANGUAGES.length];
   const sections = useSiteSections(lang);
@@ -110,12 +125,46 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
           <Separator orientation="vertical" className="mx-0.5 h-6! w-px" />
 
           {altHref && (
-            <DockLink
-              href={altHref}
-              label={t(($) => $.actions.switchLanguage)}
-              Icon={GlobeIcon}
-              hrefLang={nextLanguage}
-            />
+            <Popover
+              open={suggested !== null && !isCompact}
+              onOpenChange={(open) => {
+                if (!open) dismiss();
+              }}
+            >
+              {/* 두 트리거가 같은 링크를 렌더한다. 팝오버는 이 링크에 붙어야 하고, 툴팁은
+                  다른 항목들과 같은 이유로 있어야 한다. */}
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <PopoverTrigger
+                      render={
+                        <a
+                          href={altHref}
+                          aria-label={t(($) => $.actions.switchLanguage)}
+                          hrefLang={nextLanguage}
+                          className={itemClass}
+                        />
+                      }
+                    />
+                  }
+                >
+                  <GlobeIcon aria-hidden className="size-5" />
+                </TooltipTrigger>
+                <TooltipContent>{t(($) => $.actions.switchLanguage)}</TooltipContent>
+              </Tooltip>
+
+              {suggested !== null && (
+                <PopoverContent
+                  side="top"
+                  align="end"
+                  alignOffset={-4}
+                  // 팝업이 role=dialog 라서 이름이 없으면 스크린 리더가 뭘 연 건지 못 읽는다.
+                  aria-label={t(($) => $.actions.switchLanguage)}
+                >
+                  <LanguageSuggestion language={suggested} href={altHref} onDismiss={dismiss} />
+                </PopoverContent>
+              )}
+            </Popover>
           )}
 
           <Tooltip>
@@ -186,6 +235,13 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
           </Sheet>
         </div>
       </nav>
+
+      {altHref && suggested !== null && isCompact && (
+        // 좁은 화면에서는 언어 버튼이 시트 안에 있어서 붙일 자리가 없다. 독 위에 띄운다.
+        <Alert className="fixed inset-x-4 bottom-22 z-20 w-auto shadow-lg print:hidden">
+          <LanguageSuggestion language={suggested} href={altHref} onDismiss={dismiss} />
+        </Alert>
+      )}
     </TooltipProvider>
   );
 }

@@ -2,6 +2,7 @@ import { withThemeByClassName } from '@storybook/addon-themes';
 import { mswLoader } from 'msw-storybook-addon/csf3';
 
 import { withLocale, withQueryClient } from './decorators';
+import { LANGUAGE_SUGGESTION_DISMISSED_KEY } from '../src/common/viewmodels';
 import { handlers } from '../src/mocks/handlers';
 
 import type { Preview } from '@storybook/react-vite';
@@ -34,7 +35,16 @@ const preview: Preview = {
     controls: { matchers: { color: /(background|color)$/i, date: /Date$/i } },
   },
 
-  loaders: [mswLoader()],
+  loaders: [
+    mswLoader(),
+
+    // 언어 제안은 `navigator.languages`를 보고 뜬다. 그대로 두면 스토리 결과가 실행하는
+    // 기계의 브라우저 언어에 따라 달라진다 - 한국어 기계에서는 안 뜨고 영어 기계에서는
+    // 페이지 스토리마다 팝오버가 열린다. 스토리북에서는 닫힌 상태로 고정한다.
+    () => {
+      localStorage.setItem(LANGUAGE_SUGGESTION_DISMISSED_KEY, 'true');
+    },
+  ],
 
   decorators: [
     withThemeByClassName({
