@@ -42,6 +42,8 @@ const BLUR_LAYERS = [
   { height: '1rem', blur: '24px' },
 ];
 
+// 링크와 버튼이 같이 쓴다. `Button`에 맡기면 아이콘이 16px(`[&_svg:not([class*='size-'])]`)에
+// `text-foreground`로 나와서 링크들과 크기도 색도 어긋난다 - 아이콘 쪽 `size-5`도 같은 이유다.
 const itemClass =
   'text-muted-foreground hover:text-foreground hover:bg-muted flex size-10 items-center justify-center rounded-full transition-colors';
 
@@ -83,7 +85,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
           className,
         )}
       >
-        <div className="border-border bg-background/70 flex items-center gap-1 rounded-full border p-2 shadow-lg backdrop-blur-md">
+        <div className="border-border bg-background/70 flex items-center gap-1 rounded-full border p-2 backdrop-blur-md">
           <DockLink
             href={localeHref(lang, '/')}
             label={t(($) => $.nav.home)}
@@ -122,13 +124,13 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  className="size-10 rounded-full"
+                  className={itemClass}
                   onClick={toggleTheme}
                   aria-label={t(($) => $.actions.toggleTheme)}
                 />
               }
             >
-              {isDark ? <SunIcon /> : <MoonIcon />}
+              {isDark ? <SunIcon className="size-5" /> : <MoonIcon className="size-5" />}
             </TooltipTrigger>
             <TooltipContent>{t(($) => $.actions.toggleTheme)}</TooltipContent>
           </Tooltip>
@@ -139,12 +141,12 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
                 <Button
                   variant="ghost"
                   size="icon-sm"
-                  className="size-10 rounded-full sm:hidden"
+                  className={cn(itemClass, 'sm:hidden')}
                   aria-label={t(($) => $.nav.menu)}
                 />
               }
             >
-              <ListIcon />
+              <ListIcon className="size-5" />
             </SheetTrigger>
 
             <SheetContent side="bottom" className="pb-8">
