@@ -17,8 +17,7 @@ export default interface Resources {
   },
   "common": {
     "actions": {
-      "switchLanguage": "언어 변경",
-      "toggleTheme": "테마 변경"
+      "switchLanguage": "언어 변경"
     },
     "footer": {
       "email": "이메일"
@@ -50,6 +49,12 @@ export default interface Resources {
       "location": "대한민국",
       "name": "류현승",
       "roles": ["오픈소스 기여자", "풀스택 개발자", "CS/AI 연구자", "디자인 엔지니어"]
+    },
+    "theme": {
+      "dark": "어둡게",
+      "label": "테마: {{mode}}",
+      "light": "밝게",
+      "system": "시스템 설정"
     }
   },
   "home": {

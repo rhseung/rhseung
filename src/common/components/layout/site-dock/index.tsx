@@ -8,6 +8,7 @@ import {
   ListIcon,
   MoonIcon,
   RssIcon,
+  SunHorizonIcon,
   SunIcon,
   type Icon,
 } from '@phosphor-icons/react';
@@ -21,6 +22,7 @@ import {
   useSiteSections,
   useThemeTransition,
   type SiteSection,
+  type ThemeMode,
 } from '@/common/viewmodels';
 
 import { Alert } from '../../ui/alert';
@@ -56,18 +58,33 @@ const BLUR_LAYERS = [
 /** Tailwind의 `sm` 경계. 이 아래에서는 언어 버튼이 시트 안으로 숨어서 팝오버를 걸 자리가 없다. */
 const COMPACT_QUERY = '(max-width: 39.99rem)';
 
+const THEME_ICON: Record<ThemeMode, Icon> = {
+  light: SunIcon,
+  dark: MoonIcon,
+  system: SunHorizonIcon,
+};
+
 const itemClass =
   'text-muted-foreground hover:text-foreground hover:bg-muted flex size-10 items-center justify-center rounded-full transition-colors';
 
 export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) {
   const { t } = useTranslation('common');
-  const { isDark, toggleTheme } = useThemeTransition();
+  const { mode, cycleTheme } = useThemeTransition();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const isCompact = useMediaQuery(COMPACT_QUERY);
   const { suggested, dismiss } = useLanguageSuggestion(lang);
 
   const nextLanguage = LANGUAGES[(LANGUAGES.indexOf(lang) + 1) % LANGUAGES.length];
+
+  const ThemeIcon = THEME_ICON[mode];
+  const themeLabel = t(($) => $.theme.label, {
+    mode: {
+      light: t(($) => $.theme.light),
+      dark: t(($) => $.theme.dark),
+      system: t(($) => $.theme.system),
+    }[mode],
+  });
   const sections = useSiteSections(lang);
 
   const external = [
@@ -177,14 +194,14 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
                   variant="ghost"
                   size="icon-sm"
                   className={itemClass}
-                  onClick={toggleTheme}
-                  aria-label={t(($) => $.actions.toggleTheme)}
+                  onClick={cycleTheme}
+                  aria-label={themeLabel}
                 />
               }
             >
-              {isDark ? <SunIcon className="size-5" /> : <MoonIcon className="size-5" />}
+              <ThemeIcon aria-hidden className="size-5" />
             </TooltipTrigger>
-            <TooltipContent>{t(($) => $.actions.toggleTheme)}</TooltipContent>
+            <TooltipContent>{themeLabel}</TooltipContent>
           </Tooltip>
 
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>

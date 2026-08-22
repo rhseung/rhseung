@@ -5,18 +5,37 @@ import { flushSync } from 'react-dom';
 
 const DURATION = 450;
 
+export const THEME_MODES = ['light', 'dark', 'system'] as const;
+
+export type ThemeMode = (typeof THEME_MODES)[number];
+
+function isThemeMode(value: string | undefined): value is ThemeMode {
+  return value !== undefined && (THEME_MODES as readonly string[]).includes(value);
+}
+
+function resolveMode(mode: ThemeMode) {
+  if (mode !== 'system') return mode;
+  return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
 /**
  * `startViewTransition` 콜백이 동기라 `flushSync` 로 상태를 즉시 커밋해야 스냅숏 시점이 맞는다.
  */
 export function useThemeTransition() {
-  const { resolvedTheme, setTheme } = useTheme();
+  const { theme, resolvedTheme, setTheme } = useTheme();
 
-  const toggleTheme = useCallback(
+  const mode = isThemeMode(theme) ? theme : 'system';
+
+  const cycleTheme = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
-      const next = resolvedTheme === 'dark' ? 'light' : 'dark';
+      const next = THEME_MODES[(THEME_MODES.indexOf(mode) + 1) % THEME_MODES.length];
       const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      if (reduced || !document.startViewTransition) {
+      // 시스템으로 돌아갈 때 OS 설정이 지금 화면과 같으면 아무것도 안 바뀐다. 그때 원을
+      // 퍼뜨리면 일어나지 않은 일이 일어난 것처럼 보인다.
+      const unchanged = resolveMode(next) === resolvedTheme;
+
+      if (reduced || unchanged || !document.startViewTransition) {
         setTheme(next);
         return;
       }
@@ -57,8 +76,8 @@ export function useThemeTransition() {
         );
       });
     },
-    [resolvedTheme, setTheme],
+    [mode, resolvedTheme, setTheme],
   );
 
-  return { isDark: resolvedTheme === 'dark', toggleTheme };
+  return { mode, cycleTheme };
 }

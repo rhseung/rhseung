@@ -1,7 +1,6 @@
 {
   "actions": {
-    "switchLanguage": "Switch language",
-    "toggleTheme": "Toggle theme"
+    "switchLanguage": "Switch language"
   },
   "footer": {
     "email": "Email"
@@ -38,5 +37,11 @@
       "CS/AI researcher",
       "Design engineer"
     ]
+  },
+  "theme": {
+    "dark": "Dark",
+    "label": "Theme: {{mode}}",
+    "light": "Light",
+    "system": "System"
   }
 }
