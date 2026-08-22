@@ -1,7 +1,7 @@
 import { LANGUAGES, type Language } from './languages';
 
 export const SITE = {
-  url: 'https://rhseung.me',
+  url: 'https://www.rhseung.me',
   handle: 'rhseung',
   github: 'https://github.com/rhseung',
   email: 'ryu@rhseung.me',

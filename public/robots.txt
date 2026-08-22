@@ -2,4 +2,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://rhseung.me/sitemap-index.xml
+Sitemap: https://www.rhseung.me/sitemap-index.xml

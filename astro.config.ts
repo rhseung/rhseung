@@ -18,7 +18,7 @@ import remarkMath from 'remark-math';
 export default defineConfig({
   // canonical·OG·sitemap·RSS가 전부 절대 URL을 요구한다. 이게 없으면 `Astro.site`가
   // undefined라 레이아웃의 `new URL(path, Astro.site)`가 터진다.
-  site: 'https://rhseung.me',
+  site: 'https://www.rhseung.me',
 
   /**
    * 언어를 URL이 정한다. 클라이언트 런타임 토글은 정적 사이트에서 사실상 단일언어였다 —
