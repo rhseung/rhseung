@@ -15,8 +15,8 @@
   "filter": {
     "label": "Filter by domain",
     "reset": "Clear filters",
-    "results_one": "filter.results",
-    "results_other": "filter.results",
+    "results_one": "1 project",
+    "results_other": "{{count}} projects",
     "stack": "Narrow by tech"
   },
   "links": {
