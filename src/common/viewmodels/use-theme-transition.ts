@@ -21,13 +21,19 @@ export function useThemeTransition() {
         return;
       }
 
+      const { clientWidth, clientHeight } = document.documentElement;
       const { top, left, width, height } = event.currentTarget.getBoundingClientRect();
-      const x = left + width / 2;
-      const y = top + height / 2;
-      const radius = Math.hypot(
-        Math.max(x, window.innerWidth - x),
-        Math.max(y, window.innerHeight - y),
+
+      const originX = left + width / 2;
+      const originY = top + height / 2;
+      const reach = Math.hypot(
+        Math.max(originX, clientWidth - originX),
+        Math.max(originY, clientHeight - originY),
       );
+
+      const x = (originX / clientWidth) * 100;
+      const y = (originY / clientHeight) * 100;
+      const radius = (reach / (Math.hypot(clientWidth, clientHeight) / Math.SQRT2)) * 100;
 
       // 이 플래그가 붙은 동안만 페이지 전환용 크로스페이드가 꺼진다 (`styles.css`).
       document.documentElement.dataset.themeTransition = '';
@@ -42,7 +48,7 @@ export function useThemeTransition() {
 
       void transition.ready.then(() => {
         document.documentElement.animate(
-          { clipPath: [`circle(0 at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+          { clipPath: [`circle(0% at ${x}% ${y}%)`, `circle(${radius}% at ${x}% ${y}%)`] },
           {
             duration: DURATION,
             easing: 'cubic-bezier(0.4, 0, 0.2, 1)',

@@ -255,6 +255,7 @@
  * 테마 전환 클리핑(`use-theme-transition.ts`). 스코프를 안 걸면 `<ClientRouter />` 의
  * 페이지 전환 애니메이션까지 같이 죽는다.
  */
+html[data-theme-transition]::view-transition-group(root),
 html[data-theme-transition]::view-transition-old(root),
 html[data-theme-transition]::view-transition-new(root) {
   animation: none;
