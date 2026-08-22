@@ -8,14 +8,6 @@
   </picture>
 </p>
 
-<br />
-
-<p align="center">
-  <a href="https://www.rhseung.me"><img alt="Website" src="https://img.shields.io/badge/rhseung.me-000000?style=for-the-badge&logo=astro&logoColor=white"></a>
-  <a href="mailto:ryu@rhseung.me"><img alt="Email" src="https://img.shields.io/badge/ryu@rhseung.me-EA4335?style=for-the-badge&logo=gmail&logoColor=white"></a>
-  <a href="https://github.com/rhseung"><img alt="GitHub" src="https://img.shields.io/badge/rhseung-181717?style=for-the-badge&logo=github&logoColor=white"></a>
-</p>
-
 ## GitHub
 
 <p align="center">
