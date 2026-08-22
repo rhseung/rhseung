@@ -1,13 +1,13 @@
 import { defineSkillGroup } from '@/features/career/models/define';
 
 export default defineSkillGroup({
-  slug: 'ml',
+  slug: 'mldl',
   order: 6,
-  items: ['PyTorch', 'OpenCV', 'NumPy', 'Pandas'],
+  items: ['PyTorch', 'OpenCV', 'NumPy', 'Pandas', 'Jupyter'],
   ko: {
-    group: '머신러닝',
+    group: 'MLDL',
   },
   en: {
-    group: 'Machine learning',
+    group: 'MLDL',
   },
 });

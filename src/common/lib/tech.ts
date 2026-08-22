@@ -35,6 +35,7 @@ export const TECH = [
   'PostgreSQL',
   'MySQL',
   'PyTorch',
+  'Jupyter',
   'OpenCV',
   'NumPy',
   'Pandas',

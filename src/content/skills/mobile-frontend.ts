@@ -8,6 +8,6 @@ export default defineSkillGroup({
     group: '모바일 프론트엔드',
   },
   en: {
-    group: 'Mobile frontend',
+    group: 'Mobile Frontend',
   },
 });

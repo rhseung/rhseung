@@ -17,6 +17,6 @@ export default defineSkillGroup({
     group: '도구',
   },
   en: {
-    group: 'Tooling',
+    group: 'Tools',
   },
 });
