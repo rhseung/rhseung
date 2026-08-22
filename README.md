@@ -1,4 +1,15 @@
-<h1 align="center">Rhseung</h1>
+<br />
+<br />
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="public/wordmark-light.svg">
+    <img width="360" alt="Rhseung" src="public/wordmark-dark.svg">
+  </picture>
+</p>
+
+<br />
+<br />
 
 <p align="center">
   <a href="https://www.rhseung.me"><img alt="Website" src="https://img.shields.io/badge/rhseung.me-000000?style=for-the-badge&logo=astro&logoColor=white"></a>
