@@ -10,23 +10,19 @@
 
 ## GitHub
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=rhseung&theme=github_dark">
-    <img alt="Profile details" src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=rhseung&theme=github">
-  </picture>
-</p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=rhseung&theme=github_dark">
+  <img width="595" alt="Profile details" src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=rhseung&theme=github">
+</picture>
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=rhseung&theme=github_dark">
-    <img height="200" alt="Top languages by repo" src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=rhseung&theme=github">
-  </picture>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=rhseung&theme=github_dark">
-    <img height="200" alt="Top languages by commit" src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=rhseung&theme=github">
-  </picture>
-</p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=rhseung&theme=github_dark">
+  <img width="292" alt="Top languages by repo" src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=rhseung&theme=github">
+</picture>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=rhseung&theme=github_dark">
+  <img width="292" alt="Top languages by commit" src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=rhseung&theme=github">
+</picture>
 
 ## Tech
 
