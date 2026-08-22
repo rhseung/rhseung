@@ -12,23 +12,21 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api?username=rhseung&show_icons=true&hide_border=true&include_all_commits=true&count_private=true&theme=github_dark">
-    <img height="165" alt="GitHub stats" src="https://github-readme-stats.vercel.app/api?username=rhseung&show_icons=true&hide_border=true&include_all_commits=true&count_private=true">
-  </picture>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github-readme-stats.vercel.app/api/top-langs/?username=rhseung&layout=compact&hide_border=true&langs_count=8&theme=github_dark">
-    <img height="165" alt="Top languages" src="https://github-readme-stats.vercel.app/api/top-langs/?username=rhseung&layout=compact&hide_border=true&langs_count=8">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=rhseung&theme=github_dark">
+    <img alt="Profile details" src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=rhseung&theme=github">
   </picture>
 </p>
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://streak-stats.demolab.com?user=rhseung&hide_border=true&theme=github-dark">
-    <img alt="Streak" src="https://streak-stats.demolab.com?user=rhseung&hide_border=true">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=rhseung&theme=github_dark">
+    <img height="200" alt="Top languages by repo" src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=rhseung&theme=github">
+  </picture>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=rhseung&theme=github_dark">
+    <img height="200" alt="Top languages by commit" src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=rhseung&theme=github">
   </picture>
 </p>
-
-<br />
 
 ## 기술
 
