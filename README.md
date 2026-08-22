@@ -4,7 +4,7 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="public/wordmark-light.svg">
-    <img width="360" alt="Rhseung" src="public/wordmark-dark.svg">
+    <img width="320" alt="Rhseung" src="public/wordmark-dark.svg">
   </picture>
 </p>
 
