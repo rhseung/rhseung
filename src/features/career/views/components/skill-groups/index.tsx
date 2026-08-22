@@ -1,7 +1,8 @@
 import { Badge } from '@/common/components';
+import { tone } from '@/common/lib';
 import { cn } from '@/common/utils';
 
-import type { SkillGroup } from '../../../viewmodels';
+import { SKILL_GROUP_TONE, type SkillGroup } from '../../../viewmodels';
 
 export function SkillGroups({ groups, layout = 'list' }: SkillGroups.Props) {
   return (
@@ -13,7 +14,12 @@ export function SkillGroups({ groups, layout = 'list' }: SkillGroups.Props) {
             <ul className="flex flex-wrap gap-1">
               {group.items.map((item) => (
                 <li key={item}>
-                  <Badge variant="outline">{item}</Badge>
+                  <Badge
+                    variant="secondary"
+                    className={tone({ tone: SKILL_GROUP_TONE[group.slug] })}
+                  >
+                    {item}
+                  </Badge>
                 </li>
               ))}
             </ul>

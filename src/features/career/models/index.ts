@@ -10,6 +10,7 @@ import type {
 } from './types';
 
 export { defineAward, defineCareer, defineSkillGroup } from './define';
+export { SKILL_GROUP_TONE } from './types';
 export type { Award, CareerEntry, SkillGroup } from './types';
 
 function collect<T>(modules: Record<string, { default: T }>): T[] {

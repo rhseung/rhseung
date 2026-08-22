@@ -3,7 +3,12 @@ import type { Language } from '@/common/lib';
 import type { Project, ProjectItem } from './types';
 
 export { defineProject } from './define';
-export { PROJECT_DOMAINS, PROJECT_LINK_KINDS, PROJECT_STATUSES } from './types';
+export {
+  PROJECT_DOMAINS,
+  PROJECT_DOMAIN_TONE,
+  PROJECT_LINK_KINDS,
+  PROJECT_STATUSES,
+} from './types';
 export type { Project, ProjectDomain, ProjectLinkKind, ProjectStatus } from './types';
 
 const modules = import.meta.glob<{ default: ProjectItem }>(

@@ -2,11 +2,17 @@ import { ArrowLeftIcon, TrophyIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 import { Badge, ExternalLink, SiteDock, buttonVariants } from '@/common/components';
-import { formatYearMonth, localeHref, type Language } from '@/common/lib';
+import { formatYearMonth, localeHref, tone, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
 import type { Award } from '@/features/career';
 
-import { PROJECT_LINK_ICON, projectLinks, useProjectLabels, type Project } from '../../viewmodels';
+import {
+  PROJECT_DOMAIN_TONE,
+  PROJECT_LINK_ICON,
+  projectLinks,
+  useProjectLabels,
+  type Project,
+} from '../../viewmodels';
 
 export function ProjectDetailPage({
   lang,
@@ -37,7 +43,12 @@ export function ProjectDetailPage({
 
         <header className="flex flex-col gap-3">
           <div className="flex items-center gap-1.5">
-            <Badge variant="secondary">{label.domain[project.domain]}</Badge>
+            <Badge
+              variant="secondary"
+              className={tone({ tone: PROJECT_DOMAIN_TONE[project.domain] })}
+            >
+              {label.domain[project.domain]}
+            </Badge>
             <Badge variant="outline">{label.status[project.status]}</Badge>
             <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
           </div>

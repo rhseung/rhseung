@@ -1,3 +1,4 @@
+export { PROJECT_DOMAIN_TONE } from '../models';
 export type { Project, ProjectDomain, ProjectLinkKind, ProjectStatus } from '../models';
 
 export {

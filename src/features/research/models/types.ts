@@ -1,4 +1,4 @@
-import type { Url, YearMonth } from '@/common/lib';
+import type { Tone, Url, YearMonth } from '@/common/lib';
 
 export const RESEARCH_KINDS = ['rne', 'lab', 'paper'] as const;
 
@@ -7,6 +7,12 @@ export const RESEARCH_LINK_KINDS = ['paper', 'poster', 'repo', 'site'] as const;
 export type ResearchLinkKind = (typeof RESEARCH_LINK_KINDS)[number];
 
 export type ResearchKind = (typeof RESEARCH_KINDS)[number];
+
+export const RESEARCH_KIND_TONE: Record<ResearchKind, Tone> = {
+  rne: 'teal',
+  lab: 'purple',
+  paper: 'rose',
+};
 
 export type ResearchText = {
   title: string;

@@ -1,4 +1,4 @@
-import type { LogoPath, Tech, Url, YearMonth, YearOrMonth } from '@/common/lib';
+import type { LogoPath, Tech, Tone, Url, YearMonth, YearOrMonth } from '@/common/lib';
 
 export type CareerText = {
   org: string;
@@ -43,3 +43,13 @@ export type SkillGroupItem = Translated<SkillGroupText> & {
 export type CareerEntry = CareerText & Omit<CareerItem, 'ko' | 'en'>;
 export type Award = AwardText & Omit<AwardItem, 'ko' | 'en'>;
 export type SkillGroup = SkillGroupText & Omit<SkillGroupItem, 'ko' | 'en'>;
+
+/** 슬러그는 유니온이 아니라 문자열이다. 새 그룹을 넣고 색을 안 정하면 무채색으로 떨어진다. */
+export const SKILL_GROUP_TONE: Record<string, Tone> = {
+  languages: 'purple',
+  'web-frontend': 'blue',
+  'mobile-frontend': 'teal',
+  backend: 'green',
+  mldl: 'rose',
+  tooling: 'amber',
+};

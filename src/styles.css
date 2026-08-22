@@ -55,6 +55,21 @@
   --contribution-2: oklch(0.71 0.008 286.1);
   --contribution-3: oklch(0.45 0.008 286);
   --contribution-4: oklch(0.141 0.005 285.823);
+
+  /* 분류축에 쓰는 색. 명도는 배경/전경 쪽에 맞추고 색상만 갈라서, 채도가 본문을 이기지
+     않게 한다. 잔디는 여기 안 낀다 - 면적이 커서 색이 들어가면 페이지를 지배한다. */
+  --tone-blue: oklch(0.94 0.03 250);
+  --tone-blue-foreground: oklch(0.48 0.14 250);
+  --tone-teal: oklch(0.94 0.035 190);
+  --tone-teal-foreground: oklch(0.45 0.1 190);
+  --tone-green: oklch(0.94 0.04 150);
+  --tone-green-foreground: oklch(0.45 0.12 150);
+  --tone-amber: oklch(0.95 0.05 85);
+  --tone-amber-foreground: oklch(0.48 0.12 70);
+  --tone-purple: oklch(0.94 0.035 300);
+  --tone-purple-foreground: oklch(0.48 0.15 300);
+  --tone-rose: oklch(0.94 0.035 15);
+  --tone-rose-foreground: oklch(0.5 0.16 15);
 }
 
 .dark,
@@ -90,6 +105,19 @@
   --contribution-2: oklch(0.44 0.008 286);
   --contribution-3: oklch(0.7 0.012 286);
   --contribution-4: oklch(0.985 0 0);
+
+  --tone-blue: oklch(0.3 0.05 250);
+  --tone-blue-foreground: oklch(0.82 0.1 250);
+  --tone-teal: oklch(0.3 0.05 190);
+  --tone-teal-foreground: oklch(0.82 0.09 190);
+  --tone-green: oklch(0.3 0.055 150);
+  --tone-green-foreground: oklch(0.82 0.11 150);
+  --tone-amber: oklch(0.32 0.055 75);
+  --tone-amber-foreground: oklch(0.85 0.1 80);
+  --tone-purple: oklch(0.3 0.05 300);
+  --tone-purple-foreground: oklch(0.83 0.1 300);
+  --tone-rose: oklch(0.31 0.055 15);
+  --tone-rose-foreground: oklch(0.84 0.1 15);
 }
 
 /* 토큰 → Tailwind 유틸리티. 이게 Tailwind v4 설정의 전부다.
@@ -122,6 +150,19 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
+  --color-tone-blue: var(--tone-blue);
+  --color-tone-blue-foreground: var(--tone-blue-foreground);
+  --color-tone-teal: var(--tone-teal);
+  --color-tone-teal-foreground: var(--tone-teal-foreground);
+  --color-tone-green: var(--tone-green);
+  --color-tone-green-foreground: var(--tone-green-foreground);
+  --color-tone-amber: var(--tone-amber);
+  --color-tone-amber-foreground: var(--tone-amber-foreground);
+  --color-tone-purple: var(--tone-purple);
+  --color-tone-purple-foreground: var(--tone-purple-foreground);
+  --color-tone-rose: var(--tone-rose);
+  --color-tone-rose-foreground: var(--tone-rose-foreground);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

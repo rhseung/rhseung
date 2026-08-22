@@ -3,7 +3,7 @@ import type { Language } from '@/common/lib';
 import type { Research, ResearchItem } from './types';
 
 export { defineResearch } from './define';
-export { RESEARCH_KINDS, RESEARCH_LINK_KINDS } from './types';
+export { RESEARCH_KINDS, RESEARCH_KIND_TONE, RESEARCH_LINK_KINDS } from './types';
 export type { Research, ResearchKind, ResearchLinkKind } from './types';
 
 const modules = import.meta.glob<{ default: ResearchItem }>('@/content/research/*.ts', {

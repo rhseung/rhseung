@@ -1,4 +1,4 @@
-import type { Tech, Url, YearMonth } from '@/common/lib';
+import type { Tech, Tone, Url, YearMonth } from '@/common/lib';
 
 export const PROJECT_LINK_KINDS = ['repo', 'demo', 'package', 'post', 'paper'] as const;
 
@@ -10,6 +10,13 @@ export type ProjectLinks = Partial<Record<ProjectLinkKind, Url>>;
 export const PROJECT_DOMAINS = ['web', 'systems', 'backend', 'graphics'] as const;
 
 export type ProjectDomain = (typeof PROJECT_DOMAINS)[number];
+
+export const PROJECT_DOMAIN_TONE: Record<ProjectDomain, Tone> = {
+  web: 'blue',
+  systems: 'purple',
+  backend: 'green',
+  graphics: 'amber',
+};
 
 export const PROJECT_STATUSES = ['active', 'shipped', 'archived'] as const;
 
