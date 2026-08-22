@@ -9,7 +9,6 @@
 </p>
 
 <br />
-<br />
 
 <p align="center">
   <a href="https://www.rhseung.me"><img alt="Website" src="https://img.shields.io/badge/rhseung.me-000000?style=for-the-badge&logo=astro&logoColor=white"></a>
