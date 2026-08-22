@@ -35,6 +35,8 @@ export type AwardItem = Translated<AwardText> & {
 
 export type SkillGroupItem = Translated<SkillGroupText> & {
   slug: string;
+  /** 그룹 순서는 이름순이 아니다 - 언어에 따라 가나다순이 뒤집힌다. 항목이 직접 정한다. */
+  order: number;
   items: readonly Tech[];
 };
 

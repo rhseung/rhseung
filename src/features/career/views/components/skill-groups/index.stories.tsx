@@ -8,8 +8,8 @@ const meta = {
   parameters: { layout: 'padded' },
   args: {
     groups: [
-      { slug: 'g', group: '언어', items: ['TypeScript', 'Rust', 'Python'] },
-      { slug: 'g', group: '웹', items: ['Astro', 'React', 'Tailwind CSS'] },
+      { slug: 'g', order: 1, group: '언어', items: ['TypeScript', 'Rust', 'Python'] },
+      { slug: 'g', order: 2, group: '웹', items: ['Astro', 'React', 'Tailwind CSS'] },
     ],
   },
 } satisfies Meta<typeof SkillGroups>;
