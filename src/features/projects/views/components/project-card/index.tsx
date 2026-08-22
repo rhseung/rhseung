@@ -42,9 +42,9 @@ export function ProjectCard({
   const links = projectLinks(project);
 
   return (
-    <article className="border-border bg-card/40 hover:border-foreground/20 flex flex-col gap-2 rounded-xl border p-4 transition-colors">
-      <div className="flex flex-wrap items-center gap-2">
-        <h2 className="text-sm font-semibold tracking-tight">
+    <article className="hover:bg-muted/40 flex flex-col gap-2 rounded-lg px-3 py-4 transition-colors">
+      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+        <h2 className="text-base font-semibold tracking-tight">
           {target === null && project.title}
           {target?.external === false && (
             <a href={target.href} className="hover:underline">
@@ -58,10 +58,16 @@ export function ProjectCard({
           )}
         </h2>
 
-        <Badge variant="secondary" className={tone({ tone: PROJECT_DOMAIN_TONE[project.domain] })}>
+        <Badge
+          variant="secondary"
+          className={cn('self-center', tone({ tone: PROJECT_DOMAIN_TONE[project.domain] }))}
+        >
           {label.domain[project.domain]}
         </Badge>
-        <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
+
+        <span className="text-muted-foreground ml-auto self-center text-xs tabular-nums">
+          {period}
+        </span>
       </div>
 
       <p className="text-muted-foreground text-sm leading-relaxed">{project.summary}</p>
@@ -81,14 +87,17 @@ export function ProjectCard({
         <p className="border-border border-l-2 pl-3 text-xs font-medium">{project.highlight}</p>
       )}
 
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+      <div className="mt-0.5 flex flex-col gap-2">
         <ul className="flex flex-wrap gap-1">
           {stack.map((item) => {
             const selected = selectedStack.includes(item);
             const badge = (
               <Badge
                 variant={selected ? 'secondary' : 'outline'}
-                className={cn('text-[0.7rem]', onToggleStack && 'hover:border-foreground/30')}
+                className={cn(
+                  'text-[0.7rem]',
+                  onToggleStack && 'hover:border-foreground/30 hover:bg-muted',
+                )}
               >
                 {item}
               </Badge>
@@ -117,7 +126,7 @@ export function ProjectCard({
         </ul>
 
         {links.length > 0 && (
-          <ul className="ml-auto flex flex-wrap items-center gap-x-3 gap-y-1">
+          <ul className="flex flex-wrap items-center gap-x-3 gap-y-1">
             {links.map(({ kind, href }) => {
               const Icon = PROJECT_LINK_ICON[kind];
 

@@ -1,7 +1,10 @@
-import { MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react';
+import { useId, useState } from 'react';
+
+import { CaretDownIcon, MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 import {
+  Button,
   Empty,
   EmptyDescription,
   EmptyHeader,
@@ -14,7 +17,8 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@/common/components';
-import { localeHref, type Language } from '@/common/lib';
+import { localeHref, tone, type Language } from '@/common/lib';
+import { cn } from '@/common/utils';
 import type { Award } from '@/features/career';
 
 import {
@@ -22,6 +26,7 @@ import {
   countByStack,
   filterByDomain,
   filterProjects,
+  PROJECT_DOMAIN_TONE,
   sortProjects,
   useProjectFilters,
   useProjectLabels,
@@ -38,23 +43,28 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
   const { filters, setDomain, setStack, toggleStack, setQuery, reset, active, domains } =
     useProjectFilters();
 
+  const [expanded, setExpanded] = useState(false);
+  const domainLabelId = useId();
+  const stackLabelId = useId();
+
   const counts = countByDomain(projects);
   const visible = sortProjects(filterProjects(projects, filters));
 
   const stacks = countByStack(filterByDomain(projects, filters.domain));
-  const chips = [
+  const ordered = [
     ...filters.stack,
     ...stacks.map(([item]) => item).filter((item) => !filters.stack.includes(item)),
-  ].slice(0, Math.max(STACK_CHIPS, filters.stack.length));
+  ];
+  const shown = Math.max(STACK_CHIPS, filters.stack.length);
+  const chips = expanded ? ordered : ordered.slice(0, shown);
+  const hidden = ordered.length - chips.length;
 
   return (
     <div className="bg-background min-h-dvh">
       <main className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-12">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-2xl font-semibold tracking-tight">{t(($) => $.page.title)}</h1>
-        </div>
+        <h1 className="text-2xl font-semibold tracking-tight">{t(($) => $.page.title)}</h1>
 
-        <div className="flex flex-col gap-3">
+        <div className="border-border flex flex-col gap-4 rounded-xl border p-4">
           <InputGroup>
             <InputGroupAddon>
               <MagnifyingGlassIcon aria-hidden />
@@ -81,47 +91,88 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
             )}
           </InputGroup>
 
-          <ToggleGroup
-            size="sm"
-            aria-label={t(($) => $.filter.label)}
-            value={filters.domain ? [filters.domain] : []}
-            onValueChange={([next]) => setDomain((next as ProjectDomain | undefined) ?? null)}
-          >
-            {domains.map((value) => (
-              <ToggleGroupItem key={value} value={value} disabled={!counts[value]}>
-                {label.domain[value]}
-                <span className="text-muted-foreground ml-1.5 tabular-nums">
-                  {counts[value] ?? 0}
-                </span>
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
+          <div className="flex flex-col gap-1.5">
+            <span id={domainLabelId} className="text-muted-foreground text-xs">
+              {t(($) => $.filter.label)}
+            </span>
 
-          <ToggleGroup
-            multiple
-            size="sm"
-            variant="outline"
-            className="flex-wrap"
-            aria-label={t(($) => $.filter.stack)}
-            value={[...filters.stack]}
-            onValueChange={(next) => setStack(next)}
-          >
-            {chips.map((item) => (
-              <ToggleGroupItem key={item} value={item}>
-                {item}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
+            <ToggleGroup
+              size="sm"
+              aria-labelledby={domainLabelId}
+              value={filters.domain ? [filters.domain] : []}
+              onValueChange={([next]) => setDomain((next as ProjectDomain | undefined) ?? null)}
+            >
+              {domains.map((value) => (
+                <ToggleGroupItem
+                  key={value}
+                  value={value}
+                  disabled={!counts[value]}
+                  // 카드의 도메인 뱃지와 같은 색이다. 고른 것과 카드가 눈으로 이어져야 한다.
+                  className={cn(
+                    filters.domain === value && tone({ tone: PROJECT_DOMAIN_TONE[value] }),
+                  )}
+                >
+                  {label.domain[value]}
+                  <span className="ml-1.5 tabular-nums opacity-60">{counts[value] ?? 0}</span>
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
+          </div>
 
-          <div className="text-muted-foreground flex items-center gap-3 text-xs">
+          <div className="flex flex-col gap-1.5">
+            <span id={stackLabelId} className="text-muted-foreground text-xs">
+              {t(($) => $.filter.stack)}
+            </span>
+
+            <div className="flex flex-wrap items-center gap-1">
+              <ToggleGroup
+                multiple
+                size="sm"
+                variant="outline"
+                className="flex-wrap"
+                aria-labelledby={stackLabelId}
+                value={[...filters.stack]}
+                onValueChange={(next) => setStack(next)}
+              >
+                {chips.map((item) => (
+                  <ToggleGroupItem key={item} value={item}>
+                    {item}
+                  </ToggleGroupItem>
+                ))}
+              </ToggleGroup>
+
+              {(hidden > 0 || expanded) && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setExpanded(!expanded)}
+                  className="text-muted-foreground"
+                >
+                  {expanded ? t(($) => $.filter.less) : t(($) => $.filter.more, { count: hidden })}
+                  <CaretDownIcon
+                    aria-hidden
+                    data-icon="inline-end"
+                    className={cn('transition-transform', expanded && 'rotate-180')}
+                  />
+                </Button>
+              )}
+            </div>
+          </div>
+
+          <div className="border-border text-muted-foreground flex items-center gap-2 border-t pt-3 text-xs">
             <span className="tabular-nums">
               {t(($) => $.filter.results, { count: visible.length })}
             </span>
 
             {active && (
-              <button type="button" onClick={reset} className="hover:text-foreground underline">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={reset}
+                className="text-muted-foreground ml-auto"
+              >
                 {t(($) => $.filter.reset)}
-              </button>
+              </Button>
             )}
           </div>
         </div>
@@ -134,7 +185,7 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
             </EmptyHeader>
           </Empty>
         ) : (
-          <ul className="flex flex-col gap-3">
+          <ul className="divide-border -mx-3 divide-y">
             {visible.map((project) => (
               <li key={project.slug}>
                 <ProjectCard

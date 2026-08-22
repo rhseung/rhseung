@@ -91,6 +91,8 @@ export default interface Resources {
     },
     "filter": {
       "label": "분야로 좁히기",
+      "less": "접기",
+      "more": "+{{count}}개 더",
       "reset": "필터 초기화",
       "results": "{{count}}개",
       "stack": "기술로 좁히기"

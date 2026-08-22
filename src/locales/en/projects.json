@@ -14,6 +14,9 @@
   },
   "filter": {
     "label": "Filter by domain",
+    "less": "Show less",
+    "more_one": "+1 more",
+    "more_other": "+{{count}} more",
     "reset": "Clear filters",
     "results_one": "1 project",
     "results_other": "{{count}} projects",
