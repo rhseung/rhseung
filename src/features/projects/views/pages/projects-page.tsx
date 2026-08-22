@@ -1,6 +1,6 @@
-import { useId, useState } from 'react';
+import { useId } from 'react';
 
-import { CaretDownIcon, MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react';
+import { MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -19,40 +19,41 @@ import {
 } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
-import type { Award } from '@/features/career';
+import { SKILL_GROUP_TONE, type Award } from '@/features/career';
 
 import {
   countByStack,
   filterProjects,
+  groupStacks,
   sortProjects,
   useProjectFilters,
   type Project,
 } from '../../viewmodels';
 import { ProjectCard } from '../components';
 
-const STACK_CHIPS = 10;
+/** 그룹 이름만 그룹 색을 입는다. 칩까지 칠하면 필터 판이 팔레트가 된다. */
+const GROUP_LABEL_TONE: Record<string, string> = {
+  blue: 'text-tone-blue-foreground',
+  teal: 'text-tone-teal-foreground',
+  green: 'text-tone-green-foreground',
+  amber: 'text-tone-amber-foreground',
+  purple: 'text-tone-purple-foreground',
+  rose: 'text-tone-rose-foreground',
+};
 
 export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props) {
   const { t } = useTranslation('projects');
   const { filters, setStack, toggleStack, setQuery, reset, active } = useProjectFilters();
 
-  const [expanded, setExpanded] = useState(false);
-  const stackLabelId = useId();
-
+  const groupId = useId();
   const visible = sortProjects(filterProjects(projects, filters));
 
-  const stacks = countByStack(projects);
-  const ordered = [
-    ...filters.stack,
-    ...stacks.map(([item]) => item).filter((item) => !filters.stack.includes(item)),
-  ];
-  const shown = Math.max(STACK_CHIPS, filters.stack.length);
-  const chips = expanded ? ordered : ordered.slice(0, shown);
-  const hidden = ordered.length - chips.length;
+  const stacks = countByStack(projects).map(([item]) => item);
+  const groups = groupStacks(stacks, lang);
 
   return (
     <div className="bg-background min-h-dvh">
-      <main className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-12">
+      <main className="mx-auto flex max-w-3xl flex-col gap-6 px-4 py-12">
         <h1 className="text-2xl font-semibold tracking-tight">{t(($) => $.page.title)}</h1>
 
         <div className="border-border flex flex-col gap-4 rounded-xl border p-4">
@@ -82,62 +83,58 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
             )}
           </InputGroup>
 
-          <div className="flex flex-col gap-1.5">
-            <span id={stackLabelId} className="text-muted-foreground text-xs">
-              {t(($) => $.filter.stack)}
-            </span>
+          <div className="flex flex-col gap-2.5">
+            {groups.map((group) => {
+              const labelId = `${groupId}-${group.slug}`;
+              const selected = group.items.filter((item) => filters.stack.includes(item));
 
-            <div className="flex flex-wrap items-center gap-1">
-              <ToggleGroup
-                multiple
-                size="sm"
-                variant="outline"
-                className="flex-wrap"
-                aria-labelledby={stackLabelId}
-                value={[...filters.stack]}
-                onValueChange={(next) => setStack(next)}
-              >
-                {chips.map((item) => (
-                  <ToggleGroupItem key={item} value={item}>
-                    {item}
-                  </ToggleGroupItem>
-                ))}
-              </ToggleGroup>
+              return (
+                <div key={group.slug} className="flex flex-col gap-1 sm:flex-row sm:gap-3">
+                  <span
+                    id={labelId}
+                    className={cn(
+                      'shrink-0 pt-1.5 text-xs sm:w-32',
+                      GROUP_LABEL_TONE[SKILL_GROUP_TONE[group.slug] ?? ''] ??
+                        'text-muted-foreground',
+                    )}
+                  >
+                    {group.label}
+                  </span>
 
-              {(hidden > 0 || expanded) && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setExpanded(!expanded)}
-                  className="text-muted-foreground"
-                >
-                  {expanded ? t(($) => $.filter.less) : t(($) => $.filter.more, { count: hidden })}
-                  <CaretDownIcon
-                    aria-hidden
-                    data-icon="inline-end"
-                    className={cn('transition-transform', expanded && 'rotate-180')}
-                  />
-                </Button>
-              )}
-            </div>
+                  <ToggleGroup
+                    multiple
+                    size="sm"
+                    variant="outline"
+                    className="flex-wrap"
+                    aria-labelledby={labelId}
+                    value={selected}
+                    onValueChange={(next) => {
+                      const others = filters.stack.filter((item) => !group.items.includes(item));
+                      setStack([...others, ...next]);
+                    }}
+                  >
+                    {group.items.map((item) => (
+                      <ToggleGroupItem key={item} value={item}>
+                        {item}
+                      </ToggleGroupItem>
+                    ))}
+                  </ToggleGroup>
+                </div>
+              );
+            })}
           </div>
+        </div>
 
-          <div className="border-border text-muted-foreground flex items-center gap-2 border-t pt-3 text-xs">
-            <span className="tabular-nums">
-              {t(($) => $.filter.results, { count: visible.length })}
-            </span>
+        <div className="text-muted-foreground flex min-h-8 items-center gap-2 text-xs">
+          <span className="tabular-nums">
+            {t(($) => $.filter.results, { count: visible.length })}
+          </span>
 
-            {active && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={reset}
-                className="text-muted-foreground ml-auto"
-              >
-                {t(($) => $.filter.reset)}
-              </Button>
-            )}
-          </div>
+          {active && (
+            <Button variant="ghost" size="sm" onClick={reset} className="ml-auto">
+              {t(($) => $.filter.reset)}
+            </Button>
+          )}
         </div>
 
         {visible.length === 0 ? (

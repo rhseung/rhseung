@@ -1,5 +1,6 @@
 export type { Project, ProjectLinkKind, ProjectStatus } from '../models';
 
+export { groupStacks, type StackGroup } from './group-stacks';
 export {
   countByStack,
   filterProjects,

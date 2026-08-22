@@ -7,13 +7,9 @@
     "title": "Nothing here yet"
   },
   "filter": {
-    "less": "Show less",
-    "more_one": "+1 more",
-    "more_other": "+{{count}} more",
     "reset": "Clear filters",
     "results_one": "1 project",
-    "results_other": "{{count}} projects",
-    "stack": "Narrow by tech"
+    "results_other": "{{count}} projects"
   },
   "links": {
     "demo": "Demo",

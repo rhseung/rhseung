@@ -53,7 +53,7 @@ export const Default: Story = {};
 export const Filtered: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const chips = canvas.getByRole('group', { name: '기술로 좁히기' });
+    const chips = canvas.getByRole('group', { name: '언어' });
 
     await userEvent.click(within(chips).getByRole('button', { name: 'C++' }));
 
