@@ -3,7 +3,7 @@ import { defineProject } from '@/features/projects/models/define';
 export default defineProject({
   slug: 'datetime',
   domain: 'systems',
-  stack: ['npm', 'TypeScript'],
+  stack: ['TypeScript'],
   start: { year: 2024, month: 1 },
   end: { year: 2024, month: 4 },
   status: 'shipped',

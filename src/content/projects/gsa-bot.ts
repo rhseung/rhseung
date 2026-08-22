@@ -3,7 +3,7 @@ import { defineProject } from '@/features/projects/models/define';
 export default defineProject({
   slug: 'gsa-bot',
   domain: 'backend',
-  stack: ['Node.js', 'npm', 'TypeScript', 'JavaScript'],
+  stack: ['Node.js', 'TypeScript', 'JavaScript'],
   start: { year: 2023, month: 9 },
   end: { year: 2024, month: 2 },
   status: 'active',

@@ -3,7 +3,7 @@ import { defineProject } from '@/features/projects/models/define';
 export default defineProject({
   slug: 'idp',
   domain: 'web',
-  stack: ['React', 'TypeScript', 'TanStack Router', 'Tailwind CSS', 'OpenAPI TypeScript', 'Vite'],
+  stack: ['React', 'TypeScript', 'TanStack Router', 'Tailwind CSS', 'Vite'],
   start: { year: 2024, month: 3 },
   end: { year: 2024, month: 8 },
   status: 'shipped',

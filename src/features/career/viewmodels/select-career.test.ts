@@ -60,7 +60,7 @@ describe('sortSkillGroups', () => {
     const groups: SkillGroup[] = [
       { slug: 'web', order: 2, group: '웹', items: ['Astro'] },
       { slug: 'lang', order: 1, group: '언어', items: ['Rust'] },
-      { slug: 'infra', order: 3, group: '인프라', items: ['Bun'] },
+      { slug: 'infra', order: 3, group: '인프라', items: ['Git'] },
     ];
 
     expect(sortSkillGroups(groups).map((g) => g.group)).toEqual(['언어', '웹', '인프라']);
