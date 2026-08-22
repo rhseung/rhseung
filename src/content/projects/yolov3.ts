@@ -2,7 +2,6 @@ import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'yolov3',
-  domain: 'graphics',
   stack: ['Python', 'PyTorch'],
   start: { year: 2023, month: 3 },
   end: { year: 2023, month: 11 },

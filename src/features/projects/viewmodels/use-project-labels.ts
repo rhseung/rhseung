@@ -9,20 +9,14 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import {
-  PROJECT_DOMAINS,
   PROJECT_LINK_KINDS,
   PROJECT_STATUSES,
-  type ProjectDomain,
   type ProjectLinkKind,
   type ProjectStatus,
 } from '../models';
 
 export function useProjectLabels() {
   const { t } = useTranslation('projects');
-
-  const domain = Object.fromEntries(
-    PROJECT_DOMAINS.map((key) => [key, t(($) => $.domain[key])]),
-  ) as Record<ProjectDomain, string>;
 
   const status = Object.fromEntries(
     PROJECT_STATUSES.map((key) => [key, t(($) => $.status[key])]),
@@ -32,7 +26,7 @@ export function useProjectLabels() {
     PROJECT_LINK_KINDS.map((key) => [key, t(($) => $.links[key])]),
   ) as Record<ProjectLinkKind, string>;
 
-  return { domain, status, link };
+  return { status, link };
 }
 
 export const PROJECT_LINK_ICON: Record<ProjectLinkKind, Icon> = {

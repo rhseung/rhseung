@@ -1,6 +1,6 @@
-export { PROJECT_DOMAINS, PROJECT_STATUSES, projectsOf } from './models';
-export type { Project, ProjectDomain, ProjectStatus } from './models';
+export { PROJECT_STATUSES, projectsOf } from './models';
+export type { Project, ProjectStatus } from './models';
 
-export { countByDomain, filterByDomain, projectHref, sortProjects } from './viewmodels';
+export { projectHref, sortProjects } from './viewmodels';
 
 export { ProjectCard, ProjectDetailPage, ProjectsPage } from './views';

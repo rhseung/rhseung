@@ -2,18 +2,11 @@
   "detail": {
     "back": "All projects"
   },
-  "domain": {
-    "backend": "Backend",
-    "graphics": "Graphics",
-    "systems": "Systems",
-    "web": "Web"
-  },
   "empty": {
-    "description": "Try another domain.",
+    "description": "Try another tech or search term.",
     "title": "Nothing here yet"
   },
   "filter": {
-    "label": "Filter by domain",
     "less": "Show less",
     "more_one": "+1 more",
     "more_other": "+{{count}} more",

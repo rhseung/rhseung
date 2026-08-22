@@ -1,10 +1,7 @@
-export { PROJECT_DOMAIN_TONE } from '../models';
-export type { Project, ProjectDomain, ProjectLinkKind, ProjectStatus } from '../models';
+export type { Project, ProjectLinkKind, ProjectStatus } from '../models';
 
 export {
-  countByDomain,
   countByStack,
-  filterByDomain,
   filterProjects,
   projectHref,
   projectLinks,

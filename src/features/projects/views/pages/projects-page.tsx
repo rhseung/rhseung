@@ -17,21 +17,16 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@/common/components';
-import { localeHref, tone, type Language } from '@/common/lib';
+import { localeHref, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
 import type { Award } from '@/features/career';
 
 import {
-  countByDomain,
   countByStack,
-  filterByDomain,
   filterProjects,
-  PROJECT_DOMAIN_TONE,
   sortProjects,
   useProjectFilters,
-  useProjectLabels,
   type Project,
-  type ProjectDomain,
 } from '../../viewmodels';
 import { ProjectCard } from '../components';
 
@@ -39,18 +34,14 @@ const STACK_CHIPS = 10;
 
 export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props) {
   const { t } = useTranslation('projects');
-  const label = useProjectLabels();
-  const { filters, setDomain, setStack, toggleStack, setQuery, reset, active, domains } =
-    useProjectFilters();
+  const { filters, setStack, toggleStack, setQuery, reset, active } = useProjectFilters();
 
   const [expanded, setExpanded] = useState(false);
-  const domainLabelId = useId();
   const stackLabelId = useId();
 
-  const counts = countByDomain(projects);
   const visible = sortProjects(filterProjects(projects, filters));
 
-  const stacks = countByStack(filterByDomain(projects, filters.domain));
+  const stacks = countByStack(projects);
   const ordered = [
     ...filters.stack,
     ...stacks.map(([item]) => item).filter((item) => !filters.stack.includes(item)),
@@ -90,34 +81,6 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
               </InputGroupAddon>
             )}
           </InputGroup>
-
-          <div className="flex flex-col gap-1.5">
-            <span id={domainLabelId} className="text-muted-foreground text-xs">
-              {t(($) => $.filter.label)}
-            </span>
-
-            <ToggleGroup
-              size="sm"
-              aria-labelledby={domainLabelId}
-              value={filters.domain ? [filters.domain] : []}
-              onValueChange={([next]) => setDomain((next as ProjectDomain | undefined) ?? null)}
-            >
-              {domains.map((value) => (
-                <ToggleGroupItem
-                  key={value}
-                  value={value}
-                  disabled={!counts[value]}
-                  // 카드의 도메인 뱃지와 같은 색이다. 고른 것과 카드가 눈으로 이어져야 한다.
-                  className={cn(
-                    filters.domain === value && tone({ tone: PROJECT_DOMAIN_TONE[value] }),
-                  )}
-                >
-                  {label.domain[value]}
-                  <span className="ml-1.5 tabular-nums opacity-60">{counts[value] ?? 0}</span>
-                </ToggleGroupItem>
-              ))}
-            </ToggleGroup>
-          </div>
 
           <div className="flex flex-col gap-1.5">
             <span id={stackLabelId} className="text-muted-foreground text-xs">

@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { endsAfterStart, validDate } from '@/common/lib/date-schema';
 import { CAREER_ITEMS } from '@/features/career/models';
 
-import { PROJECT_DOMAINS, PROJECT_STATUSES } from './types';
+import { PROJECT_STATUSES } from './types';
 
 import { PROJECT_ITEMS } from './index';
 
@@ -26,7 +26,6 @@ const text = z.object({
 
 const schema = z.object({
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'kebab-case 여야 합니다'),
-  domain: z.enum(PROJECT_DOMAINS),
   stack: z.array(filled).min(1).max(6),
   start: validDate,
   end: validDate.optional(),

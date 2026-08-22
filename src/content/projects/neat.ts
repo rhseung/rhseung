@@ -2,7 +2,6 @@ import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'neat',
-  domain: 'systems',
   stack: ['Java'],
   start: { year: 2024, month: 9 },
   status: 'active',

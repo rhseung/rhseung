@@ -2,7 +2,6 @@ import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'siunits',
-  domain: 'systems',
   stack: ['Python'],
   start: { year: 2023, month: 12 },
   status: 'active',

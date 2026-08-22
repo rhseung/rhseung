@@ -2,7 +2,6 @@ import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'glance',
-  domain: 'systems',
   stack: ['Java', 'Kotlin'],
   start: { year: 2024, month: 6 },
   status: 'active',

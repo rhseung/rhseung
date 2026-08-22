@@ -1,26 +1,19 @@
 import { useCallback, useSyncExternalStore } from 'react';
 
-import { PROJECT_DOMAINS, type ProjectDomain } from '../models';
-
 const CHANGE_EVENT = 'projects:filterchange';
 
 export type ProjectFilters = {
-  domain: ProjectDomain | null;
   stack: readonly string[];
   query: string;
 };
 
-const EMPTY: ProjectFilters = { domain: null, stack: [], query: '' };
+const EMPTY: ProjectFilters = { stack: [], query: '' };
 
 function readFilters(): ProjectFilters {
   const params = new URLSearchParams(window.location.search);
-  const domain = params.get('domain');
   const stack = params.get('stack');
 
   return {
-    domain: (PROJECT_DOMAINS as readonly string[]).includes(domain ?? '')
-      ? (domain as ProjectDomain)
-      : null,
     stack: stack ? stack.split(',').filter(Boolean) : [],
     query: params.get('q') ?? '',
   };
@@ -57,9 +50,6 @@ function commit(next: ProjectFilters) {
   const url = new URL(window.location.href);
   const { searchParams } = url;
 
-  if (next.domain === null) searchParams.delete('domain');
-  else searchParams.set('domain', next.domain);
-
   if (next.stack.length === 0) searchParams.delete('stack');
   else searchParams.set('stack', next.stack.join(','));
 
@@ -73,13 +63,6 @@ function commit(next: ProjectFilters) {
 
 export function useProjectFilters() {
   const filters = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
-
-  const setDomain = useCallback(
-    (domain: ProjectDomain | null) => {
-      commit({ ...filters, domain });
-    },
-    [filters],
-  );
 
   const setStack = useCallback(
     (stack: readonly string[]) => {
@@ -109,16 +92,7 @@ export function useProjectFilters() {
     commit(EMPTY);
   }, []);
 
-  const active = filters.domain !== null || filters.stack.length > 0 || filters.query !== '';
+  const active = filters.stack.length > 0 || filters.query !== '';
 
-  return {
-    filters,
-    setDomain,
-    setStack,
-    toggleStack,
-    setQuery,
-    reset,
-    active,
-    domains: PROJECT_DOMAINS,
-  };
+  return { filters, setStack, toggleStack, setQuery, reset, active };
 }

@@ -79,18 +79,11 @@ export default interface Resources {
     "detail": {
       "back": "프로젝트 목록"
     },
-    "domain": {
-      "backend": "백엔드",
-      "graphics": "그래픽스",
-      "systems": "시스템",
-      "web": "웹"
-    },
     "empty": {
-      "description": "다른 분야를 선택해 보세요.",
+      "description": "다른 기술이나 검색어로 찾아보세요.",
       "title": "해당하는 프로젝트가 없습니다"
     },
     "filter": {
-      "label": "분야로 좁히기",
       "less": "접기",
       "more": "+{{count}}개 더",
       "reset": "필터 초기화",

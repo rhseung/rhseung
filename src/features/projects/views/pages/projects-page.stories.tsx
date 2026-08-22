@@ -10,7 +10,6 @@ const projects: Project[] = [
     slug: 'lumen',
     title: 'Lumen',
     summary: '타입 추론이 있는 작은 스크립트 언어.',
-    domain: 'systems',
     stack: ['Rust'],
     start: { year: 2024, month: 3 },
     status: 'active',
@@ -21,7 +20,6 @@ const projects: Project[] = [
     slug: 'rhseung-me',
     title: 'rhseung.me',
     summary: 'Astro 아일랜드로 만든 이 사이트.',
-    domain: 'web',
     stack: ['Astro', 'React', 'Tailwind CSS'],
     start: { year: 2026, month: 8 },
     status: 'active',
@@ -31,7 +29,6 @@ const projects: Project[] = [
     slug: 'raymarch',
     title: 'raymarch',
     summary: 'WebGPU 레이마칭 실험. SDF만으로 장면을 그린다.',
-    domain: 'graphics',
     stack: ['C++', 'TypeScript'],
     start: { year: 2023, month: 5 },
     end: { year: 2023, month: 9 },
@@ -56,8 +53,9 @@ export const Default: Story = {};
 export const Filtered: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const chips = canvas.getByRole('group', { name: '기술로 좁히기' });
 
-    await userEvent.click(canvas.getByRole('button', { name: /그래픽스/ }));
+    await userEvent.click(within(chips).getByRole('button', { name: 'C++' }));
 
     await expect(canvas.getByRole('link', { name: 'raymarch' })).toBeVisible();
     await expect(canvas.queryByRole('link', { name: 'Lumen' })).not.toBeInTheDocument();

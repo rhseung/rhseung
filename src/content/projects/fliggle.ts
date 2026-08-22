@@ -2,7 +2,6 @@ import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'fliggle',
-  domain: 'web',
   stack: ['Dart', 'Flutter', 'Nest.js', 'Prisma', 'Figma'],
   start: { year: 2024, month: 5 },
   end: { year: 2024, month: 7 },

@@ -2,12 +2,11 @@ import { TrophyIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 import { Badge, ExternalLink } from '@/common/components';
-import { formatYearMonth, tone } from '@/common/lib';
+import { formatYearMonth } from '@/common/lib';
 import { cn } from '@/common/utils';
 import type { Award } from '@/features/career';
 
 import {
-  PROJECT_DOMAIN_TONE,
   PROJECT_LINK_ICON,
   projectHref,
   projectLinks,
@@ -57,14 +56,6 @@ export function ProjectCard({
             </ExternalLink>
           )}
         </h2>
-
-        <Badge
-          variant="secondary"
-          className={cn('self-center', tone({ tone: PROJECT_DOMAIN_TONE[project.domain] }))}
-        >
-          {label.domain[project.domain]}
-        </Badge>
-
         <span className="text-muted-foreground ml-auto self-center text-xs tabular-nums">
           {period}
         </span>

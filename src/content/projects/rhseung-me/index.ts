@@ -2,7 +2,6 @@ import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'rhseung-me',
-  domain: 'web',
   stack: ['Astro', 'React', 'Tailwind CSS', 'TypeScript'],
   start: { year: 2026, month: 8 },
   status: 'active',

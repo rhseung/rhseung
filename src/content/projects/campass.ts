@@ -2,7 +2,6 @@ import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'campass',
-  domain: 'web',
   stack: ['React', 'Tailwind CSS', 'TanStack Router', 'Vite', 'TypeScript'],
   start: { year: 2024, month: 11 },
   end: { year: 2024, month: 11 },

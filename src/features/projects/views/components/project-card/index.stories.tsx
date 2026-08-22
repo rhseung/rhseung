@@ -13,7 +13,6 @@ const meta = {
       title: 'Lumen',
       summary:
         '타입 추론이 있는 작은 스크립트 언어. 트리워킹 인터프리터로 시작해 바이트코드 VM으로 옮겼고, Hindley–Milner 추론기를 직접 구현했다.',
-      domain: 'systems',
       stack: ['Rust', 'TypeScript'],
       start: { year: 2024, month: 3 },
       status: 'active',

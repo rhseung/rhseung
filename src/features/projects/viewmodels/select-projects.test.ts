@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { countByDomain, filterByDomain, projectHref, sortProjects } from './select-projects';
+import { projectHref, sortProjects } from './select-projects';
 
 import type { Project } from '../models';
 
@@ -8,7 +8,6 @@ function project(overrides: Partial<Project> & { slug: string }): Project {
   return {
     title: overrides.slug,
     summary: '한 줄 요약',
-    domain: 'web',
     stack: ['TypeScript'],
     start: { year: 2024, month: 1 },
     status: 'shipped',
@@ -33,29 +32,6 @@ describe('sortProjects', () => {
     sortProjects(input);
 
     expect(input.map((p) => p.slug)).toEqual(['oldest', 'newest', 'middle']);
-  });
-});
-
-describe('filterByDomain', () => {
-  const projects = [
-    project({ slug: 'a', domain: 'web' }),
-    project({ slug: 'b', domain: 'systems' }),
-  ];
-
-  it('null이면 전체', () => {
-    expect(filterByDomain(projects, null)).toHaveLength(2);
-  });
-
-  it('도메인 하나로 좁힌다', () => {
-    expect(filterByDomain(projects, 'systems').map((p) => p.slug)).toEqual(['b']);
-  });
-});
-
-describe('countByDomain', () => {
-  it('없는 도메인은 키가 아예 없다', () => {
-    expect(
-      countByDomain([project({ slug: 'a', domain: 'web' }), project({ slug: 'b', domain: 'web' })]),
-    ).toEqual({ web: 2 });
   });
 });
 

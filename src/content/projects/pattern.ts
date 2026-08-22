@@ -2,7 +2,6 @@ import { defineProject } from '@/features/projects/models/define';
 
 export default defineProject({
   slug: 'pattern',
-  domain: 'systems',
   stack: ['TypeScript'],
   start: { year: 2024, month: 2 },
   end: { year: 2024, month: 5 },

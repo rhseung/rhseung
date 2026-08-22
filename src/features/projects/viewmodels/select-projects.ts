@@ -1,20 +1,8 @@
 import { yearMonthKey } from '@/common/lib';
 
-import {
-  PROJECT_LINK_KINDS,
-  type Project,
-  type ProjectDomain,
-  type ProjectLinkKind,
-} from '../models';
+import { PROJECT_LINK_KINDS, type Project, type ProjectLinkKind } from '../models';
 
 import type { ProjectFilters } from './use-project-filters';
-
-export function filterByDomain(
-  projects: readonly Project[],
-  domain: ProjectDomain | null,
-): Project[] {
-  return domain === null ? [...projects] : projects.filter((project) => project.domain === domain);
-}
 
 function matchesQuery(project: Project, query: string): boolean {
   const needle = query.trim().toLowerCase();
@@ -28,7 +16,7 @@ function matchesQuery(project: Project, query: string): boolean {
 }
 
 export function filterProjects(projects: readonly Project[], filters: ProjectFilters): Project[] {
-  return filterByDomain(projects, filters.domain)
+  return projects
     .filter((project) =>
       filters.stack.every((item) => (project.stack as readonly string[]).includes(item)),
     )
@@ -46,16 +34,6 @@ export function countByStack(projects: readonly Project[]): [string, number][] {
 
 export function sortProjects(projects: readonly Project[]): Project[] {
   return [...projects].sort((a, b) => yearMonthKey(b.start) - yearMonthKey(a.start));
-}
-
-export function countByDomain(
-  projects: readonly Project[],
-): Partial<Record<ProjectDomain, number>> {
-  const counts: Partial<Record<ProjectDomain, number>> = {};
-  for (const project of projects) {
-    counts[project.domain] = (counts[project.domain] ?? 0) + 1;
-  }
-  return counts;
 }
 
 export function projectHref(
