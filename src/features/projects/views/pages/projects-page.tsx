@@ -82,7 +82,7 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
                 <div key={group.slug} className="flex flex-col gap-1 sm:flex-row sm:gap-3">
                   <span
                     id={labelId}
-                    className="text-muted-foreground shrink-0 pt-1.5 text-xs sm:w-32"
+                    className="text-muted-foreground shrink-0 pt-1.5 text-sm font-medium sm:w-32"
                   >
                     {group.label}
                   </span>
