@@ -6,7 +6,7 @@ import { localeHref, type Language } from '@/common/lib';
 import { sortResearch, type Research } from '../../viewmodels';
 import { ResearchCard } from '../components';
 
-export function ResearchPage({ lang, items }: ResearchPage.Props) {
+export function ResearchPage({ lang, items, papers = [] }: ResearchPage.Props) {
   const { t } = useTranslation('research');
 
   const visible = sortResearch(items);
@@ -29,7 +29,14 @@ export function ResearchPage({ lang, items }: ResearchPage.Props) {
           <ul className="flex flex-col gap-3">
             {visible.map((item) => (
               <li key={item.slug}>
-                <ResearchCard item={item} />
+                <ResearchCard
+                  item={item}
+                  detailHref={
+                    papers.includes(item.slug)
+                      ? localeHref(lang, `/research/${item.slug}`)
+                      : undefined
+                  }
+                />
               </li>
             ))}
           </ul>
@@ -49,5 +56,6 @@ export declare namespace ResearchPage {
   export type Props = {
     lang: Language;
     items: Research[];
+    papers?: string[];
   };
 }

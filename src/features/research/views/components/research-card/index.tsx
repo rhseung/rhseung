@@ -1,4 +1,3 @@
-import { ArticleIcon, FilePdfIcon, GithubLogoIcon, GlobeIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 import { Badge, ExternalLink } from '@/common/components';
@@ -10,15 +9,9 @@ import {
   useResearchLabels,
   type Research,
 } from '../../../viewmodels';
+import { RESEARCH_LINK_ICON } from '../link-icon';
 
-const LINK_ICON = {
-  paper: ArticleIcon,
-  poster: FilePdfIcon,
-  repo: GithubLogoIcon,
-  site: GlobeIcon,
-} as const;
-
-export function ResearchCard({ item }: ResearchCard.Props) {
+export function ResearchCard({ item, detailHref }: ResearchCard.Props) {
   const { t } = useTranslation('research');
   const label = useResearchLabels();
 
@@ -34,7 +27,15 @@ export function ResearchCard({ item }: ResearchCard.Props) {
   return (
     <article className="border-border bg-card/40 flex flex-col gap-2 rounded-xl border p-4">
       <div className="flex flex-wrap items-center gap-2">
-        <h2 className="text-sm font-semibold tracking-tight">{item.title}</h2>
+        <h2 className="text-sm font-semibold tracking-tight">
+          {detailHref === undefined ? (
+            item.title
+          ) : (
+            <a href={detailHref} className="hover:underline">
+              {item.title}
+            </a>
+          )}
+        </h2>
         <Badge variant="secondary" className={tone({ tone: RESEARCH_KIND_TONE[item.kind] })}>
           {label.kind[item.kind]}
         </Badge>
@@ -51,7 +52,7 @@ export function ResearchCard({ item }: ResearchCard.Props) {
       {links.length > 0 && (
         <ul className="flex flex-wrap items-center gap-x-3 gap-y-1">
           {links.map(({ kind, href }) => {
-            const Icon = LINK_ICON[kind];
+            const Icon = RESEARCH_LINK_ICON[kind];
 
             return (
               <li key={kind}>
@@ -72,5 +73,5 @@ export function ResearchCard({ item }: ResearchCard.Props) {
 }
 
 export declare namespace ResearchCard {
-  export type Props = { item: Research };
+  export type Props = { item: Research; detailHref?: string };
 }

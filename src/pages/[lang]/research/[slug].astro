@@ -1,0 +1,63 @@
+---
+import { PaperIsland } from '@/pages/_islands/paper-island';
+import { LANGUAGES, localeHref, SITE } from '@/common/lib';
+import { PAPER_SLUGS, researchOf } from '@/features/research';
+import { renderPaper } from '@/features/research/viewmodels/render-paper';
+import Layout from '@/layouts/layout.astro';
+
+// `?raw` 로 원본 문자열만 받는다. 파싱은 여기 빌드 타임에서 끝나고, 아일랜드로는
+// 만들어진 HTML 만 건너가므로 unified-latex 와 citation-js 가 클라이언트 번들에
+// 실리지 않는다.
+const papers = import.meta.glob('@/content/research/papers/*.tex', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+const bibs = import.meta.glob('@/content/research/papers/*.bib', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+const slugOf = (path: string) => path.replace(/^.*\/|\.\w+$/g, '');
+
+export function getStaticPaths() {
+  return LANGUAGES.flatMap((lang) =>
+    [...PAPER_SLUGS].map((slug) => ({ params: { lang, slug }, props: { lang, slug } })),
+  );
+}
+
+const { lang, slug } = Astro.props;
+
+const item = researchOf(lang).find((entry) => entry.slug === slug);
+if (!item) throw new Error(`research 에 ${slug} 가 없습니다`);
+
+const source = Object.entries(papers).find(([path]) => slugOf(path) === slug)?.[1] as string;
+const bib = Object.entries(bibs).find(([path]) => slugOf(path) === slug)?.[1] as string | undefined;
+
+const paper = renderPaper(source, bib);
+const otherLang = lang === 'ko' ? 'en' : 'ko';
+---
+
+<Layout
+  lang={lang}
+  title={`${item.title} — ${SITE.title}`}
+  description={item.summary}
+  type="article"
+  alternates={{
+    ko: localeHref('ko', `/research/${slug}`),
+    en: localeHref('en', `/research/${slug}`),
+  }}
+>
+  <PaperIsland
+    lang={lang}
+    item={item}
+    authors={paper.authors}
+    bibtex={bib}
+    altHref={localeHref(otherLang, `/research/${slug}`)}
+    client:idle
+  >
+    <Fragment set:html={paper.html} />
+    {paper.bibliography && <Fragment slot="bibliography" set:html={paper.bibliography} />}
+  </PaperIsland>
+</Layout>

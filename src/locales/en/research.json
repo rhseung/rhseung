@@ -1,4 +1,10 @@
 {
+  "detail": {
+    "back": "All research",
+    "bibtex": "Copy BibTeX",
+    "copied": "Copied",
+    "references": "References"
+  },
   "empty": {
     "description": "Coming soon.",
     "title": "Nothing published yet"

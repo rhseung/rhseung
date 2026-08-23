@@ -1,7 +1,7 @@
 ---
 import { ResearchIsland } from '@/pages/_islands/research-island';
 import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
-import { researchOf } from '@/features/research';
+import { PAPER_SLUGS, researchOf } from '@/features/research';
 import Layout from '@/layouts/layout.astro';
 
 export function getStaticPaths() {
@@ -16,5 +16,5 @@ const { lang } = Astro.props;
   title={`${i18n.getFixedT(lang, 'common')(($) => $.nav.research)} — ${SITE.title}`}
   alternates={{ ko: localeHref('ko', '/research'), en: localeHref('en', '/research') }}
 >
-  <ResearchIsland lang={lang} items={researchOf(lang)} client:load />
+  <ResearchIsland lang={lang} items={researchOf(lang)} papers={[...PAPER_SLUGS]} client:load />
 </Layout>

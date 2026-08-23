@@ -1,0 +1,133 @@
+import { Cite } from '@citation-js/core';
+import '@citation-js/plugin-bibtex';
+import '@citation-js/plugin-csl';
+import { unifiedLatexToHast } from '@unified-latex/unified-latex-to-hast';
+import { parse } from '@unified-latex/unified-latex-util-parse';
+import { printRaw } from '@unified-latex/unified-latex-util-print-raw';
+import { visit as visitLatex } from '@unified-latex/unified-latex-util-visit';
+import { toHtml } from 'hast-util-to-html';
+import katex from 'katex';
+import { unified } from 'unified';
+import { visit } from 'unist-util-visit';
+
+export type Paper = {
+  title?: string;
+  authors?: string;
+  abstract?: string;
+  html: string;
+  bibliography?: string;
+};
+
+const STYLE = 'apa';
+
+function textOf(node: unknown): string {
+  let out = '';
+  visit(node as never, 'text', (child: { value: string }) => {
+    out += child.value;
+  });
+  return out;
+}
+
+/**
+ * 수식 번호를 뗀다. MathML 에서는 KaTeX 가 번호를 미는 glue 가 늘어나지 않아 번호가
+ * 수식에 달라붙고, `\ref` 도 아직 안 푸므로 번호가 가리킬 곳이 없다.
+ */
+function numberless(math: string): string {
+  return math.replace(/\\(begin|end)\{(equation|align|gather)\}/g, '\\$1{$2*}');
+}
+
+function keysOf(raw: string): string[] {
+  return raw.split(',').map((key) => key.trim());
+}
+
+/**
+ * `.tex` 한 벌에서 제목·저자·초록·본문을 뽑는다. 논문을 쓰는 원본이 그대로 출처라
+ * 메타데이터를 따로 적을 자리가 없고, 그래서 어긋날 수도 없다.
+ *
+ * 수식은 MathML 로 낸다. KaTeX 의 HTML 모드는 katex.css 와 폰트 스무 개를 같이
+ * 안아야 하는데, 이 사이트는 외부 CDN 을 안 쓰기로 해서 그 스무 개가 전부 저장소로
+ * 들어온다. MathML 은 브라우저가 이미 갖고 있다.
+ */
+export function renderPaper(tex: string, bib?: string): Paper {
+  const tree = parse(tex);
+
+  const paper: Paper = { html: '' };
+  const cited: string[] = [];
+
+  visitLatex(tree, (node) => {
+    if (node.type === 'environment' && printRaw(node.env) === 'abstract')
+      paper.abstract = printRaw(node.content).trim();
+
+    if (node.type !== 'macro') return;
+
+    const body = node.args?.at(-1)?.content;
+    if (body === undefined) return;
+
+    if (node.content === 'title') paper.title = printRaw(body);
+    if (node.content === 'author') paper.authors = printRaw(body);
+    if (node.content === 'cite') cited.push(...keysOf(printRaw(body)));
+  });
+
+  const source = bib === undefined ? undefined : new Cite(bib);
+  const known = new Set<string>(source?.data.map((entry: { id: string }) => entry.id) ?? []);
+
+  // `convertToHtml` 대신 hast 를 거치는 이유: 수식과 인용을 여기서 갈아끼워야 한다.
+  // 문자열이 된 뒤에 정규식으로 찾는 건 방금 만든 트리를 다시 파싱하는 짓이다.
+  // 캐스팅은 unified-latex 의 플러그인 타입이 unified 의 `Root` 와 안 맞아서다.
+  const hast = unified()
+    .use(unifiedLatexToHast as never)
+    .runSync(tree as never) as never;
+
+  visit(
+    hast,
+    'element',
+    (node: { tagName: string; properties?: Record<string, unknown>; children: unknown[] }) => {
+      // unified-latex 는 `\section` 을 h3 으로 낸다. 페이지 제목이 h1 이라 h2 가 비고
+      // 레벨을 건너뛰게 되므로 한 단계씩 올린다.
+      const heading = /^h([3-5])$/.exec(node.tagName);
+      if (heading) node.tagName = `h${Number(heading[1]) - 1}`;
+
+      const classes = (node.properties?.className as string[] | undefined) ?? [];
+      const display = classes.includes('display-math');
+
+      if (display || classes.includes('inline-math')) {
+        node.children = [
+          {
+            type: 'raw',
+            value: katex.renderToString(numberless(textOf(node)), {
+              output: 'mathml',
+              displayMode: display,
+              throwOnError: false,
+            }),
+          },
+        ];
+        return;
+      }
+
+      if (!classes.includes('macro-cite') || source === undefined) return;
+
+      const keys = keysOf(textOf(node)).filter((key) => known.has(key));
+      if (keys.length === 0) return;
+
+      // CSL 이 여러 키를 한 문장으로 조판하므로 마크를 쪼개지 않는다. 링크는 통째로
+      // 첫 항목에 건다.
+      node.tagName = 'a';
+      node.properties = { className: ['citation'], href: `#ref-${keys[0]}` };
+      node.children = [
+        { type: 'text', value: source.format('citation', { template: STYLE, entry: keys }) },
+      ];
+    },
+  );
+
+  paper.html = toHtml(hast, { allowDangerousHtml: true });
+
+  const entries = [...new Set(cited)].filter((key) => known.has(key));
+
+  if (source !== undefined && entries.length > 0)
+    paper.bibliography = source
+      .format('bibliography', { format: 'html', template: STYLE, entry: entries })
+      // citation-js 는 앵커로 쓸 `id` 를 안 붙인다. 인용 마크가 걸 자리를 만든다.
+      .replace(/data-csl-entry-id="([^"]+)"/g, 'id="ref-$1" data-csl-entry-id="$1"');
+
+  return paper;
+}

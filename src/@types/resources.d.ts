@@ -112,6 +112,12 @@ export default interface Resources {
     }
   },
   "research": {
+    "detail": {
+      "back": "연구 목록",
+      "bibtex": "BibTeX 복사",
+      "copied": "복사했습니다",
+      "references": "참고문헌"
+    },
     "empty": {
       "description": "곧 채웁니다.",
       "title": "아직 공개한 연구가 없습니다"
