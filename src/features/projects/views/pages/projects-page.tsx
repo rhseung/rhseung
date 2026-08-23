@@ -123,18 +123,18 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
               );
             })}
           </div>
-        </div>
 
-        <div className="text-muted-foreground flex min-h-8 items-center gap-2 text-xs">
-          <span className="tabular-nums">
-            {t(($) => $.filter.results, { count: visible.length })}
-          </span>
+          <div className="text-muted-foreground flex min-h-8 items-center gap-2 text-xs">
+            <span className="tabular-nums">
+              {t(($) => $.filter.results, { count: visible.length })}
+            </span>
 
-          {active && (
-            <Button variant="ghost" size="sm" onClick={reset} className="ml-auto">
-              {t(($) => $.filter.reset)}
-            </Button>
-          )}
+            {active && (
+              <Button variant="ghost" size="sm" onClick={reset} className="ml-auto">
+                {t(($) => $.filter.reset)}
+              </Button>
+            )}
+          </div>
         </div>
 
         {visible.length === 0 ? (
