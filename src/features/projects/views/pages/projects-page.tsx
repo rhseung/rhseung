@@ -17,9 +17,9 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@/common/components';
-import { localeHref, type Language } from '@/common/lib';
+import { localeHref, tone, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
-import { SKILL_GROUP_TONE, type Award } from '@/features/career';
+import { TECH_TONE, type Award } from '@/features/career';
 
 import {
   countByStack,
@@ -30,16 +30,6 @@ import {
   type Project,
 } from '../../viewmodels';
 import { ProjectCard } from '../components';
-
-/** 그룹 이름만 그룹 색을 입는다. 칩까지 칠하면 필터 판이 팔레트가 된다. */
-const GROUP_LABEL_TONE: Record<string, string> = {
-  blue: 'text-tone-blue-foreground',
-  teal: 'text-tone-teal-foreground',
-  green: 'text-tone-green-foreground',
-  amber: 'text-tone-amber-foreground',
-  purple: 'text-tone-purple-foreground',
-  rose: 'text-tone-rose-foreground',
-};
 
 export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props) {
   const { t } = useTranslation('projects');
@@ -92,11 +82,7 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
                 <div key={group.slug} className="flex flex-col gap-1 sm:flex-row sm:gap-3">
                   <span
                     id={labelId}
-                    className={cn(
-                      'shrink-0 pt-1.5 text-xs sm:w-32',
-                      GROUP_LABEL_TONE[SKILL_GROUP_TONE[group.slug] ?? ''] ??
-                        'text-muted-foreground',
-                    )}
+                    className="text-muted-foreground shrink-0 pt-1.5 text-xs sm:w-32"
                   >
                     {group.label}
                   </span>
@@ -114,7 +100,14 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
                     }}
                   >
                     {group.items.map((item) => (
-                      <ToggleGroupItem key={item} value={item}>
+                      <ToggleGroupItem
+                        key={item}
+                        value={item}
+                        className={cn(
+                          TECH_TONE[item] !== undefined && tone({ tone: TECH_TONE[item] }),
+                          'aria-pressed:ring-foreground/40 aria-pressed:ring-2',
+                        )}
+                      >
                         {item}
                       </ToggleGroupItem>
                     ))}

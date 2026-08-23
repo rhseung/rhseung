@@ -1,4 +1,6 @@
-import type { Language } from '@/common/lib';
+import type { Language, Tone } from '@/common/lib';
+
+import { SKILL_GROUP_TONE } from './types';
 
 import type {
   Award,
@@ -28,6 +30,14 @@ const education = collect<CareerItem>(
 const awards = collect<AwardItem>(import.meta.glob('@/content/awards/*.ts', { eager: true }));
 const skillGroups = collect<SkillGroupItem>(
   import.meta.glob('@/content/skills/*.ts', { eager: true }),
+);
+
+// `items` 는 번역을 안 타서 색 매핑에 언어가 필요 없다.
+export const TECH_TONE: Record<string, Tone> = Object.fromEntries(
+  skillGroups.flatMap((group) => {
+    const tone = SKILL_GROUP_TONE[group.slug];
+    return tone === undefined ? [] : group.items.map((tech) => [tech, tone] as const);
+  }),
 );
 
 // 한 언어로 납작하게 편다. 제네릭 `flatten` 을 안 쓰는 이유: 번역문 타입 매개변수가

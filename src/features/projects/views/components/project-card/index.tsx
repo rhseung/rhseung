@@ -2,9 +2,9 @@ import { TrophyIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 import { Badge, ExternalLink } from '@/common/components';
-import { formatYearMonth } from '@/common/lib';
+import { formatYearMonth, tone } from '@/common/lib';
 import { cn } from '@/common/utils';
-import type { Award } from '@/features/career';
+import { TECH_TONE, type Award } from '@/features/career';
 
 import {
   PROJECT_LINK_ICON,
@@ -82,12 +82,14 @@ export function ProjectCard({
         <ul className="flex flex-wrap gap-1">
           {stack.map((item) => {
             const selected = selectedStack.includes(item);
+            const color = TECH_TONE[item];
             const badge = (
               <Badge
-                variant={selected ? 'secondary' : 'outline'}
+                variant={color === undefined ? 'outline' : 'secondary'}
                 className={cn(
                   'text-[0.7rem]',
-                  onToggleStack && 'hover:border-foreground/30 hover:bg-muted',
+                  color !== undefined && tone({ tone: color }),
+                  selected && 'ring-foreground/40 ring-2',
                 )}
               >
                 {item}
