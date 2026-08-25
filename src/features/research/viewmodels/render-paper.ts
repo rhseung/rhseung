@@ -28,25 +28,13 @@ function textOf(node: unknown): string {
   return out;
 }
 
-/**
- * 수식 번호를 뗀다. MathML 에서는 KaTeX 가 번호를 미는 glue 가 늘어나지 않아 번호가
- * 수식에 달라붙고, `\ref` 도 아직 안 푸므로 번호가 가리킬 곳이 없다.
- */
-function numberless(math: string): string {
-  return math.replace(/\\(begin|end)\{(equation|align|gather)\}/g, '\\$1{$2*}');
-}
-
 function keysOf(raw: string): string[] {
   return raw.split(',').map((key) => key.trim());
 }
 
 /**
- * `.tex` 한 벌에서 제목·저자·초록·본문을 뽑는다. 논문을 쓰는 원본이 그대로 출처라
- * 메타데이터를 따로 적을 자리가 없고, 그래서 어긋날 수도 없다.
- *
- * 수식은 MathML 로 낸다. KaTeX 의 HTML 모드는 katex.css 와 폰트 스무 개를 같이
- * 안아야 하는데, 이 사이트는 외부 CDN 을 안 쓰기로 해서 그 스무 개가 전부 저장소로
- * 들어온다. MathML 은 브라우저가 이미 갖고 있다.
+ * KaTeX 를 MathML 전용으로 돌리지 않는 이유: MathML Core 가 `mathvariant` 를 `normal`
+ * 빼고 다 뺐고 크롬이 그 속성을 버린다. `\mathbf` 이 조용히 이탤릭으로 나온다.
  */
 export function renderPaper(tex: string, bib?: string): Paper {
   const tree = parse(tex);
@@ -94,8 +82,7 @@ export function renderPaper(tex: string, bib?: string): Paper {
         node.children = [
           {
             type: 'raw',
-            value: katex.renderToString(numberless(textOf(node)), {
-              output: 'mathml',
+            value: katex.renderToString(textOf(node), {
               displayMode: display,
               throwOnError: false,
             }),
