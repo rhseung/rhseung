@@ -146,7 +146,6 @@ export declare namespace ProjectCard {
   export type Props = {
     project: Project;
     detailHref: string;
-    /** 이 프로젝트로 받은 상. 라우트가 슬러그를 실제 항목으로 바꿔 넘긴다. */
     awards?: Award[];
     selectedStack?: readonly string[];
     onToggleStack?: (item: string) => void;

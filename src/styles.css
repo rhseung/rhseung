@@ -238,10 +238,7 @@
     @apply opacity-100;
   }
 
-  /*
-   * 논문 본문(`render-paper.ts`). 클래스 이름은 unified-latex 와 citation-js 가 정하므로
-   * 우리가 못 고른다.
-   */
+  /* 클래스 이름은 unified-latex 와 citation-js 가 정한다 - 우리가 못 고른다. */
   .prose .environment.abstract {
     @apply border-border text-muted-foreground mb-8 border-l-2 py-1 pl-4 text-sm;
   }
@@ -250,12 +247,11 @@
     @apply my-6 overflow-x-auto text-center;
   }
 
-  /* 본문 속 링크는 색만으로 구분하면 안 된다. 밑줄은 늘 두되 옅게 깐다. */
+  /* 본문 속 링크를 색만으로 구분하면 안 된다. 밑줄을 늘 둔다. */
   .prose .citation {
     @apply decoration-muted-foreground/40 font-normal underline underline-offset-2 hover:decoration-current;
   }
 
-  /* 서지 항목은 둘째 줄부터 들여쓴다 — 저자명이 왼쪽에 서야 훑을 수 있다. */
   .csl-entry {
     @apply text-muted-foreground mb-2 pl-6 -indent-6 text-sm leading-relaxed;
   }

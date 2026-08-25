@@ -5,9 +5,8 @@ import { PAPER_SLUGS, researchOf } from '@/features/research';
 import { renderPaper } from '@/features/research/viewmodels/render-paper';
 import Layout from '@/layouts/layout.astro';
 
-// `?raw` 로 원본 문자열만 받는다. 파싱은 여기 빌드 타임에서 끝나고, 아일랜드로는
-// 만들어진 HTML 만 건너가므로 unified-latex 와 citation-js 가 클라이언트 번들에
-// 실리지 않는다.
+// 파싱을 여기서 끝내고 아일랜드로는 HTML 만 넘긴다 - unified-latex 와 citation-js 가
+// 클라이언트 번들에 실리지 않게.
 const papers = import.meta.glob('@/content/research/*/paper.tex', {
   query: '?raw',
   import: 'default',

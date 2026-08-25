@@ -15,8 +15,6 @@ export const RESEARCH_ITEMS: ResearchItem[] = Object.keys(modules)
   .sort()
   .map((path) => modules[path].default);
 
-// 본문이 있는지는 `paper.tex` 가 있는지로 정한다. 파일이 곧 hasPaper 다 - 항목에
-// 플래그를 두면 파일과 어긋날 수 있다.
 export const PAPER_SLUGS = new Set(
   Object.keys(import.meta.glob('@/content/research/*/paper.tex', { query: '?raw' })).map(
     (path) => path.split('/').at(-2) ?? '',

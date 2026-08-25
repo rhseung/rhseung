@@ -15,7 +15,6 @@ const item: Research = {
   links: { paper: 'https://example.com/paper.pdf', repo: 'https://example.com/repo' },
 };
 
-// `.astro` 가 넘기는 것과 같은 모양 — `render-paper.ts` 가 만든 HTML 조각이다.
 const body = (
   <div
     dangerouslySetInnerHTML={{

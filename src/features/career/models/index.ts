@@ -32,7 +32,6 @@ const skillGroups = collect<SkillGroupItem>(
   import.meta.glob('@/content/skills/*.ts', { eager: true }),
 );
 
-// `items` 는 번역을 안 타서 색 매핑에 언어가 필요 없다.
 export const TECH_TONE: Record<string, Tone> = Object.fromEntries(
   skillGroups.flatMap((group) => {
     const tone = SKILL_GROUP_TONE[group.slug];
@@ -40,8 +39,8 @@ export const TECH_TONE: Record<string, Tone> = Object.fromEntries(
   }),
 );
 
-// 한 언어로 납작하게 편다. 제네릭 `flatten` 을 안 쓰는 이유: 번역문 타입 매개변수가
-// 반환 타입 애노테이션에서 먼저 추론돼 `astro check` 가 인자와 안 맞는다고 본다.
+// 제네릭 `flatten` 을 안 쓰는 이유: 번역문 타입 매개변수가 반환 타입 애노테이션에서
+// 먼저 추론돼 `astro check` 가 인자와 안 맞는다고 본다.
 const pick = (lang: Language) => (lang === 'en' ? 'en' : 'ko');
 
 export function experienceOf(lang: Language): CareerEntry[] {

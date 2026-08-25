@@ -59,8 +59,7 @@ export function renderPaper(tex: string, bib?: string): Paper {
   const source = bib === undefined ? undefined : new Cite(bib);
   const known = new Set<string>(source?.data.map((entry: { id: string }) => entry.id) ?? []);
 
-  // `convertToHtml` 대신 hast 를 거치는 이유: 수식과 인용을 여기서 갈아끼워야 한다.
-  // 문자열이 된 뒤에 정규식으로 찾는 건 방금 만든 트리를 다시 파싱하는 짓이다.
+  // `convertToHtml` 대신 hast 를 거치는 이유: 수식과 인용을 트리에서 갈아끼워야 한다.
   // 캐스팅은 unified-latex 의 플러그인 타입이 unified 의 `Root` 와 안 맞아서다.
   const hast = unified()
     .use(unifiedLatexToHast as never)
@@ -70,8 +69,8 @@ export function renderPaper(tex: string, bib?: string): Paper {
     hast,
     'element',
     (node: { tagName: string; properties?: Record<string, unknown>; children: unknown[] }) => {
-      // unified-latex 는 `\section` 을 h3 으로 낸다. 페이지 제목이 h1 이라 h2 가 비고
-      // 레벨을 건너뛰게 되므로 한 단계씩 올린다.
+      // unified-latex 는 `\section` 을 h3 으로 낸다. 페이지 제목이 h1 이라 h2 가 비어
+      // 레벨을 건너뛴다.
       const heading = /^h([3-5])$/.exec(node.tagName);
       if (heading) node.tagName = `h${Number(heading[1]) - 1}`;
 
@@ -96,8 +95,7 @@ export function renderPaper(tex: string, bib?: string): Paper {
       const keys = keysOf(textOf(node)).filter((key) => known.has(key));
       if (keys.length === 0) return;
 
-      // CSL 이 여러 키를 한 문장으로 조판하므로 마크를 쪼개지 않는다. 링크는 통째로
-      // 첫 항목에 건다.
+      // CSL 이 여러 키를 한 문장으로 조판하므로 마크를 쪼갤 수 없다.
       node.tagName = 'a';
       node.properties = { className: ['citation'], href: `#ref-${keys[0]}` };
       node.children = [
