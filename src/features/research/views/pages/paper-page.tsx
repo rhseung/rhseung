@@ -106,16 +106,18 @@ export function PaperPage({
           )}
         </header>
 
-        <div className="prose prose-zinc dark:prose-invert max-w-none">{children}</div>
+        <div className="paper flex flex-col gap-8">
+          <div className="prose prose-zinc dark:prose-invert max-w-none">{children}</div>
 
-        {bibliography !== undefined && (
-          <section className="flex flex-col gap-3">
-            <h2 className="text-lg font-semibold tracking-tight">
-              {t(($) => $.detail.references)}
-            </h2>
-            {bibliography}
-          </section>
-        )}
+          {bibliography !== undefined && (
+            <section className="flex flex-col gap-3">
+              <h2 className="text-lg font-semibold tracking-tight">
+                {t(($) => $.detail.references)}
+              </h2>
+              {bibliography}
+            </section>
+          )}
+        </div>
       </main>
 
       <SiteDock lang={lang} current="research" altHref={altHref} />

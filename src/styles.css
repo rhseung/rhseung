@@ -312,3 +312,65 @@ html[data-theme-transition]::view-transition-old(root) {
 html[data-theme-transition]::view-transition-new(root) {
   z-index: 1;
 }
+
+/* KaTeX 가 수식용으로 이미 싣고 있는 폰트다. 한글은 CM 에 없어 시스템 명조로 떨어진다. */
+@utility paper {
+  font-family: KaTeX_Main, serif;
+}
+
+/*
+ * KaTeX 의 1.21em 은 sans 본문 옆에서 수식이 작아 보이는 걸 메우는 보정이다. 본문까지
+ * 같은 CM 이면 보정할 차이가 없는데 배율만 남는다.
+ *
+ * `@utility` 로 못 감싼다 - katex.min.css 가 레이어 없이 import 돼서, 레이어에 든 규칙은
+ * 특이도와 무관하게 진다.
+ */
+.paper .katex {
+  font-size: 1em;
+}
+
+/* `\section` 이 h2, `\subsection` 이 h3 이다 - `render-paper.ts` 가 한 단계씩 올린다. */
+@layer utilities {
+  .paper .prose {
+    counter-reset: section;
+    line-height: 1.5;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .paper .prose :is(h2, h3, h4) {
+    text-align: left;
+  }
+
+  .paper .prose h2 {
+    counter-increment: section;
+    counter-reset: subsection;
+  }
+
+  .paper .prose h3 {
+    counter-increment: subsection;
+  }
+
+  .paper .prose h2::before {
+    content: counter(section);
+    margin-right: 0.75em;
+  }
+
+  .paper .prose h3::before {
+    content: counter(section) '.' counter(subsection);
+    margin-right: 0.75em;
+  }
+
+  /*
+   * 수식 뒤 문단도 들여쓴다 - 빈 줄 없이 이어지는 텍스트는 unified-latex 가 같은 `<p>`
+   * 에 넣으므로, `<p>` 가 새로 생겼다는 건 이미 새 문단이라는 뜻이다.
+   */
+  .paper .prose p {
+    margin-block: 0;
+    text-indent: 1.5em;
+  }
+
+  .paper .prose :is(h2, h3, h4) + p {
+    text-indent: 0;
+  }
+}
