@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useSyncExternalStore } from 'react';
 
 import { useTheme } from 'next-themes';
 import { flushSync } from 'react-dom';
@@ -18,13 +18,31 @@ function resolveMode(mode: ThemeMode) {
   return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
+function subscribeNoop() {
+  return () => {};
+}
+
+function isMounted() {
+  return true;
+}
+
+function isNotMounted() {
+  return false;
+}
+
 /**
  * `startViewTransition` 콜백이 동기라 `flushSync` 로 상태를 즉시 커밋해야 스냅숏 시점이 맞는다.
  */
 export function useThemeTransition() {
   const { theme, resolvedTheme, setTheme } = useTheme();
 
-  const mode = isThemeMode(theme) ? theme : 'system';
+  // next-themes는 localStorage를 첫 클라이언트 렌더에서 곧바로 읽는다. 빌드 때 구운 HTML은
+  // `system`(defaultTheme)인데 방문자가 전에 light/dark를 골라뒀으면 첫 렌더부터 값이 갈려
+  // 리액트가 하이드레이션 불일치로 본다. `useSyncExternalStore`의 서버 스냅숏만 `false`로 둬서
+  // 첫 렌더는 서버와 맞추고, 하이드레이션이 끝난 뒤에만 진짜 값으로 바꾼다 - 언어 제안과 같은 패턴.
+  const mounted = useSyncExternalStore(subscribeNoop, isMounted, isNotMounted);
+
+  const mode = mounted && isThemeMode(theme) ? theme : 'system';
 
   const cycleTheme = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
