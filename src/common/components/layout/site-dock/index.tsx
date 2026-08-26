@@ -141,6 +141,9 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
                 <TooltipTrigger
                   render={
                     <PopoverTrigger
+                      // 트리거가 버튼이 아니라 링크다 - 언어 페이지로 실제 이동해야 하니
+                      // `<a>`를 써야 한다. 기본값(true)이면 Base UI가 매 렌더 콘솔에 경고를 낸다.
+                      nativeButton={false}
                       render={
                         <a
                           href={altHref}
