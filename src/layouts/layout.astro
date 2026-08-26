@@ -37,7 +37,12 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light dark" />
-    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    {
+      /* sizes="32x32"으로 32px 원본을 박아뒀었는데, 레티나(2x/3x)에서는 그 32px에 여유 해상도가
+        없어 브라우저가 도로 확대하며 흐려졌다. 크기 힌트 없이 큰 원본을 주면 브라우저가 방문자
+        화면의 실제 배율에 맞춰 알아서 다운스케일한다 - 그게 항상 더 선명하다. */
+    }
+    <link rel="icon" href="/favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <title>{title}</title>
