@@ -1,4 +1,4 @@
-import type { LogoPath, Tech, Tone, Url, YearMonth, YearOrMonth } from '@/common/lib';
+import type { Tech, Tone, Url, YearMonth, YearOrMonth } from '@/common/lib';
 
 export type CareerText = {
   org: string;
@@ -24,7 +24,8 @@ export type CareerItem = Translated<CareerText> & {
   slug: string;
   start: YearMonth;
   end?: YearMonth;
-  logo?: LogoPath;
+  /** `?url`로 임포트한 값 - 콜로케이트된 로고 파일을 그대로 가리키는 정적 URL 문자열. */
+  logo?: string;
   links?: { site?: Url };
 };
 

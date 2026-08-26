@@ -1,9 +1,11 @@
 import { defineCareer } from '@/features/career/models/define';
 
+import logo from './logo.svg?url';
+
 export default defineCareer({
   slug: 'gist',
   start: { year: 2025, month: 3 },
-  logo: '/logos/gist.svg',
+  logo,
   ko: {
     org: 'GIST (광주과학기술원)',
     role: '전기전자컴퓨터공학부 · AI융합학과 복수전공 (학사)',

@@ -1,9 +1,11 @@
 import { defineCareer } from '@/features/career/models/define';
 
+import logo from './logo.png?url';
+
 export default defineCareer({
   slug: 'gist-aiter',
   start: { year: 2025, month: 9 },
-  logo: '/logos/gist-ai.png',
+  logo,
   links: {
     site: 'https://aiter.gist.ac.kr/',
   },

@@ -22,10 +22,10 @@ function collect<T>(modules: Record<string, { default: T }>): T[] {
 }
 
 const experience = collect<CareerItem>(
-  import.meta.glob('@/content/experience/*.ts', { eager: true }),
+  import.meta.glob('@/content/experience/*/index.ts', { eager: true }),
 );
 const education = collect<CareerItem>(
-  import.meta.glob('@/content/education/*.ts', { eager: true }),
+  import.meta.glob('@/content/education/*/index.ts', { eager: true }),
 );
 const awards = collect<AwardItem>(import.meta.glob('@/content/awards/*.ts', { eager: true }));
 const skillGroups = collect<SkillGroupItem>(

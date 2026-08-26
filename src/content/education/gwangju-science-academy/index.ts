@@ -1,10 +1,12 @@
 import { defineCareer } from '@/features/career/models/define';
 
+import logo from './logo.webp?url';
+
 export default defineCareer({
   slug: 'gwangju-science-academy',
   start: { year: 2022, month: 3 },
   end: { year: 2025, month: 2 },
-  logo: '/logos/gsa.webp',
+  logo,
   ko: {
     org: '과학영재학교 광주과학고등학교',
     role: '자연과학계열',

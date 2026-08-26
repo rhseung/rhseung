@@ -1,5 +1,3 @@
-import { existsSync } from 'node:fs';
-
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
@@ -58,11 +56,8 @@ describe.each([
     for (const entry of entries) expect(endsAfterStart(entry), entry.slug).toBe(true);
   });
 
-  it('로고 파일이 실제로 있다', () => {
-    for (const entry of entries) {
-      if (entry.logo) expect(existsSync(`public${entry.logo}`), entry.logo).toBe(true);
-    }
-  });
+  // 로고는 이제 콜로케이트된 파일을 `?url`로 import 한다 - 파일이 없으면 이 테스트 전에
+  // Vite 임포트 해석부터 깨져서, 존재 여부를 따로 검증할 필요가 없다.
 });
 
 describe('awards', () => {
