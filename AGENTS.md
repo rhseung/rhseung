@@ -397,6 +397,10 @@ CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한
 
 `<type>: <title>`, 명령형. PR 전에 `bun run verify`.
 
+**`.githooks/pre-push`가 push 직전에 `verify`를 대신 돌려준다.** Bun은
+`prepare`/`postinstall`을 실행하지 않아서 자동으로는 안 걸린다 - 새로 클론했으면
+한 번만: `git config core.hooksPath .githooks`.
+
 **커밋 하나에 변경 하나.** 판정은 `git diff --staged` 로 한다 - 스테이지한 변경이 서로
 독립적으로 되돌려질 수 있으면 커밋 두 개다. 리팩터와 기능, 서식과 로직을 같이 담지 않는다.
 한 덩어리가 아니면 `git add -p` 로 나눠 담는다.
