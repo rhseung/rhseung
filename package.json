@@ -25,7 +25,8 @@
     "test:watch": "vitest",
     "typecheck": "astro check",
     "ui:add": "bunx --bun shadcn@latest add",
-    "verify": "bun run format && bun run lint && bun run typecheck && bun run doctor && bun run test"
+    "verify": "bun run format && bun run lint && bun run typecheck && bun run doctor && bun run test",
+    "prepare": "husky"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.2.2",
@@ -100,6 +101,7 @@
     "eslint-plugin-storybook": "10.5.7",
     "eslint-plugin-unused-imports": "4.4.1",
     "globals": "17.9.0",
+    "husky": "^9.1.7",
     "i18next-cli": "1.67.9",
     "jsdom": "30.0.1",
     "msw": "2.15.0",
