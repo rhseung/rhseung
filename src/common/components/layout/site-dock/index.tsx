@@ -1,22 +1,20 @@
 import { useState } from 'react';
 
 import {
-  EnvelopeSimpleIcon,
-  GithubLogoIcon,
   GlobeIcon,
   HouseIcon,
   ListIcon,
   MoonIcon,
-  RssIcon,
   SunHorizonIcon,
   SunIcon,
   type Icon,
 } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { LANGUAGES, SITE, localeHref, type Language } from '@/common/lib';
+import { LANGUAGES, localeHref, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
 import {
+  useExternalLinks,
   useLanguageSuggestion,
   useMediaQuery,
   useSiteSections,
@@ -86,18 +84,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
     }[mode],
   });
   const sections = useSiteSections(lang);
-
-  const external = [
-    { key: 'github', href: SITE.github, label: 'GitHub', Icon: GithubLogoIcon, blank: true },
-    {
-      key: 'email',
-      href: `mailto:${SITE.email}`,
-      label: t(($) => $.footer.email),
-      Icon: EnvelopeSimpleIcon,
-      blank: false,
-    },
-    { key: 'rss', href: '/rss.xml', label: 'RSS', Icon: RssIcon, blank: false },
-  ];
+  const external = useExternalLinks();
 
   return (
     <TooltipProvider>
