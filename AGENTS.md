@@ -235,7 +235,13 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 
 - **날 `<img>`는 린트 에러다.** `astro:assets`의 `<Image />`/`<Picture />`를 쓴다 —
   WebP 변환·srcset·width/height가 자동으로 붙는다.
-- 최적화 대상은 `src/` 안의 이미지뿐이다. `public/`은 그대로 나간다(파비콘·OG·PDF만).
+- 최적화 대상은 `src/` 안의 이미지뿐이다. `public/`은 그대로 나간다 - `icons/`(파비콘류),
+  `logos/`(경력·학력 기관 로고 + 우리 워드마크 - 실제 로고류는 다 여기), `images/`(og·아바타·
+  서명처럼 로고가 아닌 이미지), `fonts/`로 나눠뒀다. 워드마크가 `images/`에 있었던 적이
+  있는데 그 폴더에 로고가 섞이는 게 이름과 안 맞아 옮겼다. 루트에 남는 건
+  `robots.txt`(크롤러 관례상 루트 고정), `mockServiceWorker.js`(서비스 워커 스코프가 자기
+  디렉터리라 루트라야 사이트 전체를 덮는다), `resume-*.pdf`(생성물, 이미 공유된 링크가
+  있어 경로를 안 바꾼다)뿐이다.
 - MDX 본문의 `![](../../assets/x.png)`도 같은 최적화를 탄다.
 - React 아일랜드는 `<Image />`를 못 쓴다. 그럴 땐 `.astro`에서 `getImage()`로 만든
   src·srcset·width·height를 props로 넘기고, 그 줄에만 예외를 단다.
@@ -431,4 +437,4 @@ CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한
 | `/rss.xml`, `/sitemap-index.xml` | 피드·색인                             |
 
 아직 안 채운 것: `src/content/research/`가 비어 있고, 상세 MDX 를 쓴 프로젝트가
-하나뿐이다. `public/og.png`는 있다.
+하나뿐이다. `public/images/og.png`는 있다.

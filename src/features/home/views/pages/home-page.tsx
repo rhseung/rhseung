@@ -29,7 +29,7 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
       <main className="mx-auto flex max-w-3xl flex-col gap-12 px-4 py-16">
         <header className="flex items-center gap-5">
           <Avatar className="size-20">
-            <AvatarImage src="/profile.png" alt={SITE.handle} />
+            <AvatarImage src="/images/profile.png" alt={SITE.handle} />
             <AvatarFallback className="text-foreground">{SITE.handle}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col gap-1">
@@ -112,7 +112,7 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
         <span
           aria-hidden
           className="bg-muted-foreground mx-auto inline-block size-12 shrink-0"
-          style={{ mask: "url('/signature.png') center / contain no-repeat" }}
+          style={{ mask: "url('/images/signature.png') center / contain no-repeat" }}
         />
       </main>
 

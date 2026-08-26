@@ -5,7 +5,7 @@ export const SITE = {
   handle: 'rhseung',
   github: 'https://github.com/rhseung',
   email: 'ryu@rhseung.me',
-  ogImage: '/og.png',
+  ogImage: '/images/og.png',
   title: 'Rhseung',
 } as const satisfies {
   url: string;
