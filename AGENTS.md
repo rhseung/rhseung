@@ -223,6 +223,9 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 - 손으로 쓰는 variants는 `tailwind-variants`(`tv()`). shadcn이 만든 CVA는 그대로 둔다.
 - 색을 하드코딩하지 않는다. `src/styles.css`의 시맨틱 토큰(`bg-card`, `text-muted-foreground`)만.
 - 정렬은 `prettier-plugin-tailwindcss`가 한다. 손으로 정렬하지 않는다.
+- **variable에 담는 className은 항상 `cn()`으로 감싼다.** 순수 문자열 리터럴로 두면
+  Tailwind CSS IntelliSense 확장이 그 변수를 인식 못 해 자동완성이 안 된다.
+  `const x = cn('...')`, `className={x}` 처럼 JSX 밖에서 선언할 때도 예외 없다.
 - **배지에 `variant="ghost"`를 쓰지 않는다.** hover 전에는 컨테이너가 안 보여서 배지로
   읽히지 않는다. 분류축은 `secondary`(채움), 나머지는 `outline`(테두리).
 
