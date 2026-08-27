@@ -47,8 +47,9 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
             <h2 className="font-bold tracking-tight">{t(($) => $.sections.about)}</h2>
           </div>
           <div className="text-muted-foreground flex flex-col gap-3 text-sm leading-relaxed">
-            <p>{t(($) => $.site.intro, { ns: 'common' })}</p>
-            <p>{t(($) => $.site.approach, { ns: 'common' })}</p>
+            {t(($) => $.site.bio, { ns: 'common', returnObjects: true }).map((paragraph, i) => (
+              <p key={i}>{paragraph}</p>
+            ))}
           </div>
         </section>
         {days.length > 0 && (

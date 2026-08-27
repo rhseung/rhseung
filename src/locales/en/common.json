@@ -26,9 +26,12 @@
     "title": "Page not found"
   },
   "site": {
-    "approach": "I dig into something until it makes sense, and what I learn only becomes mine once I've built it myself. Research, engineering, design — the attitude doesn't change. I want what I understand and make to settle into someone's day, and shift it, a little.",
+    "bio": [
+      "Hi, I'm Hyunseung Ryu. I graduated from Gwangju Science Academy for the Gifted (GSA), and I'm currently double-majoring in EECS and AI at GIST. I'm drawn to mathematics, physics, astronomy, and theoretical science more broadly — especially to those moments when the same laws that describe the physical world turn out to hold just as true inside the discrete world of a computer. That, to me, is real beauty. Studying an idea until I've fully internalized it, then working it out as a simulation, is what I love most.",
+      "Since starting college, I've picked up frontend and backend development, app development, and design — none of which I'd touched before — and can now work comfortably across all of them. Along the way, I discovered the satisfaction of turning code and design into something that actually helps someone, and that discovery gave me a new sense of direction.",
+      "I'm the type of person who, once a concept catches my interest, digs into it until I've had my fill. And I don't feel like something is truly mine until I've rebuilt it myself, with my own hands. That's true whether I'm doing research, studying, developing, or designing — it's the same drive that keeps pushing me forward. What I hope for is that something I've built with that drive will one day find its way into someone's everyday life, spark a small inspiration, and grow into something that changes things for the better."
+    ],
     "description": "Hyunseung Ryu's portfolio",
-    "intro": "Hi, I'm Hyunseung Ryu. I'm a graduate of Gwangju Science Academy for the Gifted, now studying EECS and AI Convergence at GIST. Physics, math, astronomy, and problems you solve through simulation have held my attention for a long time; over the past two years I've become someone who works across frontend, backend, apps, and design.",
     "location": "South Korea",
     "name": "Hyunseung Ryu",
     "roles": [
