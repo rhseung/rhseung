@@ -11,16 +11,11 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
   const { t } = useTranslation('home');
   const { total, days } = useContributions({ initialData: contributions, fetchedAt });
   const sections = useSiteSections(lang);
-  // RSS는 구독용이라 홈 바로가기로 내지 않는다 - 독에만 남긴다.
   const links = useExternalLinks().filter((link) => link.key !== 'rss');
   const kstTime = useKstTime();
 
-  // 아이콘 하나 + 짧은 단어 하나짜리 내용이라 p-4 카드는 내용보다 컸다. 5개 고정이라
-  // 한 줄에 다 들어가는 게 자연스럽고, 그만큼 패딩도 버튼 급으로 줄인다.
   const entryClass =
     'border-border hover:bg-muted flex items-center gap-2 rounded-lg border p-3 text-sm font-medium transition-colors';
-  // 연락 링크는 사이트 안 이동이 아니라 바깥으로 나가는 창구라, 카드보다 가벼운 알약
-  // 모양으로 무게를 낮춘다 - 개수를 억지로 그리드에 맞추는 대신 성격으로 나눴다.
   const contactClass =
     'border-border hover:bg-muted inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors';
 
@@ -64,8 +59,6 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
             {t(($) => $.entries.label)}
           </h2>
           <nav aria-labelledby="entries-heading" className="flex flex-col gap-3">
-            {/* 5개로 고정된 사이트 섹션이라 한 줄에 다 앉힌다 - 2열 이상으로 접으면 5는
-                나누어떨어지지 않아 마지막 줄에 빈 칸이 남는다. 좁은 화면에서는 1열로 쌓는다. */}
             <ul className="grid gap-2 sm:grid-cols-5 sm:gap-3">
               {sections.map(({ key, href, label, Icon }) => (
                 <li key={key}>

@@ -3,8 +3,6 @@ import { describe, expect, it } from 'vitest';
 import { languagePaths, localeHref } from './site';
 
 describe('localeHref', () => {
-  // 기본 언어도 접두사를 갖는다. 하나만 생략하면 규칙이 둘이 되고, 특히 한 언어에만
-  // 존재하는 문서(글)에서 라우트 모양이 어긋난다.
   it('모든 언어에 접두사를 붙인다', () => {
     expect(localeHref('ko', '/')).toBe('/ko/');
     expect(localeHref('en', '/')).toBe('/en/');

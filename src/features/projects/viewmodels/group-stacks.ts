@@ -7,11 +7,7 @@ export type StackGroup = {
   items: string[];
 };
 
-/**
- * 기술 칩을 스킬 그룹으로 묶는다. 프로젝트가 실제로 쓴 기술만 남기고, 남은 게 없는
- * 그룹은 뺀다. 어느 그룹에도 없는 기술은 사라진다 - 이력에 안 내세우는 기술이라는 뜻이라
- * 필터에도 낼 이유가 없다.
- */
+// 어느 스킬 그룹에도 없는 기술은 조용히 빠진다 - 카드에 안 뜬다고 버그가 아니다.
 export function groupStacks(stacks: readonly string[], lang: Language): StackGroup[] {
   return sortSkillGroups(skillGroupsOf(lang))
     .map((group) => ({
