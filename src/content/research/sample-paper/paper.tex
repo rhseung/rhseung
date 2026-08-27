@@ -1,57 +1,155 @@
 \documentclass{article}
 \usepackage{amsmath}
+\usepackage{amssymb}
 
-\title{Convergence Behavior of Constraint-Based Physics Engines}
+\title{A Compendium of Elementary Multivariable Calculus and Linear Algebra}
 \author{Hyunseung Ryu}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Position-based dynamics trades physical accuracy for stability, and the trade is
-governed by a single knob: how many times the solver sweeps the constraint set.
-We measure how that count interacts with stiffness and show that the effective
-stiffness saturates well before the iteration budget does.
+This is a rendering test entry, not a real paper. It strings together standard
+identities from multivariable calculus and linear algebra
+\cite{apostol1969,strang2016} purely to exercise equation, matrix, and
+citation rendering.
 \end{abstract}
 
-\section{Setup}
+\section{Differential calculus in several variables}
 
-Let $\mathbf{x}_i$ denote particle positions and $w_i = 1/m_i$ the inverse masses.
-A constraint $C(\mathbf{x})$ is projected by moving each particle along the
-gradient direction, weighted by its inverse mass:
+For $f : \mathbb{R}^n \to \mathbb{R}$, the gradient and directional derivative
+along a unit vector $\mathbf{u}$ are
 
-\begin{equation}
-  \Delta \mathbf{x}_i = -\frac{w_i \, \nabla_{\mathbf{x}_i} C(\mathbf{x})}
-    {\sum_j w_j \left\| \nabla_{\mathbf{x}_j} C(\mathbf{x}) \right\|^2} \, C(\mathbf{x}).
-\end{equation}
+\begin{align}
+  \nabla f(\mathbf{x}) &= \left( \frac{\partial f}{\partial x_1}, \ldots,
+    \frac{\partial f}{\partial x_n} \right), \\
+  D_{\mathbf{u}} f(\mathbf{x}) &= \nabla f(\mathbf{x}) \cdot \mathbf{u}.
+\end{align}
 
-The formulation follows \cite{muller2007}, which introduced the projection scheme
-this work builds on.
-
-\subsection{Stiffness and iteration count}
-
-Applying a stiffness factor $k \in [0, 1]$ once per iteration gives an effective
-stiffness after $n$ sweeps of
+For $\mathbf{f} : \mathbb{R}^n \to \mathbb{R}^m$, the Jacobian is the matrix of
+first partials,
 
 \begin{equation}
-  k' = 1 - (1 - k)^{n}.
+  J_{\mathbf{f}}(\mathbf{x}) =
+  \begin{bmatrix}
+    \dfrac{\partial f_1}{\partial x_1} & \cdots & \dfrac{\partial f_1}{\partial x_n} \\
+    \vdots & \ddots & \vdots \\
+    \dfrac{\partial f_m}{\partial x_1} & \cdots & \dfrac{\partial f_m}{\partial x_n}
+  \end{bmatrix},
 \end{equation}
 
-The dependence on $n$ is the problem: the same $k$ produces a stiffer material
-simply because the solver ran longer. The correction proposed by \cite{macklin2016}
-removes the coupling.
+and the multivariable chain rule for $g(t) = f(\mathbf{x}(t))$ reads
 
-\section{Results}
+\begin{equation}
+  \frac{dg}{dt} = \sum_{i=1}^{n} \frac{\partial f}{\partial x_i} \frac{dx_i}{dt}
+    = \nabla f(\mathbf{x}(t)) \cdot \mathbf{x}'(t).
+\end{equation}
 
-\begin{itemize}
-  \item Small $k$ converges slowly but stays stable under large time steps.
-  \item Large $k$ overshoots, and the overshoot grows with $n$.
-  \item Past $n \approx 20$ the residual falls below the integration error.
-\end{itemize}
+The Hessian collects second partials,
+
+\begin{equation}
+  H_f(\mathbf{x}) =
+  \begin{bmatrix}
+    \dfrac{\partial^2 f}{\partial x_1^2} & \cdots & \dfrac{\partial^2 f}{\partial x_1 \partial x_n} \\
+    \vdots & \ddots & \vdots \\
+    \dfrac{\partial^2 f}{\partial x_n \partial x_1} & \cdots & \dfrac{\partial^2 f}{\partial x_n^2}
+  \end{bmatrix},
+\end{equation}
+
+and the second-order Taylor expansion about $\mathbf{a}$ is
+
+\begin{equation}
+  f(\mathbf{x}) \approx f(\mathbf{a}) + \nabla f(\mathbf{a})^{\!\top} (\mathbf{x} - \mathbf{a})
+    + \frac{1}{2} (\mathbf{x} - \mathbf{a})^{\!\top} H_f(\mathbf{a}) (\mathbf{x} - \mathbf{a}).
+\end{equation}
+
+\section{Vector calculus}
+
+For a vector field $\mathbf{F} = (P, Q, R)$, divergence and curl are
+
+\begin{align}
+  \nabla \cdot \mathbf{F} &= \frac{\partial P}{\partial x} + \frac{\partial Q}{\partial y}
+    + \frac{\partial R}{\partial z}, \\
+  \nabla \times \mathbf{F} &=
+  \begin{vmatrix}
+    \mathbf{i} & \mathbf{j} & \mathbf{k} \\
+    \partial_x & \partial_y & \partial_z \\
+    P & Q & R
+  \end{vmatrix}.
+\end{align}
+
+The three classical integral theorems relate a boundary integral to an
+integral over the enclosed region:
+
+\begin{align}
+  \oint_{\partial D} (P \, dx + Q \, dy) &= \iint_D \left( \frac{\partial Q}{\partial x}
+    - \frac{\partial P}{\partial y} \right) dA
+    && \text{(Green)}, \\
+  \iint_S (\nabla \times \mathbf{F}) \cdot d\mathbf{S} &= \oint_{\partial S} \mathbf{F} \cdot d\mathbf{r}
+    && \text{(Stokes)}, \\
+  \iiint_V (\nabla \cdot \mathbf{F}) \, dV &= \oiint_{\partial V} \mathbf{F} \cdot d\mathbf{S}
+    && \text{(Divergence)}.
+\end{align}
+
+\section{Linear algebra}
+
+For $A \in \mathbb{R}^{n \times n}$, eigenpairs $(\lambda, \mathbf{v})$ satisfy
+
+\begin{equation}
+  A \mathbf{v} = \lambda \mathbf{v}, \qquad \det(A - \lambda I) = 0.
+\end{equation}
+
+If $A$ is diagonalizable, $A = P D P^{-1}$ with $D = \operatorname{diag}(\lambda_1,
+\ldots, \lambda_n)$, and every real matrix admits a singular value decomposition
+
+\begin{equation}
+  A = U \Sigma V^{\!\top}, \qquad U^{\!\top} U = I, \quad V^{\!\top} V = I,
+  \qquad \Sigma = \operatorname{diag}(\sigma_1, \ldots, \sigma_r, 0, \ldots).
+\end{equation}
+
+A symmetric matrix $A$ is positive definite iff its quadratic form is strictly
+positive off the origin,
+
+\begin{equation}
+  \mathbf{x}^{\!\top} A \mathbf{x} > 0 \quad \forall \, \mathbf{x} \neq \mathbf{0}
+  \iff \lambda_i > 0 \ \text{for all } i.
+\end{equation}
+
+For an inner product space, the Cauchy--Schwarz inequality bounds the inner
+product by the norms,
+
+\begin{equation}
+  |\langle \mathbf{x}, \mathbf{y} \rangle| \le \lVert \mathbf{x} \rVert \, \lVert \mathbf{y} \rVert,
+  \qquad \lVert \mathbf{x} \rVert = \sqrt{\langle \mathbf{x}, \mathbf{x} \rangle},
+\end{equation}
+
+and the orthogonal projection of $\mathbf{y}$ onto $\mathbf{x}$ is
+
+\begin{equation}
+  \operatorname{proj}_{\mathbf{x}} \mathbf{y}
+    = \frac{\langle \mathbf{x}, \mathbf{y} \rangle}{\langle \mathbf{x}, \mathbf{x} \rangle} \, \mathbf{x}.
+\end{equation}
+
+\section{Constrained optimization}
+
+For $f, g : \mathbb{R}^n \to \mathbb{R}$, a critical point of $f$ subject to
+$g(\mathbf{x}) = 0$ satisfies, for some multiplier $\lambda$,
+
+\begin{equation}
+  \nabla f(\mathbf{x}^{*}) = \lambda \, \nabla g(\mathbf{x}^{*}), \qquad
+  g(\mathbf{x}^{*}) = 0,
+\end{equation}
+
+equivalently $\nabla \mathcal{L} = \mathbf{0}$ for the Lagrangian
+
+\begin{equation}
+  \mathcal{L}(\mathbf{x}, \lambda) = f(\mathbf{x}) - \lambda \, g(\mathbf{x}).
+\end{equation}
 
 \section{Conclusion}
 
-Iteration count should not be a material parameter. Decoupling it, as in
-\cite{macklin2016}, keeps the simulation reproducible across solver budgets.
+Every identity above is standard \cite{strang2016,apostol1969}; the entry
+exists to check that display equations, aligned systems, matrices, and
+citations all render correctly, not to report a result.
 
 \end{document}
