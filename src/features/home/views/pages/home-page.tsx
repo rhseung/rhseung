@@ -108,8 +108,6 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
           </p>
         </div>
 
-        {/* public/에 있는 이유: astro:assets는 src/ 안 이미지만 최적화하고, 여기서는
-            원본 PNG의 알파 채널을 CSS mask로 색만 토큰에 맞춰 쓴다 - <Image />를 거칠 이유가 없다. */}
         <span
           aria-hidden
           className="bg-muted-foreground mx-auto inline-block size-12 shrink-0"
