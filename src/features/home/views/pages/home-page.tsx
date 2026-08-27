@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Avatar, AvatarFallback, AvatarImage, ExternalLink, SiteDock } from '@/common/components';
 import { dayjs, localeHref, SITE, type Language } from '@/common/lib';
+import { cn } from '@/common/utils';
 import { useExternalLinks, useSiteSections } from '@/common/viewmodels';
 
 import { useContributions, useKstTime, type Contributions } from '../../viewmodels';
@@ -18,10 +19,12 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
   const kstTime = useKstTime();
   const roles = useMemo(() => t(($) => $.site.roles, { ns: 'common', returnObjects: true }), [t]);
 
-  const entryClass =
-    'border-border hover:bg-muted flex items-center gap-2 rounded-lg border p-3 text-sm font-medium transition-colors';
-  const contactClass =
-    'border-border hover:bg-muted inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors';
+  const entryClass = cn(
+    'border-border hover:bg-muted flex items-center gap-2 rounded-lg border p-3 text-sm font-medium transition-colors',
+  );
+  const contactClass = cn(
+    'border-border hover:bg-muted inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors',
+  );
 
   return (
     <div className="bg-background min-h-dvh">

@@ -62,8 +62,9 @@ const THEME_ICON: Record<ThemeMode, Icon> = {
   system: SunHorizonIcon,
 };
 
-const itemClass =
-  'text-muted-foreground hover:text-foreground hover:bg-muted flex size-10 items-center justify-center rounded-full transition-colors';
+const itemClass = cn(
+  'text-muted-foreground hover:text-foreground hover:bg-muted flex size-10 items-center justify-center rounded-full transition-colors',
+);
 
 export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) {
   const { t } = useTranslation('common');
