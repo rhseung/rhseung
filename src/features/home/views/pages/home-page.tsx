@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { useTranslation } from 'react-i18next';
 
 import { Avatar, AvatarFallback, AvatarImage, ExternalLink, SiteDock } from '@/common/components';
@@ -10,9 +12,11 @@ import { GithubContributionCalendar, RoleRotator } from '../components';
 export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage.Props) {
   const { t } = useTranslation('home');
   const { total, days } = useContributions({ initialData: contributions, fetchedAt });
+
   const sections = useSiteSections(lang);
   const links = useExternalLinks().filter((link) => link.key !== 'rss');
   const kstTime = useKstTime();
+  const roles = useMemo(() => t(($) => $.site.roles, { ns: 'common', returnObjects: true }), [t]);
 
   const entryClass =
     'border-border hover:bg-muted flex items-center gap-2 rounded-lg border p-3 text-sm font-medium transition-colors';
@@ -32,7 +36,7 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
               {t(($) => $.site.name, { ns: 'common' })}
             </h1>
             <div className="text-muted-foreground tracking-tight">
-              <RoleRotator roles={t(($) => $.site.roles, { ns: 'common', returnObjects: true })} />
+              <RoleRotator roles={roles} />
             </div>
           </div>
         </header>
