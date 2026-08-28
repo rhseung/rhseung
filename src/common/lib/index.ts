@@ -17,4 +17,11 @@ export { languagePaths, SITE, localeHref } from './site';
 export type { Url } from './scalars';
 export { formatYearMonth, yearMonthKey, type YearMonth, type YearOrMonth } from './year-month';
 export { TECH, type Tech } from './tech';
+export {
+  DARK_CLASS,
+  DEFAULT_THEME_MODE,
+  THEME_MODES,
+  THEME_STORAGE_KEY,
+  type ThemeMode,
+} from './theme';
 export { TONES, tone, type Tone } from './tone';

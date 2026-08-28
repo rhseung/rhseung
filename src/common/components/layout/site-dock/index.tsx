@@ -11,7 +11,7 @@ import {
 } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { LANGUAGES, localeHref, type Language } from '@/common/lib';
+import { LANGUAGES, localeHref, type Language, type ThemeMode } from '@/common/lib';
 import { cn } from '@/common/utils';
 import {
   useExternalLinks,
@@ -20,7 +20,6 @@ import {
   useSiteSections,
   useThemeTransition,
   type SiteSection,
-  type ThemeMode,
 } from '@/common/viewmodels';
 
 import { Alert } from '../../ui/alert';

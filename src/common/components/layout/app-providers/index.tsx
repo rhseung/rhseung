@@ -6,7 +6,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ThemeProvider } from 'next-themes';
 import { I18nextProvider } from 'react-i18next';
 
-import { i18n, type Language } from '@/common/lib';
+import { DEFAULT_THEME_MODE, THEME_STORAGE_KEY, i18n, type Language } from '@/common/lib';
 
 const showDevtools = import.meta.env.PUBLIC_DEVTOOLS === '1';
 
@@ -36,7 +36,13 @@ export function AppProviders({ lang, children }: AppProviders.Props) {
   }, []);
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+    <ThemeProvider
+      attribute="class"
+      storageKey={THEME_STORAGE_KEY}
+      defaultTheme={DEFAULT_THEME_MODE}
+      enableSystem
+      disableTransitionOnChange
+    >
       <QueryClientProvider client={queryClient}>
         <I18nextProvider i18n={i18n}>{children}</I18nextProvider>
         {showDevtools && <ReactQueryDevtools buttonPosition="bottom-left" />}

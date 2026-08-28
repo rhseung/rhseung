@@ -3,11 +3,9 @@ import { useCallback, useSyncExternalStore } from 'react';
 import { useTheme } from 'next-themes';
 import { flushSync } from 'react-dom';
 
+import { DEFAULT_THEME_MODE, THEME_MODES, type ThemeMode } from '@/common/lib';
+
 const DURATION = 450;
-
-export const THEME_MODES = ['light', 'dark', 'system'] as const;
-
-export type ThemeMode = (typeof THEME_MODES)[number];
 
 function isThemeMode(value: string | undefined): value is ThemeMode {
   return value !== undefined && (THEME_MODES as readonly string[]).includes(value);
@@ -42,7 +40,7 @@ export function useThemeTransition() {
   // 첫 렌더는 서버와 맞추고, 하이드레이션이 끝난 뒤에만 진짜 값으로 바꾼다 - 언어 제안과 같은 패턴.
   const mounted = useSyncExternalStore(subscribeNoop, isMounted, isNotMounted);
 
-  const mode = mounted && isThemeMode(theme) ? theme : 'system';
+  const mode = mounted && isThemeMode(theme) ? theme : DEFAULT_THEME_MODE;
 
   const cycleTheme = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
