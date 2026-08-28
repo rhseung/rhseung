@@ -3,7 +3,7 @@ import { execSync } from 'node:child_process';
 
 import { HomeIsland } from '@/pages/_islands/home-island';
 import { languagePaths, SITE, localeHref } from '@/common/lib';
-import { fetchContributions, NO_CONTRIBUTIONS } from '@/features/home';
+import { loadContributionsSnapshot } from '@/features/home';
 
 import Layout from '@/layouts/layout.astro';
 
@@ -21,10 +21,7 @@ const updatedAt = (() => {
   }
 })();
 
-const snapshot = await fetchContributions().then(
-  (contributions) => ({ contributions, fetchedAt: Date.now() }),
-  () => ({ contributions: NO_CONTRIBUTIONS, fetchedAt: 0 }),
-);
+const snapshot = await loadContributionsSnapshot();
 ---
 
 <Layout

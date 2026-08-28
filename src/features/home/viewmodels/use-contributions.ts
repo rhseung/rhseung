@@ -43,6 +43,22 @@ export async function fetchContributions(): Promise<Contributions> {
   return toContributions((await response.json()) as ContributionsResponse);
 }
 
+export type ContributionsSnapshot = {
+  contributions: Contributions;
+  fetchedAt: number;
+};
+
+let snapshot: Promise<ContributionsSnapshot> | null = null;
+
+export function loadContributionsSnapshot(): Promise<ContributionsSnapshot> {
+  snapshot ??= fetchContributions().then(
+    (contributions) => ({ contributions, fetchedAt: Date.now() }),
+    () => ({ contributions: NO_CONTRIBUTIONS, fetchedAt: 0 }),
+  );
+
+  return snapshot;
+}
+
 export function useContributions({
   initialData,
   fetchedAt,
