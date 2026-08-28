@@ -8,18 +8,18 @@ import { loadContributionsSnapshot } from '@/features/home';
 import Layout from '@/layouts/layout.astro';
 
 export function getStaticPaths() {
-  return languagePaths();
+  const updatedAt = (() => {
+    try {
+      return execSync('git log -1 --format=%cI').toString().trim();
+    } catch {
+      return new Date().toISOString();
+    }
+  })();
+
+  return languagePaths().map((path) => ({ ...path, props: { ...path.props, updatedAt } }));
 }
 
-const { lang } = Astro.props;
-
-const updatedAt = (() => {
-  try {
-    return execSync('git log -1 --format=%cI').toString().trim();
-  } catch {
-    return new Date().toISOString();
-  }
-})();
+const { lang, updatedAt } = Astro.props;
 
 const snapshot = await loadContributionsSnapshot();
 ---
