@@ -1,6 +1,8 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 
+import themeScript from './theme.js?raw';
+
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 
@@ -62,19 +64,7 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
 
     <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
 
-    <script is:inline>
-      const applyTheme = () => {
-        const stored = localStorage.getItem('theme') ?? 'system';
-        const dark =
-          stored === 'dark' ||
-          (stored === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
-        document.documentElement.classList.toggle('dark', dark);
-      };
-
-      applyTheme();
-
-      document.addEventListener('astro:after-swap', applyTheme);
-    </script>
+    <script is:inline set:html={themeScript} />
 
     <ClientRouter />
   </head>
