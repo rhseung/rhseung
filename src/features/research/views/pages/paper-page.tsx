@@ -68,7 +68,9 @@ export function PaperPage({
             <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
           </div>
 
-          <h1 className="text-3xl font-semibold tracking-tight">{item.title}</h1>
+          <h1 data-vt-title={item.slug} className="text-3xl font-semibold tracking-tight">
+            {item.title}
+          </h1>
 
           <p className="text-muted-foreground text-sm">
             {authors ?? item.org}

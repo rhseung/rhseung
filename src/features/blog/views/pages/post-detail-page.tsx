@@ -28,7 +28,9 @@ export function PostDetailPage({ post, children }: PostDetailPage.Props) {
             {dayjs(post.date).format('LL')}
           </time>
 
-          <h1 className="text-3xl font-semibold tracking-tight">{post.title}</h1>
+          <h1 data-vt-title={post.slug} className="text-3xl font-semibold tracking-tight">
+            {post.title}
+          </h1>
           <p className="text-muted-foreground">{post.summary}</p>
 
           {post.tags.length > 0 && (

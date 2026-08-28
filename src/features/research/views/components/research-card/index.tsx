@@ -27,7 +27,7 @@ export function ResearchCard({ item, detailHref }: ResearchCard.Props) {
   return (
     <article className="border-border bg-card/40 flex flex-col gap-2 rounded-xl border p-4">
       <div className="flex flex-wrap items-center gap-2">
-        <h2 className="text-sm font-semibold tracking-tight">
+        <h2 data-vt-title={item.slug} className="text-sm font-semibold tracking-tight">
           {detailHref === undefined ? (
             item.title
           ) : (

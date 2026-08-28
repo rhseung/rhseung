@@ -22,7 +22,7 @@ export function PostListItem({ post, href, showLanguage }: PostListItem.Props) {
         )}
       </div>
 
-      <h2 className="text-base font-medium">
+      <h2 data-vt-title={post.slug} className="text-base font-medium">
         <a href={href} className="hover:underline">
           {post.title}
         </a>

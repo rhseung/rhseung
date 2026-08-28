@@ -43,7 +43,7 @@ export function ProjectCard({
   return (
     <article className="hover:bg-muted/40 flex flex-col gap-2 rounded-lg px-3 py-4 transition-colors">
       <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-        <h2 className="text-base font-semibold tracking-tight">
+        <h2 data-vt-title={project.slug} className="text-base font-semibold tracking-tight">
           {target === null && project.title}
           {target?.external === false && (
             <a href={target.href} className="hover:underline">

@@ -372,6 +372,31 @@ html[data-vt='shallower']::view-transition-new(page) {
   animation-duration: 360ms;
 }
 
+::view-transition-group(entry-title) {
+  animation-duration: 360ms;
+  animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+::view-transition-old(entry-title),
+::view-transition-new(entry-title) {
+  block-size: 100%;
+  object-fit: contain;
+  object-position: left top;
+}
+
+::view-transition-old(entry-title) {
+  animation-duration: 100ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
+  animation-fill-mode: both;
+}
+
+::view-transition-new(entry-title) {
+  animation-duration: 260ms;
+  animation-delay: 100ms;
+  animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+  animation-fill-mode: both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),
   ::view-transition-old(*),

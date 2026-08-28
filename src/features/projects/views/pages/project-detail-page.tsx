@@ -41,7 +41,9 @@ export function ProjectDetailPage({
             <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
           </div>
 
-          <h1 className="text-3xl font-semibold tracking-tight">{project.title}</h1>
+          <h1 data-vt-title={project.slug} className="text-3xl font-semibold tracking-tight">
+            {project.title}
+          </h1>
           <p className="text-muted-foreground">{project.summary}</p>
 
           {project.highlight && (
