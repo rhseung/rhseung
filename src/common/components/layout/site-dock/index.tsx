@@ -105,7 +105,10 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
           className,
         )}
       >
-        <div className="border-border bg-background/70 flex items-center gap-1 rounded-full border p-2 backdrop-blur-md">
+        <div
+          data-vt-dock
+          className="border-border bg-background/70 flex items-center gap-1 rounded-full border p-2 backdrop-blur-md"
+        >
           <DockLink
             href={localeHref(lang, '/')}
             label={t(($) => $.nav.home)}

@@ -66,6 +66,12 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
 
     <script is:inline set:html={themeScript} />
 
+    <script>
+      import { initViewTransitions } from './view-transitions';
+
+      initViewTransitions();
+    </script>
+
     <ClientRouter />
   </head>
   <body>
