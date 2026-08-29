@@ -5,6 +5,7 @@
     "bradlc.vscode-tailwindcss",
     "vitest.explorer",
     "ms-playwright.playwright",
-    "astro-build.astro-vscode"
+    "astro-build.astro-vscode",
+    "unifiedjs.vscode-mdx"
   ]
 }
