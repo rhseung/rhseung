@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Badge, ExternalLink } from '@/common/components';
 import { brand, formatYearMonth, tone } from '@/common/lib';
 import { cn } from '@/common/utils';
-import { TECH_BY_NAME, type Award } from '@/features/career';
+import { TECH_BY_NAME, TechIcon, type Award } from '@/features/career';
 
 import {
   PROJECT_LINK_ICON,
@@ -93,6 +93,7 @@ export function ProjectCard({
                 )}
                 style={tech === undefined ? undefined : brand(tech.hex)}
               >
+                {tech?.icon && <TechIcon icon={tech.icon} />}
                 {item}
               </Badge>
             );

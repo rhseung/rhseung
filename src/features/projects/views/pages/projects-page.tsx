@@ -19,7 +19,7 @@ import {
 } from '@/common/components';
 import { brand, localeHref, tone, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
-import { TECH_BY_NAME, type Award } from '@/features/career';
+import { TECH_BY_NAME, TechIcon, type Award } from '@/features/career';
 
 import {
   countByStack,
@@ -109,6 +109,7 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
                         )}
                         style={brand(TECH_BY_NAME[item].hex)}
                       >
+                        {TECH_BY_NAME[item].icon && <TechIcon icon={TECH_BY_NAME[item].icon} />}
                         {item}
                       </ToggleGroupItem>
                     ))}

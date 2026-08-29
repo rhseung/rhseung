@@ -2,6 +2,8 @@ import { Badge } from '@/common/components';
 import { brand, tone } from '@/common/lib';
 import { cn } from '@/common/utils';
 
+import { TechIcon } from '../tech-icon';
+
 import type { SkillGroup } from '../../../viewmodels';
 
 export function SkillGroups({ groups, layout = 'list' }: SkillGroups.Props) {
@@ -19,6 +21,7 @@ export function SkillGroups({ groups, layout = 'list' }: SkillGroups.Props) {
                     className={tone({ tone: 'brand' })}
                     style={brand(item.hex)}
                   >
+                    {item.icon && <TechIcon icon={item.icon} />}
                     {item.name}
                   </Badge>
                 </li>
