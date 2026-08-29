@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import {
   GlobeIcon,
@@ -52,6 +52,9 @@ const BLUR_LAYERS = [
 
 // 링크와 버튼이 같이 쓴다. `Button`에 맡기면 아이콘이 16px(`[&_svg:not([class*='size-'])]`)에
 // `text-foreground`로 나와서 링크들과 크기도 색도 어긋난다 - 아이콘 쪽 `size-5`도 같은 이유다.
+/** 화면이 안 바뀌는 전환(예: dark 에서 시스템, OS 도 dark)에서 유일한 신호라 짧으면 놓친다. */
+const THEME_HINT_MS = 1400;
+
 /** Tailwind의 `sm` 경계. 이 아래에서는 언어 버튼이 시트 안으로 숨어서 팝오버를 걸 자리가 없다. */
 const COMPACT_QUERY = '(max-width: 39.99rem)';
 
@@ -72,6 +75,11 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
   const { t } = useTranslation('common');
   const { mode, cycleTheme } = useThemeTransition();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [themeTipOpen, setThemeTipOpen] = useState(false);
+  const [themeTipPinned, setThemeTipPinned] = useState(false);
+  const themeTipTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  useEffect(() => () => clearTimeout(themeTipTimer.current), []);
 
   const isCompact = useMediaQuery(COMPACT_QUERY);
   const { suggested, dismiss } = useLanguageSuggestion(lang);
@@ -183,19 +191,34 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
             </Popover>
           )}
 
-          <Tooltip>
+          {/* 핀을 호버 상태와 OR 로 겹친다. 툴팁을 통째로 제어하면 클릭 뒤에도 커서가 올라가
+              있는 동안 닫혀버린다. */}
+          <Tooltip open={themeTipOpen || themeTipPinned} onOpenChange={setThemeTipOpen}>
             <TooltipTrigger
               render={
                 <Button
                   variant="ghost"
                   size="icon-sm"
                   className={itemClass}
-                  onClick={cycleTheme}
+                  onClick={(event) => {
+                    cycleTheme(event);
+                    setThemeTipPinned(true);
+                    clearTimeout(themeTipTimer.current);
+                    themeTipTimer.current = setTimeout(
+                      () => setThemeTipPinned(false),
+                      THEME_HINT_MS,
+                    );
+                  }}
                   aria-label={themeLabel}
                 />
               }
             >
-              <ThemeIcon aria-hidden className="size-5" />
+              {/* 모드마다 컴포넌트가 달라 교체될 때마다 새로 마운트된다 - 그래서 진입 모션이 매번
+                  돈다. 화면 테마가 그대로인 전환에서 눌렀다는 유일한 시각 신호다. */}
+              <ThemeIcon
+                aria-hidden
+                className="animate-in fade-in zoom-in-75 size-5 duration-200 motion-reduce:animate-none"
+              />
             </TooltipTrigger>
             <TooltipContent>{themeLabel}</TooltipContent>
           </Tooltip>
