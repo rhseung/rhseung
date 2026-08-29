@@ -61,8 +61,11 @@ const THEME_ICON: Record<ThemeMode, Icon> = {
   system: SunHorizonIcon,
 };
 
+// `active:...translate-y-0` 은 `Button` 베이스의 눌림 이동을 끈다. 독에서는 링크와 버튼이
+// 한 줄에 서는데 버튼만 내려앉으면 줄이 어긋난다. modifier 를 그대로 맞춰야 tailwind-merge 가
+// 앞엣것을 걷어낸다.
 const itemClass = cn(
-  'text-muted-foreground hover:text-foreground hover:bg-muted flex size-10 items-center justify-center rounded-full transition-colors',
+  'text-muted-foreground hover:text-foreground hover:bg-muted flex size-10 items-center justify-center rounded-full transition-colors active:not-aria-[haspopup]:translate-y-0',
 );
 
 export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) {
