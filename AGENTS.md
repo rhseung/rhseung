@@ -275,8 +275,8 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 `skills`가 특히 그랬다 — `items`(고유명사)가 두 언어에서 완전히 같은데 통째로 복제됐다.
 
 **기술 목록은 `src/content/skills.ts` 한 파일이 전부다** — 그룹·이름·브랜드 색·simple-icons
-아이콘. 전에는 이름이 `common/lib/tech.ts`, 그룹이 `content/skills/*.ts` 로 갈라져 있어
-기술을 하나 넣거나 뺄 때 두 곳을 손으로 맞춰야 했다.
+슬러그. 사이트 뱃지 색과 README 배지가 같이 여기서 나온다. 전에는 이름이 `common/lib/tech.ts`,
+그룹이 `content/skills/*.ts`, 색·아이콘이 README 에 있어서 셋을 손으로 맞춰야 했다.
 
 다른 컬렉션과 달리 glob 이 아니라 **static import** 인 이유가 둘이다. (1) glob 은 타입을
 지워서 `Tech` 리터럴 유니온이 `string` 으로 무너진다 — 프로젝트 `stack` 의 오타를 못 잡는다.
