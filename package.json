@@ -1,7 +1,7 @@
 {
   "name": "rhseung",
   "scripts": {
-    "build": "bun run gen && astro check && astro build && bun scripts/gen-resume.ts",
+    "build": "bun run gen && astro check && astro build && bun scripts/gen-resume.ts && bun scripts/gen-readme.ts",
     "build-storybook": "storybook build",
     "check": "prettier --write . && eslint . --fix",
     "deploy": "vercel deploy --prod",
@@ -11,6 +11,7 @@
     "gen": "bun run gen:i18n",
     "gen:i18n": "i18next-cli extract && i18next-cli types",
     "gen:i18n:watch": "i18next-cli extract --watch & i18next-cli types --watch & wait",
+    "gen:readme": "bun scripts/gen-readme.ts",
     "gen:resume": "bun scripts/gen-resume.ts",
     "i18n:lint": "i18next-cli lint",
     "i18n:status": "i18next-cli status",

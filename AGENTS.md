@@ -47,15 +47,17 @@ astro dev stop && rm -rf .astro node_modules/.astro dist && bun run dev
 
 ### 생성물은 손대지 않는다
 
-`src/@types/`, `src/locales/**`(값 제외), `public/resume-*.pdf`는 생성물이고
+`src/@types/`, `src/locales/**`(값 제외), `public/resume-*.pdf`, README 의
+`<!-- tech:start -->`~`<!-- tech:end -->` 구간은 생성물이고
 **커밋되어 있다**. (Bun이 루트 패키지의 `prepare`/`postinstall`을 실행하지 않아서,
 설치 시 재생성 훅은 조용히 아무 일도 안 한다. 그래서 커밋한다.)
 
 손으로 고치면 다음 `bun run gen`에 사라진다. CI는 `bun run gen` 후
 `git diff --exit-code`로 최신인지 검증한다.
 
-이력서 PDF는 **`astro build` 끝에 자동으로 다시 구워진다.** 손으로 트리거하지 않는다 —
-데이터를 고치고 PDF를 안 올리는 일이 없게. CI도 빌드 후 `git diff --exit-code`로 확인한다.
+이력서 PDF와 README 배지는 **`astro build` 끝에 자동으로 다시 구워진다.** 손으로 트리거하지
+않는다 — 데이터를 고치고 산출물을 안 올리는 일이 없게. CI도 빌드 후 `git diff --exit-code`로
+확인한다. README 의 로고·GitHub 위젯·푸터는 마커 밖이라 손으로 고친다.
 
 (폰트를 자체 호스팅하기 전에는 CI에서 못 돌렸다. 우분투 이미지에 한글 폰트가 없어
 글자가 두부로 나왔기 때문인데, 이제 Chromium이 시스템 폰트를 안 써서 사라진 제약이다.)
@@ -276,8 +278,10 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 아이콘. 전에는 이름이 `common/lib/tech.ts`, 그룹이 `content/skills/*.ts` 로 갈라져 있어
 기술을 하나 넣거나 뺄 때 두 곳을 손으로 맞춰야 했다.
 
-다른 컬렉션과 달리 glob 이 아니라 **static import** 인 이유는 glob 이 타입을 지우기 때문이다 -
-`Tech` 리터럴 유니온이 `string` 으로 무너져 프로젝트 `stack` 의 오타를 못 잡는다.
+다른 컬렉션과 달리 glob 이 아니라 **static import** 인 이유가 둘이다. (1) glob 은 타입을
+지워서 `Tech` 리터럴 유니온이 `string` 으로 무너진다 — 프로젝트 `stack` 의 오타를 못 잡는다.
+(2) `import.meta.glob` 은 Vite 전용이라 bare `bun` 으로 도는 `scripts/gen-readme.ts` 가
+못 읽는다. 같은 이유로 그 파일에는 import 가 하나도 없다.
 
 남은 컬렉션은 둘뿐이다.
 
