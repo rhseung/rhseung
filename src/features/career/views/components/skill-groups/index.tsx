@@ -1,8 +1,8 @@
 import { Badge } from '@/common/components';
-import { tone } from '@/common/lib';
+import { brand, tone } from '@/common/lib';
 import { cn } from '@/common/utils';
 
-import { SKILL_GROUP_TONE, type SkillGroup } from '../../../viewmodels';
+import type { SkillGroup } from '../../../viewmodels';
 
 export function SkillGroups({ groups, layout = 'list' }: SkillGroups.Props) {
   return (
@@ -16,7 +16,8 @@ export function SkillGroups({ groups, layout = 'list' }: SkillGroups.Props) {
                 <li key={item.name}>
                   <Badge
                     variant="secondary"
-                    className={tone({ tone: SKILL_GROUP_TONE[group.slug] })}
+                    className={tone({ tone: 'brand' })}
+                    style={brand(item.hex)}
                   >
                     {item.name}
                   </Badge>

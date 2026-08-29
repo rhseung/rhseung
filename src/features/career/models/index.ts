@@ -1,8 +1,6 @@
-import type { Language, Tone } from '@/common/lib';
+import type { Language } from '@/common/lib';
 import { SKILL_GROUPS } from '@/content/skills';
 import type { TechSpec } from '@/content/skills';
-
-import { SKILL_GROUP_TONE } from './types';
 
 import type {
   Award,
@@ -14,7 +12,6 @@ import type {
 } from './types';
 
 export { defineAward, defineCareer } from './define';
-export { SKILL_GROUP_TONE } from './types';
 export type { Award, CareerEntry, SkillGroup } from './types';
 export type { TechSpec } from '@/content/skills';
 
@@ -37,12 +34,6 @@ export const TECH_BY_NAME: Record<string, TechSpec> = Object.fromEntries(
   skillGroups.flatMap((group) => group.items.map((tech) => [tech.name, tech] as const)),
 );
 
-export const TECH_TONE: Record<string, Tone> = Object.fromEntries(
-  skillGroups.flatMap((group) => {
-    const tone = SKILL_GROUP_TONE[group.slug];
-    return tone === undefined ? [] : group.items.map((tech) => [tech.name, tone] as const);
-  }),
-);
 
 // 제네릭 `flatten` 을 안 쓰는 이유: 번역문 타입 매개변수가 반환 타입 애노테이션에서
 // 먼저 추론돼 `astro check` 가 인자와 안 맞는다고 본다.

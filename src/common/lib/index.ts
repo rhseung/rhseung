@@ -23,4 +23,4 @@ export {
   THEME_STORAGE_KEY,
   type ThemeMode,
 } from './theme';
-export { TONES, tone, type Tone } from './tone';
+export { brand, TONES, tone, type Tone } from './tone';

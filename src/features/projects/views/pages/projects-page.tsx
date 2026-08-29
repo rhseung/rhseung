@@ -17,9 +17,9 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@/common/components';
-import { localeHref, tone, type Language } from '@/common/lib';
+import { brand, localeHref, tone, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
-import { TECH_TONE, type Award } from '@/features/career';
+import { TECH_BY_NAME, type Award } from '@/features/career';
 
 import {
   countByStack,
@@ -104,9 +104,10 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
                         key={item}
                         value={item}
                         className={cn(
-                          TECH_TONE[item] !== undefined && tone({ tone: TECH_TONE[item] }),
+                          tone({ tone: 'brand' }),
                           'aria-pressed:ring-foreground/40 aria-pressed:ring-2',
                         )}
+                        style={brand(TECH_BY_NAME[item].hex)}
                       >
                         {item}
                       </ToggleGroupItem>

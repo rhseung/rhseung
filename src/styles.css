@@ -150,6 +150,27 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/*
+ * 기술 뱃지 색. `--brand` 는 뱃지가 인라인 스타일로 꽂는 브랜드 hex 다.
+ * hex 를 그대로 안 쓰고 relative color 로 색상(h)만 뽑는 이유는 위 `--tone-*` 와 같다 -
+ * 명도는 배경/전경에 맞추고 채도는 상한을 둬서 뱃지가 본문을 이기지 않게 한다.
+ * 브랜드가 무채색(Next.js·Flask·Notion 의 `000000`)이면 `h` 가 없어 회색으로 떨어진다.
+ */
+@utility tech-tone {
+  --tone: oklch(from var(--brand) 0.45 min(c, 0.07) h);
+  --tone-bg: oklch(from var(--brand) 0.97 min(c, 0.03) h / 55%);
+  --tone-border: oklch(from var(--brand) 0.82 min(c, 0.05) h / 40%);
+
+  /* 반투명 채움만으로는 유리로 안 읽힌다 - 뒤를 흐리고 채도를 올려야 두께가 생긴다. */
+  backdrop-filter: blur(8px) saturate(180%);
+
+  @variant dark {
+    --tone: oklch(from var(--brand) 0.82 min(c, 0.06) h);
+    --tone-bg: oklch(from var(--brand) 0.28 min(c, 0.035) h / 45%);
+    --tone-border: oklch(from var(--brand) 0.6 min(c, 0.05) h / 30%);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

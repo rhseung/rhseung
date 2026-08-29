@@ -1,4 +1,4 @@
-export { awardsOf, educationOf, experienceOf, skillGroupsOf, SKILL_GROUP_TONE, TECH_BY_NAME, TECH_TONE } from './models';
+export { awardsOf, educationOf, experienceOf, skillGroupsOf, TECH_BY_NAME } from './models';
 export type { Award, CareerEntry, SkillGroup } from './models';
 
 export { groupAwardsByYear, sortAwards, sortCareer, sortSkillGroups } from './viewmodels';
