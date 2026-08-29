@@ -55,6 +55,8 @@ const BLUR_LAYERS = [
 /** 화면이 안 바뀌는 전환(예: dark 에서 시스템, OS 도 dark)에서 유일한 신호라 짧으면 놓친다. */
 const THEME_HINT_MS = 1400;
 
+const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+
 /** Tailwind의 `sm` 경계. 이 아래에서는 언어 버튼이 시트 안으로 숨어서 팝오버를 걸 자리가 없다. */
 const COMPACT_QUERY = '(max-width: 39.99rem)';
 
@@ -86,7 +88,6 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
 
   const nextLanguage = LANGUAGES[(LANGUAGES.indexOf(lang) + 1) % LANGUAGES.length];
 
-  const ThemeIcon = THEME_ICON[mode];
   const themeLabel = t(($) => $.theme.label, {
     mode: {
       light: t(($) => $.theme.light),
@@ -213,12 +214,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
                 />
               }
             >
-              {/* 모드마다 컴포넌트가 달라 교체될 때마다 새로 마운트된다 - 그래서 진입 모션이 매번
-                  돈다. 화면 테마가 그대로인 전환에서 눌렀다는 유일한 시각 신호다. */}
-              <ThemeIcon
-                aria-hidden
-                className="animate-in fade-in zoom-in-75 size-5 duration-200 motion-reduce:animate-none"
-              />
+              <ThemeIcons mode={mode} />
             </TooltipTrigger>
             <TooltipContent>{themeLabel}</TooltipContent>
           </Tooltip>
@@ -283,6 +279,60 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
       )}
     </TooltipProvider>
   );
+}
+
+/*
+ * transition 이 아니라 animation 이라야 한다. next-themes 의 `disableTransitionOnChange` 가
+ * 테마가 바뀌는 프레임에 `*{transition:none!important}` 를 끼워넣어 transition 을 통째로
+ * 죽인다. animation 은 그 규칙에 안 걸린다.
+ *
+ * 나가는 아이콘은 그대로 두면 프레임 하나에 사라져 끊겨 보인다. 직전 모드를 한 벌 더 들고
+ * 있다가 같이 내보낸다.
+ */
+function ThemeIcons({ mode }: ThemeIcons.Props) {
+  const [shown, setShown] = useState(mode);
+  const [leaving, setLeaving] = useState<ThemeMode>();
+
+  // 모션을 끄면 `animationend` 가 오지 않아 나가는 아이콘이 영영 안 지워진다. 그때는 아예
+  // 만들지 않는다.
+  const reduced = useMediaQuery(REDUCED_MOTION_QUERY);
+
+  // props 가 바뀔 때 렌더 중에 상태를 맞추는 React 표준 패턴. effect 로 미루면 한 프레임
+  // 늦어서 나가는 아이콘이 이미 사라진 뒤에 붙는다.
+  if (shown !== mode) {
+    setShown(mode);
+    setLeaving(reduced ? undefined : shown);
+  }
+
+  const Icon = THEME_ICON[mode];
+  const Leaving = leaving === undefined ? undefined : THEME_ICON[leaving];
+
+  return (
+    <span className="grid size-5 place-items-center">
+      {Leaving && (
+        <Leaving
+          key={leaving}
+          aria-hidden
+          className={cn(
+            'animate-out fade-out zoom-out-50 spin-out-90 fill-mode-forwards col-start-1 row-start-1 size-5 duration-300 motion-reduce:animate-none',
+          )}
+          onAnimationEnd={() => setLeaving(undefined)}
+        />
+      )}
+
+      <Icon
+        key={mode}
+        aria-hidden
+        className={cn(
+          'animate-in fade-in zoom-in-50 spin-in-90 col-start-1 row-start-1 size-5 duration-300 motion-reduce:animate-none',
+        )}
+      />
+    </span>
+  );
+}
+
+declare namespace ThemeIcons {
+  export type Props = { mode: ThemeMode };
 }
 
 function DockLink({ href, label, Icon, current, blank, hrefLang }: DockLink.Props) {
