@@ -1,3 +1,4 @@
+import { TECH_BY_NAME } from '@/features/career';
 import type { Award, CareerEntry, SkillGroup } from '@/features/career';
 import type { Project } from '@/features/projects';
 
@@ -31,8 +32,18 @@ export const awards: Award[] = [
 ];
 
 export const skills: SkillGroup[] = [
-  { slug: 'lang', order: 1, group: '언어', items: ['TypeScript', 'Rust'] },
-  { slug: 'web', order: 2, group: '웹', items: ['Astro', 'React'] },
+  {
+    slug: 'lang',
+    order: 1,
+    group: '언어',
+    items: [TECH_BY_NAME.TypeScript, TECH_BY_NAME.Rust],
+  },
+  {
+    slug: 'web',
+    order: 2,
+    group: '웹',
+    items: [TECH_BY_NAME.Astro, TECH_BY_NAME.React],
+  },
 ];
 
 export const projects: Project[] = [

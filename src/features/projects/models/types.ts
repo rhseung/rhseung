@@ -1,4 +1,5 @@
-import type { Tech, Url, YearMonth } from '@/common/lib';
+import type { Url, YearMonth } from '@/common/lib';
+import type { Tech } from '@/content/skills';
 
 export const PROJECT_LINK_KINDS = ['repo', 'demo', 'package', 'post', 'paper'] as const;
 

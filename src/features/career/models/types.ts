@@ -1,4 +1,5 @@
-import type { Tech, Tone, Url, YearMonth, YearOrMonth } from '@/common/lib';
+import type { Tone, Url, YearMonth, YearOrMonth } from '@/common/lib';
+import type { TechSpec } from '@/content/skills';
 
 export type CareerText = {
   org: string;
@@ -38,7 +39,7 @@ export type SkillGroupItem = Translated<SkillGroupText> & {
   slug: string;
   /** 그룹 순서는 이름순이 아니다 - 언어에 따라 가나다순이 뒤집힌다. 항목이 직접 정한다. */
   order: number;
-  items: readonly Tech[];
+  items: readonly TechSpec[];
 };
 
 export type CareerEntry = CareerText & Omit<CareerItem, 'ko' | 'en'>;

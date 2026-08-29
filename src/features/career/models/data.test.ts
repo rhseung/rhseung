@@ -35,10 +35,16 @@ const award = z.object({
   ...translated(z.object({ title: filled, issuer: filled.optional(), summary })),
 });
 
+const techSpec = z.object({
+  name: filled,
+  hex: z.string().regex(/^#[0-9A-F]{6}$/, '`#` + 대문자 6자리 hex 여야 합니다'),
+  icon: z.object({ slug: filled, path: filled }).optional(),
+});
+
 const skillGroup = z.object({
   slug,
   order: z.int().positive(),
-  items: z.array(filled).min(1),
+  items: z.array(techSpec).min(1),
   ...translated(z.object({ group: filled })),
 });
 
@@ -74,7 +80,7 @@ describe('skillGroups', () => {
   });
 
   it('같은 기술이 두 그룹에 있지 않다', () => {
-    const all = skillGroups.flatMap((g) => g.items);
+    const all = skillGroups.flatMap((g) => g.items.map((item) => item.name));
     expect(new Set(all).size, all.join(', ')).toBe(all.length);
   });
 });

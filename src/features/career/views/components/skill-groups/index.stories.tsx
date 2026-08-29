@@ -1,3 +1,5 @@
+import { TECH_BY_NAME } from '../../../viewmodels';
+
 import { SkillGroups } from '.';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -8,8 +10,18 @@ const meta = {
   parameters: { layout: 'padded' },
   args: {
     groups: [
-      { slug: 'g', order: 1, group: '언어', items: ['TypeScript', 'Rust', 'Python'] },
-      { slug: 'g', order: 2, group: '웹', items: ['Astro', 'React', 'Tailwind CSS'] },
+      {
+        slug: 'g',
+        order: 1,
+        group: '언어',
+        items: [TECH_BY_NAME.TypeScript, TECH_BY_NAME.Rust, TECH_BY_NAME.Python],
+      },
+      {
+        slug: 'g',
+        order: 2,
+        group: '웹',
+        items: [TECH_BY_NAME.Astro, TECH_BY_NAME.React, TECH_BY_NAME['Tailwind CSS']],
+      },
     ],
   },
 } satisfies Meta<typeof SkillGroups>;

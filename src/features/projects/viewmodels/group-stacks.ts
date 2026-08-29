@@ -13,7 +13,7 @@ export function groupStacks(stacks: readonly string[], lang: Language): StackGro
     .map((group) => ({
       slug: group.slug,
       label: group.group,
-      items: stacks.filter((tech) => (group.items as readonly string[]).includes(tech)),
+      items: stacks.filter((tech) => group.items.some((item) => item.name === tech)),
     }))
     .filter((group) => group.items.length > 0);
 }

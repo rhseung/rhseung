@@ -1,4 +1,6 @@
 import type { Language, Tone } from '@/common/lib';
+import { SKILL_GROUPS } from '@/content/skills';
+import type { TechSpec } from '@/content/skills';
 
 import { SKILL_GROUP_TONE } from './types';
 
@@ -11,9 +13,10 @@ import type {
   SkillGroupItem,
 } from './types';
 
-export { defineAward, defineCareer, defineSkillGroup } from './define';
+export { defineAward, defineCareer } from './define';
 export { SKILL_GROUP_TONE } from './types';
 export type { Award, CareerEntry, SkillGroup } from './types';
+export type { TechSpec } from '@/content/skills';
 
 function collect<T>(modules: Record<string, { default: T }>): T[] {
   return Object.keys(modules)
@@ -28,14 +31,16 @@ const education = collect<CareerItem>(
   import.meta.glob('@/content/education/*/index.ts', { eager: true }),
 );
 const awards = collect<AwardItem>(import.meta.glob('@/content/awards/*.ts', { eager: true }));
-const skillGroups = collect<SkillGroupItem>(
-  import.meta.glob('@/content/skills/*.ts', { eager: true }),
+const skillGroups: SkillGroupItem[] = [...SKILL_GROUPS];
+
+export const TECH_BY_NAME: Record<string, TechSpec> = Object.fromEntries(
+  skillGroups.flatMap((group) => group.items.map((tech) => [tech.name, tech] as const)),
 );
 
 export const TECH_TONE: Record<string, Tone> = Object.fromEntries(
   skillGroups.flatMap((group) => {
     const tone = SKILL_GROUP_TONE[group.slug];
-    return tone === undefined ? [] : group.items.map((tech) => [tech, tone] as const);
+    return tone === undefined ? [] : group.items.map((tech) => [tech.name, tone] as const);
   }),
 );
 

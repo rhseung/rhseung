@@ -13,12 +13,12 @@ export function SkillGroups({ groups, layout = 'list' }: SkillGroups.Props) {
           <dd>
             <ul className="flex flex-wrap gap-1">
               {group.items.map((item) => (
-                <li key={item}>
+                <li key={item.name}>
                   <Badge
                     variant="secondary"
                     className={tone({ tone: SKILL_GROUP_TONE[group.slug] })}
                   >
-                    {item}
+                    {item.name}
                   </Badge>
                 </li>
               ))}
