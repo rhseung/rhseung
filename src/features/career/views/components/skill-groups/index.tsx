@@ -15,7 +15,9 @@ export function SkillGroups({ groups, layout = 'list' }: SkillGroups.Props) {
           <dd>
             <ul className="flex flex-wrap gap-1">
               {group.items.map((item) => (
-                <li key={item.name}>
+                // `flex` 를 빼면 뱃지가 baseline 으로 정렬된다 - `inline-flex` 의 baseline 은
+                // 첫 자식에서 나와서, 아이콘 있는 뱃지와 없는 뱃지가 2px 어긋난다.
+                <li key={item.name} className="flex">
                   <Badge
                     variant="secondary"
                     className={tone({ tone: 'brand' })}
