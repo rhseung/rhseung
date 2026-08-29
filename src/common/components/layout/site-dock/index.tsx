@@ -290,33 +290,32 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
  * 있다가 같이 내보낸다.
  */
 function ThemeIcons({ mode }: ThemeIcons.Props) {
-  const [shown, setShown] = useState(mode);
-  const [leaving, setLeaving] = useState<ThemeMode>();
-
   // 모션을 끄면 `animationend` 가 오지 않아 나가는 아이콘이 영영 안 지워진다. 그때는 아예
   // 만들지 않는다.
   const reduced = useMediaQuery(REDUCED_MOTION_QUERY);
 
+  // 둘은 언제나 같이 바뀐다 - 따로 두면 한쪽만 갱신된 상태가 타입상 표현 가능해진다.
+  const [swap, setSwap] = useState<{ shown: ThemeMode; leaving?: ThemeMode }>({ shown: mode });
+
   // props 가 바뀔 때 렌더 중에 상태를 맞추는 React 표준 패턴. effect 로 미루면 한 프레임
   // 늦어서 나가는 아이콘이 이미 사라진 뒤에 붙는다.
-  if (shown !== mode) {
-    setShown(mode);
-    setLeaving(reduced ? undefined : shown);
+  if (swap.shown !== mode) {
+    setSwap({ shown: mode, leaving: reduced ? undefined : swap.shown });
   }
 
   const Icon = THEME_ICON[mode];
-  const Leaving = leaving === undefined ? undefined : THEME_ICON[leaving];
+  const Leaving = swap.leaving === undefined ? undefined : THEME_ICON[swap.leaving];
 
   return (
     <span className="grid size-5 place-items-center">
       {Leaving && (
         <Leaving
-          key={leaving}
+          key={swap.leaving}
           aria-hidden
           className={cn(
             'animate-out fade-out zoom-out-50 spin-out-90 fill-mode-forwards col-start-1 row-start-1 size-5 duration-300 motion-reduce:animate-none',
           )}
-          onAnimationEnd={() => setLeaving(undefined)}
+          onAnimationEnd={() => setSwap({ shown: mode })}
         />
       )}
 
