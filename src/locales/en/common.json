@@ -1,8 +1,7 @@
 {
   "actions": {
     "permalink": "Link to this section",
-    "switchLanguage": "Switch language",
-    "toc": "Contents"
+    "switchLanguage": "Switch language"
   },
   "footer": {
     "email": "Email"

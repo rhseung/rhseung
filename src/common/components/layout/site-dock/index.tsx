@@ -1,13 +1,6 @@
 import { useState } from 'react';
 
-import {
-  Bars3Icon,
-  GlobeAltIcon,
-  HomeIcon,
-  ListBulletIcon,
-  MoonIcon,
-  SunIcon,
-} from '@heroicons/react/24/outline';
+import { Bars3Icon, GlobeAltIcon, HomeIcon, MoonIcon, SunIcon } from '@heroicons/react/24/outline';
 import { HomeIcon as HomeSolidIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 
@@ -56,11 +49,10 @@ const itemClass = cn(
   'text-muted-foreground hover:text-foreground hover:bg-muted flex size-10 items-center justify-center rounded-full transition-colors active:not-aria-[haspopup]:translate-y-0',
 );
 
-export function SiteDock({ lang, current, altHref, toc, className }: SiteDock.Props) {
+export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) {
   const { t } = useTranslation('common');
   const { mode, toggleTheme } = useThemeTransition();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [tocOpen, setTocOpen] = useState(false);
 
   const { suggested, dismiss } = useLanguageSuggestion(lang);
 
@@ -163,44 +155,6 @@ export function SiteDock({ lang, current, altHref, toc, className }: SiteDock.Pr
             </TooltipTrigger>
             <TooltipContent>{themeLabel}</TooltipContent>
           </Tooltip>
-
-          {/*
-           * 목차는 `lg` 부터 본문 옆에 붙는다. 그 아래에서는 컬럼을 만들 폭이 없어 여기로
-           * 들어온다 - 독은 어차피 모든 화면에 떠 있어서 새 진입점을 만들 필요가 없다.
-           *
-           * 목차를 노드로 받는 이유: `common` 은 `features` 를 import 할 수 없다.
-           */}
-          {toc && (
-            <Sheet open={tocOpen} onOpenChange={setTocOpen}>
-              <SheetTrigger
-                render={
-                  <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    className={cn(itemClass, 'lg:hidden')}
-                    aria-label={t(($) => $.actions.toc)}
-                  />
-                }
-              >
-                <ListBulletIcon className="size-5" />
-              </SheetTrigger>
-
-              {/* 항목을 누르면 같은 페이지 안에서 움직인다 - 시트가 열린 채면 간 곳이 안 보인다. */}
-              <SheetContent
-                side="right"
-                onClick={() => {
-                  setTocOpen(false);
-                }}
-              >
-                <SheetHeader>
-                  <SheetTitle className="sr-only">{t(($) => $.actions.toc)}</SheetTitle>
-                  <SheetDescription className="sr-only">{t(($) => $.actions.toc)}</SheetDescription>
-                </SheetHeader>
-
-                <div className="flex min-h-0 flex-1 px-4 pb-8">{toc}</div>
-              </SheetContent>
-            </Sheet>
-          )}
 
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger
@@ -319,7 +273,6 @@ export declare namespace SiteDock {
     lang: Language;
     current?: SiteSection;
     altHref?: string;
-    toc?: React.ReactNode;
     className?: string;
   };
 }

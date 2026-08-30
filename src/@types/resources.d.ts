@@ -19,8 +19,7 @@ export default interface Resources {
   "common": {
     "actions": {
       "permalink": "이 절 링크",
-      "switchLanguage": "언어 변경",
-      "toc": "목차"
+      "switchLanguage": "언어 변경"
     },
     "footer": {
       "email": "이메일"

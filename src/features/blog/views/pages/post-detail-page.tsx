@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Badge, DetailHeader, SiteDock } from '@/common/components';
 import { dayjs, localeHref } from '@/common/lib';
 
-import { PostToc } from '../components';
+import { PostToc, TocDock } from '../components';
 
 import type { PostHeading, PostSummary } from '../../viewmodels';
 
@@ -84,11 +84,9 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
         </aside>
       </div>
 
-      <SiteDock
-        lang={lang}
-        current="blog"
-        toc={<PostToc headings={headings} className="size-full" />}
-      />
+      <TocDock headings={headings} />
+
+      <SiteDock lang={lang} current="blog" />
     </div>
   );
 }
