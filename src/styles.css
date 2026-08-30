@@ -237,6 +237,15 @@
     @apply my-1;
   }
 
+  /*
+   * typography 는 번호(`--tw-prose-counters`)를 글머리표(`--tw-prose-bullets`)보다
+   * 진하게 준다 - 번호가 항목 텍스트만큼 무거워져 `ul` 과 `ol` 이 다른 목록으로 읽힌다.
+   * `:where()` 로 감싼 플러그인 규칙이라 클래스 하나만 더 얹으면 이긴다.
+   */
+  .prose ol > li::marker {
+    color: var(--tw-prose-bullets);
+  }
+
   /* 마진 0 은 typography 의 2em 을 끄는 것이다 — 감싼 `<p>` 마진과 겹친다. */
   .prose :is(img, video) {
     @apply border-border my-0 rounded-lg border;
