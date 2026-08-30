@@ -110,7 +110,7 @@
 /* 토큰 → Tailwind 유틸리티. 이게 Tailwind v4 설정의 전부다.
    이 프로젝트에는 tailwind.config.js가 없고, 그건 의도다. */
 @theme inline {
-  --font-sans: 'Pretendard Variable', sans-serif;
+  --font-sans: 'Pretendard GOV Variable', sans-serif;
   --font-mono: 'Monaspace Neon Var', ui-monospace, monospace;
 
   --color-background: var(--background);
