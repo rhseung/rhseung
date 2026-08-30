@@ -18,10 +18,9 @@ const TONES = {
 const callout = tv({
   slots: {
     // prose 가 자식 `<p>`·목록에 1.25em 마진을 준다 — 그대로 두면 제목과 본문이 멀찍이 떨어진다.
-    root: 'my-6 rounded-r-md border-l-4 bg-muted/40 px-4 py-3 [&_ol]:my-2 [&_p+p]:mt-2 [&_p]:my-0 [&_ul]:my-2',
-    // em 기준이라 글자 크기를 바꿔도 첫 줄 가운데에 남는다: (line-height 1.75 - 1.05) / 2.
-    icon: 'mt-[0.35em] size-[1.05em] shrink-0',
-    title: 'font-medium',
+    root: 'my-6 flex flex-col gap-1 rounded-r-md border-l-4 bg-muted/40 px-4 py-3 [&_ol]:my-2 [&_p+p]:mt-2 [&_p]:my-0 [&_ul]:my-2',
+    icon: 'size-5 shrink-0',
+    title: 'flex items-center gap-2 font-medium',
     body: 'text-muted-foreground leading-relaxed',
   },
   variants: {
@@ -62,14 +61,12 @@ export function Callout({ tone = 'note', title, children }: Callout.Props) {
 
   return (
     <aside className={styles.root()}>
-      <div className="flex gap-2.5">
+      <p className={styles.title()}>
         <Icon className={styles.icon()} />
+        {title}
+      </p>
 
-        <div className="flex min-w-0 flex-col gap-1">
-          {title && <p className={styles.title()}>{title}</p>}
-          <div className={styles.body()}>{children}</div>
-        </div>
-      </div>
+      <div className={styles.body()}>{children}</div>
     </aside>
   );
 }
