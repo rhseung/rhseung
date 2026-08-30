@@ -1,17 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 import {
   GlobeIcon,
   HouseIcon,
   ListIcon,
   MoonIcon,
-  SunHorizonIcon,
   SunIcon,
   type Icon,
 } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { LANGUAGES, localeHref, type Language, type ThemeMode } from '@/common/lib';
+import { LANGUAGES, localeHref, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
 import {
   useExternalLinks,
@@ -52,19 +51,12 @@ const BLUR_LAYERS = [
 
 // 링크와 버튼이 같이 쓴다. `Button`에 맡기면 아이콘이 16px(`[&_svg:not([class*='size-'])]`)에
 // `text-foreground`로 나와서 링크들과 크기도 색도 어긋난다 - 아이콘 쪽 `size-5`도 같은 이유다.
-/** 화면이 안 바뀌는 전환(예: dark 에서 시스템, OS 도 dark)에서 유일한 신호라 짧으면 놓친다. */
-const THEME_HINT_MS = 1400;
-
-const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
-
 /** Tailwind의 `sm` 경계. 이 아래에서는 언어 버튼이 시트 안으로 숨어서 팝오버를 걸 자리가 없다. */
 const COMPACT_QUERY = '(max-width: 39.99rem)';
 
-const THEME_ICON: Record<ThemeMode, Icon> = {
-  light: SunIcon,
-  dark: MoonIcon,
-  system: SunHorizonIcon,
-};
+const themeIconClass = cn(
+  'col-start-1 row-start-1 size-5 transition-[opacity,rotate,scale] duration-300 motion-reduce:transition-none',
+);
 
 // `active:...translate-y-0` 은 `Button` 베이스의 눌림 이동을 끈다. 독에서는 링크와 버튼이
 // 한 줄에 서는데 버튼만 내려앉으면 줄이 어긋난다. modifier 를 그대로 맞춰야 tailwind-merge 가
@@ -75,26 +67,18 @@ const itemClass = cn(
 
 export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) {
   const { t } = useTranslation('common');
-  const { mode, cycleTheme } = useThemeTransition();
+  const { mode, toggleTheme } = useThemeTransition();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [themeTipOpen, setThemeTipOpen] = useState(false);
-  const [themeTipPinned, setThemeTipPinned] = useState(false);
-  const themeTipTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
-
-  useEffect(() => () => clearTimeout(themeTipTimer.current), []);
 
   const isCompact = useMediaQuery(COMPACT_QUERY);
   const { suggested, dismiss } = useLanguageSuggestion(lang);
 
   const nextLanguage = LANGUAGES[(LANGUAGES.indexOf(lang) + 1) % LANGUAGES.length];
 
-  const themeLabel = t(($) => $.theme.label, {
-    mode: {
-      light: t(($) => $.theme.light),
-      dark: t(($) => $.theme.dark),
-      system: t(($) => $.theme.system),
-    }[mode],
-  });
+  const themeLabel =
+    mode === undefined
+      ? t(($) => $.theme.toggle)
+      : t(($) => $.theme.label, { mode: t(($) => $.theme[mode]) });
   const sections = useSiteSections(lang);
   const external = useExternalLinks();
 
@@ -192,29 +176,19 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
             </Popover>
           )}
 
-          {/* 핀을 호버 상태와 OR 로 겹친다. 툴팁을 통째로 제어하면 클릭 뒤에도 커서가 올라가
-              있는 동안 닫혀버린다. */}
-          <Tooltip open={themeTipOpen || themeTipPinned} onOpenChange={setThemeTipOpen}>
+          <Tooltip>
             <TooltipTrigger
               render={
                 <Button
                   variant="ghost"
                   size="icon-sm"
                   className={itemClass}
-                  onClick={(event) => {
-                    cycleTheme(event);
-                    setThemeTipPinned(true);
-                    clearTimeout(themeTipTimer.current);
-                    themeTipTimer.current = setTimeout(
-                      () => setThemeTipPinned(false),
-                      THEME_HINT_MS,
-                    );
-                  }}
+                  onClick={toggleTheme}
                   aria-label={themeLabel}
                 />
               }
             >
-              <ThemeIcons mode={mode} />
+              <ThemeIcons />
             </TooltipTrigger>
             <TooltipContent>{themeLabel}</TooltipContent>
           </Tooltip>
@@ -281,57 +255,24 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
   );
 }
 
-/*
- * transition 이 아니라 animation 이라야 한다. next-themes 의 `disableTransitionOnChange` 가
- * 테마가 바뀌는 프레임에 `*{transition:none!important}` 를 끼워넣어 transition 을 통째로
- * 죽인다. animation 은 그 규칙에 안 걸린다.
- *
- * 나가는 아이콘은 그대로 두면 프레임 하나에 사라져 끊겨 보인다. 직전 모드를 한 벌 더 들고
- * 있다가 같이 내보낸다.
- */
-function ThemeIcons({ mode }: ThemeIcons.Props) {
-  // 모션을 끄면 `animationend` 가 오지 않아 나가는 아이콘이 영영 안 지워진다. 그때는 아예
-  // 만들지 않는다.
-  const reduced = useMediaQuery(REDUCED_MOTION_QUERY);
-
-  // 둘은 언제나 같이 바뀐다 - 따로 두면 한쪽만 갱신된 상태가 타입상 표현 가능해진다.
-  const [swap, setSwap] = useState<{ shown: ThemeMode; leaving?: ThemeMode }>({ shown: mode });
-
-  // props 가 바뀔 때 렌더 중에 상태를 맞추는 React 표준 패턴. effect 로 미루면 한 프레임
-  // 늦어서 나가는 아이콘이 이미 사라진 뒤에 붙는다.
-  if (swap.shown !== mode) {
-    setSwap({ shown: mode, leaving: reduced ? undefined : swap.shown });
-  }
-
-  const Icon = THEME_ICON[mode];
-  const Leaving = swap.leaving === undefined ? undefined : THEME_ICON[swap.leaving];
-
+// `.dark` 는 첫 페인트 전에 이미 붙어 있다. 두 아이콘을 겹쳐 두고 CSS 로 굴리면 마운트를
+// 안 태워서 하이드레이션 전에도 맞는 그림이 나오고, 나가는 아이콘을 손으로 붙잡을 일도 없다.
+function ThemeIcons() {
   return (
-    <span className="grid size-5 place-items-center">
-      {Leaving && (
-        <Leaving
-          key={swap.leaving}
-          aria-hidden
-          className={cn(
-            'animate-out fade-out zoom-out-50 spin-out-90 fill-mode-forwards col-start-1 row-start-1 size-5 duration-300 motion-reduce:animate-none',
-          )}
-          onAnimationEnd={() => setSwap({ shown: mode })}
-        />
-      )}
-
-      <Icon
-        key={mode}
+    <span className={cn('grid size-5 place-items-center')}>
+      <SunIcon
+        aria-hidden
+        className={cn(themeIconClass, 'dark:scale-50 dark:rotate-90 dark:opacity-0')}
+      />
+      <MoonIcon
         aria-hidden
         className={cn(
-          'animate-in fade-in zoom-in-50 spin-in-90 col-start-1 row-start-1 size-5 duration-300 motion-reduce:animate-none',
+          themeIconClass,
+          'scale-50 -rotate-90 opacity-0 dark:scale-100 dark:rotate-0 dark:opacity-100',
         )}
       />
     </span>
   );
-}
-
-declare namespace ThemeIcons {
-  export type Props = { mode: ThemeMode };
 }
 
 function DockLink({ href, label, Icon, current, blank, hrefLang }: DockLink.Props) {

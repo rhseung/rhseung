@@ -46,6 +46,6 @@
     "dark": "Dark",
     "label": "Theme: {{mode}}",
     "light": "Light",
-    "system": "System"
+    "toggle": "Toggle theme"
   }
 }

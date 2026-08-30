@@ -18,9 +18,12 @@ export type { Url } from './scalars';
 export { formatYearMonth, yearMonthKey, type YearMonth, type YearOrMonth } from './year-month';
 export {
   DARK_CLASS,
-  DEFAULT_THEME_MODE,
+  SYSTEM_DARK_QUERY,
   THEME_MODES,
-  THEME_STORAGE_KEY,
+  applyTheme,
+  resolveTheme,
+  setTheme,
+  subscribeTheme,
   type ThemeMode,
 } from './theme';
 export { brand, TONES, tone, type Tone } from './tone';

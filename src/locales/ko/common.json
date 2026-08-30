@@ -41,6 +41,6 @@
     "dark": "어둡게",
     "label": "테마: {{mode}}",
     "light": "밝게",
-    "system": "시스템 설정"
+    "toggle": "테마 바꾸기"
   }
 }
