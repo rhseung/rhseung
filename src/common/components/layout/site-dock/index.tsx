@@ -15,7 +15,6 @@ import {
 } from '@/common/viewmodels';
 
 import { Button } from '../../ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
 import { Separator } from '../../ui/separator';
 import {
   Sheet,
@@ -26,7 +25,7 @@ import {
   SheetTrigger,
 } from '../../ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../ui/tooltip';
-import { LanguageSuggestion } from '../language-suggestion';
+import { LanguageSuggestionPopover } from '../language-suggestion-popover';
 
 /**
  * 제일 높은 겹은 독의 윗변을 넘겨야 한다. 독은 `bottom-4`(1rem) 위에 서고 높이가 58px라
@@ -121,50 +120,23 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
           <Separator orientation="vertical" className="mx-0.5 h-6! w-px" />
 
           {altHref && (
-            <Popover
-              open={suggested !== null}
-              onOpenChange={(open) => {
-                if (!open) dismiss();
-              }}
-            >
-              <Tooltip>
+            <Tooltip>
+              <LanguageSuggestionPopover suggested={suggested} href={altHref} onDismiss={dismiss}>
                 <TooltipTrigger
                   render={
-                    <PopoverTrigger
-                      // 트리거가 버튼이 아니라 링크다 - 언어 페이지로 실제 이동해야 하니
-                      // `<a>`를 써야 한다. 기본값(true)이면 Base UI가 매 렌더 콘솔에 경고를 낸다.
-                      nativeButton={false}
-                      render={
-                        <a
-                          href={altHref}
-                          aria-label={t(($) => $.actions.switchLanguage)}
-                          hrefLang={nextLanguage}
-                          className={itemClass}
-                        />
-                      }
+                    <a
+                      href={altHref}
+                      aria-label={t(($) => $.actions.switchLanguage)}
+                      hrefLang={nextLanguage}
+                      className={itemClass}
                     />
                   }
                 >
                   <GlobeAltIcon aria-hidden className="size-5" />
                 </TooltipTrigger>
-                <TooltipContent>{t(($) => $.actions.switchLanguage)}</TooltipContent>
-              </Tooltip>
-
-              {suggested !== null && (
-                <PopoverContent
-                  side="top"
-                  align="center"
-                  sideOffset={8}
-                  // 팝오버는 `document.body`로 포탈돼서 독의 `print:hidden` 밖으로 빠져나간다.
-                  // 안 걸면 이력서 PDF 머리에 언어 제안이 그대로 찍힌다.
-                  // 좁은 화면에서 팝오버가 뷰포트를 넘지 않게 - Base UI 는 폭을 안 줄인다.
-                  className="w-auto max-w-[min(20rem,calc(100vw-2rem))] p-4 print:hidden"
-                  aria-label={t(($) => $.actions.switchLanguage)}
-                >
-                  <LanguageSuggestion language={suggested} href={altHref} onDismiss={dismiss} />
-                </PopoverContent>
-              )}
-            </Popover>
+              </LanguageSuggestionPopover>
+              <TooltipContent>{t(($) => $.actions.switchLanguage)}</TooltipContent>
+            </Tooltip>
           )}
 
           <Tooltip>
