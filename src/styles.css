@@ -281,6 +281,11 @@
     @apply my-6 overflow-x-auto text-center;
   }
 
+  /* 밑줄이 글자만큼 진하면 텍스트를 갉아먹는다 - 링크 옆 ↗ 아이콘과 같은 농도로 낮춘다. */
+  .prose a {
+    @apply decoration-current/40 decoration-[0.0625em];
+  }
+
   /* 본문 속 링크를 색만으로 구분하면 안 된다. 밑줄을 늘 둔다. */
   .prose .citation {
     @apply decoration-muted-foreground/40 font-normal underline underline-offset-2 hover:decoration-current;
