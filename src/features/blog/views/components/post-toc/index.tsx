@@ -23,9 +23,10 @@ export function PostToc({ headings, className }: PostToc.Props) {
 
   return (
     <nav aria-label={label} className={cn('flex flex-col gap-3', className)}>
-      <p className="text-muted-foreground text-xs font-medium">{label}</p>
+      <p className="text-muted-foreground shrink-0 text-xs font-medium">{label}</p>
 
-      <ul className="flex flex-col gap-1 text-sm">
+      {/* 넘치는 건 목록만이다. 제목까지 같이 흐르면 목차가 스크롤된 순간 제목이 사라진다. */}
+      <ul className="flex min-h-0 flex-col gap-1 overflow-y-auto text-sm">
         {headings.map(({ depth, slug, text }) => (
           <li key={slug}>
             <a

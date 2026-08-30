@@ -53,7 +53,7 @@ export const Overflowing: Story = {
       slug: `section-${index}`,
       text: `${index + 1}번째 절 제목`,
     })),
-    className: 'max-h-80 overflow-y-auto',
+    className: 'max-h-80',
   },
 };
 

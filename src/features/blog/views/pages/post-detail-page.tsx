@@ -79,10 +79,7 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
          */}
         <aside className="hidden xl:col-start-2 xl:row-start-1 xl:block">
           <div className="fixed top-1/2 w-52 -translate-y-1/2">
-            <PostToc
-              headings={headings}
-              className="max-h-[calc(100dvh-336px)] w-full overflow-y-auto"
-            />
+            <PostToc headings={headings} className="max-h-[calc(100dvh-336px)] w-full" />
           </div>
         </aside>
       </div>
