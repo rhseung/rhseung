@@ -13,8 +13,8 @@ const TONES = {
 
 const callout = tv({
   slots: {
-    // prose 가 자식 `<p>`에 1.25em 마진을 준다 — 그대로 두면 제목과 본문이 멀찍이 떨어진다.
-    root: 'my-6 rounded-r-md border-l-4 px-4 py-3 [&_p+p]:mt-2 [&_p]:my-0',
+    // prose 가 자식 `<p>`·목록에 1.25em 마진을 준다 — 그대로 두면 제목과 본문이 멀찍이 떨어진다.
+    root: 'my-6 rounded-r-md border-l-4 px-4 py-3 [&_ol]:my-2 [&_p+p]:mt-2 [&_p]:my-0 [&_ul]:my-2',
     // em 기준이라 글자 크기를 바꿔도 첫 줄 가운데에 남는다: (line-height 1.75 - 1.05) / 2.
     icon: 'mt-[0.35em] size-[1.05em] shrink-0',
     title: 'text-foreground font-medium',
