@@ -484,11 +484,20 @@ html[data-vt='shallower']::view-transition-new(root) {
   font-size: 1em;
 }
 
-/* 스크롤은 수식만 한다. `safe center` 는 넘칠 때 start 로 떨어져 왼쪽이 잘리지 않는다. */
+/*
+ * 스크롤은 수식만, 그것도 좌우로만 한다. `safe center` 는 넘칠 때 start 로 떨어져
+ * 왼쪽이 잘리지 않는다.
+ *
+ * KaTeX 의 1em 세로 마진을 안쪽 패딩으로 옮긴다 - 글리프가 줄상자를 위아래로 몇 px
+ * 삐져나오는데, 스크롤 상자에 여유가 없으면 그게 세로 스크롤바로 잡히고 위쪽은
+ * 스크롤로 닿지도 못해 잘린다. 바깥에서 본 여백은 그대로다.
+ */
 .paper .display-math .katex-display {
   display: flex;
   justify-content: safe center;
-  overflow-x: auto;
+  overflow: auto hidden;
+  margin-block: 0;
+  padding-block: 1em;
 }
 
 /*
