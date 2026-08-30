@@ -224,6 +224,19 @@
 }
 
 @layer utilities {
+  /*
+   * typography 기본값 1.75 는 라틴 기준이다. 한글은 글자가 사각형을 꽉 채워서 같은
+   * 수치라도 줄 사이가 더 벌어져 보인다 - 한 단 좁힌다.
+   */
+  .prose {
+    @apply leading-[1.65];
+  }
+
+  /* 항목 사이가 문단 사이만큼 벌어지면 목록이 한 덩어리로 안 읽힌다. */
+  .prose :is(ul, ol) > li {
+    @apply my-1;
+  }
+
   /* 마진 0 은 typography 의 2em 을 끄는 것이다 — 감싼 `<p>` 마진과 겹친다. */
   .prose :is(img, video) {
     @apply border-border my-0 rounded-lg border;
