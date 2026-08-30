@@ -331,9 +331,20 @@
     @apply my-0;
   }
 
-  /* 헤더와 본문의 경계는 행 사이 선보다 진해야 표가 읽힌다. */
   .prose thead {
-    @apply border-muted-foreground/40 border-b-2;
+    @apply border-border border-b;
+  }
+
+  .prose thead th {
+    @apply text-muted-foreground text-xs font-medium tracking-wide;
+  }
+
+  .prose tbody tr {
+    @apply border-border;
+  }
+
+  .prose :is(th, td) {
+    @apply py-2.5 break-keep;
   }
 
   /* typography 가 인라인 코드에 백틱을 글자로 붙인다. 대신 배경으로 구분한다. */
