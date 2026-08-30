@@ -26,14 +26,14 @@ export function ProjectDetailPage({
 
   return (
     <div className="bg-background min-h-dvh">
-      <div className="mx-auto w-full max-w-3xl px-4">
+      <div className="mx-auto w-full max-w-3xl p-4 sm:p-6 md:p-8">
         <DetailHeader
           lang={lang}
           backHref={localeHref(lang, '/projects')}
           backLabel={t(($) => $.detail.back)}
         />
 
-        <main className="flex flex-col gap-8 pb-12">
+        <main className="flex flex-col gap-8">
           <header className="flex flex-col gap-3">
             <div className="flex items-center gap-1.5">
               <Badge variant="outline">{label.status[project.status]}</Badge>

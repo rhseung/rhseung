@@ -22,7 +22,7 @@ export function ResumePage({
 
   return (
     <div className="bg-background min-h-dvh">
-      <main className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-12 print:max-w-none print:gap-0 print:px-0 print:py-0">
+      <main className="mx-auto flex max-w-3xl flex-col gap-8 p-4 sm:p-6 md:p-8 print:max-w-none print:gap-0 print:p-0">
         <div className="flex items-start justify-between gap-4 print:hidden">
           <div className="flex flex-col gap-2">
             <h1 className="text-2xl font-semibold tracking-tight">{t(($) => $.page.title)}</h1>

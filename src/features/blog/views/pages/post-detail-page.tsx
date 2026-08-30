@@ -23,7 +23,7 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
        * 밀어넣는 대신 없앤 이유는 글 위에 목차가 한 화면을 먹으면 첫 문단이 안 보이기
        * 때문이다.
        */}
-      <div className="mx-auto grid w-full max-w-3xl gap-x-10 px-4 xl:max-w-5xl xl:grid-cols-[minmax(0,1fr)_13rem]">
+      <div className="mx-auto grid w-full max-w-3xl gap-x-10 p-4 sm:p-6 md:p-8 xl:max-w-5xl xl:grid-cols-[minmax(0,1fr)_13rem]">
         <DetailHeader
           lang={lang}
           backHref={localeHref(lang, '/blog')}
@@ -31,7 +31,7 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
           className="xl:col-start-1 xl:col-end-3 xl:row-start-1"
         />
 
-        <main className="flex flex-col gap-8 pb-12 xl:col-start-1 xl:row-start-2">
+        <main className="flex flex-col gap-8 xl:col-start-1 xl:row-start-2">
           <header className="flex flex-col gap-3">
             <time dateTime={post.date} className="text-muted-foreground text-xs tabular-nums">
               {dayjs(post.date).format('LL')}
@@ -68,8 +68,11 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
          *
          * 세 아이템 전부 행·열을 명시한다. 하나라도 자동 배치로 두면 이미 차 있는 칸을
          * 피해 암시적 행·열이 생기고(실제로 4행 4열까지 늘어났다) 칸이 통째로 어긋난다.
+         *
+         * `-mt-8` 은 컨테이너 위 패딩을 되돌린다. 목차는 `xl` 부터만 뜨는데 그 폭에서는
+         * 패딩이 항상 `md:p-8` 이라 값이 고정이다. 안 걷어내면 처음 32px 만 따라 움직인다.
          */}
-        <aside className="hidden xl:col-start-2 xl:row-start-1 xl:row-end-3 xl:block">
+        <aside className="hidden xl:col-start-2 xl:row-start-1 xl:row-end-3 xl:-mt-8 xl:block">
           <div className="sticky top-0 flex h-dvh items-center">
             <PostToc headings={headings} className="max-h-[70dvh] w-full overflow-y-auto" />
           </div>
