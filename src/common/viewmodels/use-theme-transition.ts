@@ -61,7 +61,6 @@ export function useThemeTransition() {
 
       const origin = event.currentTarget.getBoundingClientRect();
 
-      // 이 플래그가 붙은 동안만 페이지 전환용 크로스페이드가 꺼진다 (`styles.css`).
       document.documentElement.dataset.themeTransition = '';
 
       const transition = document.startViewTransition(() => {

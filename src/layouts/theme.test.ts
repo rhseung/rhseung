@@ -4,11 +4,7 @@ import { DARK_CLASS, applyTheme, type ThemeMode } from '@/common/lib';
 
 import source from './theme.js?raw';
 
-/*
- * `theme.js` 는 번들을 안 타서 타입도 린트도 이 파일과 `@/common/lib` 를 못 묶는다. 실제로
- * 돌려보고 두 구현을 맞대보는 것만이 어긋난 걸 잡는다 - 어긋나면 첫 페인트에서만 틀린 테마가
- * 나와서 브라우저로도 알아채기 어렵다.
- */
+/* `theme.js` 는 번들을 안 타서 타입도 린트도 두 구현을 못 묶는다. 돌려서 맞대보는 수밖에 없다. */
 
 const CASES: { override?: ThemeMode; systemDark: boolean; dark: boolean }[] = [
   { systemDark: true, dark: true },

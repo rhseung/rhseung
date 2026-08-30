@@ -9,7 +9,6 @@ function post(slug: string, date: string): PostSummary {
 }
 
 describe('toPostSummary', () => {
-  // Date는 아일랜드 props로 넘어가며 어차피 직렬화된다. 경계에서 바꿔야 타입이 안 거짓말한다.
   it('Date를 ISO 문자열로 바꾼다', () => {
     const summary = toPostSummary({
       id: 'hello',

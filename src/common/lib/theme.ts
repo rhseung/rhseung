@@ -6,8 +6,7 @@ export const DARK_CLASS = 'dark' satisfies ThemeMode;
 
 export const SYSTEM_DARK_QUERY = '(prefers-color-scheme: dark)';
 
-// 모듈 스코프가 아니라 전역이라야 한다. `<ClientRouter />` 스왑은 문서를 안 갈아서 이 값이
-// 살아남지만, 첫 페인트 전 스크립트(`layouts/theme.js`)는 번들 밖이라 import 로는 못 닿는다.
+// 첫 페인트 전 스크립트가 번들 밖이라 모듈 스코프로는 못 닿는다.
 declare global {
   var __theme: ThemeMode | undefined;
 }

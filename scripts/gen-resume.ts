@@ -5,15 +5,8 @@ import { preview } from 'astro';
 import { chromium } from 'playwright';
 
 /**
- * `/{lang}/resume/`를 Chromium 인쇄 엔진으로 구워 `public/resume-{lang}.pdf`를 만든다.
- * 화면과 PDF가 같은 컴포넌트에서 나오므로 둘이 어긋날 수가 없다 — 사이트 크롬은
- * `print:hidden`이 걷어낸다.
- *
- * 브라우저 인쇄 대화상자를 쓰지 않는 이유: 기본값이 머리말/꼬리말(URL·날짜·쪽번호)을 찍고
- * 배경색을 끈다. 사용자가 옵션을 안 만지면 지저분한 PDF가 나온다. 여기서는 코드가 정한다.
- *
- * `astro build` 끝에 자동으로 돈다. 폰트를 자체 호스팅하면서 시스템 폰트 의존이 사라져
- * 어느 환경에서 구워도 결과가 같아졌기 때문이다.
+ * `/{lang}/resume/` 를 Chromium 인쇄 엔진으로 구워 `public/resume-{lang}.pdf` 를 만든다.
+ * 인쇄 대화상자는 기본값이 머리말·꼬리말을 찍고 배경색을 꺼서 쓰지 않는다.
  */
 const PORT = 4326;
 
@@ -27,8 +20,7 @@ export async function generateResumePdfs() {
     throw new Error('dist/ 가 없습니다. `astro build` 뒤에 실행하세요.');
   }
 
-  // Vercel 빌드 이미지에는 Playwright 브라우저가 없다. 거기서는 커밋된 PDF 를 그대로
-  // 배포하고, 최신인지는 CI 의 `git diff --exit-code` 가 본다.
+  // Vercel 빌드 이미지에는 Playwright 브라우저가 없다. 커밋된 PDF 를 그대로 배포한다.
   let browser;
   try {
     browser = await chromium.launch();
@@ -48,15 +40,14 @@ export async function generateResumePdfs() {
         waitUntil: 'networkidle',
       });
 
-      // `goto`는 404에도 예외를 안 던진다. 라우트가 바뀌면 404 페이지가 이력서로 구워진다.
+      // `goto` 는 404 에도 예외를 안 던진다. 그대로 두면 404 페이지가 이력서로 구워진다.
       if (response?.status() !== 200) {
         throw new Error(`${path} 가 ${response?.status()} 입니다`);
       }
 
       await page.emulateMedia({ media: 'print' });
 
-      // Chromium은 PDF의 `/Title`을 문서 제목에서 가져온다. 그대로 두면 사이트 라우트 제목이
-      // 이력서 파일 제목이 된다 — PDF 리더와 ATS가 그걸 읽는다.
+      // Chromium 은 PDF 의 `/Title` 을 문서 제목에서 가져온다.
       await page.evaluate((documentTitle) => {
         document.title = documentTitle;
       }, title);
@@ -72,8 +63,7 @@ export async function generateResumePdfs() {
 
       await freezeTimestamps(output);
 
-      // `public/`은 빌드 초반에 이미 `dist/`로 복사됐다. 방금 구운 걸 넣어주지 않으면
-      // 배포본에 직전 버전이 남는다.
+      // `public/` 은 빌드 초반에 이미 복사됐다. 안 넣으면 배포본에 직전 버전이 남는다.
       await copyFile(output, `dist/resume-${lang}.pdf`);
 
       console.log(`✔ ${output}`);
@@ -87,11 +77,10 @@ export async function generateResumePdfs() {
 }
 
 /**
- * Chromium이 박는 `/CreationDate`·`/ModDate` 때문에 같은 내용이어도 바이트가 매번 달라진다.
- * 그러면 CI의 `git diff --exit-code`가 항상 실패한다. 커밋되는 산출물에 생성 시각은
- * 의미가 없다 — 언제 바뀌었는지는 git 이력이 안다.
+ * Chromium 이 박는 `/CreationDate`·`/ModDate` 때문에 같은 내용이어도 바이트가 매번 달라져
+ * CI 의 `git diff --exit-code` 가 항상 실패한다.
  *
- * 같은 길이로 덮어써야 PDF의 xref 바이트 오프셋이 깨지지 않는다.
+ * 같은 길이로 덮어써야 PDF 의 xref 바이트 오프셋이 안 깨진다.
  */
 async function freezeTimestamps(file: string) {
   const FROZEN = "D:19700101000000+00'00'";

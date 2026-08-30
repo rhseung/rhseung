@@ -10,7 +10,6 @@ describe('localeHref', () => {
     expect(localeHref('en', '/projects')).toBe('/en/projects/');
   });
 
-  // canonical(`Astro.url.pathname`)이 항상 슬래시로 끝나므로 hreflang도 맞아야 한다.
   it('항상 슬래시로 끝난다', () => {
     expect(localeHref('en', 'projects')).toBe('/en/projects/');
     expect(localeHref('ko', '/blog/')).toBe('/ko/blog/');
@@ -25,8 +24,7 @@ describe('languagePaths', () => {
     ]);
   });
 
-  // Astro가 라우트별로 이 객체에 내부 상태를 붙인다. 같은 인스턴스를 여러 라우트가
-  // 공유하면 두 번째 라우트부터 NoMatchingStaticPathFound로 빌드가 깨진다.
+  // Astro 가 이 객체에 라우트별 내부 상태를 붙인다. 공유하면 빌드가 깨진다.
   it('호출마다 새 객체를 준다', () => {
     const [first] = languagePaths();
     const [second] = languagePaths();

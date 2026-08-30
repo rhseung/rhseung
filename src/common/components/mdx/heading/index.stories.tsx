@@ -32,7 +32,6 @@ export const Level5: Story = { args: { level: 5 } };
 
 export const Level6: Story = { args: { level: 6 } };
 
-/** 제목 안에 링크가 있어도 앵커와 겹치지 않는다. */
 export const WithInnerLink: Story = {
   args: {
     level: 2,
@@ -44,5 +43,4 @@ export const WithInnerLink: Story = {
   },
 };
 
-/** 슬러그를 못 만든 제목은 앵커가 붙지 않는다. */
 export const WithoutId: Story = { args: { level: 2, id: undefined } };

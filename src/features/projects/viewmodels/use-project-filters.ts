@@ -56,7 +56,6 @@ function commit(next: ProjectFilters) {
   if (next.query === '') searchParams.delete('q');
   else searchParams.set('q', next.query);
 
-  // 타이핑마다 히스토리를 쌓으면 뒤로가기가 글자 수만큼 필요해진다.
   window.history.replaceState(null, '', url);
   window.dispatchEvent(new Event(CHANGE_EVENT));
 }

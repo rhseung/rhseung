@@ -1,13 +1,11 @@
 import { useTranslation } from 'react-i18next';
 
 /**
- * 앵커를 rehype 플러그인이 아니라 컴포넌트로 붙이는 이유 — `@astrojs/mdx` 는 사용자
- * rehype 플러그인을 `rehypeHeadingIds` **앞**에 밀어넣는다(`plugins.js` 의 `getRehypePlugins`).
- * 그래서 `rehype-autolink-headings` 를 config 에 걸면 아직 `id` 가 없어 조용히 아무것도 안 한다.
- * 컴포넌트는 id 가 붙은 뒤의 props 를 받으므로 순서 문제가 없다.
+ * `@astrojs/mdx` 가 사용자 rehype 플러그인을 `rehypeHeadingIds` 앞에 밀어넣어서
+ * `rehype-autolink-headings` 는 id 가 없는 채로 돌다 조용히 아무것도 안 한다.
  *
- * 제목 전체를 링크로 감싸지 않는다 — 제목에 링크가 들어간 경우(`## [무엇](/)을 쓸까`)
- * `<a>` 가 중첩되고, 파서가 바깥 앵커를 먼저 닫아 제목 앞부분만 링크로 남는다.
+ * 제목을 통째로 감싸지 않는 건 제목 안에 링크가 있으면 `<a>` 가 중첩돼 파서가 바깥
+ * 앵커를 먼저 닫기 때문이다.
  */
 export function MdxHeading({ level, id, children }: MdxHeading.Props) {
   const { t } = useTranslation('common');

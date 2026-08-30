@@ -7,7 +7,6 @@ export type StackGroup = {
   items: string[];
 };
 
-// 어느 스킬 그룹에도 없는 기술은 조용히 빠진다 - 카드에 안 뜬다고 버그가 아니다.
 export function groupStacks(stacks: readonly string[], lang: Language): StackGroup[] {
   return sortSkillGroups(skillGroupsOf(lang))
     .map((group) => ({

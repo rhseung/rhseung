@@ -46,7 +46,6 @@ export const Default: Story = {
   },
 };
 
-/** 칸이 많아 폭을 넘기면 표만 가로로 스크롤하고 본문은 밀리지 않는다. */
 export const Wide: Story = {
   args: {
     children: (

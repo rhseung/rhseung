@@ -27,7 +27,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
-/** 브라우저 언어가 페이지 언어와 같거나, 이미 닫은 경우. 트리거만 남는다. */
 export const NoSuggestion: Story = {
   args: { suggested: null },
 };

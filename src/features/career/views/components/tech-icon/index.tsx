@@ -1,10 +1,6 @@
 import type { TechSpec } from '../../../viewmodels';
 
-/**
- * `fill="currentColor"` 라서 라벨 색을 그대로 따라간다 - 뱃지의 `--tone` 이 곧 이 색이다.
- * 크기 클래스를 직접 다는 이유: 토글의 `[&_svg:not([class*='size-'])]:size-4` 가
- * 클래스가 없을 때만 4로 키운다.
- */
+/** 크기 클래스를 직접 단다. 토글이 클래스 없는 svg 만 `size-4` 로 키운다. */
 export function TechIcon({ icon }: TechIcon.Props) {
   return (
     <svg

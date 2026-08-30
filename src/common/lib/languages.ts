@@ -2,7 +2,7 @@ export const LANGUAGES = ['ko', 'en'] as const;
 
 export type Language = (typeof LANGUAGES)[number];
 
-/** 접두사가 없는 언어. `astro.config.ts`의 `i18n.defaultLocale`과 같아야 한다. */
+/** `astro.config.ts` 의 `i18n.defaultLocale` 과 같아야 한다. */
 export const DEFAULT_LANGUAGE: Language = 'ko';
 
 export function isLanguage(value: string | undefined): value is Language {

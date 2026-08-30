@@ -1,7 +1,4 @@
-/**
- * msw를 import하지 않는다. `mocks/browser`에서 부르면 워커를 걷어내려고 MSW 번들
- * 400KB를 통째로 내려받게 된다 — 목킹이 꺼져 있을 때도 매 페이지에서.
- */
+/** msw 를 import 하지 않는다. 걷어내자고 400KB 번들을 매 페이지에서 받게 된다. */
 export async function unregisterStaleWorker() {
   const registrations = await navigator.serviceWorker?.getRegistrations();
 

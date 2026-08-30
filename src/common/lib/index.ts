@@ -1,5 +1,4 @@
-// 이 배럴은 부수효과 트리거를 겸한다. `@/common/lib`를 어디서든 import하면
-// dayjs가 i18next에 연결된다.
+// 부수효과 트리거를 겸한다. 이 배럴을 import 해야 dayjs 가 i18next 에 연결된다.
 import './dayjs';
 
 export { dayjs } from './dayjs';

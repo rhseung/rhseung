@@ -16,11 +16,6 @@ const TOOLTIP_DELAY = 200;
 
 type MonthCol = { month: Dayjs; span: number };
 
-/**
- * 각 월이 몇 열을 차지하는 지 세는 함수
- * 입력: [ [8/17..8/23], [8/24..8/30], [8/31..9/6], [9/7..9/13], ... ]
- * 출력: [ { month: 2025-08, span: 3 }, { month: 2025-09, span: 4 }, ... ]
- */
 function getMonthCols(weeks: ContributionDay[][]): MonthCol[] {
   const cols: MonthCol[] = [];
 

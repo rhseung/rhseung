@@ -16,8 +16,7 @@ import { useTranslation } from 'react-i18next';
 
 import { localeHref, type IconComponent, type Language } from '@/common/lib';
 
-// heroicons 는 채운 변형을 `weight` prop 이 아니라 다른 import 경로로 준다. 현재 항목만
-// 채워 그리는 독이 둘 다 필요해서 쌍으로 들고 다닌다.
+// heroicons 는 채운 변형이 별도 import 라 쌍으로 들고 다녀야 한다.
 const SECTIONS = [
   { key: 'projects', Icon: FolderIcon, IconSolid: FolderSolidIcon },
   { key: 'research', Icon: BeakerIcon, IconSolid: BeakerSolidIcon },

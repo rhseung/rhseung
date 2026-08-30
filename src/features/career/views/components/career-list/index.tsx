@@ -13,7 +13,6 @@ export function CareerList({
   const Heading = `h${headingLevel}` as const;
 
   return (
-    // `pl-2.5`: 점 반지름만큼 선을 들여놔야 점이 컨테이너 밖으로 안 나간다.
     <ul className={cn('flex flex-col', timeline ? 'gap-0 pl-2.5' : 'gap-6')}>
       {entries.map((item, index) => {
         const isLast = index === entries.length - 1;
@@ -27,7 +26,6 @@ export function CareerList({
             key={item.slug}
             className={cn(
               'flex break-inside-avoid flex-col gap-1',
-              // 선을 항목마다 그린다. ul 하나에 그으면 마지막 항목 아래로 삐져나간다.
               timeline && 'relative border-l pl-6',
               timeline && (isLast ? 'border-transparent pb-0' : 'border-border pb-8'),
             )}
@@ -44,10 +42,7 @@ export function CareerList({
 
             <div className="flex flex-wrap items-baseline gap-x-2">
               {item.logo && (
-                /*
-                 * 24px 고정이라 srcset·WebP 변환이 의미 없다 — `<Image />`가 주는 이점이
-                 * 없는 자리다. 게다가 여기는 React 아일랜드라 애초에 쓸 수도 없다.
-                 */
+                // 아일랜드라 `<Image />` 를 못 쓴다.
                 // eslint-disable-next-line no-restricted-syntax
                 <img
                   src={item.logo}

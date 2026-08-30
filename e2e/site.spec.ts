@@ -33,8 +33,7 @@ test('이력서 PDF가 실제로 있다', async ({ request }) => {
   }
 });
 
-// 이력서의 프로젝트 섹션은 yaml에 없다 — projects 컬렉션에서 채워진다.
-// 배선이 끊기면 섹션이 통째로 사라지는데, yaml만 보면 눈치채지 못한다.
+// 이력서의 프로젝트 섹션은 projects 컬렉션에서 채워진다. 끊기면 통째로 사라진다.
 test('이력서가 각 컬렉션에서 채워진다', async ({ page }) => {
   await page.goto('/ko/resume/');
 
@@ -45,7 +44,6 @@ test('이력서가 각 컬렉션에서 채워진다', async ({ page }) => {
   await expect(page.getByText('Astro 아일랜드 위에 올린 개인 사이트')).toBeVisible();
 });
 
-// 커리어는 훑어보는 페이지, 이력서는 PDF 를 들고 나가는 페이지다. 데이터 출처는 하나다.
 test('커리어 페이지가 세 섹션을 갖는다', async ({ page }) => {
   await page.goto('/ko/career/');
 
@@ -55,7 +53,6 @@ test('커리어 페이지가 세 섹션을 갖는다', async ({ page }) => {
   }
 });
 
-// 푸터가 모든 페이지에서 소셜·구독 링크로 잇는다.
 test('독이 모든 페이지에 있다', async ({ page }) => {
   for (const path of ['/ko/', '/ko/projects/', '/ko/blog/', '/ko/career/']) {
     await page.goto(path);

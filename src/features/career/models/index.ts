@@ -34,8 +34,7 @@ export const TECH_BY_NAME: Record<string, TechSpec> = Object.fromEntries(
   skillGroups.flatMap((group) => group.items.map((tech) => [tech.name, tech] as const)),
 );
 
-// 제네릭 `flatten` 을 안 쓰는 이유: 번역문 타입 매개변수가 반환 타입 애노테이션에서
-// 먼저 추론돼 `astro check` 가 인자와 안 맞는다고 본다.
+// 제네릭 `flatten` 은 반환 타입에서 타입 매개변수가 먼저 추론돼 `astro check` 가 깨진다.
 const pick = (lang: Language) => (lang === 'en' ? 'en' : 'ko');
 
 export function experienceOf(lang: Language): CareerEntry[] {

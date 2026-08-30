@@ -3,18 +3,10 @@
 @import 'tw-animate-css';
 @import './fonts.css';
 
-/* MDX 본문(`prose`). */
 @plugin '@tailwindcss/typography';
 
-/* shadcn/ui는 `.dark`를 토글한다. `[data-theme=dark]`를 같이 둔 건 SSR/SSG로 옮겼을 때
-   <html>에 속성을 박아 깜빡임 없이 처리하기 위해서다. 둘 다 동작한다. */
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *, .dark, .dark *));
 
-/* ───────────────────────────────────────────────────────────────────────────
-   디자인 토큰 (shadcn zinc). 여기 값을 바꾸면 앱 전체가 따라온다.
-   컴포넌트에서 색을 하드코딩하지 않는다 — 이 토큰에 매핑된 시맨틱 유틸리티를 쓴다
-   (`bg-card`, `text-muted-foreground`, `border-border` …).
-   ─────────────────────────────────────────────────────────────────────────── */
 :root {
   --radius: 0.625rem;
 
@@ -44,20 +36,12 @@
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
 
-  /* 잔디 5단계. GitHub 초록 대신 사이트의 zinc 축을 쓴다 - 페이지에서 유일하게 채도가 있는
-     덩어리가 되면 잔디가 본문보다 먼저 눈에 든다. 명도만 계단으로 올린다.
-     라이트는 배경(밝음)에서 전경(어두움)으로, 다크는 반대로 간다.
-
-     계단은 위로 갈수록 넓다. 등간격으로 두면 낮은 레벨끼리 안 갈리는데, 잔디는 대부분의
-     칸이 낮은 레벨이라 격자가 통째로 한 덩어리 회색으로 뭉쳐 보인다. */
   --contribution-0: oklch(0.97 0.001 286.375);
   --contribution-1: oklch(0.885 0.004 286.32);
   --contribution-2: oklch(0.71 0.008 286.1);
   --contribution-3: oklch(0.45 0.008 286);
   --contribution-4: oklch(0.141 0.005 285.823);
 
-  /* 분류축에 쓰는 색. 명도는 배경/전경 쪽에 맞추고 색상만 갈라서, 채도가 본문을 이기지
-     않게 한다. 잔디는 여기 안 낀다 - 면적이 커서 색이 들어가면 페이지를 지배한다. */
   --tone-blue-foreground: oklch(0.48 0.14 250);
   --tone-teal-foreground: oklch(0.45 0.1 190);
   --tone-green-foreground: oklch(0.45 0.12 150);
@@ -107,8 +91,6 @@
   --tone-rose-foreground: oklch(0.84 0.1 15);
 }
 
-/* 토큰 → Tailwind 유틸리티. 이게 Tailwind v4 설정의 전부다.
-   이 프로젝트에는 tailwind.config.js가 없고, 그건 의도다. */
 @theme inline {
   --font-sans: 'Pretendard GOV Variable', sans-serif;
   --font-mono: 'Monaspace Neon Var', ui-monospace, monospace;
@@ -150,18 +132,12 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/*
- * 기술 뱃지 색. `--brand` 는 뱃지가 인라인 스타일로 꽂는 브랜드 hex 다.
- * hex 를 그대로 안 쓰고 relative color 로 색상(h)만 뽑는 이유는 위 `--tone-*` 와 같다 -
- * 명도는 배경/전경에 맞추고 채도는 상한을 둬서 뱃지가 본문을 이기지 않게 한다.
- * 브랜드가 무채색(Next.js·Flask·Notion 의 `000000`)이면 `h` 가 없어 회색으로 떨어진다.
- */
+/* `--brand` 가 무채색(`000000`)이면 `h` 가 없어 회색으로 떨어진다. */
 @utility tech-tone {
   --tone: oklch(from var(--brand) 0.45 min(c, 0.07) h);
   --tone-bg: oklch(from var(--brand) 0.97 min(c, 0.03) h / 55%);
   --tone-border: oklch(from var(--brand) 0.82 min(c, 0.05) h / 40%);
 
-  /* 반투명 채움만으로는 유리로 안 읽힌다 - 뒤를 흐리고 채도를 올려야 두께가 생긴다. */
   backdrop-filter: blur(8px) saturate(180%);
 
   @variant dark {
@@ -177,11 +153,9 @@
   }
 
   body {
-    /* 독이 화면 아래에 떠 있다 — 마지막 콘텐츠가 그 아래로 숨지 않게 자리를 비운다. */
     @apply bg-background text-foreground pb-28 font-sans antialiased print:pb-0;
   }
 
-  /* Monaspace의 texture healing — 글자폭을 이웃에 맞춰 흘려서 코드 덩어리가 고르게 보인다. */
   code,
   kbd,
   pre,
@@ -192,11 +166,7 @@
   }
 }
 
-/*
- * `pre` 를 붙인 건 특이도 때문이다 — typography 의 `.prose pre` 가 자기 배경을 깔아
- * 클래스 하나짜리 규칙을 이긴다. 배경을 `span` 에도 주면 CSS 변수가 상속돼 토큰마다
- * 배경 사각형이 깔린다.
- */
+/* typography 의 `.prose pre` 를 이기려면 `pre` 를 붙여야 한다. `span` 에 배경을 주면 상속된다. */
 @layer utilities {
   pre.astro-code {
     color: var(--shiki-light);
@@ -224,44 +194,31 @@
 }
 
 @layer utilities {
-  /*
-   * typography 기본값 1.75 는 라틴 기준이다. 한글은 글자가 사각형을 꽉 채워서 같은
-   * 수치라도 줄 사이가 더 벌어져 보인다 - 한 단 좁힌다.
-   */
   .prose {
     @apply leading-[1.65];
   }
 
-  /* 항목 사이가 문단 사이만큼 벌어지면 목록이 한 덩어리로 안 읽힌다. */
   .prose :is(ul, ol) > li,
   .prose li > :is(ul, ol) {
     @apply my-1;
   }
 
-  /*
-   * typography 는 번호(`--tw-prose-counters`)를 글머리표(`--tw-prose-bullets`)보다
-   * 진하게 준다 - 번호가 항목 텍스트만큼 무거워져 `ul` 과 `ol` 이 다른 목록으로 읽힌다.
-   * `:where()` 로 감싼 플러그인 규칙이라 클래스 하나만 더 얹으면 이긴다.
-   */
+  /* 플러그인 규칙이 `:where()` 안이라 클래스 하나만 더 얹으면 이긴다. */
   .prose ol > li::marker {
     color: var(--tw-prose-bullets);
   }
 
-  /* 마진 0 은 typography 의 2em 을 끄는 것이다 — 감싼 `<p>` 마진과 겹친다. */
+  /* typography 의 2em 이 감싼 `<p>` 마진과 겹친다. */
   .prose :is(img, video) {
     @apply border-border my-0 rounded-lg border;
   }
 
-  /*
-   * 체크박스를 마커 자리로 빼야 글머리가 `ul`·`ol` 과 같은 축에 선다.
-   * `1.375em` = 체크박스 폭(1em) + typography 가 `li` 에 주는 `padding-left`(0.375em) —
-   * 마커는 우측 정렬이라 맞춰야 하는 건 왼쪽이 아니라 오른쪽 끝이다.
-   */
+  /* `1.375em` = 체크박스 폭(1em) + typography 가 `li` 에 주는 `padding-left`(0.375em). */
   .prose li:has(> input[type='checkbox']) {
     @apply relative list-none;
   }
 
-  /* shadcn `Checkbox` 를 CSS 로 다시 그린다. 체크는 mask 라야 색이 토큰을 따라간다. */
+  /* 체크는 mask 라야 색이 토큰을 따라간다. */
   .prose input[type='checkbox'] {
     @apply border-input dark:bg-input/30 absolute top-[0.3em] -left-[1.375em] inline-grid size-4 shrink-0 appearance-none place-content-center rounded-[4px] border transition-colors;
   }
@@ -277,30 +234,24 @@
       center / contain no-repeat;
   }
 
-  /* GFM 은 체크박스를 항상 `disabled` 로 낸다. 읽기 전용일 뿐이다. */
+  /* GFM 은 체크박스를 항상 `disabled` 로 낸다. */
   .prose input[type='checkbox']:disabled {
     @apply opacity-100;
   }
 
-  /* 클래스 이름은 unified-latex 와 citation-js 가 정한다 - 우리가 못 고른다. */
   .prose .environment.abstract {
     @apply border-border text-muted-foreground mb-8 border-l-2 py-1 pl-4 text-sm;
   }
 
-  /*
-   * 수식 번호는 `.tag` 가 `position:absolute; right:0` 으로 얹어서 자리를 안 차지한다 -
-   * 패딩으로 레인을 비우지 않으면 좁은 화면에서 수식이 번호 밑으로 파고든다.
-   */
+  /* `.tag` 가 `absolute` 라 자리를 안 차지한다. 패딩으로 레인을 비워야 안 겹친다. */
   .prose .display-math {
     @apply relative my-6 pr-10 text-center;
   }
 
-  /* 밑줄이 글자만큼 진하면 텍스트를 갉아먹는다 - 링크 옆 ↗ 아이콘과 같은 농도로 낮춘다. */
   .prose a {
     @apply decoration-current/40 decoration-[0.0625em];
   }
 
-  /* 본문 속 링크를 색만으로 구분하면 안 된다. 밑줄을 늘 둔다. */
   .prose .citation {
     @apply decoration-muted-foreground/40 font-normal underline underline-offset-2 hover:decoration-current;
   }
@@ -309,7 +260,6 @@
     @apply text-muted-foreground mb-2 pl-6 -indent-6 text-sm leading-relaxed;
   }
 
-  /* 각주는 본문이 끝난 뒤의 부록이다 — 선과 크기로 잘라낸다. */
   .prose .footnotes {
     @apply border-border text-muted-foreground mt-12 border-t pt-6 text-sm;
   }
@@ -322,15 +272,11 @@
     @apply my-0;
   }
 
-  /* 본문 안의 각주 번호. 흐리면 안 보이고 밑줄을 주면 링크로 읽힌다 — 색만 올린다. */
   .prose sup a {
     @apply text-primary font-medium no-underline;
   }
 
-  /*
-   * 세로 여백은 감싼 스크롤 상자가 갖는다 - `overflow` 가 만든 BFC 안에서는 표 마진이
-   * 바깥과 상쇄되지 않아, 표에 두면 앞 제목의 마진과 더해져 두 배로 벌어진다.
-   */
+  /* `overflow` 가 만든 BFC 안에서는 표 마진이 바깥과 상쇄되지 않는다. */
   .prose table {
     @apply my-0;
   }
@@ -351,7 +297,7 @@
     @apply py-2.5 break-keep;
   }
 
-  /* typography 가 인라인 코드에 백틱을 글자로 붙인다. 대신 배경으로 구분한다. */
+  /* typography 가 인라인 코드에 백틱을 글자로 붙인다. */
   .prose :where(code):not(pre code) {
     @apply bg-muted text-foreground rounded-md px-1.5 py-0.5 text-[0.85em] font-normal;
   }
@@ -362,10 +308,7 @@
   }
 }
 
-/*
- * 테마 전환 클리핑(`use-theme-transition.ts`). 스코프를 안 걸면 `<ClientRouter />` 의
- * 페이지 전환 애니메이션까지 같이 죽는다.
- */
+/* 스코프를 안 걸면 `<ClientRouter />` 의 페이지 전환 애니메이션까지 같이 죽는다. */
 html[data-theme-transition]::view-transition-group(root),
 html[data-theme-transition]::view-transition-old(root),
 html[data-theme-transition]::view-transition-new(root) {
@@ -468,29 +411,19 @@ html[data-vt='shallower']::view-transition-new(root) {
   }
 }
 
-/* KaTeX 가 수식용으로 이미 싣고 있는 폰트다. 한글은 CM 에 없어 시스템 명조로 떨어진다. */
+/* 한글은 CM 에 없어 시스템 명조로 떨어진다. */
 @utility paper {
   font-family: KaTeX_Main, serif;
 }
 
-/*
- * KaTeX 의 1.21em 은 sans 본문 옆에서 수식이 작아 보이는 걸 메우는 보정이다. 본문까지
- * 같은 CM 이면 보정할 차이가 없는데 배율만 남는다.
- *
- * `@utility` 로 못 감싼다 - katex.min.css 가 레이어 없이 import 돼서, 레이어에 든 규칙은
- * 특이도와 무관하게 진다.
- */
+/* `@utility` 로 못 감싼다. katex.min.css 가 레이어 없이 import 돼서 레이어 규칙이 진다. */
 .paper .katex {
   font-size: 1em;
 }
 
 /*
- * 스크롤은 수식만, 그것도 좌우로만 한다. `safe center` 는 넘칠 때 start 로 떨어져
- * 왼쪽이 잘리지 않는다.
- *
- * KaTeX 의 1em 세로 마진을 안쪽 패딩으로 옮긴다 - 글리프가 줄상자를 위아래로 몇 px
- * 삐져나오는데, 스크롤 상자에 여유가 없으면 그게 세로 스크롤바로 잡히고 위쪽은
- * 스크롤로 닿지도 못해 잘린다. 바깥에서 본 여백은 그대로다.
+ * KaTeX 의 세로 마진을 안쪽 패딩으로 옮긴다. 글리프가 줄상자를 몇 px 넘겨서, 여유가
+ * 없으면 세로 스크롤바가 서고 위쪽은 스크롤로 닿지도 못해 잘린다.
  */
 .paper .display-math .katex-display {
   display: flex;
@@ -501,20 +434,16 @@ html[data-vt='shallower']::view-transition-new(root) {
 }
 
 /*
- * `.tag` 의 컨테이닝 블록을 스크롤러 바깥 `.display-math` 로 올린다. 번호가 스크롤을 안
- * 따라가고, 스크롤 오버플로 계산에서도 빠진다 - `.tag` 안의 폭 2px `.vlist-s` 스트럿이
- * `right:0` 을 2px 넘겨서, 그대로 두면 수식이 다 들어와도 스크롤바가 선다.
+ * `.tag` 의 컨테이닝 블록을 스크롤러 바깥으로 올린다. 안의 폭 2px `.vlist-s` 스트럿이
+ * `right:0` 을 넘겨서, 안 올리면 수식이 다 들어와도 스크롤바가 선다.
  *
- * `.katex` 까지 같이 풀어야 한다 - `.katex-html` 만 풀면 컨테이닝 블록이 한 단계 위
- * `.katex` 에 걸려, 번호가 오른쪽 여백이 아니라 수식 꼬리 위에 얹힌다.
- * 늘이는 화살표·중괄호(`.stretchy`)와 CD 라벨(`.cd-vert-arrow`)은 자기 조상이 따로
- * `relative` 라 영향을 안 받는다.
+ * `.katex` 까지 같이 풀어야 한다. `.katex-html` 만 풀면 번호가 수식 꼬리 위에 얹힌다.
  */
 .paper .display-math :is(.katex, .katex-html) {
   position: static;
 }
 
-/* `\section` 이 h2, `\subsection` 이 h3 이다 - `render-paper.ts` 가 한 단계씩 올린다. */
+/* `render-paper.ts` 가 제목 레벨을 한 단계씩 올린다. */
 @layer utilities {
   .paper .prose {
     counter-reset: section;
@@ -546,10 +475,7 @@ html[data-vt='shallower']::view-transition-new(root) {
     margin-right: 0.75em;
   }
 
-  /*
-   * 수식 뒤 문단도 들여쓴다 - 빈 줄 없이 이어지는 텍스트는 unified-latex 가 같은 `<p>`
-   * 에 넣으므로, `<p>` 가 새로 생겼다는 건 이미 새 문단이라는 뜻이다.
-   */
+  /* unified-latex 는 이어지는 텍스트를 같은 `<p>` 에 넣는다. 새 `<p>` 는 곧 새 문단이다. */
   .paper .prose p {
     margin-block: 0;
     text-indent: 1.5em;

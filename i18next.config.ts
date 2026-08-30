@@ -1,16 +1,5 @@
 import { defineConfig } from 'i18next-cli';
 
-/**
- * `bun run gen:i18n` = 추출 + 타입 생성.
- *
- * 키는 JSON을 편집해서가 아니라 코드에서 *써서* 만든다. 컴포넌트에 `t(($) => $.x)`가
- * 나타나면 → 추출이 키를 만들고 → 사람이 한국어를 채운다.
- * `removeUnusedKeys` 덕에 호출부를 지우면 키도 지워지므로, CI는 `git diff --exit-code`
- * 한 줄로 누락 키와 유령 키를 동시에 잡는다.
- *
- * `.astro`는 추출 대상이 아니다 — 페이지·레이아웃은 텍스트를 갖지 않는다. 실제 문자열은
- * 전부 `.tsx` 아일랜드(`src/common`, feature의 `views`)에 있고, 거기만 스캔하면 된다.
- */
 export default defineConfig({
   locales: ['ko', 'en'],
 
@@ -27,8 +16,7 @@ export default defineConfig({
 
     removeUnusedKeys: true,
 
-    // `.astro` 는 추출 대상이 아니라 거기서만 쓰는 키는 지워진다 - `input` 에 `.astro` 를
-    // 넣어도 파서가 조용히 건너뛴다. 뷰에 호출부가 없는 키만 예외로 지킨다.
+    // `input` 에 `.astro` 를 넣어도 파서가 조용히 건너뛴다. 거기서만 쓰는 키를 지킨다.
     preservePatterns: ['common:nav.*', 'common:site.description'],
     sort: true,
     indentation: 2,
@@ -47,11 +35,9 @@ export default defineConfig({
   },
 
   types: {
-    // 키 구조의 원천은 한국어 파일이다 — `t()` 자동완성도 여기서 나온다.
     input: ['src/locales/ko/*.json'],
     output: 'src/@types/i18next.d.ts',
     resourcesFile: 'src/@types/resources.d.ts',
-    // 문자열 키 대신 셀렉터 함수(`t($ => $.form.submit)`)로 접근한다.
     enableSelector: true,
   },
 });

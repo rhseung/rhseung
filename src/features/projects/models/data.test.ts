@@ -8,12 +8,7 @@ import { PROJECT_STATUSES } from './types';
 
 import { PROJECT_ITEMS } from './index';
 
-/**
- * 타입이 못 잡는 규칙만 여기서 본다 — 길이 상한, 기간 순서, URL 형식, 슬러그 중복.
- *
- * 번들이 아니라 테스트에서 도는 이유: 이 데이터는 컴파일되어 들어가므로 런타임에 변하지
- * 않는다. 방문자마다 다시 검사할 이유가 없고, zod 를 클라이언트에 실으면 52KB 다.
- */
+/** 데이터가 컴파일되어 들어가므로 zod 를 클라이언트에 싣지 않고 여기서만 검사한다. */
 const SUMMARY_MAX = 200;
 
 const filled = z.string().trim().min(1);
@@ -55,7 +50,6 @@ describe('PROJECT_ITEMS', () => {
     },
   );
 
-  // 모듈을 import 해서 참조하므로 오타는 안 나지만, 수상을 지우면 여기서 걸린다.
   it('연결한 수상이 실제로 있다', () => {
     const slugs = new Set(CAREER_ITEMS.awards.map((award) => award.slug));
 

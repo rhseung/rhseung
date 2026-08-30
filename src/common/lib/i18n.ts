@@ -27,8 +27,7 @@ export const I18N_NAMESPACES = [
 
 export type I18nNamespace = (typeof I18N_NAMESPACES)[number];
 
-// 리소스는 HTTP 백엔드가 아니라 정적 import다 — `changeLanguage`가 동기라서
-// `AppProviders`가 첫 렌더 전에 라우트 언어로 갈아끼울 수 있다.
+// 정적 import 라야 `changeLanguage` 가 동기로 돌아 첫 렌더 전에 언어를 갈아끼울 수 있다.
 void i18next.use(initReactI18next).init({
   resources: {
     ko: {

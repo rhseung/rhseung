@@ -10,13 +10,11 @@ describe('renderTech', () => {
     expect(tech).toContain('badge/TanStack_Start-39AF46');
   });
 
-  // 임계값이 흔들리면 밝은 바탕에 흰 로고가 얹혀 안 보인다. 양쪽에서 가장 가까운 둘.
   it('바탕이 밝으면 로고를 검게 둔다', () => {
     expect(tech).toContain('badge/C-A8B9CC?style=for-the-badge&logo=c&logoColor=black');
     expect(tech).toContain('logo=tailwindcss&logoColor=white');
   });
 
-  // simple-icons 에서 빠진 기술이다. `logo=` 를 붙이면 shields 가 빈 배지를 낸다.
   it('아이콘이 없으면 logo 파라미터를 안 붙인다', () => {
     expect(tech).toContain('badge/Slack-4A154B?style=for-the-badge)');
     expect(tech).not.toContain('logo=slack');

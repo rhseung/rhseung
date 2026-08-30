@@ -15,8 +15,7 @@ dayjs.extend(timezone); // utc 뒤에 와야 한다
 
 dayjs.locale(i18n.language);
 
-// dayjs가 i18next를 따라가게 한다. 여기서 `i18n.changeLanguage`를 호출하면 안 된다 —
-// 이 리스너가 막으려는 바로 그 루프가 생긴다.
+// 여기서 `i18n.changeLanguage` 를 부르면 이 리스너가 자기를 다시 깨워 루프가 된다.
 i18n.on('languageChanged', (language) => {
   dayjs.locale(language);
 });

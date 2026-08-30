@@ -124,9 +124,7 @@ export declare namespace HomePage {
   export type Props = {
     lang: Language;
     updatedAt: string;
-    /** 빌드 때 구운 스냅숏. 브라우저가 한 시간마다 이 위로 최신을 덮는다. */
     contributions: Contributions;
-    /** 스냅숏을 받은 시각. 실패했으면 0이라 브라우저가 즉시 다시 받는다. */
     fetchedAt: number;
   };
 }

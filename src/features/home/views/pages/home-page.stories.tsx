@@ -21,7 +21,6 @@ const meta = {
   title: 'Home/Pages/HomePage',
   component: HomePage,
   parameters: { layout: 'fullscreen' },
-  // `fetchedAt: 0` - 스냅숏을 낡은 것으로 쳐서 MSW 픽스처로 갱신되는 경로까지 태운다.
   args: { lang: 'ko', updatedAt: '2026-08-19T00:00:00.000Z', contributions, fetchedAt: 0 },
 } satisfies Meta<typeof HomePage>;
 

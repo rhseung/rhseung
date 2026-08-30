@@ -25,17 +25,13 @@ export function LanguageSuggestionPopover({
         if (!open) onDismiss();
       }}
     >
-      <PopoverTrigger
-        // 트리거가 버튼이 아니라 링크다 - 언어 페이지로 실제 이동해야 하니 `<a>`를 써야 한다.
-        nativeButton={false}
-        render={children}
-      />
+      <PopoverTrigger nativeButton={false} render={children} />
 
       {suggested !== null && (
         <PopoverContent
           side="top"
           align="center"
-          // 팝오버는 `document.body`로 포탈돼서 독의 `print:hidden` 밖으로 빠져나간다. 안 걸면 이력서 PDF 머리에 언어 제안이 그대로 찍힌다.
+          // `document.body` 로 포탈돼 독의 `print:hidden` 밖으로 빠져나간다.
           className="w-auto max-w-72 p-3 print:hidden"
           aria-label={t(($) => $.actions.switchLanguage)}
         >

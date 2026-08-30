@@ -99,7 +99,7 @@ export function ProjectCard({
             );
 
             return (
-              // `flex` 인 이유는 `skill-groups` 에 있다 - 아이콘 유무로 baseline 이 어긋난다.
+              // `flex` 를 빼면 아이콘 유무로 baseline 이 어긋난다.
               <li key={item} className="flex">
                 {onToggleStack ? (
                   <button

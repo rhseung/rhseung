@@ -1,4 +1,3 @@
-/** 번호를 고정폭 원으로 그린다 — prose 의 `<ol>` 마커는 단계가 길어지면 축이 흐트러진다. */
 export function Steps({ children }: Steps.Props) {
   return <ol className="my-6 flex list-none flex-col gap-4 pl-0">{children}</ol>;
 }

@@ -27,10 +27,6 @@ import {
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../ui/tooltip';
 import { LanguageSuggestionPopover } from '../language-suggestion-popover';
 
-/**
- * 제일 높은 겹은 독의 윗변을 넘겨야 한다. 독은 `bottom-4`(1rem) 위에 서고 높이가 58px라
- * 윗변이 4.6rem쯤인데, 여기가 그보다 낮으면 블러 띠가 독 중간에서 끊긴다.
- */
 const BLUR_LAYERS = [
   { height: '5rem', blur: '3px' },
   { height: '3.5rem', blur: '6px' },
@@ -42,9 +38,7 @@ const themeIconClass = cn(
   'col-start-1 row-start-1 size-5 transition-[opacity,rotate,scale] duration-300 motion-reduce:transition-none',
 );
 
-// `active:...translate-y-0` 은 `Button` 베이스의 눌림 이동을 끈다. 독에서는 링크와 버튼이
-// 한 줄에 서는데 버튼만 내려앉으면 줄이 어긋난다. modifier 를 그대로 맞춰야 tailwind-merge 가
-// 앞엣것을 걷어낸다.
+// modifier 를 그대로 맞춰야 tailwind-merge 가 `Button` 베이스의 눌림 이동을 걷어낸다.
 const itemClass = cn(
   'text-muted-foreground hover:text-foreground hover:bg-muted flex size-10 items-center justify-center rounded-full transition-colors active:not-aria-[haspopup]:translate-y-0',
 );
@@ -211,8 +205,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
   );
 }
 
-// `.dark` 는 첫 페인트 전에 이미 붙어 있다. 두 아이콘을 겹쳐 두고 CSS 로 굴리면 마운트를
-// 안 태워서 하이드레이션 전에도 맞는 그림이 나오고, 나가는 아이콘을 손으로 붙잡을 일도 없다.
+// 두 아이콘을 겹쳐 CSS 로 굴린다. 마운트를 안 태워야 하이드레이션 전에도 맞는 그림이 나온다.
 function ThemeIcons() {
   return (
     <span className={cn('grid size-5 place-items-center')}>
@@ -232,7 +225,6 @@ function ThemeIcons() {
 }
 
 function DockLink({ href, label, Icon, IconSolid, current, blank, hrefLang }: DockLink.Props) {
-  // heroicons 는 채운 변형이 별도 import 라 `weight` 처럼 prop 으로 못 바꾼다.
   const Rendered = current && IconSolid !== undefined ? IconSolid : Icon;
 
   return (

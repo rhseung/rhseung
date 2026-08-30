@@ -43,7 +43,6 @@ describe('projectHref', () => {
     });
   });
 
-  // 프로젝트 대부분은 본문이 없다 — 카드가 바로 저장소로 보낸다.
   it('본문이 없으면 저장소로 나간다', () => {
     const target = projectHref(
       project({ slug: 'a', links: { repo: 'https://github.com/x/y' } }),

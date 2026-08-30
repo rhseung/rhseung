@@ -57,7 +57,6 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
               onChange={(event) => setQuery(event.target.value)}
               placeholder={t(($) => $.search.placeholder)}
               aria-label={t(($) => $.search.label)}
-              // 브라우저가 붙이는 취소 버튼은 OS 마다 얼굴이 다르다. 우리 걸 쓴다.
               className="[&::-webkit-search-cancel-button]:appearance-none"
             />
 
