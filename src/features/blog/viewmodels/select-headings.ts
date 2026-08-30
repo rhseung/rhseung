@@ -1,7 +1,5 @@
 import type { PostHeading } from '../models';
 
-export const TOC_MAX_DEPTH = 3;
-
 /** GFM 이 각주 목록 앞에 스스로 끼워 넣는 제목. 본문 절이 아니라 부록 라벨이다. */
 const FOOTNOTE_LABEL_SLUG = 'footnote-label';
 
@@ -11,6 +9,6 @@ const FOOTNOTE_LABEL_SLUG = 'footnote-label';
  */
 export function tocHeadings(headings: readonly PostHeading[]): PostHeading[] {
   return headings.filter(
-    ({ depth, slug }) => depth >= 2 && depth <= TOC_MAX_DEPTH && slug !== FOOTNOTE_LABEL_SLUG,
+    ({ depth, slug }) => depth >= 2 && depth <= 3 && slug !== FOOTNOTE_LABEL_SLUG,
   );
 }
