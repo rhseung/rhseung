@@ -75,6 +75,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
 
   const nextLanguage = LANGUAGES[(LANGUAGES.indexOf(lang) + 1) % LANGUAGES.length];
 
+  // t('theme.light') t('theme.dark')
   const themeLabel =
     mode === undefined
       ? t(($) => $.theme.toggle)

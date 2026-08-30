@@ -52,7 +52,9 @@ export default interface Resources {
       "roles": ["오픈소스 기여자", "풀스택 개발자", "CS/AI 연구자", "디자인 엔지니어"]
     },
     "theme": {
+      "dark": "어둡게",
       "label": "테마: {{mode}}",
+      "light": "밝게",
       "toggle": "테마 바꾸기"
     }
   },
