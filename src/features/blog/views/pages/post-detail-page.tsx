@@ -71,10 +71,18 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
          *
          * 가로 위치는 안 준다 - `left` 가 `auto` 면 흐름상 있었을 자리(2열)를 그대로 쓴다.
          * 그래서 폭만 열과 같은 값으로 박으면 된다.
+         *
+         * 높이의 `336px` 는 제목 줄이 시작하는 높이(168px = 컨테이너 위 패딩 32 + 머리줄
+         * 40 + 그 아래 여백 96)의 두 배다. 가운데 정렬이 위아래를 똑같이 나누므로, 높이를
+         * `100dvh - 2x` 로 두면 창 높이와 상관없이 목차 윗변이 항상 x 에 선다. 안 맞추면
+         * 목차만 제목보다 위로 삐죽 나온다.
          */}
         <aside className="hidden xl:col-start-2 xl:row-start-1 xl:block">
           <div className="fixed top-1/2 w-52 -translate-y-1/2">
-            <PostToc headings={headings} className="max-h-[70dvh] w-full overflow-y-auto" />
+            <PostToc
+              headings={headings}
+              className="max-h-[calc(100dvh-336px)] w-full overflow-y-auto"
+            />
           </div>
         </aside>
       </div>
