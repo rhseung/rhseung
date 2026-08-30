@@ -20,6 +20,10 @@ export const Unmapped: Story = { args: { keys: ['ctrl', 'K'] } };
 
 export const Windows: Story = { args: { keys: ['win', 'alt', 'pageup'] } };
 
+export const WindowsLabels: Story = {
+  args: { keys: ['ctrl', 'shift', 'p'], os: 'win' },
+};
+
 export const AllSymbols: Story = {
   args: { keys: [] },
   render: () => (
@@ -51,6 +55,7 @@ export const AllSymbols: Story = {
       ].map((key) => (
         <span key={key} className="text-muted-foreground flex items-center gap-1.5 text-xs">
           <Shortcut keys={[key]} />
+          <Shortcut keys={[key]} os="win" />
           {key}
         </span>
       ))}
