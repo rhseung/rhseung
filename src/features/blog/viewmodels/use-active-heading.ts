@@ -4,12 +4,11 @@ import { useEffect, useState } from 'react';
 const READING_LINE = 0.24;
 
 /**
- * `slugs` 를 배열째로 의존성에 걸면 부모가 리렌더할 때마다 옵저버를 다시 만든다 — 목록이
+ * `slugs` 를 배열째로 의존성에 걸면 부모가 리렌더할 때마다 리스너를 다시 단다 - 목록이
  * 그대로여도 매번 새 배열이라서. 그래서 문자열 하나로 눌러 담고 effect 안에서 되푼다.
  *
- * IntersectionObserver 의 `isIntersecting` 을 그대로 쓰지 않는 이유: 짧은 섹션이 화면에
- * 여럿 걸리면 그중 아무거나 활성이 돼서 목차가 위아래로 튄다. 옵저버는 "제목이 경계를
- * 넘었다"는 신호로만 쓰고, 활성 항목은 그때마다 실제 위치로 다시 고른다.
+ * IntersectionObserver 를 안 쓴다. 제목이 경계를 넘을 때만 깨어나는데, 마지막 절이
+ * 짧으면 그 제목이 기준선까지 올라오기 전에 문서가 끝나서 영영 안 깨어난다.
  */
 export function useActiveHeading(slugs: readonly string[]) {
   const key = slugs.join(',');
@@ -24,23 +23,40 @@ export function useActiveHeading(slugs: readonly string[]) {
     const update = () => {
       if (elements.length === 0) return;
 
+      // 문서 끝에 닿았으면 마지막 절을 읽고 있는 것이다. 아래에 댓글이나 푸터가 없어서
+      // 마지막 절이 기준선까지 못 올라오는데, 그대로 두면 클릭 말고는 도달할 수가 없다.
+      const scrolled = window.scrollY + window.innerHeight;
+      if (scrolled >= document.documentElement.scrollHeight - 2) {
+        setActive(elements[elements.length - 1].id);
+        return;
+      }
+
       const line = window.innerHeight * READING_LINE;
       const passed = elements.filter((element) => element.getBoundingClientRect().top <= line);
 
       setActive((passed.at(-1) ?? elements[0]).id);
     };
 
-    update();
+    // 스크롤 한 번에 여러 이벤트가 몰아친다. 프레임당 한 번으로 묶어야 제목 수만큼의
+    // 레이아웃 읽기가 프레임마다 반복되지 않는다.
+    let frame = 0;
+    const schedule = () => {
+      if (frame !== 0) return;
 
-    const observer = new IntersectionObserver(update, {
-      rootMargin: `-${READING_LINE * 100}% 0px 0px 0px`,
-    });
-    // `forEach` 로 감으면 react-doctor 의 `effect-needs-cleanup` 이 `observe` 를 콜백
-    // 스코프 안에서만 보고 정리 안 된 구독으로 읽는다. 루프로 펴야 조용하다.
-    for (const element of elements) observer.observe(element);
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        update();
+      });
+    };
+
+    update();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
 
     return () => {
-      observer.disconnect();
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
     };
   }, [key]);
 
