@@ -1,4 +1,4 @@
-import { ArrowUpRightIcon } from '@phosphor-icons/react';
+import { ArrowSquareOutIcon } from '@phosphor-icons/react';
 
 import { cn } from '@/common/utils';
 
@@ -8,10 +8,13 @@ export function ExternalLink({ href, className, children }: ExternalLink.Props) 
       href={href}
       target="_blank"
       rel="noreferrer noopener"
-      className={cn('inline-flex items-center gap-1', className)}
+      className={cn(
+        'inline-flex items-center gap-0.5 underline decoration-current/40 decoration-[0.0625em] underline-offset-2',
+        className,
+      )}
     >
       {children}
-      <ArrowUpRightIcon aria-hidden className="size-3.5 shrink-0 opacity-60" />
+      <ArrowSquareOutIcon aria-hidden className="size-[1em] shrink-0 opacity-40" />
     </a>
   );
 }
