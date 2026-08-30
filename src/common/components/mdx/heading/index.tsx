@@ -30,7 +30,7 @@ export function MdxHeading({ level, id, children }: MdxHeading.Props) {
 }
 
 export declare namespace MdxHeading {
-  export type Level = 2 | 3 | 4;
+  export type Level = 1 | 2 | 3 | 4 | 5 | 6;
 
   export type SlotProps = {
     id?: string;
@@ -40,7 +40,9 @@ export declare namespace MdxHeading {
   export type Props = SlotProps & { level: Level };
 }
 
-// h5·h6 은 본문에서 안 쓴다. 쓰게 되면 여기에 한 줄씩 는다.
+export const MdxH1 = (props: MdxHeading.SlotProps) => <MdxHeading level={1} {...props} />;
 export const MdxH2 = (props: MdxHeading.SlotProps) => <MdxHeading level={2} {...props} />;
 export const MdxH3 = (props: MdxHeading.SlotProps) => <MdxHeading level={3} {...props} />;
 export const MdxH4 = (props: MdxHeading.SlotProps) => <MdxHeading level={4} {...props} />;
+export const MdxH5 = (props: MdxHeading.SlotProps) => <MdxHeading level={5} {...props} />;
+export const MdxH6 = (props: MdxHeading.SlotProps) => <MdxHeading level={6} {...props} />;

@@ -20,11 +20,17 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+export const Level1: Story = { args: { level: 1 } };
+
 export const Level2: Story = { args: { level: 2 } };
 
 export const Level3: Story = { args: { level: 3 } };
 
 export const Level4: Story = { args: { level: 4 } };
+
+export const Level5: Story = { args: { level: 5 } };
+
+export const Level6: Story = { args: { level: 6 } };
 
 /** 제목 안에 링크가 있어도 앵커와 겹치지 않는다. */
 export const WithInnerLink: Story = {
