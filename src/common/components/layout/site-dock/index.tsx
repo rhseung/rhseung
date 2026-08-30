@@ -15,13 +15,11 @@ import { cn } from '@/common/utils';
 import {
   useExternalLinks,
   useLanguageSuggestion,
-  useMediaQuery,
   useSiteSections,
   useThemeTransition,
   type SiteSection,
 } from '@/common/viewmodels';
 
-import { Alert } from '../../ui/alert';
 import { Button } from '../../ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
 import { Separator } from '../../ui/separator';
@@ -47,9 +45,6 @@ const BLUR_LAYERS = [
   { height: '1rem', blur: '24px' },
 ];
 
-/** Tailwind의 `sm` 경계. 이 아래에서는 언어 버튼이 시트 안으로 숨어서 팝오버를 걸 자리가 없다. */
-const COMPACT_QUERY = '(max-width: 39.99rem)';
-
 const themeIconClass = cn(
   'col-start-1 row-start-1 size-5 transition-[opacity,rotate,scale] duration-300 motion-reduce:transition-none',
 );
@@ -66,7 +61,6 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
   const { mode, toggleTheme } = useThemeTransition();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const isCompact = useMediaQuery(COMPACT_QUERY);
   const { suggested, dismiss } = useLanguageSuggestion(lang);
 
   const nextLanguage = LANGUAGES[(LANGUAGES.indexOf(lang) + 1) % LANGUAGES.length];
@@ -126,7 +120,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
 
           {altHref && (
             <Popover
-              open={suggested !== null && !isCompact}
+              open={suggested !== null}
               onOpenChange={(open) => {
                 if (!open) dismiss();
               }}
@@ -161,7 +155,8 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
                   sideOffset={8}
                   // 팝오버는 `document.body`로 포탈돼서 독의 `print:hidden` 밖으로 빠져나간다.
                   // 안 걸면 이력서 PDF 머리에 언어 제안이 그대로 찍힌다.
-                  className="w-auto max-w-80 p-4 print:hidden"
+                  // 좁은 화면에서 팝오버가 뷰포트를 넘지 않게 - Base UI 는 폭을 안 줄인다.
+                  className="w-auto max-w-[min(20rem,calc(100vw-2rem))] p-4 print:hidden"
                   aria-label={t(($) => $.actions.switchLanguage)}
                 >
                   <LanguageSuggestion language={suggested} href={altHref} onDismiss={dismiss} />
@@ -238,13 +233,6 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
           </Sheet>
         </div>
       </nav>
-
-      {altHref && suggested !== null && isCompact && (
-        // 좁은 화면에서는 언어 버튼이 시트 안에 있어서 붙일 자리가 없다. 독 위에 띄운다.
-        <Alert className="fixed inset-x-4 bottom-22 z-20 w-auto shadow-lg print:hidden">
-          <LanguageSuggestion language={suggested} href={altHref} onDismiss={dismiss} />
-        </Alert>
-      )}
     </TooltipProvider>
   );
 }
