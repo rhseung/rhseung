@@ -15,23 +15,23 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
   return (
     <div className="bg-background min-h-dvh">
       {/*
-       * `xl` 위에서만 컨테이너가 넓어지고 목차 컬럼이 생긴다. 목차를 본문 바깥 여백에
+       * `lg` 위에서만 컨테이너가 넓어지고 목차 컬럼이 생긴다. 목차를 본문 바깥 여백에
        * 절대 배치로 얹으면 본문만 가운데에 남아서 화면 전체의 무게중심이 오른쪽으로
        * 쏠린다 - 본문과 목차가 한 덩어리로 가운데에 서야 한다.
        *
-       * `xl` 아래로는 컬럼을 만들 폭이 없어 목차를 숨긴다. 좁은 화면에 접이식으로
+       * `lg` 아래로는 컬럼을 만들 폭이 없어 목차를 숨긴다. 좁은 화면에 접이식으로
        * 밀어넣는 대신 없앤 이유는 글 위에 목차가 한 화면을 먹으면 첫 문단이 안 보이기
        * 때문이다.
        */}
-      <div className="mx-auto grid w-full max-w-3xl gap-x-10 p-4 sm:p-6 md:p-8 xl:max-w-5xl xl:grid-cols-[minmax(0,1fr)_13rem]">
+      <div className="mx-auto grid w-full max-w-3xl gap-x-10 p-4 sm:p-6 md:p-8 lg:max-w-5xl lg:grid-cols-[minmax(0,1fr)_13rem]">
         <DetailHeader
           lang={lang}
           backHref={localeHref(lang, '/blog')}
           backLabel={t(($) => $.detail.back)}
-          className="xl:col-start-1 xl:col-end-3 xl:row-start-1"
+          className="lg:col-start-1 lg:col-end-3 lg:row-start-1"
         />
 
-        <main className="flex flex-col gap-8 xl:col-start-1 xl:row-start-2">
+        <main className="flex flex-col gap-8 lg:col-start-1 lg:row-start-2">
           <header className="flex flex-col gap-3">
             <time dateTime={post.date} className="text-muted-foreground text-xs tabular-nums">
               {dayjs(post.date).format('LL')}
@@ -77,7 +77,7 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
          * `100dvh - 2x` 로 두면 창 높이와 상관없이 목차 윗변이 항상 x 에 선다. 안 맞추면
          * 목차만 제목보다 위로 삐죽 나온다.
          */}
-        <aside className="hidden xl:col-start-2 xl:row-start-1 xl:block">
+        <aside className="hidden lg:col-start-2 lg:row-start-1 lg:block">
           <div className="fixed top-1/2 w-52 -translate-y-1/2">
             <PostToc headings={headings} className="max-h-[calc(100dvh-336px)] w-full" />
           </div>
