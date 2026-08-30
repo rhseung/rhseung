@@ -233,7 +233,8 @@
   }
 
   /* 항목 사이가 문단 사이만큼 벌어지면 목록이 한 덩어리로 안 읽힌다. */
-  .prose :is(ul, ol) > li {
+  .prose :is(ul, ol) > li,
+  .prose li > :is(ul, ol) {
     @apply my-1;
   }
 
