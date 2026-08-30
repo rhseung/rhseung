@@ -2,7 +2,8 @@
 export default interface Resources {
   "blog": {
     "detail": {
-      "back": "글 목록"
+      "back": "글 목록",
+      "toc": "목차"
     },
     "empty": {
       "description": "곧 채웁니다.",

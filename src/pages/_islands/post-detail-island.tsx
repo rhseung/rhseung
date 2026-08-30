@@ -1,10 +1,12 @@
 import { AppProviders } from '@/common/components';
-import { PostDetailPage, type PostSummary } from '@/features/blog';
+import { PostDetailPage, type PostHeading, type PostSummary } from '@/features/blog';
 
-export function PostDetailIsland({ post, children }: PostDetailIsland.Props) {
+export function PostDetailIsland({ post, headings, children }: PostDetailIsland.Props) {
   return (
     <AppProviders lang={post.lang}>
-      <PostDetailPage post={post}>{children}</PostDetailPage>
+      <PostDetailPage post={post} headings={headings}>
+        {children}
+      </PostDetailPage>
     </AppProviders>
   );
 }
@@ -12,6 +14,7 @@ export function PostDetailIsland({ post, children }: PostDetailIsland.Props) {
 export declare namespace PostDetailIsland {
   export type Props = {
     post: PostSummary;
+    headings: readonly PostHeading[];
     children: React.ReactNode;
   };
 }

@@ -1,6 +1,7 @@
 {
   "detail": {
-    "back": "All posts"
+    "back": "All posts",
+    "toc": "Contents"
   },
   "empty": {
     "description": "Coming soon.",

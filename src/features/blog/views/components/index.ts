@@ -1,1 +1,2 @@
 export { PostListItem } from './post-list-item';
+export { PostToc } from './post-toc';

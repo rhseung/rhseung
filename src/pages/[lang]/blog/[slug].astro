@@ -3,7 +3,7 @@ import { getCollection, render, type CollectionEntry } from 'astro:content';
 
 import { PostDetailIsland } from '@/pages/_islands/post-detail-island';
 import { SITE } from '@/common/lib';
-import { toPostSummary } from '@/features/blog';
+import { toPostSummary, tocHeadings } from '@/features/blog';
 import { MDX_COMPONENTS } from '@/common/components';
 import Layout from '@/layouts/layout.astro';
 
@@ -22,7 +22,7 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 
 const post = toPostSummary(entry);
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 ---
 
 <Layout
@@ -31,7 +31,7 @@ const { Content } = await render(entry);
   description={post.summary}
   type="article"
 >
-  <PostDetailIsland post={post} client:idle>
+  <PostDetailIsland post={post} headings={tocHeadings(headings)} client:idle>
     <Content components={MDX_COMPONENTS} />
   </PostDetailIsland>
 </Layout>

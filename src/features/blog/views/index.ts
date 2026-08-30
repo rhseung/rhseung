@@ -1,2 +1,2 @@
-export { PostListItem } from './components';
+export { PostListItem, PostToc } from './components';
 export { BlogPage, PostDetailPage } from './pages';
