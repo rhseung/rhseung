@@ -18,10 +18,17 @@ const TONES = {
 const callout = tv({
   slots: {
     // prose 가 자식 `<p>`·목록에 1.25em 마진을 준다 — 그대로 두면 제목과 본문이 멀찍이 떨어진다.
-    root: 'my-6 flex flex-col gap-1 rounded-r-md border-l-4 bg-muted/40 px-4 py-3 [&_ol]:my-2 [&_p+p]:mt-2 [&_p]:my-0 [&_ul]:my-2',
-    icon: 'size-5 shrink-0',
-    title: 'flex items-center gap-2 font-medium',
-    body: 'text-muted-foreground leading-relaxed',
+    /*
+     * prose 가 자식 `<p>`·목록에 1.25em 마진을 준다 — 그대로 두면 제목과 본문이 멀찍이
+     * 떨어진다.
+     *
+     * 본문 들여쓰기를 그리드에 맡기는 이유 — 아이콘 폭 + 간격을 `ml` 로 베껴 적으면
+     * 아이콘 크기를 바꾸는 순간 제목 글자와 본문 축이 어긋난다.
+     */
+    root: 'my-6 grid grid-cols-[auto_1fr] items-center gap-x-2 gap-y-1 rounded-r-md border-l-4 bg-muted/40 px-4 py-3 [&_ol]:my-2 [&_p+p]:mt-2 [&_p]:my-0 [&_ul]:my-2',
+    icon: 'size-4 shrink-0',
+    title: 'font-medium',
+    body: 'col-start-2 text-muted-foreground leading-relaxed',
   },
   variants: {
     tone: {
@@ -61,10 +68,8 @@ export function Callout({ tone = 'note', title, children }: Callout.Props) {
 
   return (
     <aside className={styles.root()}>
-      <p className={styles.title()}>
-        <Icon className={styles.icon()} />
-        {title}
-      </p>
+      <Icon className={styles.icon()} />
+      <p className={styles.title()}>{title}</p>
 
       <div className={styles.body()}>{children}</div>
     </aside>
