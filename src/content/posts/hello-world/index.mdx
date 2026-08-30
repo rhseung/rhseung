@@ -129,7 +129,11 @@ HTML 도 그대로 산다 -- H<sub>2</sub>O, x<sup>2</sup>, <mark>형광펜</mar
 
 ## 코드
 
+### 인라인
+
 인라인은 `const x = 1` 처럼.
+
+### 언어를 적은 블록
 
 ```ts
 type Shortcut = readonly string[];
@@ -148,12 +152,14 @@ bun run dev
 + const next = '더한 줄';
 ```
 
-언어를 안 적은 블록.
+### 언어를 안 적은 블록
 
 ```
 plain text
   들여쓰기가 그대로 남는다
 ```
+
+### 가로로 긴 블록
 
 가로로 긴 줄은 블록 안에서 스크롤돼야 한다.
 
@@ -190,10 +196,10 @@ export const wide = {
 
 ### 가로로 긴 표
 
-| 키     | 맥                                        | 윈도우         | 리눅스         | 비고      | 추가 | 더  | 또  | 계속 |
-| ------ | ----------------------------------------- | -------------- | -------------- | --------- | ---- | --- | --- | ---- |
-| 팔레트 | <Shortcut keys={['cmd', 'shift', 'p']} /> | `Ctrl+Shift+P` | `Ctrl+Shift+P` | 전부 같다 | a    | b   | c   | d    |
-| 저장   | <Shortcut keys={['cmd', 's']} />          | `Ctrl+S`       | `Ctrl+S`       | 습관      | e    | f   | g   | h    |
+| 키     | 맥                                        | 윈도우                                              | 리눅스                                              | 비고      | 추가 | 더  | 또  | 계속 |
+| ------ | ----------------------------------------- | --------------------------------------------------- | --------------------------------------------------- | --------- | ---- | --- | --- | ---- |
+| 팔레트 | <Shortcut keys={['cmd', 'shift', 'p']} /> | <Shortcut os="win" keys={['ctrl', 'shift', 'p']} /> | <Shortcut os="win" keys={['ctrl', 'shift', 'p']} /> | 전부 같다 | a    | b   | c   | d    |
+| 저장   | <Shortcut keys={['cmd', 's']} />          | <Shortcut os="win" keys={['ctrl', 's']} />          | <Shortcut os="win" keys={['ctrl', 's']} />          | 습관      | e    | f   | g   | h    |
 
 ## 단축키
 
@@ -202,13 +208,17 @@ export const wide = {
 
 ## 수식
 
-문장 안에 $E = mc^2$ 처럼 넣거나, 따로 떼서 쓴다.
+### 문장 안에서
+
+문장 안에 $E = mc^2$ 처럼 넣는다.
+
+### 따로 떼서
 
 $$
 \int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}
 $$
 
-여러 줄을 맞추기도 한다.
+### 여러 줄 정렬
 
 $$
 \begin{aligned}
@@ -219,11 +229,17 @@ $$
 
 ## 이미지
 
+### 그대로 넣기
+
 ![JS 없이 렌더된 프로젝트 상세 페이지](../astro-island-ssr-gap/assets/no-js.png)
 
-제목을 단 이미지, 그리고 링크로 감싼 이미지.
+### 링크로 감싸기
+
+제목을 달고 링크로 감싼 이미지.
 
 [![같은 이미지를 링크로 감쌌다](../astro-island-ssr-gap/assets/no-js.png '마우스를 올리면 뜬다')](/ko/projects/)
+
+### 캡션 달기
 
 <Figure caption="JS 를 끈 브라우저로 본 프로젝트 상세 - 본문이 그대로 읽힌다">
 
@@ -235,8 +251,12 @@ $$
 
 ## MDX
 
+### 중괄호 표현식
+
 중괄호는 표현식이다 -- 2 + 2 는 {2 + 2}, 오늘 연도는 {new Date().getFullYear()}.
 글자로 쓰려면 이스케이프한다 \{ 이렇게 \}.
+
+### Callout
 
 <Callout tone="note" title="참고">
 
@@ -259,11 +279,15 @@ $$
 
 </Callout>
 
+### Stats
+
 <Stats>
   <Stat value="23" label="매핑된 키" />
   <Stat value="0px" label="정렬 편차" />
   <Stat value="5" label="스토리" />
 </Stats>
+
+### Steps
 
 <Steps>
 
@@ -287,6 +311,8 @@ $$
 
 </Steps>
 
+### Detail
+
 <Detail summary="전체 키 목록">
 
 <Shortcut keys={['cmd']} /> <Shortcut keys={['opt']} /> <Shortcut keys={['ctrl']} />
@@ -299,6 +325,12 @@ $$
 <Shortcut keys={['eject']} /> <Shortcut keys={['win']} />
 
 </Detail>
+
+## 구분선
+
+세 개 이상의 하이픈이 한 줄에 있으면 구분선이다. 위 이미지와 MDX 사이에도 하나 있다.
+
+---
 
 ## 각주
 
