@@ -1,10 +1,14 @@
-import { InfoIcon, LightbulbIcon, WarningIcon } from '@phosphor-icons/react';
+import {
+  ExclamationTriangleIcon,
+  InformationCircleIcon,
+  LightBulbIcon,
+} from '@heroicons/react/24/solid';
 import { tv } from 'tailwind-variants';
 
 const TONES = {
-  note: InfoIcon,
-  tip: LightbulbIcon,
-  warn: WarningIcon,
+  note: InformationCircleIcon,
+  tip: LightBulbIcon,
+  warn: ExclamationTriangleIcon,
 } as const;
 
 const callout = tv({
@@ -33,7 +37,7 @@ export function Callout({ tone = 'note', title, children }: Callout.Props) {
   return (
     <aside className={styles.root()}>
       <div className="flex gap-2.5">
-        <Icon weight="fill" className={styles.icon()} />
+        <Icon className={styles.icon()} />
 
         <div className="flex min-w-0 flex-col gap-1">
           {title && <p className={styles.title()}>{title}</p>}

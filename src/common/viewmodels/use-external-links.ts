@@ -1,7 +1,8 @@
-import { EnvelopeSimpleIcon, GithubLogoIcon, RssIcon, type Icon } from '@phosphor-icons/react';
+import { EnvelopeIcon, RssIcon } from '@heroicons/react/24/outline';
+import { GithubLogoIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { SITE } from '@/common/lib';
+import { SITE, type IconComponent } from '@/common/lib';
 
 export type ExternalLinkKey = 'github' | 'email' | 'rss';
 
@@ -14,7 +15,7 @@ export function useExternalLinks() {
       key: 'email',
       href: `mailto:${SITE.email}`,
       label: t(($) => $.footer.email),
-      Icon: EnvelopeSimpleIcon,
+      Icon: EnvelopeIcon,
       blank: false,
     },
     { key: 'rss', href: '/rss.xml', label: 'RSS', Icon: RssIcon, blank: false },
@@ -22,7 +23,7 @@ export function useExternalLinks() {
     key: ExternalLinkKey;
     href: string;
     label: string;
-    Icon: Icon;
+    Icon: IconComponent;
     blank: boolean;
   }[];
 }

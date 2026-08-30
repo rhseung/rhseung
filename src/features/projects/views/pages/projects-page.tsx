@@ -1,6 +1,6 @@
 import { useId } from 'react';
 
-import { MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react';
+import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -67,7 +67,7 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
                   aria-label={t(($) => $.search.clear)}
                   onClick={() => setQuery('')}
                 >
-                  <XIcon aria-hidden />
+                  <XMarkIcon aria-hidden />
                 </InputGroupButton>
               </InputGroupAddon>
             )}

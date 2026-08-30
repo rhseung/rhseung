@@ -4,6 +4,7 @@ import './dayjs';
 
 export { dayjs } from './dayjs';
 export { I18N_NAMESPACES, i18n, type I18nNamespace } from './i18n';
+export type { IconComponent } from './icons';
 export {
   DEFAULT_LANGUAGE,
   LANGUAGE_NAMES,

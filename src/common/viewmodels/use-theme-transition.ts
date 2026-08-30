@@ -7,17 +7,28 @@ import { resolveTheme, setTheme, subscribeTheme, type ThemeMode } from '@/common
 const DURATION = 450;
 
 // `::view-transition-new(root)` 는 pseudo-element 라 WAAPI 의 `pseudoElement` 로만 잡힌다.
-// 퍼센트 반지름은 참조 박스 대각선을 sqrt(2) 로 나눈 값 기준이라, px 로 줘야 계산이 화면 좌표와
-// 그대로 맞는다.
+//
+// 좌표를 px 로 주면 안 된다. `-new(root)` 는 `-group(root)` 의 자식이라 group 상자가 스케일되면
+// 그 안의 px 이 같이 끌려가고, 원점이 버튼에서 화면 중앙 쪽으로 밀린다. 퍼센트는 의사요소 자기
+// 상자를 기준으로 풀려서 상자가 변해도 따라간다. 상용 Chrome 에서만 나오고 Playwright 와
+// Safari 에서는 재현되지 않아, px 로 되돌리면 검증 없이 통과한다 (24463bf, bd974a2).
 function revealFrom({ top, left, width, height }: DOMRect) {
   const { clientWidth, clientHeight } = document.documentElement;
 
-  const x = left + width / 2;
-  const y = top + height / 2;
-  const radius = Math.hypot(Math.max(x, clientWidth - x), Math.max(y, clientHeight - y));
+  const originX = left + width / 2;
+  const originY = top + height / 2;
+  const reach = Math.hypot(
+    Math.max(originX, clientWidth - originX),
+    Math.max(originY, clientHeight - originY),
+  );
+
+  const x = (originX / clientWidth) * 100;
+  const y = (originY / clientHeight) * 100;
+  // `circle()` 의 퍼센트 반지름 기준은 참조 박스 대각선을 sqrt(2) 로 나눈 값이다.
+  const radius = (reach / (Math.hypot(clientWidth, clientHeight) / Math.SQRT2)) * 100;
 
   document.documentElement.animate(
-    { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+    { clipPath: [`circle(0% at ${x}% ${y}%)`, `circle(${radius}% at ${x}% ${y}%)`] },
     {
       duration: DURATION,
       easing: 'cubic-bezier(0.4, 0, 0.2, 1)',

@@ -1,16 +1,10 @@
 import { useState } from 'react';
 
-import {
-  GlobeIcon,
-  HouseIcon,
-  ListIcon,
-  MoonIcon,
-  SunIcon,
-  type Icon,
-} from '@phosphor-icons/react';
+import { Bars3Icon, GlobeAltIcon, HomeIcon, MoonIcon, SunIcon } from '@heroicons/react/24/outline';
+import { HomeIcon as HomeSolidIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 
-import { LANGUAGES, localeHref, type Language } from '@/common/lib';
+import { LANGUAGES, localeHref, type IconComponent, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
 import {
   useExternalLinks,
@@ -98,15 +92,23 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
           <DockLink
             href={localeHref(lang, '/')}
             label={t(($) => $.nav.home)}
-            Icon={HouseIcon}
+            Icon={HomeIcon}
+            IconSolid={HomeSolidIcon}
             current={current === undefined}
           />
 
           <Separator orientation="vertical" className="mx-0.5 hidden h-6! w-px sm:block" />
 
           <div className="hidden items-center gap-1 sm:flex">
-            {sections.map(({ key, href, label, Icon }) => (
-              <DockLink key={key} href={href} label={label} Icon={Icon} current={current === key} />
+            {sections.map(({ key, href, label, Icon, IconSolid }) => (
+              <DockLink
+                key={key}
+                href={href}
+                label={label}
+                Icon={Icon}
+                IconSolid={IconSolid}
+                current={current === key}
+              />
             ))}
 
             <Separator orientation="vertical" className="mx-0.5 h-6! w-px" />
@@ -143,7 +145,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
                     />
                   }
                 >
-                  <GlobeIcon aria-hidden className="size-5" />
+                  <GlobeAltIcon aria-hidden className="size-5" />
                 </TooltipTrigger>
                 <TooltipContent>{t(($) => $.actions.switchLanguage)}</TooltipContent>
               </Tooltip>
@@ -193,7 +195,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
                 />
               }
             >
-              <ListIcon className="size-5" />
+              <Bars3Icon className="size-5" />
             </SheetTrigger>
 
             <SheetContent side="bottom" className="pb-8">
@@ -257,7 +259,10 @@ function ThemeIcons() {
   );
 }
 
-function DockLink({ href, label, Icon, current, blank, hrefLang }: DockLink.Props) {
+function DockLink({ href, label, Icon, IconSolid, current, blank, hrefLang }: DockLink.Props) {
+  // heroicons 는 채운 변형이 별도 import 라 `weight` 처럼 prop 으로 못 바꾼다.
+  const Rendered = current && IconSolid !== undefined ? IconSolid : Icon;
+
   return (
     <Tooltip>
       <TooltipTrigger
@@ -272,7 +277,7 @@ function DockLink({ href, label, Icon, current, blank, hrefLang }: DockLink.Prop
           />
         }
       >
-        <Icon aria-hidden weight={current ? 'fill' : 'regular'} className="size-5" />
+        <Rendered aria-hidden className="size-5" />
       </TooltipTrigger>
       <TooltipContent>{label}</TooltipContent>
     </Tooltip>
@@ -283,7 +288,8 @@ declare namespace DockLink {
   export type Props = {
     href: string;
     label: string;
-    Icon: Icon;
+    Icon: IconComponent;
+    IconSolid?: IconComponent;
     current?: boolean;
     blank?: boolean;
     hrefLang?: string;

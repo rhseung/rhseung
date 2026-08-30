@@ -1,4 +1,4 @@
-import { TrophyIcon } from '@phosphor-icons/react';
+import { TrophyIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 
 import { Badge, ExternalLink } from '@/common/components';

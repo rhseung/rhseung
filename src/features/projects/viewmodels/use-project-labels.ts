@@ -1,12 +1,13 @@
 import {
-  ArrowSquareOutIcon,
-  FileTextIcon,
-  GithubLogoIcon,
-  PackageIcon,
+  ArrowTopRightOnSquareIcon,
+  CubeIcon,
+  DocumentTextIcon,
   PlayIcon,
-  type Icon,
-} from '@phosphor-icons/react';
+} from '@heroicons/react/24/outline';
+import { GithubLogoIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
+
+import type { IconComponent } from '@/common/lib';
 
 import {
   PROJECT_LINK_KINDS,
@@ -29,10 +30,10 @@ export function useProjectLabels() {
   return { status, link };
 }
 
-export const PROJECT_LINK_ICON: Record<ProjectLinkKind, Icon> = {
+export const PROJECT_LINK_ICON: Record<ProjectLinkKind, IconComponent> = {
   repo: GithubLogoIcon,
   demo: PlayIcon,
-  package: PackageIcon,
-  post: FileTextIcon,
-  paper: ArrowSquareOutIcon,
+  package: CubeIcon,
+  post: DocumentTextIcon,
+  paper: ArrowTopRightOnSquareIcon,
 };

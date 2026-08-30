@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { CheckIcon, CopyIcon } from '@phosphor-icons/react';
+import { CheckIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -105,7 +105,7 @@ export function PaperPage({
                     {copied ? (
                       <CheckIcon data-icon="inline-start" />
                     ) : (
-                      <CopyIcon data-icon="inline-start" />
+                      <ClipboardDocumentIcon data-icon="inline-start" />
                     )}
                     {copied ? t(($) => $.detail.copied) : t(($) => $.detail.bibtex)}
                   </Button>

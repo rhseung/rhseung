@@ -1,4 +1,4 @@
-import { DownloadSimpleIcon } from '@phosphor-icons/react';
+import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 
 import { SiteDock, buttonVariants } from '@/common/components';
@@ -33,7 +33,7 @@ export function ResumePage({
             download
             className={cn(buttonVariants({ size: 'sm', variant: 'outline' }))}
           >
-            <DownloadSimpleIcon data-icon="inline-start" />
+            <ArrowDownTrayIcon data-icon="inline-start" />
             {t(($) => $.download.label)}
           </a>
         </div>

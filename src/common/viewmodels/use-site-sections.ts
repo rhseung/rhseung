@@ -1,31 +1,40 @@
 import {
+  BeakerIcon,
   BriefcaseIcon,
-  FlaskIcon,
   FolderIcon,
-  PenNibIcon,
-  ReadCvLogoIcon,
-  type Icon,
-} from '@phosphor-icons/react';
+  IdentificationIcon,
+  PencilSquareIcon,
+} from '@heroicons/react/24/outline';
+import {
+  BeakerIcon as BeakerSolidIcon,
+  BriefcaseIcon as BriefcaseSolidIcon,
+  FolderIcon as FolderSolidIcon,
+  IdentificationIcon as IdentificationSolidIcon,
+  PencilSquareIcon as PencilSquareSolidIcon,
+} from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 
-import { localeHref, type Language } from '@/common/lib';
+import { localeHref, type IconComponent, type Language } from '@/common/lib';
 
+// heroicons 는 채운 변형을 `weight` prop 이 아니라 다른 import 경로로 준다. 현재 항목만
+// 채워 그리는 독이 둘 다 필요해서 쌍으로 들고 다닌다.
 const SECTIONS = [
-  { key: 'projects', Icon: FolderIcon },
-  { key: 'research', Icon: FlaskIcon },
-  { key: 'blog', Icon: PenNibIcon },
-  { key: 'career', Icon: BriefcaseIcon },
-  { key: 'resume', Icon: ReadCvLogoIcon },
-] as const satisfies readonly { key: string; Icon: Icon }[];
+  { key: 'projects', Icon: FolderIcon, IconSolid: FolderSolidIcon },
+  { key: 'research', Icon: BeakerIcon, IconSolid: BeakerSolidIcon },
+  { key: 'blog', Icon: PencilSquareIcon, IconSolid: PencilSquareSolidIcon },
+  { key: 'career', Icon: BriefcaseIcon, IconSolid: BriefcaseSolidIcon },
+  { key: 'resume', Icon: IdentificationIcon, IconSolid: IdentificationSolidIcon },
+] as const satisfies readonly { key: string; Icon: IconComponent; IconSolid: IconComponent }[];
 
 export type SiteSection = (typeof SECTIONS)[number]['key'];
 
 export function useSiteSections(lang: Language) {
   const { t } = useTranslation('common');
 
-  return SECTIONS.map(({ key, Icon }) => ({
+  return SECTIONS.map(({ key, Icon, IconSolid }) => ({
     key,
     Icon,
+    IconSolid,
     href: localeHref(lang, `/${key}`),
     label: t(($) => $.nav[key]),
   }));

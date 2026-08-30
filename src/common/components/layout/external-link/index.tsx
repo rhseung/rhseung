@@ -1,4 +1,4 @@
-import { ArrowSquareOutIcon } from '@phosphor-icons/react';
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 
 import { cn } from '@/common/utils';
 
@@ -14,7 +14,7 @@ export function ExternalLink({ href, className, children }: ExternalLink.Props) 
       )}
     >
       {children}
-      <ArrowSquareOutIcon aria-hidden className="size-[1em] shrink-0 opacity-40" />
+      <ArrowTopRightOnSquareIcon aria-hidden className="size-[1em] shrink-0 opacity-40" />
     </a>
   );
 }
