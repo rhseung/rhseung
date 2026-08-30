@@ -37,8 +37,6 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../
 import { LanguageSuggestion } from '../language-suggestion';
 
 /**
- * 화면 아래쪽 점진 블러. 아래로 갈수록 얇고 세게 겹쳐서 한 겹짜리 블러의 뚜렷한 경계선을 없앤다.
- *
  * 제일 높은 겹은 독의 윗변을 넘겨야 한다. 독은 `bottom-4`(1rem) 위에 서고 높이가 58px라
  * 윗변이 4.6rem쯤인데, 여기가 그보다 낮으면 블러 띠가 독 중간에서 끊긴다.
  */
@@ -49,8 +47,6 @@ const BLUR_LAYERS = [
   { height: '1rem', blur: '24px' },
 ];
 
-// 링크와 버튼이 같이 쓴다. `Button`에 맡기면 아이콘이 16px(`[&_svg:not([class*='size-'])]`)에
-// `text-foreground`로 나와서 링크들과 크기도 색도 어긋난다 - 아이콘 쪽 `size-5`도 같은 이유다.
 /** Tailwind의 `sm` 경계. 이 아래에서는 언어 버튼이 시트 안으로 숨어서 팝오버를 걸 자리가 없다. */
 const COMPACT_QUERY = '(max-width: 39.99rem)';
 
@@ -135,8 +131,6 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
                 if (!open) dismiss();
               }}
             >
-              {/* 두 트리거가 같은 링크를 렌더한다. 팝오버는 이 링크에 붙어야 하고, 툴팁은
-                  다른 항목들과 같은 이유로 있어야 한다. */}
               <Tooltip>
                 <TooltipTrigger
                   render={
@@ -168,7 +162,6 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
                   // 팝오버는 `document.body`로 포탈돼서 독의 `print:hidden` 밖으로 빠져나간다.
                   // 안 걸면 이력서 PDF 머리에 언어 제안이 그대로 찍힌다.
                   className="w-auto max-w-80 p-4 print:hidden"
-                  // 팝업이 role=dialog 라서 이름이 없으면 스크린 리더가 뭘 연 건지 못 읽는다.
                   aria-label={t(($) => $.actions.switchLanguage)}
                 >
                   <LanguageSuggestion language={suggested} href={altHref} onDismiss={dismiss} />
