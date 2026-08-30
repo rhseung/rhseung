@@ -35,10 +35,8 @@ export function LanguageSuggestionPopover({
         <PopoverContent
           side="top"
           align="center"
-          sideOffset={8}
           // 팝오버는 `document.body`로 포탈돼서 독의 `print:hidden` 밖으로 빠져나간다. 안 걸면 이력서 PDF 머리에 언어 제안이 그대로 찍힌다.
-          // 좁은 화면에서 팝오버가 뷰포트를 넘지 않게 - Base UI 는 폭을 안 줄인다.
-          className="w-auto max-w-[min(20rem,calc(100vw-2rem))] p-4 print:hidden"
+          className="w-auto max-w-72 p-3 print:hidden"
           aria-label={t(($) => $.actions.switchLanguage)}
         >
           <p>{t(($) => $.language.available, { name })}</p>
