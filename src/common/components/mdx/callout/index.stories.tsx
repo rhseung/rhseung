@@ -16,6 +16,10 @@ export const Note: Story = { args: { tone: 'note', title: '참고' } };
 
 export const Tip: Story = { args: { tone: 'tip', title: '팁' } };
 
-export const Warn: Story = { args: { tone: 'warn', title: '주의' } };
+export const Important: Story = { args: { tone: 'important', title: '중요' } };
+
+export const Warning: Story = { args: { tone: 'warning', title: '경고' } };
+
+export const Caution: Story = { args: { tone: 'caution', title: '위험' } };
 
 export const WithoutTitle: Story = { args: { tone: 'note' } };
