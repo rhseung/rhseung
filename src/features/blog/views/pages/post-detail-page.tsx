@@ -62,18 +62,18 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
          * 잘리고, 그 상태에서 `overflow-y-auto` 가 스크롤할 자리를 못 만든다.
          */}
         {/*
-         * 목차 칸은 머리줄과 같은 행에서 시작해 두 행을 걸친다. 머리줄 아래 행에 두면
-         * sticky 가 걸리기 전까지 머리줄 높이만큼 본문과 같이 밀려 올라간다 - 화면에
-         * 붙어 있어야 할 것이 처음 한 스크롤 동안만 따라 움직여 어색하다.
-         *
          * 세 아이템 전부 행·열을 명시한다. 하나라도 자동 배치로 두면 이미 차 있는 칸을
          * 피해 암시적 행·열이 생기고(실제로 4행 4열까지 늘어났다) 칸이 통째로 어긋난다.
          *
-         * `-mt-8` 은 컨테이너 위 패딩을 되돌린다. 목차는 `xl` 부터만 뜨는데 그 폭에서는
-         * 패딩이 항상 `md:p-8` 이라 값이 고정이다. 안 걷어내면 처음 32px 만 따라 움직인다.
+         * 목차가 `sticky` 가 아니라 `fixed` 인 이유: sticky 는 자기를 담은 상자 안에서만
+         * 붙어 있는다. 그 상자가 본문 끝에서 끝나기 때문에 페이지 위아래 끝에서는 목차가
+         * 본문을 따라 같이 밀린다. `fixed` 는 그 상자와 무관해서 처음부터 끝까지 안 움직인다.
+         *
+         * 가로 위치는 안 준다 - `left` 가 `auto` 면 흐름상 있었을 자리(2열)를 그대로 쓴다.
+         * 그래서 폭만 열과 같은 값으로 박으면 된다.
          */}
-        <aside className="hidden xl:col-start-2 xl:row-start-1 xl:row-end-3 xl:-mt-8 xl:block">
-          <div className="sticky top-0 flex h-dvh items-center">
+        <aside className="hidden xl:col-start-2 xl:row-start-1 xl:block">
+          <div className="fixed top-1/2 w-52 -translate-y-1/2">
             <PostToc headings={headings} className="max-h-[70dvh] w-full overflow-y-auto" />
           </div>
         </aside>
