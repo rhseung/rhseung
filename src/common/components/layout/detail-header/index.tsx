@@ -18,7 +18,7 @@ export function DetailHeader({ lang, backHref, backLabel, className }: DetailHea
   const { t } = useTranslation('common');
 
   return (
-    <header className={cn('relative mb-4 flex h-10 items-center justify-center', className)}>
+    <header className={cn('relative mb-24 flex h-10 items-center justify-center', className)}>
       <a
         href={backHref}
         aria-label={backLabel}
