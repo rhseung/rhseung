@@ -59,8 +59,13 @@ export function TocDock({ headings }: TocDock.Props) {
       </div>
 
       {/* 항목을 누르면 같은 페이지 안에서 움직인다 - 시트가 열린 채면 간 곳이 안 보인다. */}
+      {/*
+       * 폭을 못 박는다. 시트 기본값이 `w-3/4` 라 목차 한 줄보다 훨씬 넓다. 변형 접두사를
+       * 그대로 맞춰야 tailwind-merge 가 아니라 특이도로 이긴다 - 맨 `w-64` 는 진다.
+       */}
       <SheetContent
         side="right"
+        className="data-[side=right]:w-64 data-[side=right]:sm:max-w-64"
         onClick={() => {
           setOpen(false);
         }}
