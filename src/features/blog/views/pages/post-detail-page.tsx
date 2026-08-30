@@ -37,7 +37,7 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
               {dayjs(post.date).format('LL')}
             </time>
 
-            <h1 data-vt-title={post.slug} className="text-3xl font-semibold tracking-tight">
+            <h1 data-vt-title={post.slug} className="text-3xl font-extrabold tracking-tight">
               {post.title}
             </h1>
             <p className="text-muted-foreground">{post.summary}</p>
