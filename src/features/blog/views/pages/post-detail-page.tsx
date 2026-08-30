@@ -1,9 +1,7 @@
-import { ArrowLeftIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { Badge, SiteDock, buttonVariants } from '@/common/components';
+import { Badge, DetailHeader, SiteDock } from '@/common/components';
 import { dayjs, localeHref } from '@/common/lib';
-import { cn } from '@/common/utils';
 
 import type { PostSummary } from '../../viewmodels';
 
@@ -14,38 +12,38 @@ export function PostDetailPage({ post, children }: PostDetailPage.Props) {
 
   return (
     <div className="bg-background min-h-dvh">
-      <main className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-12">
-        <a
-          href={localeHref(lang, '/blog')}
-          className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), '-ml-2 self-start')}
-        >
-          <ArrowLeftIcon data-icon="inline-start" />
-          {t(($) => $.detail.back)}
-        </a>
+      <div className="mx-auto w-full max-w-3xl px-4">
+        <DetailHeader
+          lang={lang}
+          backHref={localeHref(lang, '/blog')}
+          backLabel={t(($) => $.detail.back)}
+        />
 
-        <header className="flex flex-col gap-3">
-          <time dateTime={post.date} className="text-muted-foreground text-xs tabular-nums">
-            {dayjs(post.date).format('LL')}
-          </time>
+        <main className="flex flex-col gap-8 pb-12">
+          <header className="flex flex-col gap-3">
+            <time dateTime={post.date} className="text-muted-foreground text-xs tabular-nums">
+              {dayjs(post.date).format('LL')}
+            </time>
 
-          <h1 data-vt-title={post.slug} className="text-3xl font-semibold tracking-tight">
-            {post.title}
-          </h1>
-          <p className="text-muted-foreground">{post.summary}</p>
+            <h1 data-vt-title={post.slug} className="text-3xl font-semibold tracking-tight">
+              {post.title}
+            </h1>
+            <p className="text-muted-foreground">{post.summary}</p>
 
-          {post.tags.length > 0 && (
-            <ul className="flex flex-wrap gap-1">
-              {post.tags.map((tag) => (
-                <li key={tag}>
-                  <Badge variant="outline">{tag}</Badge>
-                </li>
-              ))}
-            </ul>
-          )}
-        </header>
+            {post.tags.length > 0 && (
+              <ul className="flex flex-wrap gap-1">
+                {post.tags.map((tag) => (
+                  <li key={tag}>
+                    <Badge variant="outline">{tag}</Badge>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </header>
 
-        <div className="prose prose-zinc dark:prose-invert max-w-none">{children}</div>
-      </main>
+          <div className="prose prose-zinc dark:prose-invert max-w-none">{children}</div>
+        </main>
+      </div>
 
       <SiteDock lang={lang} current="blog" />
     </div>

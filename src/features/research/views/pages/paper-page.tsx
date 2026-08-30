@@ -1,9 +1,16 @@
 import { useState } from 'react';
 
-import { ArrowLeftIcon, CheckIcon, CopyIcon } from '@phosphor-icons/react';
+import { CheckIcon, CopyIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-import { Badge, Button, ExternalLink, SiteDock, buttonVariants } from '@/common/components';
+import {
+  Badge,
+  Button,
+  DetailHeader,
+  ExternalLink,
+  SiteDock,
+  buttonVariants,
+} from '@/common/components';
 import { formatYearMonth, localeHref, tone, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
 
@@ -51,76 +58,76 @@ export function PaperPage({
 
   return (
     <div className="bg-background min-h-dvh">
-      <main className="mx-auto flex max-w-3xl flex-col gap-8 px-4 py-12">
-        <a
-          href={localeHref(lang, '/research')}
-          className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }), '-ml-2 self-start')}
-        >
-          <ArrowLeftIcon data-icon="inline-start" />
-          {t(($) => $.detail.back)}
-        </a>
+      <div className="mx-auto w-full max-w-3xl px-4">
+        <DetailHeader
+          lang={lang}
+          backHref={localeHref(lang, '/research')}
+          backLabel={t(($) => $.detail.back)}
+        />
 
-        <header className="flex flex-col gap-3">
-          <div className="flex items-center gap-1.5">
-            <Badge variant="secondary" className={tone({ tone: RESEARCH_KIND_TONE[item.kind] })}>
-              {label.kind[item.kind]}
-            </Badge>
-            <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
-          </div>
-
-          <h1 data-vt-title={item.slug} className="text-3xl font-semibold tracking-tight">
-            {item.title}
-          </h1>
-
-          <p className="text-muted-foreground text-sm">
-            {authors ?? item.org}
-            {authors !== undefined && ` · ${item.org}`}
-          </p>
-
-          {(links.length > 0 || bibtex !== undefined) && (
-            <div className="flex flex-wrap gap-2">
-              {links.map(({ kind, href }) => {
-                const Icon = RESEARCH_LINK_ICON[kind];
-
-                return (
-                  <ExternalLink
-                    key={kind}
-                    href={href}
-                    className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
-                  >
-                    <Icon data-icon="inline-start" />
-                    {label.link[kind]}
-                  </ExternalLink>
-                );
-              })}
-
-              {bibtex !== undefined && (
-                <Button variant="outline" size="sm" onClick={copy}>
-                  {copied ? (
-                    <CheckIcon data-icon="inline-start" />
-                  ) : (
-                    <CopyIcon data-icon="inline-start" />
-                  )}
-                  {copied ? t(($) => $.detail.copied) : t(($) => $.detail.bibtex)}
-                </Button>
-              )}
+        <main className="flex flex-col gap-8 pb-12">
+          <header className="flex flex-col gap-3">
+            <div className="flex items-center gap-1.5">
+              <Badge variant="secondary" className={tone({ tone: RESEARCH_KIND_TONE[item.kind] })}>
+                {label.kind[item.kind]}
+              </Badge>
+              <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
             </div>
-          )}
-        </header>
 
-        <div className="paper flex flex-col gap-8">
-          <div className="prose prose-zinc dark:prose-invert max-w-none">{children}</div>
+            <h1 data-vt-title={item.slug} className="text-3xl font-semibold tracking-tight">
+              {item.title}
+            </h1>
 
-          {bibliography !== undefined && (
-            <section className="flex flex-col gap-3">
-              <h2 className="text-lg font-semibold tracking-tight">
-                {t(($) => $.detail.references)}
-              </h2>
-              {bibliography}
-            </section>
-          )}
-        </div>
-      </main>
+            <p className="text-muted-foreground text-sm">
+              {authors ?? item.org}
+              {authors !== undefined && ` · ${item.org}`}
+            </p>
+
+            {(links.length > 0 || bibtex !== undefined) && (
+              <div className="flex flex-wrap gap-2">
+                {links.map(({ kind, href }) => {
+                  const Icon = RESEARCH_LINK_ICON[kind];
+
+                  return (
+                    <ExternalLink
+                      key={kind}
+                      href={href}
+                      className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
+                    >
+                      <Icon data-icon="inline-start" />
+                      {label.link[kind]}
+                    </ExternalLink>
+                  );
+                })}
+
+                {bibtex !== undefined && (
+                  <Button variant="outline" size="sm" onClick={copy}>
+                    {copied ? (
+                      <CheckIcon data-icon="inline-start" />
+                    ) : (
+                      <CopyIcon data-icon="inline-start" />
+                    )}
+                    {copied ? t(($) => $.detail.copied) : t(($) => $.detail.bibtex)}
+                  </Button>
+                )}
+              </div>
+            )}
+          </header>
+
+          <div className="paper flex flex-col gap-8">
+            <div className="prose prose-zinc dark:prose-invert max-w-none">{children}</div>
+
+            {bibliography !== undefined && (
+              <section className="flex flex-col gap-3">
+                <h2 className="text-lg font-semibold tracking-tight">
+                  {t(($) => $.detail.references)}
+                </h2>
+                {bibliography}
+              </section>
+            )}
+          </div>
+        </main>
+      </div>
 
       <SiteDock lang={lang} current="research" altHref={altHref} />
     </div>
