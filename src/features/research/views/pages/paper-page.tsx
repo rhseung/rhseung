@@ -58,7 +58,7 @@ export function PaperPage({
 
   return (
     <div className="bg-background min-h-dvh">
-      <div className="mx-auto w-full max-w-3xl p-4 sm:p-6 md:p-8">
+      <div className="mx-auto w-full max-w-4xl p-4 sm:p-6 md:p-8">
         <DetailHeader
           lang={lang}
           backHref={localeHref(lang, '/research')}
