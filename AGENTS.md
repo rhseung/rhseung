@@ -193,8 +193,16 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
   `src/common/components/index.ts`에 재export.
 - 스타일은 `base-nova` = **Base UI**. Radix가 아니다.
   → 합성은 `asChild`가 아니라 **`render` prop**: `<Button render={<a href="/">…</a>} />`
-- 아이콘은 **Phosphor**. `components.json`의 `iconLibrary`가 `phosphor`라 CLI가 알아서
-  `@phosphor-icons/react`로 생성한다. 손으로 바꿀 일 없다.
+- 아이콘은 **heroicons 를 먼저 쥐어짜낸다.** 손으로 쓰는 코드는 `@heroicons/react/24/outline`,
+  채운 변형이 필요하면 `/24/solid`. 없으면 그때만 `@phosphor-icons/react`.
+  지금 phosphor 가 남은 자리는 셋뿐이다 - `mdx/shortcut`(mac 모디파이어 글리프. heroicons 에
+  개념이 없다), `GithubLogo`(heroicons 는 브랜드 로고를 안 만든다), `ui/**`(생성물).
+- **`components.json` 의 `iconLibrary` 는 `phosphor` 로 둔다.** `ui/**` 는 CLI 가 다시 구우면
+  어차피 phosphor 로 돌아오고, 거기 쓰이는 아이콘은 둘뿐이라 맞출 값어치가 없다.
+- **heroicons 는 채운 변형을 prop 이 아니라 import 경로로 준다.** phosphor 의 `weight="fill"`
+  처럼 런타임에 못 바꾼다. 상태에 따라 채움이 달라지는 자리는 아이콘을 쌍으로 들고 다녀야
+  한다 (`use-site-sections.ts` 의 `Icon`/`IconSolid`).
+- 두 라이브러리를 같은 자리에 꽂는 prop 은 `@/common/lib` 의 `IconComponent` 로 받는다.
 - 생성된 `ui/**`는 린트 예외가 걸려 있다. 고치지 말고 재생성한다.
 
 ### 컴포넌트 규약
