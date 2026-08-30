@@ -84,7 +84,11 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
         </aside>
       </div>
 
-      <SiteDock lang={lang} current="blog" />
+      <SiteDock
+        lang={lang}
+        current="blog"
+        toc={<PostToc headings={headings} className="size-full" />}
+      />
     </div>
   );
 }

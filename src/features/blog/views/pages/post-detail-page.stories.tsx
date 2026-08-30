@@ -35,7 +35,11 @@ const body = (
 const meta = {
   title: 'Blog/Pages/PostDetailPage',
   component: PostDetailPage,
-  parameters: { layout: 'fullscreen' },
+  parameters: {
+    layout: 'fullscreen',
+    // `PostToc` 와 같은 이유로 끈다 - 비활성 항목을 일부러 대비 하한 아래로 내렸다.
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   args: { post, headings, children: body },
 } satisfies Meta<typeof PostDetailPage>;
 
