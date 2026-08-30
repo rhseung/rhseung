@@ -31,7 +31,7 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
           className="lg:col-start-1 lg:col-end-3 lg:row-start-1"
         />
 
-        <main className="flex flex-col gap-8 lg:col-start-1 lg:row-start-2">
+        <main className="flex min-w-0 flex-col gap-8 lg:col-start-1 lg:row-start-2">
           <header className="flex flex-col gap-3">
             <time dateTime={post.date} className="text-muted-foreground text-xs tabular-nums">
               {dayjs(post.date).format('LL')}

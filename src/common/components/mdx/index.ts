@@ -6,6 +6,7 @@ import { MdxLink } from './link';
 import { Shortcut } from './shortcut';
 import { Stat, Stats } from './stat';
 import { Step, Steps } from './steps';
+import { MdxTable } from './table';
 
 export { Callout } from './callout';
 export { Detail } from './detail';
@@ -15,6 +16,7 @@ export { MdxLink } from './link';
 export { Shortcut } from './shortcut';
 export { Stat, Stats } from './stat';
 export { Step, Steps } from './steps';
+export { MdxTable } from './table';
 
 export const MDX_COMPONENTS = {
   a: MdxLink,
@@ -24,6 +26,7 @@ export const MDX_COMPONENTS = {
   h4: MdxH4,
   h5: MdxH5,
   h6: MdxH6,
+  table: MdxTable,
   Callout,
   Detail,
   Figure,

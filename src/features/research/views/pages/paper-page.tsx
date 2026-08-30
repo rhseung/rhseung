@@ -65,7 +65,7 @@ export function PaperPage({
           backLabel={t(($) => $.detail.back)}
         />
 
-        <main className="flex flex-col gap-8">
+        <main className="flex min-w-0 flex-col gap-8">
           <header className="flex flex-col gap-3">
             <div className="flex items-center gap-1.5">
               <Badge variant="secondary" className={tone({ tone: RESEARCH_KIND_TONE[item.kind] })}>
