@@ -31,9 +31,9 @@ export function PostToc({ headings, className }: PostToc.Props) {
               ref={slug === active ? activeRef : undefined}
               href={`#${slug}`}
               aria-current={slug === active ? 'location' : undefined}
+              style={{ paddingLeft: `${(depth - 2) * 0.75}rem` }}
               className={cn(
                 'block py-0.5 leading-snug transition-colors',
-                depth > 2 && 'pl-3',
                 slug === active
                   ? 'text-foreground font-medium'
                   : 'text-muted-foreground/70 hover:text-foreground',

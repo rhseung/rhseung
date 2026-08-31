@@ -7,15 +7,21 @@ import type { PostHeading } from '../models';
 const heading = (depth: number, slug: string): PostHeading => ({ depth, slug, text: slug });
 
 describe('tocHeadings', () => {
-  it('h2·h3 만 남긴다', () => {
+  it('h1 만 뺀다', () => {
     const headings = [
       heading(1, 'title'),
       heading(2, 'setup'),
       heading(3, 'chrome'),
       heading(4, 'detail'),
+      heading(6, 'deepest'),
     ];
 
-    expect(tocHeadings(headings).map((h) => h.slug)).toEqual(['setup', 'chrome']);
+    expect(tocHeadings(headings).map((h) => h.slug)).toEqual([
+      'setup',
+      'chrome',
+      'detail',
+      'deepest',
+    ]);
   });
 
   it('GFM 각주 라벨은 뺀다', () => {
