@@ -8,6 +8,15 @@
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *, .dark, .dark *));
 
 :root {
+  /* 자간은 글자가 커질수록 시각적으로 더 벌어져 보인다. 크기별로 조여주는 값이고,
+   * 본문 크기(base 이하)는 0 이 맞다. `@theme inline` 이 변수를 안 내보내서
+   * `.prose` 제목 규칙이 참조할 수 있게 여기에 둔다. */
+  --tracking-lg: -0.01em;
+  --tracking-xl: -0.015em;
+  --tracking-2xl: -0.02em;
+  --tracking-3xl: -0.026em;
+  --tracking-4xl: -0.032em;
+
   --radius: 0.625rem;
 
   --background: oklch(1 0 0);
@@ -126,6 +135,13 @@
   --color-tone-purple-foreground: var(--tone-purple-foreground);
   --color-tone-rose-foreground: var(--tone-rose-foreground);
 
+  /* `text-3xl` 같은 유틸이 자간을 알아서 들고 온다 - 호출부에서 `tracking-*` 를 고르지 않는다. */
+  --text-lg--letter-spacing: var(--tracking-lg);
+  --text-xl--letter-spacing: var(--tracking-xl);
+  --text-2xl--letter-spacing: var(--tracking-2xl);
+  --text-3xl--letter-spacing: var(--tracking-3xl);
+  --text-4xl--letter-spacing: var(--tracking-4xl);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -196,6 +212,19 @@
 @layer utilities {
   .prose {
     @apply leading-[1.65];
+  }
+
+  /* typography 는 제목에 자간을 안 준다. `@theme` 의 크기별 램프와 같은 값을 태그로 옮긴다. */
+  .prose h1 {
+    letter-spacing: var(--tracking-3xl);
+  }
+
+  .prose h2 {
+    letter-spacing: var(--tracking-2xl);
+  }
+
+  .prose h3 {
+    letter-spacing: var(--tracking-xl);
   }
 
   .prose :is(ul, ol) > li,

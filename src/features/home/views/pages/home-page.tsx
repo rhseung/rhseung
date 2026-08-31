@@ -35,10 +35,10 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
             <AvatarFallback className="text-foreground">{SITE.handle}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col gap-1">
-            <h1 className="text-3xl leading-snug font-bold tracking-tight">
+            <h1 className="text-3xl leading-snug font-bold">
               {t(($) => $.site.name, { ns: 'common' })}
             </h1>
-            <div className="text-muted-foreground tracking-tight">
+            <div className="text-muted-foreground">
               <RoleRotator roles={roles} />
             </div>
           </div>
@@ -46,7 +46,7 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
 
         <section className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">
-            <h2 className="font-bold tracking-tight">{t(($) => $.sections.about)}</h2>
+            <h2 className="font-bold">{t(($) => $.sections.about)}</h2>
           </div>
           <div className="text-muted-foreground flex flex-col gap-3 text-sm leading-relaxed">
             {t(($) => $.site.bio, { ns: 'common', returnObjects: true }).map((paragraph, i) => (
@@ -56,13 +56,13 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
         </section>
         {days.length > 0 && (
           <section className="flex flex-col gap-4">
-            <h2 className="font-bold tracking-tight">{t(($) => $.sections.contributions)}</h2>
+            <h2 className="font-bold">{t(($) => $.sections.contributions)}</h2>
             <GithubContributionCalendar total={total} days={days} />
           </section>
         )}
 
         <section className="flex flex-col gap-4">
-          <h2 id="entries-heading" className="font-bold tracking-tight">
+          <h2 id="entries-heading" className="font-bold">
             {t(($) => $.entries.label)}
           </h2>
           <nav aria-labelledby="entries-heading" className="flex flex-col gap-3">

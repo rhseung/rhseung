@@ -74,7 +74,7 @@ export function PaperPage({
               <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
             </div>
 
-            <h1 data-vt-title={item.slug} className="text-3xl font-extrabold tracking-tight">
+            <h1 data-vt-title={item.slug} className="text-3xl font-extrabold">
               {item.title}
             </h1>
 
@@ -119,9 +119,7 @@ export function PaperPage({
 
             {bibliography !== undefined && (
               <section className="flex flex-col gap-3">
-                <h2 className="text-lg font-semibold tracking-tight">
-                  {t(($) => $.detail.references)}
-                </h2>
+                <h2 className="text-lg font-semibold">{t(($) => $.detail.references)}</h2>
                 {bibliography}
               </section>
             )}

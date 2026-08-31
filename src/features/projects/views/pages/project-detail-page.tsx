@@ -40,7 +40,7 @@ export function ProjectDetailPage({
               <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
             </div>
 
-            <h1 data-vt-title={project.slug} className="text-3xl font-extrabold tracking-tight">
+            <h1 data-vt-title={project.slug} className="text-3xl font-extrabold">
               {project.title}
             </h1>
             <p className="text-muted-foreground">{project.summary}</p>

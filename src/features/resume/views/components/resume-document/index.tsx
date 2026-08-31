@@ -17,9 +17,7 @@ import type { Project } from '@/features/projects';
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="flex flex-col gap-3">
-      <h2 className="border-border text-primary border-b pb-1 text-sm font-medium tracking-tight">
-        {title}
-      </h2>
+      <h2 className="border-border text-primary border-b pb-1 text-sm font-medium">{title}</h2>
       {children}
     </section>
   );
@@ -37,9 +35,7 @@ export function ResumeDocument({
   return (
     <article className="flex flex-col gap-8">
       <header className="flex flex-col gap-3">
-        <h1 className="text-3xl font-semibold tracking-tight">
-          {t(($) => $.site.name, { ns: 'common' })}
-        </h1>
+        <h1 className="text-3xl font-semibold">{t(($) => $.site.name, { ns: 'common' })}</h1>
 
         <ul className="text-muted-foreground flex flex-wrap gap-x-4 gap-y-1 text-xs">
           <li>{t(($) => $.site.location, { ns: 'common' })}</li>

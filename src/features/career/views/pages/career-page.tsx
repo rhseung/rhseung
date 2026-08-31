@@ -17,7 +17,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <section className="flex flex-col gap-5">
       <div className="flex flex-col gap-1">
-        <h2 className="text-sm font-medium tracking-tight">{title}</h2>
+        <h2 className="text-sm font-medium">{title}</h2>
         <Separator />
       </div>
       {children}
@@ -34,7 +34,7 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
   return (
     <div className="bg-background min-h-dvh">
       <main className="mx-auto flex max-w-3xl flex-col gap-12 p-4 sm:p-6 md:p-8">
-        <h1 className="text-2xl font-semibold tracking-tight">{t(($) => $.career.title)}</h1>
+        <h1 className="text-2xl font-semibold">{t(($) => $.career.title)}</h1>
 
         {isEmpty && (
           <Empty>

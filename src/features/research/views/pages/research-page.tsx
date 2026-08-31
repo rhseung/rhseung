@@ -15,7 +15,7 @@ export function ResearchPage({ lang, items, papers = [] }: ResearchPage.Props) {
     <div className="bg-background min-h-dvh">
       <main className="mx-auto flex max-w-3xl flex-col gap-8 p-4 sm:p-6 md:p-8">
         <div className="flex flex-col gap-2">
-          <h1 className="text-2xl font-semibold tracking-tight">{t(($) => $.page.title)}</h1>
+          <h1 className="text-2xl font-semibold">{t(($) => $.page.title)}</h1>
         </div>
 
         {visible.length === 0 ? (
