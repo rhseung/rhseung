@@ -281,6 +281,12 @@
     @apply decoration-current/40 decoration-[0.0625em];
   }
 
+  /* typography 가 `a` 자신에 `font-weight: 500` 을 박아서 제목의 굵기가 상속되지 않는다. */
+  .prose :is(h1, h2, h3, h4, h5, h6) a {
+    color: inherit;
+    font-weight: inherit;
+  }
+
   .prose .citation {
     @apply decoration-muted-foreground/40 font-normal underline underline-offset-2 hover:decoration-current;
   }
