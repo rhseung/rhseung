@@ -7,6 +7,8 @@ import { I18nextProvider } from 'react-i18next';
 
 import { i18n, type Language } from '@/common/lib';
 
+import '@/common/lib/dayjs';
+
 const showDevtools = import.meta.env.PUBLIC_DEVTOOLS === '1';
 
 let mockingReady: Promise<void> | null = null;

@@ -1,6 +1,3 @@
-// 부수효과 트리거를 겸한다. 이 배럴을 import 해야 dayjs 가 i18next 에 연결된다.
-import './dayjs';
-
 export { dayjs } from './dayjs';
 export { I18N_NAMESPACES, i18n, type I18nNamespace } from './i18n';
 export type { IconComponent } from './icons';
