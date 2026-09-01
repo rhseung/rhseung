@@ -1,3 +1,4 @@
+import { LinkIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 
 /**
@@ -14,15 +15,15 @@ export function MdxHeading({ level, id, children }: MdxHeading.Props) {
   if (id === undefined) return <Tag>{children}</Tag>;
 
   return (
-    <Tag id={id} className="group">
-      {children}
+    <Tag id={id} className="group relative">
       <a
         href={`#${id}`}
         aria-label={t(($) => $.actions.permalink)}
-        className="text-muted-foreground ml-2 no-underline opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+        className="text-muted-foreground/60! hover:text-muted-foreground! absolute -left-7 hidden h-[1lh] items-center no-underline opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100 lg:flex"
       >
-        #
+        <LinkIcon aria-hidden className="size-[0.8em]" />
       </a>
+      {children}
     </Tag>
   );
 }
