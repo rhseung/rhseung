@@ -214,9 +214,12 @@
     @apply leading-[1.65];
   }
 
-  /* typography 는 제목에 자간을 안 준다. `@theme` 의 크기별 램프와 같은 값을 태그로 옮긴다. */
+  /*
+   * 제목 크기가 유틸이 아니라 typography 가 정한 em 에서 나와 `@theme` 의 크기별
+   * 램프를 안 탄다. 픽셀이 가장 가까운 토큰을 태그로 옮긴다.
+   */
   .prose h1 {
-    letter-spacing: var(--tracking-3xl);
+    letter-spacing: var(--tracking-4xl);
   }
 
   .prose h2 {
@@ -225,6 +228,13 @@
 
   .prose h3 {
     letter-spacing: var(--tracking-xl);
+  }
+
+  /* typography 는 h4 에 `font-size` 를 안 줘서 h4 가 본문과 크기까지 같아진다 -
+   * h3 와 굵기(600)마저 같아 굵은 본문으로 읽힌다. 한 칸만 띄운다. */
+  .prose h4 {
+    font-size: 1.0625em;
+    letter-spacing: var(--tracking-lg);
   }
 
   .prose :is(ul, ol) > li,
