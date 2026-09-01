@@ -1,8 +1,17 @@
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 
+import { FAVICON_HOSTS } from '@/common/lib';
 import { cn } from '@/common/utils';
 
-export function ExternalLink({ href, className, children }: ExternalLink.Props) {
+export function ExternalLink({
+  href,
+  showFavicon = true,
+  className,
+  children,
+}: ExternalLink.Props) {
+  const host = URL.parse(href)?.host;
+  const canShowFavicon = showFavicon && host !== undefined && FAVICON_HOSTS.has(host);
+
   return (
     <a
       href={href}
@@ -14,7 +23,18 @@ export function ExternalLink({ href, className, children }: ExternalLink.Props) 
       )}
     >
       {children}
-      <ArrowTopRightOnSquareIcon aria-hidden className="size-[1em] shrink-0 opacity-40" />
+      {canShowFavicon ? (
+        <img
+          src={`/favicons/${host}.png`}
+          alt=""
+          aria-hidden
+          width={16}
+          height={16}
+          className="size-[1em] shrink-0 rounded-full"
+        />
+      ) : (
+        <ArrowTopRightOnSquareIcon aria-hidden className="size-[1em] shrink-0 opacity-40" />
+      )}
     </a>
   );
 }
@@ -22,6 +42,7 @@ export function ExternalLink({ href, className, children }: ExternalLink.Props) 
 export declare namespace ExternalLink {
   export type Props = {
     href: string;
+    showFavicon?: boolean;
     className?: string;
     children: React.ReactNode;
   };

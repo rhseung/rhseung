@@ -8,7 +8,7 @@
     "dev": "astro dev",
     "doctor": "react-doctor --yes --no-telemetry",
     "format": "prettier --check .",
-    "gen": "bun run gen:i18n",
+    "gen": "bun run gen:i18n && bun run gen:favicons",
     "gen:i18n": "i18next-cli extract && i18next-cli types",
     "gen:i18n:watch": "i18next-cli extract --watch & i18next-cli types --watch & wait",
     "gen:readme": "bun scripts/gen-readme.ts",
@@ -27,7 +27,8 @@
     "typecheck": "astro check",
     "ui:add": "bunx --bun shadcn@latest add",
     "verify": "bun run format && bun run lint && bun run typecheck && bun run doctor && bun run test",
-    "prepare": "husky"
+    "prepare": "husky",
+    "gen:favicons": "bun scripts/gen-favicons.ts"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.2.2",

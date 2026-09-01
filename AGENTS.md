@@ -19,7 +19,7 @@
 | `bun run storybook` | 컴포넌트 작업 (:6006)                                      |
 | `bun run check`     | **커밋 전** — prettier --write + eslint --fix              |
 | `bun run verify`    | **PR 전** — format+lint+typecheck(astro check)+doctor+test |
-| `bun run gen`       | `t()` 키를 추가·삭제한 뒤                                  |
+| `bun run gen`       | `t()` 키를 추가·삭제하거나 MDX 에 새 외부 링크를 넣은 뒤   |
 
 | `bun run ui:add` | shadcn 컴포넌트 추가 |
 
@@ -47,7 +47,8 @@ astro dev stop && rm -rf .astro node_modules/.astro dist && bun run dev
 
 ### 생성물은 손대지 않는다
 
-`src/@types/`, `src/locales/**`(값 제외), `public/resume-*.pdf`, README 의
+`src/@types/`, `src/locales/**`(값 제외), `public/resume-*.pdf`, `public/favicons/`,
+`src/common/lib/favicon-hosts.gen.ts`, README 의
 `<!-- tech:start -->`~`<!-- tech:end -->` 구간은 생성물이고
 **커밋되어 있다**. (Bun이 루트 패키지의 `prepare`/`postinstall`을 실행하지 않아서,
 설치 시 재생성 훅은 조용히 아무 일도 안 한다. 그래서 커밋한다.)
@@ -255,6 +256,10 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
   `robots.txt`(크롤러 관례상 루트 고정), `mockServiceWorker.js`(서비스 워커 스코프가 자기
   디렉터리라 루트라야 사이트 전체를 덮는다), `resume-*.pdf`(생성물, 이미 공유된 링크가
   있어 경로를 안 바꾼다)뿐이다.
+- `favicons/`는 **외부 사이트 파비콘**이다(`icons/`는 우리 것). `bun run gen:favicons`가
+  MDX 의 마크다운 링크에서 도메인을 긁어 빌드 타임에 한 번 받아둔다 - 독자 브라우저가
+  링크마다 남의 서버를 치지 않게. 폰트를 자체 호스팅하는 것과 같은 이유다.
+  `<ExternalLink />`가 받아둔 도메인이면 ↗ 대신 파비콘을 세우고, 없으면 ↗ 그대로다.
 - MDX 본문의 `![](../../assets/x.png)`도 같은 최적화를 탄다.
 - React 아일랜드는 `<Image />`를 못 쓴다. 그럴 땐 `.astro`에서 `getImage()`로 만든
   src·srcset·width·height를 props로 넘기고, 그 줄에만 예외를 단다.

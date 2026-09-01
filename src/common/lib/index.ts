@@ -1,4 +1,5 @@
 export { dayjs } from './dayjs';
+export { FAVICON_HOSTS } from './favicon-hosts.gen';
 export { I18N_NAMESPACES, i18n, type I18nNamespace } from './i18n';
 export type { IconComponent } from './icons';
 export {
