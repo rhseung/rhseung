@@ -48,6 +48,7 @@ export const FAVICON_HOSTS = new Set([
   'vorssaint.com',
   'www.chezmoi.io',
   'www.figma.com',
+  'www.gitify.io',
   'www.gnu.org',
   'www.google.com',
   'www.hancom.com',
