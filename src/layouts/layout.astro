@@ -6,7 +6,7 @@ import themeScript from './theme.js?raw';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 
-import { DEFAULT_LANGUAGE, i18n, SITE, type Language } from '@/common/lib';
+import { DEFAULT_LANGUAGE, i18n, isNoindex, SITE, type Language } from '@/common/lib';
 import '@/styles.css';
 
 interface Props {
@@ -17,7 +17,6 @@ interface Props {
   image?: string;
   type?: 'website' | 'article';
   published?: string;
-  noindex?: boolean;
 }
 
 const {
@@ -28,12 +27,12 @@ const {
   image = SITE.ogImage,
   type = 'website',
   published,
-  noindex = false,
 } = Astro.props;
 
 const t = i18n.getFixedT(lang, 'common');
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const noindex = isNoindex(canonical.pathname);
 const ogImage = image ? new URL(image, Astro.site) : undefined;
 
 const summary = description ?? t(($) => $.site.description);

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { languagePaths, localeHref } from './site';
+import { isNoindex, languagePaths, localeHref } from './site';
 
 describe('localeHref', () => {
   it('모든 언어에 접두사를 붙인다', () => {
@@ -31,5 +31,17 @@ describe('languagePaths', () => {
 
     expect(first).not.toBe(second);
     expect(first?.params).not.toBe(second?.params);
+  });
+});
+
+describe('isNoindex', () => {
+  it('pathname 과 절대 URL 을 같이 받는다', () => {
+    expect(isNoindex('/ko/resume/')).toBe(true);
+    expect(isNoindex('https://www.rhseung.me/en/resume/')).toBe(true);
+  });
+
+  it('색인 대상 라우트는 그대로 둔다', () => {
+    expect(isNoindex('/ko/')).toBe(false);
+    expect(isNoindex('/en/blog/hello-world/')).toBe(false);
   });
 });
