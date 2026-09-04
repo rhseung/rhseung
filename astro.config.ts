@@ -35,7 +35,13 @@ export default defineConfig({
   integrations: [
     react(),
     mdx(),
-    sitemap({ i18n: { defaultLocale: 'ko', locales: { ko: 'ko-KR', en: 'en-US' } } }),
+    sitemap({
+      i18n: { defaultLocale: 'ko', locales: { ko: 'ko-KR', en: 'en-US' } },
+
+      // 이력서는 `noindex` 다. 색인하지 말라고 해놓고 sitemap 으로 제출하면 서치 콘솔이
+      // "제출된 URL 이 noindex 로 표시됨" 오류를 낸다.
+      filter: (page) => !/\/resume\/$/.test(page),
+    }),
   ],
 
   vite: {

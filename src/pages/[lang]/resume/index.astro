@@ -26,6 +26,7 @@ const t = i18n.getFixedT(lang, 'resume');
   title={`${t(($) => $.page.title)} — ${SITE.title}`}
   description={i18n.getFixedT(lang, 'common')(($) => $.site.description)}
   alternates={{ ko: localeHref('ko', '/resume'), en: localeHref('en', '/resume') }}
+  noindex
 >
   <ResumeIsland
     lang={lang}
