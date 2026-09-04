@@ -1092,7 +1092,7 @@ claude mcp add-from-claude-desktop
 
 ### [claude-swap](https://github.com/realiti4/claude-swap)
 
-Claude Code 계정을 여러 개 쓸 경우 쉽게 swap할 수 있는 CLI다. `cswap auto`로 한도에 가까워지면 알아서 전환하게 할 수도 있다.
+Claude Code 계정을 여러 개 쓸 경우 쉽게 swap할 수 있는 CLI다. 계정마다 OAuth 토큰을 macOS Keychain에 따로 보관해두고, 전환할 때는 그 계정의 로그인 정보만 바꿔치기한다. MCP 서버 같은 공유 설정은 그대로 남는다.
 
 위의 [Ruff](#ruff), [Pyrefly](#pyrefly)와 같이 uv로 깐다.
 
@@ -1101,6 +1101,25 @@ uv tool install claude-swap
 
 # check
 cswap --version
+```
+
+계정마다 로그인한 뒤 `cswap add`로 등록해두면, `cswap list`로 계정별 5시간/7일 사용률과 리셋 시각을 확인할 수 있다.
+
+```zsh
+# 로그인한 계정을 등록
+cswap add
+
+# 계정별 사용률
+cswap list
+
+# 2번 계정으로 전환
+cswap switch 2
+```
+
+`cswap auto`를 켜두면 사용률이 임계값(기본 90%)에 가까워질 때 알아서 전환한다. `best`(기본값) 전략은 여유가 가장 많은 계정으로, `consume-first`는 주간 한도가 가장 먼저 리셋되는 계정으로 옮긴다. 임계값 근처에서 왔다갔다하지 않도록 쿨다운과 히스테리시스 마진이 걸려 있다.
+
+```zsh
+cswap auto --threshold 80
 ```
 
 ### [CLAUDE.md](https://docs.claude.com/ko/docs/claude-code/memory)
