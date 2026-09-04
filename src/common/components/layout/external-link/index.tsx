@@ -30,6 +30,9 @@ export function ExternalLink({
           aria-hidden
           width={16}
           height={16}
+          loading="lazy"
+          decoding="async"
+          fetchPriority="low"
           className="size-[1em] shrink-0 rounded-full"
         />
       ) : (
