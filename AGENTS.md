@@ -259,7 +259,9 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 - `favicons/`는 **외부 사이트 파비콘**이다(`icons/`는 우리 것). `bun run gen:favicons`가
   MDX 의 마크다운 링크에서 도메인을 긁어 빌드 타임에 한 번 받아둔다 - 독자 브라우저가
   링크마다 남의 서버를 치지 않게. 폰트를 자체 호스팅하는 것과 같은 이유다.
-  `<ExternalLink />`가 받아둔 도메인이면 ↗ 대신 파비콘을 세우고, 없으면 ↗ 그대로다.
+  파비콘은 **MDX 본문 링크에서만** 선다 - `<ExternalLink showFavicon />`. 기본값은 꺼짐이라
+  카드·독·푸터의 링크는 전부 ↗ 다. 산문 속 링크는 어디로 가는지가 정보지만, UI 크롬의
+  링크는 자리와 라벨이 이미 말해줘서 아이콘이 제각각이면 줄만 시끄러워진다.
 - MDX 본문의 `![](../../assets/x.png)`도 같은 최적화를 탄다.
 - React 아일랜드는 `<Image />`를 못 쓴다. 그럴 땐 `.astro`에서 `getImage()`로 만든
   src·srcset·width·height를 props로 넘기고, 그 줄에만 예외를 단다.

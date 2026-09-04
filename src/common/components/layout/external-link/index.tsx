@@ -5,7 +5,7 @@ import { cn } from '@/common/utils';
 
 export function ExternalLink({
   href,
-  showFavicon = true,
+  showFavicon = false,
   className,
   children,
 }: ExternalLink.Props) {

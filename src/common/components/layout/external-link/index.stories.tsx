@@ -22,11 +22,12 @@ export const AsButton: Story = {
   args: { className: cn(buttonVariants({ variant: 'outline', size: 'sm' })) },
 };
 
-/** 파비콘을 받아둔 도메인이면 ↗ 대신 그 사이트 아이콘이 선다. */
+/** `showFavicon` 을 켰고 파비콘을 받아둔 도메인이면 ↗ 대신 그 사이트 아이콘이 선다. MDX 본문 링크만 이걸 켠다. */
 export const WithFavicon: Story = {
-  args: { href: 'https://nodejs.org/', children: 'nodejs.org' },
+  args: { href: 'https://nodejs.org/', children: 'nodejs.org', showFavicon: true },
 };
 
-export const FaviconOff: Story = {
-  args: { href: 'https://nodejs.org/', children: 'nodejs.org', showFavicon: false },
+/** 켰어도 받아둔 파비콘이 없으면 ↗ 그대로다. */
+export const FaviconMissing: Story = {
+  args: { href: 'https://example.com/', children: 'example.com', showFavicon: true },
 };
