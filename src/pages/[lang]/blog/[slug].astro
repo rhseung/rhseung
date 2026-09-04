@@ -30,6 +30,7 @@ const { Content, headings } = await render(entry);
   title={`${post.title} — ${SITE.title}`}
   description={post.summary}
   type="article"
+  published={post.date}
 >
   <PostDetailIsland post={post} headings={tocHeadings(headings)} client:idle>
     <Content components={MDX_COMPONENTS} />
