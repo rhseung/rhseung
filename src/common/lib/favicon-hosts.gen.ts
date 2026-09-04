@@ -45,6 +45,7 @@ export const FAVICON_HOSTS = new Set([
   'tldr.sh',
   'tryalcove.com',
   'tryklack.com',
+  'vorssaint.com',
   'www.chezmoi.io',
   'www.figma.com',
   'www.gnu.org',
