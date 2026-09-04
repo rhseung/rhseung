@@ -23,7 +23,7 @@ interface Props {
 const {
   lang,
   title,
-  description = i18n.getFixedT(lang, 'common')(($) => $.site.description),
+  description,
   alternates,
   image = SITE.ogImage,
   type = 'website',
@@ -31,8 +31,41 @@ const {
   noindex = false,
 } = Astro.props;
 
+const t = i18n.getFixedT(lang, 'common');
+
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = image ? new URL(image, Astro.site) : undefined;
+
+const summary = description ?? t(($) => $.site.description);
+
+const author = { '@type': 'Person', name: t(($) => $.site.name), url: SITE.url };
+
+/* 모든 라우트가 `<본문 제목> - <사이트 이름>` 으로 title 을 넘긴다. schema.org 의 headline
+   은 브랜드 접미사가 없는 글 제목이라야 한다. */
+const suffix = ` — ${SITE.title}`;
+const headline = title.endsWith(suffix) ? title.slice(0, -suffix.length) : title;
+
+const schema =
+  type === 'article'
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline,
+        description: summary,
+        datePublished: published,
+        inLanguage: lang,
+        mainEntityOfPage: canonical.href,
+        image: ogImage?.href,
+        author,
+      }
+    : {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: SITE.title,
+        url: SITE.url,
+        inLanguage: lang,
+        author,
+      };
 ---
 
 <!doctype html>
@@ -45,7 +78,7 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
 
     <title>{title}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={summary} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex" />}
 
@@ -68,12 +101,19 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content={SITE.title} />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={summary} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={lang === 'ko' ? 'ko_KR' : 'en_US'} />
     {ogImage && <meta property="og:image" content={ogImage} />}
     {published && <meta property="article:published_time" content={published} />}
     <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+
+    {/* `set:html` 은 이스케이프를 안 해서, 제목에 `</script>` 가 들어오면 블록이 끊긴다. */}
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(schema).replaceAll('<', '\\u003c')}
+    />
 
     <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
 
