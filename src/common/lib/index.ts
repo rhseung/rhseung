@@ -20,6 +20,7 @@ export { isNoindex, languagePaths, SITE } from './site';
 export type { Url } from './scalars';
 export {
   byStartDesc,
+  formatPeriod,
   formatYearMonth,
   yearMonthKey,
   type YearMonth,

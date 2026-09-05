@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { Badge, ExternalLink } from '@/common/components';
-import { formatYearMonth, tone } from '@/common/lib';
+import { formatPeriod, tone } from '@/common/lib';
 
 import {
   RESEARCH_KIND_TONE,
@@ -15,9 +15,11 @@ export function ResearchCard({ item, detailHref }: ResearchCard.Props) {
   const { t } = useTranslation('research');
   const label = useResearchLabels();
 
-  const period = item.end
-    ? `${formatYearMonth(item.start)} – ${formatYearMonth(item.end)}`
-    : `${formatYearMonth(item.start)} – ${t(($) => $.period.ongoing)}`;
+  const period = formatPeriod(
+    item.start,
+    item.end,
+    t(($) => $.period.ongoing),
+  );
 
   const links = RESEARCH_LINK_KINDS.flatMap((kind) => {
     const href = item.links?.[kind];

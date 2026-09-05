@@ -1,5 +1,5 @@
 import { ExternalLink } from '@/common/components';
-import { formatYearMonth } from '@/common/lib';
+import { formatPeriod } from '@/common/lib';
 import { cn } from '@/common/utils';
 
 import type { CareerEntry } from '../../../viewmodels';
@@ -17,9 +17,7 @@ export function CareerList({
       {entries.map((item, index) => {
         const isLast = index === entries.length - 1;
         const ongoing = item.end === undefined;
-        const period = ongoing
-          ? `${formatYearMonth(item.start)} – ${ongoingLabel}`
-          : `${formatYearMonth(item.start)} – ${item.end ? formatYearMonth(item.end) : ongoingLabel}`;
+        const period = formatPeriod(item.start, item.end, ongoingLabel);
 
         return (
           <li
