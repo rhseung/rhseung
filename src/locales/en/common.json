@@ -9,6 +9,10 @@
   "language": {
     "available": "This page is also available in {{name}}.",
     "dismiss": "Dismiss",
+    "untranslated": {
+      "description": "Showing the original in {{name}}.",
+      "title": "Not available in English yet"
+    },
     "view": "View in {{name}}"
   },
   "nav": {
