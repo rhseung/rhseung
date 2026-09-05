@@ -15,12 +15,12 @@ test('목록에서 좁히고, 상세로 들어가고, 영어판으로 넘어간�
   await expect(card).toBeVisible();
   await waitForHydration(page);
 
-  await page.getByRole('button', { name: /웹/ }).click();
-  await expect(page).toHaveURL(/\?domain=web/);
+  await page.getByRole('button', { name: 'Astro', exact: true }).click();
+  await expect(page).toHaveURL(/\?stack=Astro/);
   await expect(card).toBeVisible();
 
   await page.goBack();
-  await expect(page).not.toHaveURL(/domain=/);
+  await expect(page).not.toHaveURL(/stack=/);
 
   await card.click();
   await expect(page).toHaveURL(/\/ko\/projects\/rhseung-me\/$/);
@@ -48,9 +48,9 @@ test('JS 없이도 프로젝트 본문이 읽힌다', async ({ browser }) => {
 });
 
 test('직접 연 필터 URL이 그 상태로 뜬다', async ({ page }) => {
-  await page.goto('/ko/projects/?domain=graphics');
+  await page.goto('/ko/projects/?stack=Python');
 
-  await expect(page.getByRole('button', { name: /그래픽스/ })).toHaveAttribute(
+  await expect(page.getByRole('button', { name: 'Python', exact: true })).toHaveAttribute(
     'aria-pressed',
     'true',
   );
