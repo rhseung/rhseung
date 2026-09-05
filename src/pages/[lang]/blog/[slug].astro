@@ -31,6 +31,8 @@ const { Content, headings } = await render(entry);
   description={post.summary}
   type="article"
   published={post.date}
+  route={{ to: '/[lang]/blog/[slug]', params: { slug: post.slug } }}
+  available={[post.lang]}
 >
   <PostDetailIsland post={post} headings={tocHeadings(headings)} client:idle>
     <Content components={MDX_COMPONENTS} />

@@ -155,11 +155,7 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
         )}
       </main>
 
-      <SiteDock
-        lang={lang}
-        current="projects"
-        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/[lang]/projects')}
-      />
+      <SiteDock lang={lang} current="projects" route={{ to: '/[lang]/projects' }} />
     </div>
   );
 }

@@ -2,7 +2,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 import { BlogIsland } from '@/pages/_islands/blog-island';
-import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
+import { i18n, languagePaths, SITE } from '@/common/lib';
 import { toPostSummary } from '@/features/blog';
 import Layout from '@/layouts/layout.astro';
 
@@ -25,7 +25,7 @@ const t = i18n.getFixedT(lang, 'common');
   lang={lang}
   title={`${t(($) => $.nav.blog)} — ${SITE.title}`}
   description={t(($) => $.site.description)}
-  alternates={{ ko: localeHref('ko', '/[lang]/blog'), en: localeHref('en', '/[lang]/blog') }}
+  route={{ to: '/[lang]/blog' }}
 >
   <BlogIsland lang={lang} posts={posts} client:load />
 </Layout>

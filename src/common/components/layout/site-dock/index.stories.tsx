@@ -6,7 +6,7 @@ const meta = {
   title: 'Common/SiteDock',
   component: SiteDock,
   parameters: { layout: 'fullscreen' },
-  args: { lang: 'ko', altHref: '/en/' },
+  args: { lang: 'ko', route: { to: '/[lang]' } },
 } satisfies Meta<typeof SiteDock>;
 
 export default meta;
@@ -25,5 +25,5 @@ export const Mobile: Story = {
 };
 
 export const WithoutAlternate: Story = {
-  args: { altHref: undefined },
+  args: { available: ['ko'] },
 };

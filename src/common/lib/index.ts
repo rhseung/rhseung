@@ -13,7 +13,7 @@ export {
   preferredLanguage,
   type Language,
 } from './languages';
-export { localeHref, type LocaleRoute } from './href';
+export { localeHref, localeHrefOf, type LocaleRoute, type LocaleRouteRef } from './href';
 export { isNoindex, languagePaths, SITE } from './site';
 export type { Url } from './scalars';
 export { formatYearMonth, yearMonthKey, type YearMonth, type YearOrMonth } from './year-month';

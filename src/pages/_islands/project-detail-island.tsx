@@ -7,12 +7,12 @@ export function ProjectDetailIsland({
   lang,
   project,
   awards,
-  altHref,
+  available,
   children,
 }: ProjectDetailIsland.Props) {
   return (
     <AppProviders lang={lang}>
-      <ProjectDetailPage lang={lang} project={project} awards={awards} altHref={altHref}>
+      <ProjectDetailPage lang={lang} project={project} awards={awards} available={available}>
         {children}
       </ProjectDetailPage>
     </AppProviders>
@@ -24,7 +24,7 @@ export declare namespace ProjectDetailIsland {
     lang: Language;
     project: Project;
     awards?: Award[];
-    altHref?: string;
+    available?: readonly Language[];
     children: React.ReactNode;
   };
 }

@@ -57,7 +57,12 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
 
       <TocDock headings={headings} />
 
-      <SiteDock lang={lang} current="blog" />
+      <SiteDock
+        lang={lang}
+        current="blog"
+        route={{ to: '/[lang]/blog/[slug]', params: { slug: post.slug } }}
+        available={[post.lang]}
+      />
     </div>
   );
 }

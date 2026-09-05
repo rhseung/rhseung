@@ -40,11 +40,7 @@ export function BlogPage({ lang, posts }: BlogPage.Props) {
         )}
       </main>
 
-      <SiteDock
-        lang={lang}
-        current="blog"
-        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/[lang]/blog')}
-      />
+      <SiteDock lang={lang} current="blog" route={{ to: '/[lang]/blog' }} />
     </div>
   );
 }

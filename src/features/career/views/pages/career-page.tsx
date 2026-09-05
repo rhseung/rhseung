@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
 import { Empty, EmptyHeader, EmptyTitle, Separator, SiteDock } from '@/common/components';
-import { localeHref, type Language } from '@/common/lib';
+import { type Language } from '@/common/lib';
 
 import {
   groupAwardsByYear,
@@ -88,11 +88,7 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
         )}
       </main>
 
-      <SiteDock
-        lang={lang}
-        current="career"
-        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/[lang]/career')}
-      />
+      <SiteDock lang={lang} current="career" route={{ to: '/[lang]/career' }} />
     </div>
   );
 }

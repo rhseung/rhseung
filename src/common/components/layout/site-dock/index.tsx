@@ -4,7 +4,15 @@ import { Bars3Icon, GlobeAltIcon, HomeIcon, MoonIcon, SunIcon } from '@heroicons
 import { HomeIcon as HomeSolidIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 
-import { LANGUAGES, localeHref, type IconComponent, type Language } from '@/common/lib';
+import {
+  LANGUAGES,
+  localeHref,
+  localeHrefOf,
+  otherLanguages,
+  type IconComponent,
+  type Language,
+  type LocaleRouteRef,
+} from '@/common/lib';
 import { cn } from '@/common/utils';
 import {
   useExternalLinks,
@@ -43,14 +51,25 @@ const itemClass = cn(
   'text-muted-foreground hover:text-foreground hover:bg-muted flex size-10 items-center justify-center rounded-full transition-colors active:not-aria-[haspopup]:translate-y-0',
 );
 
-export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) {
+export function SiteDock({
+  lang,
+  current,
+  route,
+  available = LANGUAGES,
+  className,
+}: SiteDock.Props) {
   const { t } = useTranslation('common');
   const { mode, toggleTheme } = useThemeTransition();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const { suggested, dismiss } = useLanguageSuggestion(lang);
 
-  const nextLanguage = LANGUAGES[(LANGUAGES.indexOf(lang) + 1) % LANGUAGES.length];
+  const alternates =
+    route === undefined
+      ? []
+      : otherLanguages(lang)
+          .filter((other) => available.includes(other))
+          .map((other) => ({ lang: other, href: localeHrefOf(other, route) }));
 
   // t('theme.light') t('theme.dark')
   const themeLabel =
@@ -113,15 +132,19 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
 
           <Separator orientation="vertical" className="mx-0.5 h-6! w-px" />
 
-          {altHref && (
-            <Tooltip>
-              <LanguageSuggestionPopover suggested={suggested} href={altHref} onDismiss={dismiss}>
+          {alternates.map(({ lang: other, href }) => (
+            <Tooltip key={other}>
+              <LanguageSuggestionPopover
+                suggested={other === suggested ? suggested : null}
+                href={href}
+                onDismiss={dismiss}
+              >
                 <TooltipTrigger
                   render={
                     <a
-                      href={altHref}
+                      href={href}
                       aria-label={t(($) => $.actions.switchLanguage)}
-                      hrefLang={nextLanguage}
+                      hrefLang={other}
                       className={itemClass}
                     />
                   }
@@ -131,7 +154,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
               </LanguageSuggestionPopover>
               <TooltipContent>{t(($) => $.actions.switchLanguage)}</TooltipContent>
             </Tooltip>
-          )}
+          ))}
 
           <Tooltip>
             <TooltipTrigger
@@ -264,7 +287,8 @@ export declare namespace SiteDock {
   export type Props = {
     lang: Language;
     current?: SiteSection;
-    altHref?: string;
+    route?: LocaleRouteRef;
+    available?: readonly Language[];
     className?: string;
   };
 }

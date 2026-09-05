@@ -29,7 +29,6 @@ export function PaperPage({
   item,
   authors,
   bibtex,
-  altHref,
   children,
   bibliography,
 }: PaperPage.Props) {
@@ -127,7 +126,11 @@ export function PaperPage({
         </main>
       </div>
 
-      <SiteDock lang={lang} current="research" altHref={altHref} />
+      <SiteDock
+        lang={lang}
+        current="research"
+        route={{ to: '/[lang]/research/[slug]', params: { slug: item.slug } }}
+      />
     </div>
   );
 }
@@ -138,7 +141,6 @@ export declare namespace PaperPage {
     item: Research;
     authors?: string;
     bibtex?: string;
-    altHref?: string;
     children: React.ReactNode;
     bibliography?: React.ReactNode;
   };
