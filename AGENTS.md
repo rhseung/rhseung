@@ -162,13 +162,15 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 
 `src/features/projects/`가 전 계층을 한 번씩 다 보여준다. 새 기능을 만들 땐 여기를 베낀다.
 
-- `models/index.ts` — `projectSchema`(zod) + `PROJECT_DOMAINS` 같은 도메인 상수
+- `models/types.ts` — `ProjectItem` 같은 도메인 타입 + `PROJECT_STATUSES` 같은 상수
+- `models/define.ts` — 콘텐츠 파일이 부르는 `defineProject`
+- `models/index.ts` — `import.meta.glob` 으로 `src/content/projects/` 를 모아 `projectsOf(lang)` 로 낸다
 - `viewmodels/select-projects.ts` — React 없는 순수 로직 (+ `.test.ts`)
-- `viewmodels/use-domain-filter.ts` — URL 쿼리를 `useSyncExternalStore`로 읽는다
+- `viewmodels/use-project-filters.ts` — URL 쿼리(`?stack=`, `?q=`)를 `useSyncExternalStore`로 읽는다
 - `views/components/project-card/` — props만 받음. `namespace Props`
 - `views/pages/projects-page.tsx` — ViewModel 호출 + 화면 조립
 - `pages/_islands/projects-island.tsx` — `AppProviders` + 페이지 합본
-- `pages/[...lang]/projects/index.astro` — `getCollection` → props → `client:load`
+- `pages/[lang]/projects/index.astro` — `getCollection` → props → `client:load`
 
 ## 3. 새 기능 추가 절차
 
@@ -179,8 +181,8 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 3. `viewmodels/select-<name>.ts` — 순수 선택·정렬 로직 (+ `.test.ts`)
 4. `src/common/lib/i18n.ts`의 `I18N_NAMESPACES`와 `resources`에 네임스페이스 등록
 5. `src/pages/_islands/<name>-island.tsx` — `AppProviders` + feature page 합본
-6. `src/pages/[...lang]/<name>/index.astro` — `getCollection` → props → 아일랜드
-7. `src/common/components/layout/site-header`의 `NAV_SECTIONS`에 한 줄
+6. `src/pages/[lang]/<name>/index.astro` — `getCollection` → props → 아일랜드
+7. `src/common/viewmodels/use-site-sections.ts`의 `SECTIONS`에 한 줄
 8. `bun run gen && bun run check`
 
 로케일 JSON은 4번에서 만들지 않는다 — `t()`를 쓰고 `bun run gen:i18n`이 만든다.
@@ -352,7 +354,9 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 키 이름을 바꿀 때도 JSON을 열지 않는다 — `rename-key`가 호출부와 파일을 같이 고친다.
 CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한다.
 
-- 네임스페이스 = feature 이름 + `common`. `defaultNS`는 `common`.
+- 네임스페이스는 feature 단위가 기본이고 `defaultNS`는 `common`. 다만 1:1 은 아니다 —
+  `career` 는 `resume` 네임스페이스를 쓴다(같은 이력 데이터를 두 화면이 나눠 쓴다).
+  새 feature 에 무조건 네임스페이스를 파지 말고 그 문구를 쓸 화면이 어디인지부터 본다.
 - **키는 문자열이 아니라 셀렉터 함수로 부른다** (`enableSelector: true`, `i18next.config.ts`):
   `t(($) => $.form.submit)`. `t('form.submit')`은 쓰지 않는다 — 자동완성·정의로 이동·
   오타 시 컴파일 에러가 이 형태에서만 나온다.
@@ -468,9 +472,9 @@ CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한
 | `/blog/`, `/en/blog/`            | 글 목록 (UI만 이중언어)               |
 | `/blog/<slug>/`                  | MDX 본문. 원본 언어 한 벌             |
 | `/career/`, `/en/career/`        | 경력·학력·수상·기술                   |
-| `/research/`, `/en/research/`    | 연구 이력 (아직 항목 없음)            |
-| `/resume/{ko,en}/`               | PDF 원본. `noindex`                   |
+| `/research/`, `/en/research/`    | 연구 이력 (샘플 논문 하나)            |
+| `/resume/`, `/en/resume/`        | PDF 원본. `noindex`                   |
 | `/rss.xml`, `/sitemap-index.xml` | 피드·색인                             |
 
-아직 안 채운 것: `src/content/research/`가 비어 있고, 상세 MDX 를 쓴 프로젝트가
+아직 얇은 것: `src/content/research/`에 `sample-paper` 하나, 상세 MDX 를 쓴 프로젝트가
 하나뿐이다. `public/images/og.png`는 있다.
