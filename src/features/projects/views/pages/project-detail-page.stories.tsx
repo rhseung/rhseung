@@ -30,7 +30,7 @@ const meta = {
   title: 'Projects/Pages/ProjectDetailPage',
   component: ProjectDetailPage,
   parameters: { layout: 'fullscreen' },
-  args: { lang: 'ko', project, altHref: '/en/projects/lumen/', children: body },
+  args: { lang: 'ko', project, available: ['ko', 'en'], children: body },
 } satisfies Meta<typeof ProjectDetailPage>;
 
 export default meta;
@@ -44,5 +44,5 @@ export const WithHighlight: Story = {
 };
 
 export const WithoutAlternate: Story = {
-  args: { altHref: undefined },
+  args: { available: ['ko'] },
 };

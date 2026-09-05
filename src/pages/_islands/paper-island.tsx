@@ -7,7 +7,6 @@ export function PaperIsland({
   item,
   authors,
   bibtex,
-  altHref,
   children,
   bibliography,
 }: PaperIsland.Props) {
@@ -18,7 +17,6 @@ export function PaperIsland({
         item={item}
         authors={authors}
         bibtex={bibtex}
-        altHref={altHref}
         bibliography={bibliography}
       >
         {children}
@@ -33,7 +31,6 @@ export declare namespace PaperIsland {
     item: Research;
     authors?: string;
     bibtex?: string;
-    altHref?: string;
     children: React.ReactNode;
     bibliography?: React.ReactNode;
   };

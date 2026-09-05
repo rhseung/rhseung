@@ -2,7 +2,7 @@ import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 
 import { SiteDock, buttonVariants } from '@/common/components';
-import { localeHref, type Language } from '@/common/lib';
+import { type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
 import type { Award, CareerEntry, SkillGroup } from '@/features/career';
 import type { Project } from '@/features/projects';
@@ -49,11 +49,7 @@ export function ResumePage({
         </div>
       </main>
 
-      <SiteDock
-        lang={lang}
-        current="resume"
-        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/[lang]/resume')}
-      />
+      <SiteDock lang={lang} current="resume" route={{ to: '/[lang]/resume' }} />
     </div>
   );
 }

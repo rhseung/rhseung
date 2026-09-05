@@ -1,6 +1,6 @@
 ---
 import { CareerIsland } from '@/pages/_islands/resume-islands';
-import { i18n, languagePaths, SITE, localeHref } from '@/common/lib';
+import { i18n, languagePaths, SITE } from '@/common/lib';
 import { awardsOf, educationOf, experienceOf, skillGroupsOf } from '@/features/career';
 import Layout from '@/layouts/layout.astro';
 
@@ -15,7 +15,7 @@ const t = i18n.getFixedT(lang, 'common');
 <Layout
   lang={lang}
   title={`${t(($) => $.nav.career)} — ${SITE.title}`}
-  alternates={{ ko: localeHref('ko', '/[lang]/career'), en: localeHref('en', '/[lang]/career') }}
+  route={{ to: '/[lang]/career' }}
 >
   <CareerIsland
     lang={lang}

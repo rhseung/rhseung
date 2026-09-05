@@ -43,11 +43,7 @@ export function ResearchPage({ lang, items, papers = [] }: ResearchPage.Props) {
         )}
       </main>
 
-      <SiteDock
-        lang={lang}
-        current="research"
-        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/[lang]/research')}
-      />
+      <SiteDock lang={lang} current="research" route={{ to: '/[lang]/research' }} />
     </div>
   );
 }

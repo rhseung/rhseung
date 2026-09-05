@@ -1,6 +1,6 @@
 ---
 import { PaperIsland } from '@/pages/_islands/paper-island';
-import { LANGUAGES, localeHref, SITE } from '@/common/lib';
+import { LANGUAGES, SITE } from '@/common/lib';
 import { PAPER_SLUGS, researchOf } from '@/features/research';
 import { renderPaper } from '@/features/research/viewmodels/render-paper';
 import Layout from '@/layouts/layout.astro';
@@ -35,7 +35,6 @@ const source = Object.entries(papers).find(([path]) => slugOf(path) === slug)?.[
 const bib = Object.entries(bibs).find(([path]) => slugOf(path) === slug)?.[1] as string | undefined;
 
 const paper = renderPaper(source, bib);
-const otherLang = lang === 'ko' ? 'en' : 'ko';
 ---
 
 <Layout
@@ -43,19 +42,9 @@ const otherLang = lang === 'ko' ? 'en' : 'ko';
   title={`${item.title} — ${SITE.title}`}
   description={item.summary}
   type="article"
-  alternates={{
-    ko: localeHref('ko', '/[lang]/research/[slug]', { slug: slug }),
-    en: localeHref('en', '/[lang]/research/[slug]', { slug: slug }),
-  }}
+  route={{ to: '/[lang]/research/[slug]', params: { slug } }}
 >
-  <PaperIsland
-    lang={lang}
-    item={item}
-    authors={paper.authors}
-    bibtex={bib}
-    altHref={localeHref(otherLang, '/[lang]/research/[slug]', { slug: slug })}
-    client:idle
-  >
+  <PaperIsland lang={lang} item={item} authors={paper.authors} bibtex={bib} client:idle>
     <Fragment set:html={paper.html} />
     {paper.bibliography && <Fragment slot="bibliography" set:html={paper.bibliography} />}
   </PaperIsland>
