@@ -53,12 +53,13 @@ astro dev stop && rm -rf .astro node_modules/.astro dist && bun run dev
 **커밋되어 있다**. (Bun이 루트 패키지의 `prepare`/`postinstall`을 실행하지 않아서,
 설치 시 재생성 훅은 조용히 아무 일도 안 한다. 그래서 커밋한다.)
 
-손으로 고치면 다음 `bun run gen`에 사라진다. CI는 `bun run gen` 후
-`git diff --exit-code`로 최신인지 검증한다.
+손으로 고치면 다음 `bun run gen`에 사라진다. CI(`.github/workflows/ci.yml`)는
+`bun run gen:i18n` 후 `src/locales`·`src/@types` 만 `git diff --exit-code`로 검증한다.
 
 이력서 PDF와 README 배지는 **`astro build` 끝에 자동으로 다시 구워진다.** 손으로 트리거하지
-않는다 — 데이터를 고치고 산출물을 안 올리는 일이 없게. CI도 빌드 후 `git diff --exit-code`로
-확인한다. README 의 로고·GitHub 위젯·푸터는 마커 밖이라 손으로 고친다.
+않는다 — 데이터를 고치고 산출물을 안 올리는 일이 없게. 이 둘과 favicon 은 CI 가 diff 로
+검증하지 않는다 — Chromium 버전과 네트워크를 타서 바이트가 흔들린다. 빌드가 끝나는지가
+게이트다. README 의 로고·GitHub 위젯·푸터는 마커 밖이라 손으로 고친다.
 
 (폰트를 자체 호스팅하기 전에는 CI에서 못 돌렸다. 우분투 이미지에 한글 폰트가 없어
 글자가 두부로 나왔기 때문인데, 이제 Chromium이 시스템 폰트를 안 써서 사라진 제약이다.)
@@ -352,7 +353,7 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 | `bunx i18next-cli rename-key <old> <new>` | 소스와 JSON을 한 번에 리네임                    |
 
 키 이름을 바꿀 때도 JSON을 열지 않는다 — `rename-key`가 호출부와 파일을 같이 고친다.
-CI는 `bun run gen` 후 `git diff --exit-code`로 JSON이 최신인지 검증한다.
+CI는 `bun run gen:i18n` 후 `git diff --exit-code`로 JSON이 최신인지 검증한다.
 
 - 네임스페이스는 feature 단위가 기본이고 `defaultNS`는 `common`. 다만 1:1 은 아니다 —
   `career` 는 `resume` 네임스페이스를 쓴다(같은 이력 데이터를 두 화면이 나눠 쓴다).

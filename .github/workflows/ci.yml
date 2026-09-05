@@ -1,0 +1,25 @@
+# PDF 와 favicon 은 diff 대상이 아니다 - Chromium 버전과 네트워크를 타서 바이트가 흔들린다.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bunx playwright install --with-deps chromium
+      - run: bun run gen:i18n && git diff --exit-code -- src/locales src/@types
+      - run: bun run verify
+      - run: bun run test:e2e
