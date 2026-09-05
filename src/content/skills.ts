@@ -1,3 +1,4 @@
+import { keyBy } from 'es-toolkit';
 import {
   si1password,
   siAstro,
@@ -187,5 +188,10 @@ export const SKILL_GROUPS = [
     items: [PyTorch, OpenCv, NumPy, Pandas, Jupyter],
   },
 ] as const satisfies readonly SkillGroupSpec[];
+
+export const TECH_BY_NAME: Record<string, TechSpec> = keyBy(
+  SKILL_GROUPS.flatMap((group): readonly TechSpec[] => group.items),
+  (tech) => tech.name,
+);
 
 export type Tech = (typeof SKILL_GROUPS)[number]['items'][number]['name'];

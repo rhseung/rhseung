@@ -1,6 +1,5 @@
-import { TECH_BY_NAME } from '../../viewmodels';
-
-import type { Award, CareerEntry, SkillGroup } from '../../viewmodels';
+import { TECH_BY_NAME } from '@/content/skills';
+import type { Award, CareerEntry, SkillGroup } from '@/features/career';
 
 export const experience: CareerEntry[] = [
   {

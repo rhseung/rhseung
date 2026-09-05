@@ -2,5 +2,7 @@ export * from './app-providers';
 export * from './detail-header';
 export * from './external-link';
 export * from './language-suggestion-popover';
+export * from './link-row';
 export * from './not-found';
 export * from './site-dock';
+export * from './tech-icon';

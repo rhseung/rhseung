@@ -3,20 +3,12 @@ import { useState } from 'react';
 import { CheckIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 
-import {
-  Badge,
-  Button,
-  DetailHeader,
-  ExternalLink,
-  SiteDock,
-  buttonVariants,
-} from '@/common/components';
-import { formatYearMonth, localeHref, tone, type Language } from '@/common/lib';
-import { cn } from '@/common/utils';
+import { Badge, Button, DetailHeader, LinkRow, SiteDock } from '@/common/components';
+import { formatPeriod, localeHref, tone, type Language } from '@/common/lib';
 
 import {
   RESEARCH_KIND_TONE,
-  RESEARCH_LINK_KINDS,
+  researchLinks,
   useResearchLabels,
   type Research,
 } from '../../viewmodels';
@@ -37,14 +29,18 @@ export function PaperPage({
 
   const [copied, setCopied] = useState(false);
 
-  const period = item.end
-    ? `${formatYearMonth(item.start)} – ${formatYearMonth(item.end)}`
-    : `${formatYearMonth(item.start)} – ${t(($) => $.period.ongoing)}`;
+  const period = formatPeriod(
+    item.start,
+    item.end,
+    t(($) => $.period.ongoing),
+  );
 
-  const links = RESEARCH_LINK_KINDS.flatMap((kind) => {
-    const href = item.links?.[kind];
-    return href ? [{ kind, href }] : [];
-  });
+  const links = researchLinks(item).map(({ kind, href }) => ({
+    key: kind,
+    href,
+    label: label.link[kind],
+    Icon: RESEARCH_LINK_ICON[kind],
+  }));
 
   const copy = () => {
     if (bibtex === undefined) return;
@@ -82,35 +78,18 @@ export function PaperPage({
               {authors !== undefined && ` · ${item.org}`}
             </p>
 
-            {(links.length > 0 || bibtex !== undefined) && (
-              <div className="flex flex-wrap gap-2">
-                {links.map(({ kind, href }) => {
-                  const Icon = RESEARCH_LINK_ICON[kind];
-
-                  return (
-                    <ExternalLink
-                      key={kind}
-                      href={href}
-                      className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
-                    >
-                      <Icon data-icon="inline-start" />
-                      {label.link[kind]}
-                    </ExternalLink>
-                  );
-                })}
-
-                {bibtex !== undefined && (
-                  <Button variant="outline" size="sm" onClick={copy}>
-                    {copied ? (
-                      <CheckIcon data-icon="inline-start" />
-                    ) : (
-                      <ClipboardDocumentIcon data-icon="inline-start" />
-                    )}
-                    {copied ? t(($) => $.detail.copied) : t(($) => $.detail.bibtex)}
-                  </Button>
-                )}
-              </div>
-            )}
+            <LinkRow links={links} variant="button">
+              {bibtex !== undefined && (
+                <Button variant="outline" size="sm" onClick={copy}>
+                  {copied ? (
+                    <CheckIcon data-icon="inline-start" />
+                  ) : (
+                    <ClipboardDocumentIcon data-icon="inline-start" />
+                  )}
+                  {copied ? t(($) => $.detail.copied) : t(($) => $.detail.bibtex)}
+                </Button>
+              )}
+            </LinkRow>
           </header>
 
           <div className="paper flex flex-col gap-8">

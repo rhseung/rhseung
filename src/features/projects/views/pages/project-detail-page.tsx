@@ -1,9 +1,8 @@
 import { TrophyIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 
-import { Badge, DetailHeader, ExternalLink, SiteDock, buttonVariants } from '@/common/components';
-import { formatYearMonth, localeHref, type Language } from '@/common/lib';
-import { cn } from '@/common/utils';
+import { Badge, DetailHeader, LinkRow, SiteDock } from '@/common/components';
+import { formatPeriod, formatYearMonth, localeHref, type Language } from '@/common/lib';
 import type { Award } from '@/features/career';
 
 import { PROJECT_LINK_ICON, projectLinks, useProjectLabels, type Project } from '../../viewmodels';
@@ -18,11 +17,18 @@ export function ProjectDetailPage({
   const { t } = useTranslation('projects');
   const label = useProjectLabels();
 
-  const period = project.end
-    ? `${formatYearMonth(project.start)} – ${formatYearMonth(project.end)}`
-    : `${formatYearMonth(project.start)} – ${t(($) => $.period.ongoing)}`;
+  const period = formatPeriod(
+    project.start,
+    project.end,
+    t(($) => $.period.ongoing),
+  );
 
-  const links = projectLinks(project);
+  const links = projectLinks(project).map(({ kind, href }) => ({
+    key: kind,
+    href,
+    label: label.link[kind],
+    Icon: PROJECT_LINK_ICON[kind],
+  }));
 
   return (
     <div className="bg-background min-h-dvh">
@@ -57,24 +63,7 @@ export function ProjectDetailPage({
               ))}
             </ul>
 
-            {links.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {links.map(({ kind, href }) => {
-                  const Icon = PROJECT_LINK_ICON[kind];
-
-                  return (
-                    <ExternalLink
-                      key={kind}
-                      href={href}
-                      className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
-                    >
-                      <Icon data-icon="inline-start" />
-                      {label.link[kind]}
-                    </ExternalLink>
-                  );
-                })}
-              </div>
-            )}
+            <LinkRow links={links} variant="button" />
             {awards.length > 0 && (
               <ul className="flex flex-col gap-1">
                 {awards.map((award) => (

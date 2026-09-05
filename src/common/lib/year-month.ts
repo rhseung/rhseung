@@ -9,6 +9,18 @@ export function formatYearMonth(value: YearOrMonth): string {
 }
 
 /** 월을 모르면 그 해 첫 달로 본다. */
+export function formatPeriod(
+  start: YearOrMonth,
+  end: YearOrMonth | undefined,
+  ongoing: string,
+): string {
+  return `${formatYearMonth(start)} – ${end === undefined ? ongoing : formatYearMonth(end)}`;
+}
+
 export function yearMonthKey(value: YearOrMonth): number {
   return value.year * 12 + ((value.month ?? 1) - 1);
+}
+
+export function byStartDesc(a: { start: YearOrMonth }, b: { start: YearOrMonth }): number {
+  return yearMonthKey(b.start) - yearMonthKey(a.start);
 }

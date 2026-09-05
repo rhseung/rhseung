@@ -1,6 +1,8 @@
-import type { AwardItem, CareerItem } from './types';
+import { defineItem } from '@/common/lib';
+
+import type { AwardItem } from './award';
+import type { CareerItem } from './career';
 
 // 헬퍼가 `index.ts` 에 있으면 eager glob 순환에서 TDZ 로 터진다.
-export const defineCareer = (item: CareerItem) => item;
-/** `slug` 를 리터럴로 붙잡아 둔다. */
-export const defineAward = <Slug extends string>(item: AwardItem & { slug: Slug }) => item;
+export const defineCareer = defineItem<CareerItem>();
+export const defineAward = defineItem<AwardItem>();

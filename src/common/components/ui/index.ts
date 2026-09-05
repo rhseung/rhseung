@@ -10,6 +10,7 @@ export * from './input';
 export * from './input-group';
 export * from './kbd';
 export * from './label';
+export * from './popover';
 export * from './separator';
 export * from './sheet';
 export * from './skeleton';

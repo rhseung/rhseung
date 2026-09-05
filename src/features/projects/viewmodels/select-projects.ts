@@ -1,4 +1,6 @@
-import { yearMonthKey } from '@/common/lib';
+import { countBy } from 'es-toolkit';
+
+import { byStartDesc } from '@/common/lib';
 
 import { PROJECT_LINK_KINDS, type Project, type ProjectLinkKind } from '../models';
 
@@ -24,16 +26,18 @@ export function filterProjects(projects: readonly Project[], filters: ProjectFil
 }
 
 export function countByStack(projects: readonly Project[]): [string, number][] {
-  const counts = new Map<string, number>();
-  for (const project of projects) {
-    for (const item of project.stack) counts.set(item, (counts.get(item) ?? 0) + 1);
-  }
+  const counts = countBy(
+    projects.flatMap((project) => project.stack),
+    (item) => item,
+  );
 
-  return [...counts].sort(([a, countA], [b, countB]) => countB - countA || a.localeCompare(b));
+  return Object.entries(counts).sort(
+    ([a, countA], [b, countB]) => countB - countA || a.localeCompare(b),
+  );
 }
 
 export function sortProjects(projects: readonly Project[]): Project[] {
-  return [...projects].sort((a, b) => yearMonthKey(b.start) - yearMonthKey(a.start));
+  return [...projects].sort(byStartDesc);
 }
 
 export function projectHref(

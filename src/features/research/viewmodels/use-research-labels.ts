@@ -1,22 +1,20 @@
+import { zipObject } from 'es-toolkit';
 import { useTranslation } from 'react-i18next';
 
-import {
-  RESEARCH_KINDS,
-  RESEARCH_LINK_KINDS,
-  type ResearchKind,
-  type ResearchLinkKind,
-} from '../models';
+import { RESEARCH_KINDS, RESEARCH_LINK_KINDS } from '../models';
 
 export function useResearchLabels() {
   const { t } = useTranslation('research');
 
-  const kind = Object.fromEntries(
-    RESEARCH_KINDS.map((key) => [key, t(($) => $.kind[key])]),
-  ) as Record<ResearchKind, string>;
+  const kind = zipObject(
+    RESEARCH_KINDS,
+    RESEARCH_KINDS.map((key) => t(($) => $.kind[key])),
+  );
 
-  const link = Object.fromEntries(
-    RESEARCH_LINK_KINDS.map((key) => [key, t(($) => $.links[key])]),
-  ) as Record<ResearchLinkKind, string>;
+  const link = zipObject(
+    RESEARCH_LINK_KINDS,
+    RESEARCH_LINK_KINDS.map((key) => t(($) => $.links[key])),
+  );
 
   return { kind, link };
 }

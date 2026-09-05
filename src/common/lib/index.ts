@@ -5,20 +5,27 @@ export type { IconComponent } from './icons';
 export {
   DEFAULT_LANGUAGE,
   isLanguage,
-  langFromParam,
   LANGUAGE_NAMES,
   LANGUAGE_TAGS,
   LANGUAGES,
   otherLanguages,
-  preferredLanguage,
   type Language,
   type Localized,
 } from './languages';
+export { collectModules } from './collect-modules';
+export { defineItem } from './define';
 export { localize } from './localize';
 export { localeHref, localeHrefOf, type LocaleRoute, type LocaleRouteRef } from './href';
 export { isNoindex, languagePaths, SITE } from './site';
 export type { Url } from './scalars';
-export { formatYearMonth, yearMonthKey, type YearMonth, type YearOrMonth } from './year-month';
+export {
+  byStartDesc,
+  formatPeriod,
+  formatYearMonth,
+  yearMonthKey,
+  type YearMonth,
+  type YearOrMonth,
+} from './year-month';
 export {
   DARK_CLASS,
   SYSTEM_DARK_QUERY,

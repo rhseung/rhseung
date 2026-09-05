@@ -16,10 +16,12 @@ import {
   SiteDock,
   ToggleGroup,
   ToggleGroupItem,
+  TechIcon,
 } from '@/common/components';
 import { brand, localeHref, tone, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
-import { TECH_BY_NAME, TechIcon, type Award } from '@/features/career';
+import { TECH_BY_NAME } from '@/content/skills';
+import type { Award } from '@/features/career';
 
 import {
   countByStack,
