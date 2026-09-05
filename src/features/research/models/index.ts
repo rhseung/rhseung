@@ -1,4 +1,4 @@
-import { localize, type Language } from '@/common/lib';
+import { collectModules, localize, type Language } from '@/common/lib';
 
 import type { Research, ResearchItem } from './types';
 
@@ -11,9 +11,7 @@ const modules = import.meta.glob<{ default: ResearchItem }>(
   { eager: true },
 );
 
-export const RESEARCH_ITEMS: ResearchItem[] = Object.keys(modules)
-  .sort()
-  .map((path) => modules[path].default);
+export const RESEARCH_ITEMS: ResearchItem[] = collectModules(modules);
 
 export const PAPER_SLUGS = new Set(
   Object.keys(import.meta.glob('@/content/research/*/paper.tex', { query: '?raw' })).map(

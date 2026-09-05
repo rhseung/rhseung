@@ -1,4 +1,4 @@
-import { localize, type Language } from '@/common/lib';
+import { collectModules, localize, type Language } from '@/common/lib';
 
 import type { Project, ProjectItem } from './types';
 
@@ -11,9 +11,7 @@ const modules = import.meta.glob<{ default: ProjectItem }>(
   { eager: true },
 );
 
-export const PROJECT_ITEMS: ProjectItem[] = Object.keys(modules)
-  .sort()
-  .map((path) => modules[path].default);
+export const PROJECT_ITEMS: ProjectItem[] = collectModules(modules);
 
 export function projectsOf(
   lang: Language,
