@@ -2,6 +2,7 @@ import { withThemeByClassName } from '@storybook/addon-themes';
 import { mswLoader } from 'msw-storybook-addon/csf3';
 
 import { withLocale, withQueryClient } from './decorators';
+import { DEFAULT_LANGUAGE, LANGUAGE_NAMES, LANGUAGES } from '../src/common/lib/languages';
 import { LANGUAGE_SUGGESTION_DISMISSED_KEY } from '../src/common/viewmodels';
 import { handlers } from '../src/mocks/handlers';
 
@@ -15,15 +16,12 @@ const preview: Preview = {
       description: 'i18n locale',
       toolbar: {
         icon: 'globe',
-        items: [
-          { value: 'ko', title: '한국어' },
-          { value: 'en', title: 'English' },
-        ],
+        items: LANGUAGES.map((value) => ({ value, title: LANGUAGE_NAMES[value] })),
         dynamicTitle: true,
       },
     },
   },
-  initialGlobals: { locale: 'ko' },
+  initialGlobals: { locale: DEFAULT_LANGUAGE },
 
   parameters: {
     layout: 'centered',

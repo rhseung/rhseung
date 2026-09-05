@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
+import { DEFAULT_LANGUAGE, LANGUAGE_TAGS } from './src/common/lib/languages';
+
 const PORT = 4322;
 const baseURL = `http://localhost:${PORT}`;
 
@@ -17,7 +19,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     // 앱 언어는 URL(`/` vs `/en/`)이 정한다. 이건 날짜·숫자 포매팅이 머신 로케일에
     // 좌우되지 않게 고정하는 용도다.
-    locale: 'ko-KR',
+    locale: LANGUAGE_TAGS[DEFAULT_LANGUAGE],
   },
 
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],

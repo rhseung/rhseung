@@ -6,7 +6,14 @@ import themeScript from './theme.js?raw';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 
-import { DEFAULT_LANGUAGE, i18n, isNoindex, SITE, type Language } from '@/common/lib';
+import {
+  DEFAULT_LANGUAGE,
+  i18n,
+  isNoindex,
+  LANGUAGE_TAGS,
+  SITE,
+  type Language,
+} from '@/common/lib';
 import '@/styles.css';
 
 interface Props {
@@ -102,7 +109,7 @@ const schema =
     <meta property="og:title" content={title} />
     <meta property="og:description" content={summary} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:locale" content={lang === 'ko' ? 'ko_KR' : 'en_US'} />
+    <meta property="og:locale" content={LANGUAGE_TAGS[lang].replace('-', '_')} />
     {ogImage && <meta property="og:image" content={ogImage} />}
     {published && <meta property="article:published_time" content={published} />}
     <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
