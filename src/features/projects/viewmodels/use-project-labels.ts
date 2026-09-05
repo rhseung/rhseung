@@ -5,6 +5,7 @@ import {
   PlayIcon,
 } from '@heroicons/react/24/outline';
 import { GithubLogoIcon } from '@phosphor-icons/react';
+import { zipObject } from 'es-toolkit';
 import { useTranslation } from 'react-i18next';
 
 import type { IconComponent } from '@/common/lib';
@@ -13,19 +14,20 @@ import {
   PROJECT_LINK_KINDS,
   PROJECT_STATUSES,
   type ProjectLinkKind,
-  type ProjectStatus,
 } from '../models';
 
 export function useProjectLabels() {
   const { t } = useTranslation('projects');
 
-  const status = Object.fromEntries(
-    PROJECT_STATUSES.map((key) => [key, t(($) => $.status[key])]),
-  ) as Record<ProjectStatus, string>;
+  const status = zipObject(
+    PROJECT_STATUSES,
+    PROJECT_STATUSES.map((key) => t(($) => $.status[key])),
+  );
 
-  const link = Object.fromEntries(
-    PROJECT_LINK_KINDS.map((key) => [key, t(($) => $.links[key])]),
-  ) as Record<ProjectLinkKind, string>;
+  const link = zipObject(
+    PROJECT_LINK_KINDS,
+    PROJECT_LINK_KINDS.map((key) => t(($) => $.links[key])),
+  );
 
   return { status, link };
 }
