@@ -4,6 +4,7 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
+import astroTypesafeRoutes from 'astro-typesafe-routes';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 
@@ -36,6 +37,7 @@ export default defineConfig({
 
   integrations: [
     react(),
+    astroTypesafeRoutes(),
     mdx(),
     sitemap({
       i18n: { defaultLocale: 'ko', locales: { ko: 'ko-KR', en: 'en-US' } },
