@@ -1,17 +1,14 @@
 import { localize, type Language } from '@/common/lib';
 import { SKILL_GROUPS } from '@/content/skills';
 
-import type {
-  Award,
-  AwardItem,
-  CareerEntry,
-  CareerItem,
-  SkillGroup,
-  SkillGroupItem,
-} from './types';
+import type { Award, AwardItem } from './award';
+import type { CareerEntry, CareerItem } from './career';
+import type { SkillGroup, SkillGroupItem } from './skill-group';
 
 export { defineAward, defineCareer } from './define';
-export type { Award, CareerEntry, SkillGroup } from './types';
+export type { Award } from './award';
+export type { CareerEntry } from './career';
+export type { SkillGroup } from './skill-group';
 
 function collect<T>(modules: Record<string, { default: T }>): T[] {
   return Object.keys(modules)
