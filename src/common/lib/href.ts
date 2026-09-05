@@ -8,12 +8,14 @@ type Params<T extends RouteId> = Routes[T]['params'] extends readonly string[]
   ? Record<Routes[T]['params'][number], string>
   : Record<never, never>;
 
+type Rest<T extends RouteId> = Omit<Params<T>, 'lang'>;
+
 export function localeHref<T extends LocaleRoute>(
   lang: Language,
   to: T,
-  params?: Omit<Params<T>, 'lang'>,
+  ...rest: [keyof Rest<T>] extends [never] ? [] : [params: Rest<T>]
 ): string {
-  const values: Record<string, string> = { lang, ...params };
+  const values: Record<string, string> = { lang, ...rest[0] };
   const path = to.replace(/\[(\w+)\]/g, (_, key: string) => values[key] ?? '');
 
   return path.endsWith('/') ? path : `${path}/`;

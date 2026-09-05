@@ -19,6 +19,13 @@ describe('localeHref', () => {
   it('canonical 이 슬래시로 끝나므로 hreflang 도 슬래시로 끝나야 자기를 딴 URL 로 안 가리킨다', () => {
     expect(localeHref('ko', '/[lang]/blog')).toBe('/ko/blog/');
   });
+
+  it('없는 라우트와 빠진 파라미터는 컴파일이 막는다', () => {
+    // @ts-expect-error src/pages 에 없는 라우트
+    expect(() => localeHref('ko', '/[lang]/blogg')).not.toThrow();
+    // @ts-expect-error [slug] 가 있는 라우트는 params 가 필수다
+    expect(() => localeHref('ko', '/[lang]/blog/[slug]')).not.toThrow();
+  });
 });
 
 describe('languagePaths', () => {
