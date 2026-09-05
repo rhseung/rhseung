@@ -37,7 +37,7 @@ export default defineConfig({
   },
 
   types: {
-    input: ['src/locales/ko/*.json'],
+    input: [`src/locales/${DEFAULT_LANGUAGE}/*.json`],
     output: 'src/@types/i18next.d.ts',
     resourcesFile: 'src/@types/resources.d.ts',
     enableSelector: true,
