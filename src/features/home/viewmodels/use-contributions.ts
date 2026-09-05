@@ -2,23 +2,14 @@ import { useQuery } from '@tanstack/react-query';
 
 import { SITE } from '@/common/lib';
 
-const CONTRIBUTIONS_API = 'https://github-contributions-api.jogruber.de/v4';
+import {
+  CONTRIBUTIONS_API,
+  NO_CONTRIBUTIONS,
+  type Contributions,
+  type ContributionDay,
+} from '../models';
 
 const ONE_HOUR = 60 * 60 * 1000;
-
-export type ContributionDay = {
-  date: string;
-  count: number;
-  level: number;
-};
-
-export type Contributions = {
-  total: number;
-  /** 격자가 이 순서에 기댄다. 일요일 시작, 빈 날 포함. */
-  days: ContributionDay[];
-};
-
-export const NO_CONTRIBUTIONS: Contributions = { total: 0, days: [] };
 
 type ContributionsResponse = {
   total: { lastYear: number };
