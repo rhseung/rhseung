@@ -9,11 +9,11 @@ import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 
 import { DEFAULT_LANGUAGE, LANGUAGE_TAGS, LANGUAGES } from './src/common/lib/languages';
-import { isNoindex } from './src/common/lib/site';
+import { isNoindex, SITE } from './src/common/lib/site';
 
 export default defineConfig({
   // 없으면 `Astro.site` 가 undefined 라 레이아웃의 `new URL(path, Astro.site)` 가 터진다.
-  site: 'https://www.rhseung.me',
+  site: SITE.url,
 
   i18n: {
     defaultLocale: DEFAULT_LANGUAGE,
