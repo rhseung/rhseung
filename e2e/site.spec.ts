@@ -6,7 +6,7 @@ test('네비가 모든 라우트를 잇는다', async ({ page }) => {
   await page.getByRole('link', { name: '글' }).click();
   await expect(page).toHaveURL(/\/ko\/blog\/$/);
 
-  await page.getByRole('link', { name: '커리어' }).click();
+  await page.getByRole('link', { name: '이력' }).click();
   await expect(page).toHaveURL(/\/ko\/career\/$/);
 
   await page.getByRole('link', { name: '홈', exact: true }).click();
@@ -44,10 +44,10 @@ test('이력서가 각 컬렉션에서 채워진다', async ({ page }) => {
   await expect(page.getByText('Astro 아일랜드 위에 올린 개인 사이트')).toBeVisible();
 });
 
-test('커리어 페이지가 세 섹션을 갖는다', async ({ page }) => {
+test('이력 페이지가 네 섹션을 갖는다', async ({ page }) => {
   await page.goto('/ko/career/');
 
-  await expect(page.getByRole('heading', { level: 1, name: '커리어' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: '이력' })).toBeVisible();
   for (const section of ['경력', '학력', '대회', '기술']) {
     await expect(page.getByRole('heading', { level: 2, name: section, exact: true })).toBeVisible();
   }
