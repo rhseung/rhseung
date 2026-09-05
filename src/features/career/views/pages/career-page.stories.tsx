@@ -1,4 +1,4 @@
-import { awards, education, experience, skills } from './fixtures';
+import { awards, education, experience, skills } from '@/mocks/career';
 
 import { CareerPage } from '.';
 

@@ -4,7 +4,6 @@ import { CONTRIBUTIONS_API } from '@/features/home';
 
 import type { RequestHandler } from 'msw';
 
-
 // faker 를 안 쓴다. 동적 import 라도 Vite 가 청크로 묶어 프로덕션 번들에 딸려 들어간다.
 const CONTRIBUTIONS = Array.from({ length: 53 * 7 }, (_, index) => {
   const date = new Date(Date.UTC(2025, 7, 17) + index * 86_400_000);
