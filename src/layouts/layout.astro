@@ -57,17 +57,14 @@ const alternates =
 
 const author = { '@type': 'Person', name: t(($) => $.site.name), url: SITE.url };
 
-/* 모든 라우트가 `<본문 제목> - <사이트 이름>` 으로 title 을 넘긴다. schema.org 의 headline
-   은 브랜드 접미사가 없는 글 제목이라야 한다. */
-const suffix = ` — ${SITE.title}`;
-const headline = title.endsWith(suffix) ? title.slice(0, -suffix.length) : title;
+const documentTitle = title === SITE.title ? title : `${title} — ${SITE.title}`;
 
 const schema =
   type === 'article'
     ? {
         '@context': 'https://schema.org',
         '@type': 'BlogPosting',
-        headline,
+        headline: title,
         description: summary,
         datePublished: published,
         inLanguage: lang,
@@ -94,7 +91,7 @@ const schema =
     <link rel="icon" href="/icons/favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
 
-    <title>{title}</title>
+    <title>{documentTitle}</title>
     <meta name="description" content={summary} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex" />}
@@ -116,7 +113,7 @@ const schema =
 
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content={SITE.title} />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={documentTitle} />
     <meta property="og:description" content={summary} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={LANGUAGE_TAGS[lang].replace('-', '_')} />
