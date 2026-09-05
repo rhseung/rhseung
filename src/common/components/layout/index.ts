@@ -5,3 +5,4 @@ export * from './language-suggestion-popover';
 export * from './link-row';
 export * from './not-found';
 export * from './site-dock';
+export * from './tech-icon';

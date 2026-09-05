@@ -1,6 +1,5 @@
 import { localize, type Language } from '@/common/lib';
 import { SKILL_GROUPS } from '@/content/skills';
-import type { TechSpec } from '@/content/skills';
 
 import type {
   Award,
@@ -13,7 +12,6 @@ import type {
 
 export { defineAward, defineCareer } from './define';
 export type { Award, CareerEntry, SkillGroup } from './types';
-export type { TechSpec } from '@/content/skills';
 
 function collect<T>(modules: Record<string, { default: T }>): T[] {
   return Object.keys(modules)
@@ -29,10 +27,6 @@ const education = collect<CareerItem>(
 );
 const awards = collect<AwardItem>(import.meta.glob('@/content/awards/*.ts', { eager: true }));
 const skillGroups: SkillGroupItem[] = [...SKILL_GROUPS];
-
-export const TECH_BY_NAME: Record<string, TechSpec> = Object.fromEntries(
-  skillGroups.flatMap((group) => group.items.map((tech) => [tech.name, tech] as const)),
-);
 
 export function experienceOf(lang: Language): CareerEntry[] {
   return experience.map((item) => localize(item, lang));
