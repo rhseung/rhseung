@@ -1180,7 +1180,7 @@ Python 린터 겸 포매터이다. flake8, isort, black이 나눠 하던 일을 
 위의 uv와 같은 Astral이 만들어 Rust로 짜여 있다.
 
 ```zsh
-uv tool install ruff
+brew install ruff
 
 # check
 ruff --version
@@ -1195,7 +1195,7 @@ Meta에서 만든 빠른 Python 타입 체커기이자 언어 서버로, Mypy를
 - [VS Code용 Extension](https://marketplace.visualstudio.com/items?itemName=meta.pyrefly)
 
 ```zsh
-uv tool install pyrefly
+brew install pyrefly
 
 # check
 pyrefly --version
@@ -1245,7 +1245,7 @@ claude mcp add-from-claude-desktop
 
 Claude Code 계정을 여러 개 쓸 경우 쉽게 swap할 수 있는 CLI다. 계정마다 OAuth 토큰을 macOS Keychain에 따로 보관해두고, 전환할 때는 그 계정의 로그인 정보만 바꿔치기한다. MCP 서버 같은 공유 설정은 그대로 남는다.
 
-위의 [Ruff](#ruff), [Pyrefly](#pyrefly)와 같이 uv로 깐다.
+[Ruff](#ruff), [Pyrefly](#pyrefly)와 달리 Homebrew에 formula가 없어서 uv로 깐다. dotfiles의 `uv-tools.txt`에 이름을 적어두면 `chezmoi apply`가 이 명령을 대신 돌린다.
 
 ```zsh
 uv tool install claude-swap
