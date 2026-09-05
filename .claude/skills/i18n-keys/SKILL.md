@@ -20,20 +20,10 @@ description: 이 프로젝트에서 사용자에게 보이는 문자열을 추�
 
 ## 새 네임스페이스
 
-feature 하나당 네임스페이스 하나, 거기에 `common`. feature를 추가하면
-`src/common/lib/i18n.ts`를 **두 군데** 고친다:
-
-```ts
-export const I18N_NAMESPACES = ['common', 'todos', '<new>'] as const;
-
-resources: {
-  ko: { common: commonKo, todos: todosKo, '<new>': newKo },
-  en: { common: commonEn, todos: todosEn, '<new>': newEn },
-}
-```
-
-위쪽 정적 import 두 줄도 같이 추가한다. 빠뜨리면 타입체크는 통과하는데
-런타임에 키 문자열이 그대로 화면에 찍힌다.
+feature 하나당 네임스페이스 하나, 거기에 `common`. 등록할 곳은 없다 —
+`useTranslation('<new>')` 을 쓰고 `bun run gen:i18n` 을 돌리면 `src/locales/{ko,en}/<new>.json`
+이 생기고, `src/common/lib/i18n.ts` 가 `import.meta.glob` 으로 그 디렉터리를 통째로 싣는다.
+한쪽 언어 파일이 빠지면 `bun run test` 의 완전성 테스트가 실패한다.
 
 ## 키가 사라지는 두 가지 경우
 

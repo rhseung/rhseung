@@ -24,12 +24,13 @@ src/features/$1/
 
 여기에 라우트 파일 하나. 이 템플릿의 라우팅 관례는 `AGENTS.md` §2 참고.
 
-## 다들 까먹는 두 스텝
+## 다들 까먹는 스텝
 
-4. `src/locales/ko/$1.json`, `src/locales/en/$1.json` 생성
-5. `src/common/lib/i18n.ts`의 `I18N_NAMESPACES`**와** `resources` **둘 다**에 `'$1'` 등록
+4. `src/locales/ko/$1.json`, `src/locales/en/$1.json` 은 손으로 만들지 않는다 —
+   `useTranslation('$1')` 과 `t()` 호출이 소스에 있는 상태에서 `bun run gen:i18n` 을 돌리면
+   생긴다. `src/common/lib/i18n.ts` 는 그 디렉터리를 glob 으로 싣는다. 등록할 곳은 없다.
 
-하나라도 빠지면 `t(($) => $….)` 셀렉터가 존재하지 않는 프로퍼티 접근으로 타입체크에서 깨진다.
+한쪽 언어 파일이 빠지면 `bun run test` 의 i18n 완전성 테스트가 잡는다.
 
 ## 걸려 넘어질 규칙
 
