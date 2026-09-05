@@ -1,4 +1,4 @@
-import { TECH_BY_NAME } from '@/features/career';
+import { TECH_BY_NAME } from '@/content/skills';
 import type { Award, CareerEntry, SkillGroup } from '@/features/career';
 import type { Project } from '@/features/projects';
 
