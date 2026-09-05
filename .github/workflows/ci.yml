@@ -23,6 +23,6 @@ jobs:
           bun-version: latest
       - run: bun install --frozen-lockfile
       - run: bunx playwright install --with-deps chromium
-      - run: bun run gen:i18n && test -z "$(git status --porcelain -- src/locales src/@types)"
+      - run: bun run gen:i18n && git diff --exit-code -- src/locales src/@types
       - run: bun run verify
       - run: bun run test:e2e
