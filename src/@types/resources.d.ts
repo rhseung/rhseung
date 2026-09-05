@@ -27,6 +27,10 @@ export default interface Resources {
     "language": {
       "available": "이 페이지는 {{name}}로도 볼 수 있습니다.",
       "dismiss": "닫기",
+      "untranslated": {
+        "description": "{{name}} 원문을 그대로 보여줍니다.",
+        "title": "이 언어로 쓰인 버전이 아직 없습니다"
+      },
       "view": "{{name}}로 보기"
     },
     "nav": {
