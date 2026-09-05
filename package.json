@@ -78,6 +78,7 @@
     "@eslint/js": "10.0.1",
     "@faker-js/faker": "10.5.0",
     "@playwright/test": "1.62.1",
+    "@sparticuz/chromium": "149.0.0",
     "@storybook/addon-a11y": "10.5.7",
     "@storybook/addon-docs": "10.5.7",
     "@storybook/addon-mcp": "0.7.0",
