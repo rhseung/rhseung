@@ -14,34 +14,30 @@ import { RESEARCH_KINDS, type ResearchItem } from './types';
 
 import { RESEARCH_ITEMS } from './index';
 
-const text = z
-  .object({
-    title: filled,
-    org: filled,
-    role: filled.optional(),
-    summary: filled.max(SUMMARY_MAX),
-  })
-  .strict();
+const text = z.strictObject({
+  title: filled,
+  org: filled,
+  role: filled.optional(),
+  summary: filled.max(SUMMARY_MAX),
+});
 
-const schema = z
-  .object({
-    slug,
-    kind: z.enum(RESEARCH_KINDS),
-    start: validDate,
-    end: validDate.optional(),
-    links: z
-      .object({
-        paper: url.optional(),
-        poster: url.optional(),
-        repo: url.optional(),
-        site: url.optional(),
-      })
-      .strict()
-      .optional(),
-    ko: text,
-    en: text,
-  })
-  .strict() satisfies z.ZodType<ResearchItem>;
+const schema = z.strictObject({
+  slug,
+  kind: z.enum(RESEARCH_KINDS),
+  start: validDate,
+  end: validDate.optional(),
+  links: z
+    .strictObject({
+      paper: url.optional(),
+      poster: url.optional(),
+      repo: url.optional(),
+      site: url.optional(),
+    })
+
+    .optional(),
+  ko: text,
+  en: text,
+}) satisfies z.ZodType<ResearchItem>;
 
 describe('RESEARCH_ITEMS', () => {
   it('파일이 하나도 안 빠졌다', () => {

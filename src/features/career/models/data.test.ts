@@ -22,54 +22,44 @@ const summary = z.string().trim().min(1).max(SUMMARY_MAX).optional();
 
 const translated = <T extends z.ZodType>(text: T) => ({ ko: text, en: text });
 
-const career = z
-  .object({
-    slug,
-    start: validDate,
-    end: validDate.optional(),
-    logo: z.string().optional(),
-    links: z.object({ site: url.optional() }).strict().optional(),
-    ...translated(
-      z
-        .object({
-          org: filled,
-          role: filled,
-          summary,
-          achievements: z.array(filled).min(1).optional(),
-        })
-        .strict(),
-    ),
-  })
-  .strict() satisfies z.ZodType<CareerItem>;
+const career = z.strictObject({
+  slug,
+  start: validDate,
+  end: validDate.optional(),
+  logo: z.string().optional(),
+  links: z.strictObject({ site: url.optional() }).optional(),
+  ...translated(
+    z.strictObject({
+      org: filled,
+      role: filled,
+      summary,
+      achievements: z.array(filled).min(1).optional(),
+    }),
+  ),
+}) satisfies z.ZodType<CareerItem>;
 
-const award = z
-  .object({
-    slug,
-    date: yearOrMonth,
-    ...translated(z.object({ title: filled, issuer: filled.optional(), summary }).strict()),
-  })
-  .strict() satisfies z.ZodType<AwardItem>;
+const award = z.strictObject({
+  slug,
+  date: yearOrMonth,
+  ...translated(z.strictObject({ title: filled, issuer: filled.optional(), summary })),
+}) satisfies z.ZodType<AwardItem>;
 
 const icon = z.custom<SimpleIcon>(
   (value) => typeof value === 'object' && value !== null && 'path' in value,
 );
 
-const techSpec = z
-  .object({
-    name: filled,
-    hex: z.string().regex(/^#[0-9A-F]{6}$/, '`#` + 대문자 6자리 hex 여야 합니다'),
-    icon: icon.optional(),
-  })
-  .strict();
+const techSpec = z.strictObject({
+  name: filled,
+  hex: z.string().regex(/^#[0-9A-F]{6}$/, '`#` + 대문자 6자리 hex 여야 합니다'),
+  icon: icon.optional(),
+});
 
-const skillGroup = z
-  .object({
-    slug,
-    order: z.int().positive(),
-    items: z.array(techSpec).min(1),
-    ...translated(z.object({ group: filled }).strict()),
-  })
-  .strict() satisfies z.ZodType<SkillGroupItem>;
+const skillGroup = z.strictObject({
+  slug,
+  order: z.int().positive(),
+  items: z.array(techSpec).min(1),
+  ...translated(z.strictObject({ group: filled })),
+}) satisfies z.ZodType<SkillGroupItem>;
 
 const { experience, education, awards, skillGroups } = CAREER_ITEMS;
 
