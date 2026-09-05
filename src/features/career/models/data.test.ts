@@ -1,52 +1,75 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { endsAfterStart, validDate, yearOrMonth } from '@/common/lib/date-schema';
+import {
+  endsAfterStart,
+  filled,
+  slug,
+  SUMMARY_MAX,
+  url,
+  validDate,
+  yearOrMonth,
+} from '@/common/lib/content-schema';
 
 import { CAREER_ITEMS } from './index';
 
-const SUMMARY_MAX = 200;
+import type { AwardItem } from './award';
+import type { CareerItem } from './career';
+import type { SkillGroupItem } from './skill-group';
+import type { SimpleIcon } from 'simple-icons';
 
-const slug = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'kebab-case 여야 합니다');
-const filled = z.string().trim().min(1);
 const summary = z.string().trim().min(1).max(SUMMARY_MAX).optional();
-
-const careerText = z.object({
-  org: filled,
-  role: filled,
-  summary,
-  achievements: z.array(filled).min(1).optional(),
-});
 
 const translated = <T extends z.ZodType>(text: T) => ({ ko: text, en: text });
 
-const career = z.object({
-  slug,
-  start: validDate,
-  end: validDate.optional(),
-  logo: z.string().optional(),
-  links: z.object({ site: z.url().optional() }).optional(),
-  ...translated(careerText),
-});
+const career = z
+  .object({
+    slug,
+    start: validDate,
+    end: validDate.optional(),
+    logo: z.string().optional(),
+    links: z.object({ site: url.optional() }).strict().optional(),
+    ...translated(
+      z
+        .object({
+          org: filled,
+          role: filled,
+          summary,
+          achievements: z.array(filled).min(1).optional(),
+        })
+        .strict(),
+    ),
+  })
+  .strict() satisfies z.ZodType<CareerItem>;
 
-const award = z.object({
-  slug,
-  date: yearOrMonth,
-  ...translated(z.object({ title: filled, issuer: filled.optional(), summary })),
-});
+const award = z
+  .object({
+    slug,
+    date: yearOrMonth,
+    ...translated(z.object({ title: filled, issuer: filled.optional(), summary }).strict()),
+  })
+  .strict() satisfies z.ZodType<AwardItem>;
 
-const techSpec = z.object({
-  name: filled,
-  hex: z.string().regex(/^#[0-9A-F]{6}$/, '`#` + 대문자 6자리 hex 여야 합니다'),
-  icon: z.object({ slug: filled, path: filled }).optional(),
-});
+const icon = z.custom<SimpleIcon>(
+  (value) => typeof value === 'object' && value !== null && 'path' in value,
+);
 
-const skillGroup = z.object({
-  slug,
-  order: z.int().positive(),
-  items: z.array(techSpec).min(1),
-  ...translated(z.object({ group: filled })),
-});
+const techSpec = z
+  .object({
+    name: filled,
+    hex: z.string().regex(/^#[0-9A-F]{6}$/, '`#` + 대문자 6자리 hex 여야 합니다'),
+    icon: icon.optional(),
+  })
+  .strict();
+
+const skillGroup = z
+  .object({
+    slug,
+    order: z.int().positive(),
+    items: z.array(techSpec).min(1),
+    ...translated(z.object({ group: filled }).strict()),
+  })
+  .strict() satisfies z.ZodType<SkillGroupItem>;
 
 const { experience, education, awards, skillGroups } = CAREER_ITEMS;
 
@@ -54,7 +77,7 @@ describe.each([
   ['experience', experience],
   ['education', education],
 ])('%s', (_name, entries) => {
-  it('스키마를 만족한다', () => {
+  it('스키마를 만족한다 - 스키마가 모르는 필드도 실패다', () => {
     for (const entry of entries) expect(career.safeParse(entry).error, entry.slug).toBeUndefined();
   });
 
@@ -64,13 +87,13 @@ describe.each([
 });
 
 describe('awards', () => {
-  it('스키마를 만족한다', () => {
+  it('스키마를 만족한다 - 스키마가 모르는 필드도 실패다', () => {
     for (const entry of awards) expect(award.safeParse(entry).error, entry.slug).toBeUndefined();
   });
 });
 
 describe('skillGroups', () => {
-  it('스키마를 만족한다', () => {
+  it('스키마를 만족한다 - 스키마가 모르는 필드도 실패다', () => {
     for (const group of skillGroups) {
       expect(skillGroup.safeParse(group).error, group.slug).toBeUndefined();
     }
