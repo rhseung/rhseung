@@ -1,18 +1,16 @@
 import { AppProviders } from '@/common/components';
-import type { Language } from '@/common/lib';
-import type { Award } from '@/features/career';
-import { ProjectDetailPage, type Project } from '@/features/projects';
+import { ProjectDetailPage } from '@/features/projects';
 
 export function ProjectDetailIsland({
   lang,
   project,
   awards,
-  altHref,
+  available,
   children,
 }: ProjectDetailIsland.Props) {
   return (
     <AppProviders lang={lang}>
-      <ProjectDetailPage lang={lang} project={project} awards={awards} altHref={altHref}>
+      <ProjectDetailPage lang={lang} project={project} awards={awards} available={available}>
         {children}
       </ProjectDetailPage>
     </AppProviders>
@@ -20,11 +18,5 @@ export function ProjectDetailIsland({
 }
 
 export declare namespace ProjectDetailIsland {
-  export type Props = {
-    lang: Language;
-    project: Project;
-    awards?: Award[];
-    altHref?: string;
-    children: React.ReactNode;
-  };
+  export type Props = ProjectDetailPage.Props;
 }

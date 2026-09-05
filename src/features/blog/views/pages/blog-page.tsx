@@ -31,7 +31,7 @@ export function BlogPage({ lang, posts }: BlogPage.Props) {
               <li key={post.slug}>
                 <PostListItem
                   post={post}
-                  href={localeHref(post.lang, `/blog/${post.slug}`)}
+                  href={localeHref(post.lang, '/[lang]/blog/[slug]', { slug: post.slug })}
                   showLanguage={post.lang !== lang}
                 />
               </li>
@@ -40,11 +40,7 @@ export function BlogPage({ lang, posts }: BlogPage.Props) {
         )}
       </main>
 
-      <SiteDock
-        lang={lang}
-        current="blog"
-        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/blog')}
-      />
+      <SiteDock lang={lang} current="blog" route={{ to: '/[lang]/blog' }} />
     </div>
   );
 }

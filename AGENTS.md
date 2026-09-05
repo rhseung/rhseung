@@ -178,19 +178,18 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 
 ## 3. 새 기능 추가 절차
 
-`/new-feature <name>` 커맨드가 아래를 다 해준다. 손으로 할 때 빠뜨리기 쉬운 게 4·5번이다.
+`/new-feature <name>` 커맨드가 아래를 다 해준다. 손으로 할 때 빠뜨리기 쉬운 게 5번이다.
 
 1. `src/features/<name>/{models,viewmodels,views/{components,pages}}` + 각 `index.ts`
 2. `models/index.ts`에 zod 스키마. 콘텐츠면 `src/content.config.ts`가 그걸 import한다
 3. `viewmodels/select-<name>.ts` — 순수 선택·정렬 로직 (+ `.test.ts`)
-4. `src/common/lib/i18n.ts`의 `I18N_NAMESPACES`와 `resources`에 네임스페이스 등록
+4. 네임스페이스 등록은 없다 — `src/locales/{lang}/<ns>.json` 이 생기면 `i18n.ts` 가 glob 으로 싣는다
 5. `src/pages/_islands/<name>-island.tsx` — `AppProviders` + feature page 합본
 6. `src/pages/[lang]/<name>/index.astro` — `getCollection` → props → 아일랜드
 7. `src/common/viewmodels/use-site-sections.ts`의 `SECTIONS`에 한 줄
 8. `bun run gen && bun run check`
 
-로케일 JSON은 4번에서 만들지 않는다 — `t()`를 쓰고 `bun run gen:i18n`이 만든다.
-그 파일이 생긴 뒤에 i18n.ts에서 import한다(순서를 바꾸면 import가 깨진다).
+로케일 JSON은 손으로 만들지 않는다 — `t()`를 쓰고 `bun run gen:i18n`이 만든다.
 
 ## 4. UI
 
@@ -302,7 +301,8 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 다른 컬렉션과 달리 glob 이 아니라 **static import** 인 이유가 둘이다. (1) glob 은 타입을
 지워서 `Tech` 리터럴 유니온이 `string` 으로 무너진다 — 프로젝트 `stack` 의 오타를 못 잡는다.
 (2) `import.meta.glob` 은 Vite 전용이라 bare `bun` 으로 도는 `scripts/gen-readme.ts` 가
-못 읽는다. 같은 이유로 그 파일에는 import 가 하나도 없다.
+못 읽는다. 같은 이유로 그 파일은 bare bun 이 못 푸는 import(`import.meta.glob`, Vite 가상 모듈)를
+안 쓴다 - npm 패키지와 타입 import 는 괜찮다.
 
 남은 컬렉션은 둘뿐이다.
 

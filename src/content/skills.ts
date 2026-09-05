@@ -42,6 +42,8 @@ import {
   siVite,
 } from 'simple-icons';
 
+import type { Localized } from '@/common/lib/languages';
+
 import type { SimpleIcon } from 'simple-icons';
 
 export type TechSpec = {
@@ -51,11 +53,9 @@ export type TechSpec = {
   icon?: SimpleIcon;
 };
 
-type SkillGroupSpec = {
+type SkillGroupSpec = Localized<{ group: string }> & {
   slug: string;
   order: number;
-  ko: { group: string };
-  en: { group: string };
   items: readonly TechSpec[];
 };
 

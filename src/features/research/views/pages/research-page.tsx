@@ -33,7 +33,7 @@ export function ResearchPage({ lang, items, papers = [] }: ResearchPage.Props) {
                   item={item}
                   detailHref={
                     papers.includes(item.slug)
-                      ? localeHref(lang, `/research/${item.slug}`)
+                      ? localeHref(lang, '/[lang]/research/[slug]', { slug: item.slug })
                       : undefined
                   }
                 />
@@ -43,11 +43,7 @@ export function ResearchPage({ lang, items, papers = [] }: ResearchPage.Props) {
         )}
       </main>
 
-      <SiteDock
-        lang={lang}
-        current="research"
-        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/research')}
-      />
+      <SiteDock lang={lang} current="research" route={{ to: '/[lang]/research' }} />
     </div>
   );
 }

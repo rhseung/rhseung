@@ -1,4 +1,4 @@
-import type { Tone, Url, YearMonth } from '@/common/lib';
+import type { Language, Localized, Tone, Url, YearMonth } from '@/common/lib';
 
 export const RESEARCH_KINDS = ['rne', 'lab', 'paper'] as const;
 
@@ -21,14 +21,12 @@ export type ResearchText = {
   summary: string;
 };
 
-export type ResearchItem = {
+export type ResearchItem = Localized<ResearchText> & {
   slug: string;
   kind: ResearchKind;
   start: YearMonth;
   end?: YearMonth;
   links?: Partial<Record<ResearchLinkKind, Url>>;
-  ko: ResearchText;
-  en: ResearchText;
 };
 
-export type Research = ResearchText & Omit<ResearchItem, 'ko' | 'en'>;
+export type Research = ResearchText & Omit<ResearchItem, Language>;

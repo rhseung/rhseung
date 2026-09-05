@@ -2,7 +2,6 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 
 import { PostDetailIsland } from '@/pages/_islands/post-detail-island';
-import { SITE } from '@/common/lib';
 import { toPostSummary, tocHeadings } from '@/features/blog';
 import { MDX_COMPONENTS } from '@/common/components';
 import Layout from '@/layouts/layout.astro';
@@ -27,10 +26,12 @@ const { Content, headings } = await render(entry);
 
 <Layout
   lang={post.lang}
-  title={`${post.title} — ${SITE.title}`}
+  title={post.title}
   description={post.summary}
   type="article"
   published={post.date}
+  route={{ to: '/[lang]/blog/[slug]', params: { slug: post.slug } }}
+  available={[post.lang]}
 >
   <PostDetailIsland post={post} headings={tocHeadings(headings)} client:idle>
     <Content components={MDX_COMPONENTS} />

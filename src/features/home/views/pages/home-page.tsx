@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Avatar, AvatarFallback, AvatarImage, ExternalLink, SiteDock } from '@/common/components';
-import { dayjs, localeHref, SITE, type Language } from '@/common/lib';
+import { dayjs, SITE, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
 import { useExternalLinks, useSiteSections } from '@/common/viewmodels';
 
@@ -115,7 +115,7 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
         />
       </main>
 
-      <SiteDock lang={lang} altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/')} />
+      <SiteDock lang={lang} route={{ to: '/[lang]' }} />
     </div>
   );
 }

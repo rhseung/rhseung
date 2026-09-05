@@ -1,7 +1,5 @@
 import { AppProviders } from '@/common/components';
-import type { Language } from '@/common/lib';
-import type { Award } from '@/features/career';
-import { ProjectsPage, type Project } from '@/features/projects';
+import { ProjectsPage } from '@/features/projects';
 
 export function ProjectsIsland({ lang, projects, awards }: ProjectsIsland.Props) {
   return (
@@ -12,9 +10,5 @@ export function ProjectsIsland({ lang, projects, awards }: ProjectsIsland.Props)
 }
 
 export declare namespace ProjectsIsland {
-  export type Props = {
-    lang: Language;
-    projects: Project[];
-    awards?: Award[];
-  };
+  export type Props = ProjectsPage.Props;
 }

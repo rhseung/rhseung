@@ -1,17 +1,22 @@
 export { dayjs } from './dayjs';
 export { FAVICON_HOSTS } from './favicon-hosts.gen';
-export { I18N_NAMESPACES, i18n, type I18nNamespace } from './i18n';
+export { I18N_NAMESPACES, i18n } from './i18n';
 export type { IconComponent } from './icons';
 export {
   DEFAULT_LANGUAGE,
-  LANGUAGE_NAMES,
-  LANGUAGES,
   isLanguage,
   langFromParam,
+  LANGUAGE_NAMES,
+  LANGUAGE_TAGS,
+  LANGUAGES,
+  otherLanguages,
   preferredLanguage,
   type Language,
+  type Localized,
 } from './languages';
-export { isNoindex, languagePaths, SITE, localeHref } from './site';
+export { localize } from './localize';
+export { localeHref, localeHrefOf, type LocaleRoute, type LocaleRouteRef } from './href';
+export { isNoindex, languagePaths, SITE } from './site';
 export type { Url } from './scalars';
 export { formatYearMonth, yearMonthKey, type YearMonth, type YearOrMonth } from './year-month';
 export {

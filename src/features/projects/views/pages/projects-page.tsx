@@ -144,7 +144,7 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
               <li key={project.slug}>
                 <ProjectCard
                   project={project}
-                  detailHref={localeHref(lang, `/projects/${project.slug}`)}
+                  detailHref={localeHref(lang, '/[lang]/projects/[slug]', { slug: project.slug })}
                   awards={awards.filter((award) => project.awards?.includes(award.slug))}
                   selectedStack={filters.stack}
                   onToggleStack={toggleStack}
@@ -155,11 +155,7 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
         )}
       </main>
 
-      <SiteDock
-        lang={lang}
-        current="projects"
-        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/projects')}
-      />
+      <SiteDock lang={lang} current="projects" route={{ to: '/[lang]/projects' }} />
     </div>
   );
 }

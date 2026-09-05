@@ -12,7 +12,7 @@ export function ProjectDetailPage({
   lang,
   project,
   awards = [],
-  altHref,
+  available,
   children,
 }: ProjectDetailPage.Props) {
   const { t } = useTranslation('projects');
@@ -29,7 +29,7 @@ export function ProjectDetailPage({
       <div className="mx-auto w-full max-w-3xl p-4 sm:p-6 md:p-8">
         <DetailHeader
           lang={lang}
-          backHref={localeHref(lang, '/projects')}
+          backHref={localeHref(lang, '/[lang]/projects')}
           backLabel={t(($) => $.detail.back)}
         />
 
@@ -95,7 +95,12 @@ export function ProjectDetailPage({
         </main>
       </div>
 
-      <SiteDock lang={lang} current="projects" altHref={altHref} />
+      <SiteDock
+        lang={lang}
+        current="projects"
+        route={{ to: '/[lang]/projects/[slug]', params: { slug: project.slug } }}
+        available={available}
+      />
     </div>
   );
 }
@@ -105,7 +110,7 @@ export declare namespace ProjectDetailPage {
     lang: Language;
     project: Project;
     awards?: Award[];
-    altHref?: string;
+    available?: readonly Language[];
     children: React.ReactNode;
   };
 }

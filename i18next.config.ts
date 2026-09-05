@@ -1,7 +1,9 @@
 import { defineConfig } from 'i18next-cli';
 
+import { DEFAULT_LANGUAGE, LANGUAGES, otherLanguages } from './src/common/lib/languages';
+
 export default defineConfig({
-  locales: ['ko', 'en'],
+  locales: [...LANGUAGES],
 
   extract: {
     input: ['src/**/*.{ts,tsx}'],
@@ -11,8 +13,8 @@ export default defineConfig({
     nsSeparator: ':',
     keySeparator: '.',
 
-    primaryLanguage: 'ko',
-    secondaryLanguages: ['en'],
+    primaryLanguage: DEFAULT_LANGUAGE,
+    secondaryLanguages: otherLanguages(DEFAULT_LANGUAGE),
 
     removeUnusedKeys: true,
 

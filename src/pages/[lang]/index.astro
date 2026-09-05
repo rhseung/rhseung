@@ -2,7 +2,7 @@
 import { execSync } from 'node:child_process';
 
 import { HomeIsland } from '@/pages/_islands/home-island';
-import { languagePaths, SITE, localeHref } from '@/common/lib';
+import { languagePaths, SITE } from '@/common/lib';
 import { loadContributionsSnapshot } from '@/features/home';
 
 import Layout from '@/layouts/layout.astro';
@@ -24,11 +24,7 @@ const { lang, updatedAt } = Astro.props;
 const snapshot = await loadContributionsSnapshot();
 ---
 
-<Layout
-  lang={lang}
-  title={SITE.title}
-  alternates={{ ko: localeHref('ko', '/'), en: localeHref('en', '/') }}
->
+<Layout lang={lang} title={SITE.title} route={{ to: '/[lang]' }}>
   <HomeIsland
     lang={lang}
     updatedAt={updatedAt}

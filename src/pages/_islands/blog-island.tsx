@@ -1,6 +1,5 @@
 import { AppProviders } from '@/common/components';
-import type { Language } from '@/common/lib';
-import { BlogPage, type PostSummary } from '@/features/blog';
+import { BlogPage } from '@/features/blog';
 
 export function BlogIsland({ lang, posts }: BlogIsland.Props) {
   return (
@@ -11,8 +10,5 @@ export function BlogIsland({ lang, posts }: BlogIsland.Props) {
 }
 
 export declare namespace BlogIsland {
-  export type Props = {
-    lang: Language;
-    posts: PostSummary[];
-  };
+  export type Props = BlogPage.Props;
 }

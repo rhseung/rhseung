@@ -6,14 +6,25 @@ import themeScript from './theme.js?raw';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 
-import { DEFAULT_LANGUAGE, i18n, isNoindex, SITE, type Language } from '@/common/lib';
+import {
+  DEFAULT_LANGUAGE,
+  i18n,
+  isNoindex,
+  LANGUAGE_TAGS,
+  LANGUAGES,
+  localeHrefOf,
+  SITE,
+  type Language,
+  type LocaleRouteRef,
+} from '@/common/lib';
 import '@/styles.css';
 
 interface Props {
   lang: Language;
   title: string;
   description?: string;
-  alternates?: Partial<Record<Language, string>>;
+  route?: LocaleRouteRef;
+  available?: readonly Language[];
   image?: string;
   type?: 'website' | 'article';
   published?: string;
@@ -23,7 +34,8 @@ const {
   lang,
   title,
   description,
-  alternates,
+  route,
+  available,
   image = SITE.ogImage,
   type = 'website',
   published,
@@ -37,19 +49,22 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
 
 const summary = description ?? t(($) => $.site.description);
 
+const langs = available ?? LANGUAGES;
+const alternates =
+  route !== undefined && langs.length > 1
+    ? langs.map((other) => [other, localeHrefOf(other, route)] as const)
+    : [];
+
 const author = { '@type': 'Person', name: t(($) => $.site.name), url: SITE.url };
 
-/* 모든 라우트가 `<본문 제목> - <사이트 이름>` 으로 title 을 넘긴다. schema.org 의 headline
-   은 브랜드 접미사가 없는 글 제목이라야 한다. */
-const suffix = ` — ${SITE.title}`;
-const headline = title.endsWith(suffix) ? title.slice(0, -suffix.length) : title;
+const documentTitle = title === SITE.title ? title : `${title} — ${SITE.title}`;
 
 const schema =
   type === 'article'
     ? {
         '@context': 'https://schema.org',
         '@type': 'BlogPosting',
-        headline,
+        headline: title,
         description: summary,
         datePublished: published,
         inLanguage: lang,
@@ -76,33 +91,32 @@ const schema =
     <link rel="icon" href="/icons/favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
 
-    <title>{title}</title>
+    <title>{documentTitle}</title>
     <meta name="description" content={summary} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex" />}
 
     {
-      alternates &&
-        Object.entries(alternates).map(([hreflang, href]) => (
-          <link rel="alternate" hreflang={hreflang} href={new URL(href, Astro.site)} />
-        ))
+      alternates.map(([hreflang, href]) => (
+        <link rel="alternate" hreflang={hreflang} href={new URL(href, Astro.site)} />
+      ))
     }
     {
-      alternates?.[DEFAULT_LANGUAGE] && (
+      route !== undefined && alternates.length > 0 && langs.includes(DEFAULT_LANGUAGE) && (
         <link
           rel="alternate"
           hreflang="x-default"
-          href={new URL(alternates[DEFAULT_LANGUAGE], Astro.site)}
+          href={new URL(localeHrefOf(DEFAULT_LANGUAGE, route), Astro.site)}
         />
       )
     }
 
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content={SITE.title} />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={documentTitle} />
     <meta property="og:description" content={summary} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:locale" content={lang === 'ko' ? 'ko_KR' : 'en_US'} />
+    <meta property="og:locale" content={LANGUAGE_TAGS[lang].replace('-', '_')} />
     {ogImage && <meta property="og:image" content={ogImage} />}
     {published && <meta property="article:published_time" content={published} />}
     <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
