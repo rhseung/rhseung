@@ -1,4 +1,4 @@
-import { yearMonthKey } from '@/common/lib';
+import { byStartDesc } from '@/common/lib';
 
 import { PROJECT_LINK_KINDS, type Project, type ProjectLinkKind } from '../models';
 
@@ -33,7 +33,7 @@ export function countByStack(projects: readonly Project[]): [string, number][] {
 }
 
 export function sortProjects(projects: readonly Project[]): Project[] {
-  return [...projects].sort((a, b) => yearMonthKey(b.start) - yearMonthKey(a.start));
+  return [...projects].sort(byStartDesc);
 }
 
 export function projectHref(

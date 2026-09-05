@@ -1,9 +1,9 @@
-import { yearMonthKey } from '@/common/lib';
+import { byStartDesc, yearMonthKey } from '@/common/lib';
 
 import type { Award, CareerEntry, SkillGroup } from '../models';
 
 export function sortCareer(entries: readonly CareerEntry[]): CareerEntry[] {
-  return [...entries].sort((a, b) => yearMonthKey(b.start) - yearMonthKey(a.start));
+  return [...entries].sort(byStartDesc);
 }
 
 export function sortAwards(awards: readonly Award[]): Award[] {
