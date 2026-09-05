@@ -2,7 +2,7 @@ import { TrophyIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 
 import { Badge, ExternalLink } from '@/common/components';
-import { brand, formatYearMonth, tone } from '@/common/lib';
+import { brand, formatPeriod, tone } from '@/common/lib';
 import { cn } from '@/common/utils';
 import { TECH_BY_NAME, TechIcon, type Award } from '@/features/career';
 
@@ -26,9 +26,11 @@ export function ProjectCard({
   const { t } = useTranslation('projects');
   const label = useProjectLabels();
 
-  const period = project.end
-    ? `${formatYearMonth(project.start)} – ${formatYearMonth(project.end)}`
-    : `${formatYearMonth(project.start)} – ${t(($) => $.period.ongoing)}`;
+  const period = formatPeriod(
+    project.start,
+    project.end,
+    t(($) => $.period.ongoing),
+  );
 
   const target = projectHref(project, detailHref);
   const ordered = [

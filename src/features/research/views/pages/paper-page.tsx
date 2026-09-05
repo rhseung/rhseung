@@ -11,7 +11,7 @@ import {
   SiteDock,
   buttonVariants,
 } from '@/common/components';
-import { formatYearMonth, localeHref, tone, type Language } from '@/common/lib';
+import { formatPeriod, localeHref, tone, type Language } from '@/common/lib';
 import { cn } from '@/common/utils';
 
 import {
@@ -37,9 +37,11 @@ export function PaperPage({
 
   const [copied, setCopied] = useState(false);
 
-  const period = item.end
-    ? `${formatYearMonth(item.start)} – ${formatYearMonth(item.end)}`
-    : `${formatYearMonth(item.start)} – ${t(($) => $.period.ongoing)}`;
+  const period = formatPeriod(
+    item.start,
+    item.end,
+    t(($) => $.period.ongoing),
+  );
 
   const links = RESEARCH_LINK_KINDS.flatMap((kind) => {
     const href = item.links?.[kind];
