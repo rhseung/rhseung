@@ -4,10 +4,12 @@ export { I18N_NAMESPACES, i18n, type I18nNamespace } from './i18n';
 export type { IconComponent } from './icons';
 export {
   DEFAULT_LANGUAGE,
-  LANGUAGE_NAMES,
-  LANGUAGES,
   isLanguage,
   langFromParam,
+  LANGUAGE_NAMES,
+  LANGUAGE_TAGS,
+  LANGUAGES,
+  otherLanguages,
   preferredLanguage,
   type Language,
 } from './languages';
