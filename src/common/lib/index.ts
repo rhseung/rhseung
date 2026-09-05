@@ -18,7 +18,13 @@ export { localize } from './localize';
 export { localeHref, localeHrefOf, type LocaleRoute, type LocaleRouteRef } from './href';
 export { isNoindex, languagePaths, SITE } from './site';
 export type { Url } from './scalars';
-export { formatYearMonth, yearMonthKey, type YearMonth, type YearOrMonth } from './year-month';
+export {
+  byStartDesc,
+  formatYearMonth,
+  yearMonthKey,
+  type YearMonth,
+  type YearOrMonth,
+} from './year-month';
 export {
   DARK_CLASS,
   SYSTEM_DARK_QUERY,
