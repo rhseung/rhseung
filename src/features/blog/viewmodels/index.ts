@@ -1,5 +1,5 @@
-export type { Post, PostHeading, PostSummary } from '../models';
+export type { PostHeading, PostItem, PostSummary } from '../models';
 
 export { tocHeadings } from './select-headings';
-export { pickRecent, sortPosts, toPostSummary } from './select-posts';
+export { pickBody, pickRecent, sortPosts, toPostSummary, type PostBody } from './select-posts';
 export { useActiveHeading } from './use-active-heading';

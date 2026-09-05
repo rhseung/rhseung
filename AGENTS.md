@@ -306,12 +306,17 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 
 남은 컬렉션은 둘뿐이다.
 
-| 컬렉션     | 원본                                      | 언어 처리                                                |
-| ---------- | ----------------------------------------- | -------------------------------------------------------- |
-| `posts`    | `src/content/posts/*.mdx`                 | frontmatter `lang`. 번역물이 아니라 한 언어로 쓰인 한 벌 |
-| `projects` | `src/content/projects/{ko,en}/<slug>.mdx` | **산문만.** 메타데이터는 `models/data.ts`                |
+| 컬렉션     | 원본                                     | 언어 처리                                                        |
+| ---------- | ---------------------------------------- | ---------------------------------------------------------------- |
+| `posts`    | `src/content/posts/<slug>/<lang>.mdx`    | **산문 + 제목·요약만.** `date`·`tags`·`draft` 는 옆의 `index.ts` |
+| `projects` | `src/content/projects/<slug>/<lang>.mdx` | **산문만.** 메타데이터는 `index.ts` 또는 `<slug>.ts`             |
 
 프로젝트 상세 페이지는 그 언어로 MDX가 **있는 것만** 생긴다. 파일이 곧 `hasDetail`이다.
+
+글은 반대다. **라우트는 모든 언어에 생기고** 본문이 폴백한다 - 요청 언어 파일이 없으면
+`LANGUAGES` 순서로 첫 본문을 원문 그대로 보여주고 `TranslationNotice` 를 얹는다
+(`pickBody`). 제목·요약이 frontmatter 인 이유는 본문과 한 몸이라서고, `date` 를 `index.ts`
+로 올린 이유는 언어별로 복제되면 정렬이 갈려서다.
 
 ### 런타임 상태
 
@@ -473,8 +478,8 @@ CI는 `bun run gen:i18n` 후 `git diff --exit-code`로 JSON이 최신인지 검�
 | `/ko/`, `/en/`                   | 히어로 + 퀵 엔트리 + 최근 글 3          |
 | `/ko/projects/`, `/en/projects/` | 스택 필터(`?stack=`, `?q=`) + 카드 목록 |
 | `/ko/projects/<slug>/` (+`/en/`) | MDX 상세. 본문을 쓴 프로젝트만 생긴다   |
-| `/ko/blog/`, `/en/blog/`         | 글 목록 (UI만 이중언어)                 |
-| `/ko/blog/<slug>/`               | MDX 본문. 원본 언어 한 벌               |
+| `/ko/blog/`, `/en/blog/`         | 글 목록. 본문 언어가 다르면 배지        |
+| `/ko/blog/<slug>/` (+`/en/`)     | MDX 본문. 번역이 없으면 원문 + 노티스   |
 | `/ko/career/`, `/en/career/`     | 경력·학력·수상·기술                     |
 | `/ko/research/`, `/en/research/` | 연구 이력 (샘플 논문 하나)              |
 | `/ko/resume/`, `/en/resume/`     | PDF 원본. `noindex`                     |
