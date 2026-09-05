@@ -27,17 +27,20 @@ export function NotFound() {
           </EmptyHeader>
 
           <div className="flex flex-wrap justify-center gap-2">
-            <a href={localeHref(DEFAULT_LANGUAGE, '/')} className={buttonVariants({ size: 'sm' })}>
+            <a
+              href={localeHref(DEFAULT_LANGUAGE, '/[lang]')}
+              className={buttonVariants({ size: 'sm' })}
+            >
               {t(($) => $.notFound.action)}
             </a>
             <a
-              href={localeHref(DEFAULT_LANGUAGE, '/projects')}
+              href={localeHref(DEFAULT_LANGUAGE, '/[lang]/projects')}
               className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
             >
               {t(($) => $.nav.projects)}
             </a>
             <a
-              href={localeHref(DEFAULT_LANGUAGE, '/blog')}
+              href={localeHref(DEFAULT_LANGUAGE, '/[lang]/blog')}
               className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
             >
               {t(($) => $.nav.blog)}

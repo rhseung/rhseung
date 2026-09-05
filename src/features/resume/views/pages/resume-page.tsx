@@ -52,7 +52,7 @@ export function ResumePage({
       <SiteDock
         lang={lang}
         current="resume"
-        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/resume')}
+        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/[lang]/resume')}
       />
     </div>
   );

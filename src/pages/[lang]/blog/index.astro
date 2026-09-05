@@ -25,7 +25,7 @@ const t = i18n.getFixedT(lang, 'common');
   lang={lang}
   title={`${t(($) => $.nav.blog)} — ${SITE.title}`}
   description={t(($) => $.site.description)}
-  alternates={{ ko: localeHref('ko', '/blog'), en: localeHref('en', '/blog') }}
+  alternates={{ ko: localeHref('ko', '/[lang]/blog'), en: localeHref('en', '/[lang]/blog') }}
 >
   <BlogIsland lang={lang} posts={posts} client:load />
 </Layout>

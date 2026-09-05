@@ -91,7 +91,7 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
       <SiteDock
         lang={lang}
         current="career"
-        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/career')}
+        altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/[lang]/career')}
       />
     </div>
   );

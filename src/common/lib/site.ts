@@ -1,4 +1,6 @@
-import { LANGUAGES, type Language } from './languages';
+import { LANGUAGES } from './languages';
+
+import type { LocaleRoute } from './href';
 
 export const SITE = {
   url: 'https://www.rhseung.me',
@@ -20,24 +22,15 @@ export const SITE = {
  * 색인에서 빼는 라우트. 레이아웃의 `noindex` 메타와 sitemap 제외가 같은 목록을 봐야 한다 -
  * 한쪽만 고치면 색인하지 말라고 해놓고 sitemap 으로는 제출하는 상태가 된다.
  */
-const NOINDEX_ROUTES = ['/resume'] as const;
+const NOINDEX_ROUTES = ['/[lang]/resume'] as const satisfies readonly LocaleRoute[];
 
 /** sitemap 은 절대 URL 을, 레이아웃은 pathname 을 넘긴다. 둘 다 받는다. */
 export function isNoindex(url: string): boolean {
   const { pathname } = new URL(url, SITE.url);
 
   return LANGUAGES.some((lang) =>
-    NOINDEX_ROUTES.some((route) => pathname.startsWith(`/${lang}${route}`)),
+    NOINDEX_ROUTES.some((route) => pathname.startsWith(route.replace('[lang]', lang))),
   );
-}
-
-export function localeHref(lang: Language, path: string): string {
-  const absolute = path.startsWith('/') ? path : `/${path}`;
-  const prefixed = `/${lang}${absolute === '/' ? '' : absolute}`;
-
-  // canonical(`Astro.url.pathname`)이 항상 슬래시로 끝난다. 안 맞추면 문서가 hreflang으로
-  // 자기 자신을 다른 URL로 가리킨다.
-  return prefixed.endsWith('/') ? prefixed : `${prefixed}/`;
 }
 
 /**

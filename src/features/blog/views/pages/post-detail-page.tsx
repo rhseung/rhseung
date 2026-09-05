@@ -17,7 +17,7 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
       <div className="mx-auto grid w-full max-w-3xl gap-x-10 p-4 sm:p-6 md:p-8 lg:max-w-5xl lg:grid-cols-[minmax(0,1fr)_13rem]">
         <DetailHeader
           lang={lang}
-          backHref={localeHref(lang, '/blog')}
+          backHref={localeHref(lang, '/[lang]/blog')}
           backLabel={t(($) => $.detail.back)}
           className="lg:col-start-1 lg:col-end-3 lg:row-start-1"
         />
