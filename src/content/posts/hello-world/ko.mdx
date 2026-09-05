@@ -1,9 +1,6 @@
 ---
 title: Hello, world
-date: 2026-08-30
 summary: 이 블로그가 지원하는 마크다운 문법과 MDX 컴포넌트를 한 장에 늘어놓은 글.
-lang: ko
-tags: [markdown, mdx]
 ---
 
 블로그를 새로 깔면 제일 먼저 하는 일이 이거다. 글 하나를 만들어서 쓸 수 있는 걸 전부 넣어보고,
@@ -181,10 +178,10 @@ export const wide = {
 
 ### 기본
 
-| 컬렉션     | 원본                  | 언어 처리        |
-| ---------- | --------------------- | ---------------- |
-| `posts`    | `content/posts/*.mdx` | frontmatter lang |
-| `projects` | `content/projects/**` | 디렉토리로 분리  |
+| 컬렉션     | 원본                                 | 언어 처리 |
+| ---------- | ------------------------------------ | --------- |
+| `posts`    | `content/posts/<slug>/<lang>.mdx`    | 파일 이름 |
+| `projects` | `content/projects/<slug>/<lang>.mdx` | 파일 이름 |
 
 ### 정렬
 
@@ -320,7 +317,8 @@ GitHub 의 알림 다섯 종을 그대로 따른다 - note, tip, important, warn
 
 <Step index={1} title="글을 만든다">
 
-`src/content/posts/<slug>/index.mdx` 하나면 라우트가 생긴다.
+`src/content/posts/<slug>/` 에 `index.ts` 와 `ko.mdx` 를 두면 라우트가 생긴다.
+번역이 없는 언어에서는 원문 위에 안내가 붙는다.
 
 </Step>
 

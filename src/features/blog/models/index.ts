@@ -1,24 +1,17 @@
-import { z } from 'zod';
+import { collectModules } from '@/common/lib';
 
-import { LANGUAGES } from '@/common/lib';
+import type { PostItem } from './types';
 
-export const POST_SUMMARY_MAX = 120;
+export { definePost } from './define';
+export { postSchema, type PostFrontmatter } from './schema';
+export type { PostHeading, PostItem, PostSummary } from './types';
 
-export const POST_TAGS_MAX = 5;
+const modules = import.meta.glob<{ default: PostItem }>('@/content/posts/*/index.ts', {
+  eager: true,
+});
 
-export const postSchema = () =>
-  z.object({
-    title: z.string().min(1),
-    date: z.coerce.date(),
-    summary: z.string().min(1).max(POST_SUMMARY_MAX),
-    lang: z.enum(LANGUAGES),
-    tags: z.array(z.string()).max(POST_TAGS_MAX).default([]),
-    draft: z.boolean().default(false),
-  });
+export const POST_ITEMS: PostItem[] = collectModules(modules);
 
-export type Post = z.infer<ReturnType<typeof postSchema>>;
-
-export type PostSummary = Omit<Post, 'date'> & { slug: string; date: string };
-
-/** `MarkdownHeading` 을 다시 적는다. models 는 `astro:content` 를 import 할 수 없다. */
-export type PostHeading = { depth: number; slug: string; text: string };
+export function publishedPosts(): PostItem[] {
+  return POST_ITEMS.filter((item) => !item.draft);
+}

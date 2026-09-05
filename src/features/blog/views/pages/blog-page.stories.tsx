@@ -8,19 +8,17 @@ const posts: PostSummary[] = [
     slug: 'astro-island-ssr-gap',
     title: 'Provider 하나가 페이지를 통째로 백지로 만들었다',
     summary: 'Astro 아일랜드가 SSR을 건너뛰고 본문이 하이드레이션 template에 갇힌 이야기.',
-    lang: 'ko',
+    bodyLang: 'ko',
     tags: ['astro', 'react'],
-    draft: false,
-    date: '2026-08-17T00:00:00.000Z',
+    date: '2026-08-17',
   },
   {
     slug: 'typed-content-collections',
     title: 'Schema direction matters',
     summary: 'Why the zod schema lives in the feature, not in content.config.ts.',
-    lang: 'en',
+    bodyLang: 'en',
     tags: ['astro'],
-    draft: false,
-    date: '2026-06-02T00:00:00.000Z',
+    date: '2026-06-02',
   },
 ];
 

@@ -31,8 +31,8 @@ export function BlogPage({ lang, posts }: BlogPage.Props) {
               <li key={post.slug}>
                 <PostListItem
                   post={post}
-                  href={localeHref(post.lang, '/[lang]/blog/[slug]', { slug: post.slug })}
-                  showLanguage={post.lang !== lang}
+                  href={localeHref(lang, '/[lang]/blog/[slug]', { slug: post.slug })}
+                  showLanguage={post.bodyLang !== lang}
                 />
               </li>
             ))}

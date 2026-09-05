@@ -3,7 +3,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 
 import { BlogIsland } from '@/pages/_islands/blog-island';
 import { i18n, languagePaths } from '@/common/lib';
-import { toPostSummary } from '@/features/blog';
+import { pickBody, publishedPosts, toPostSummary } from '@/features/blog';
 import Layout from '@/layouts/layout.astro';
 
 export function getStaticPaths() {
@@ -12,11 +12,10 @@ export function getStaticPaths() {
 
 const { lang } = Astro.props;
 
-const entries: CollectionEntry<'posts'>[] = await getCollection(
-  'posts',
-  ({ data }: CollectionEntry<'posts'>) => !data.draft,
+const entries: CollectionEntry<'posts'>[] = await getCollection('posts');
+const posts = publishedPosts().map((item) =>
+  toPostSummary(item, pickBody(entries, item.slug, lang)),
 );
-const posts = entries.map(toPostSummary);
 
 const t = i18n.getFixedT(lang, 'common');
 ---

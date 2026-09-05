@@ -13,10 +13,9 @@ const meta = {
       slug: 'astro-islands',
       title: '아일랜드가 SSR을 건너뛰던 이유',
       summary: 'Provider 하나가 null을 반환해서 페이지 본문이 통째로 template에 갇혔다.',
-      lang: 'ko',
+      bodyLang: 'ko',
       tags: ['astro', 'react'],
-      draft: false,
-      date: '2026-08-17T00:00:00.000Z',
+      date: '2026-08-17',
     },
   },
 } satisfies Meta<typeof PostListItem>;

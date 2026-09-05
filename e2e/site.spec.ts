@@ -23,6 +23,20 @@ test('글을 목록에서 열어 본문까지 읽는다', async ({ page }) => {
   await post.click();
   await expect(page.getByRole('heading', { level: 1, name: /Hello, world/ })).toBeVisible();
   await expect(page.getByText('제일 먼저 하는 일')).toBeVisible();
+  await expect(page.getByRole('alert')).toHaveCount(0);
+});
+
+test('번역이 없는 글은 영어 UI 에서 원문과 노티스를 보여준다', async ({ page }) => {
+  await page.goto('/en/blog/');
+
+  const post = page.getByRole('link', { name: /Hello, world/ });
+  await expect(post).toBeVisible();
+
+  await post.click();
+  await expect(page).toHaveURL(/\/en\/blog\/hello-world\/$/);
+  await expect(page.getByRole('alert')).toContainText('한국어');
+  await expect(page.getByText('제일 먼저 하는 일')).toBeVisible();
+  await expect(page.getByRole('link', { name: 'All posts' })).toBeVisible();
 });
 
 test('이력서 PDF가 실제로 있다', async ({ request }) => {
