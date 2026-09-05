@@ -5,7 +5,7 @@ import { ProjectDetailIsland } from '@/pages/_islands/project-detail-island';
 import { LANGUAGES } from '@/common/lib';
 import { awardsOf } from '@/features/career';
 import { projectsOf } from '@/features/projects';
-import { MDX_COMPONENTS } from '@/common/components';
+import { mdxComponents } from '@/common/components';
 import Layout from '@/layouts/layout.astro';
 
 export async function getStaticPaths() {
@@ -49,6 +49,6 @@ const { Content } = await render(entry);
     available={available}
     client:idle
   >
-    <Content components={MDX_COMPONENTS} />
+    <Content components={mdxComponents(lang)} />
   </ProjectDetailIsland>
 </Layout>
