@@ -1,4 +1,4 @@
-import type { Url, YearMonth } from '@/common/lib';
+import type { Language, Localized, Url, YearMonth } from '@/common/lib';
 import type { Tech } from '@/content/skills';
 
 export const PROJECT_LINK_KINDS = ['repo', 'demo', 'package', 'post', 'paper'] as const;
@@ -17,7 +17,7 @@ export type ProjectText = {
   highlight?: string;
 };
 
-export type ProjectItem = {
+export type ProjectItem = Localized<ProjectText> & {
   slug: string;
   stack: readonly Tech[];
   start: YearMonth;
@@ -25,8 +25,6 @@ export type ProjectItem = {
   status: ProjectStatus;
   links?: ProjectLinks;
   awards?: readonly string[];
-  ko: ProjectText;
-  en: ProjectText;
 };
 
-export type Project = ProjectText & Omit<ProjectItem, 'ko' | 'en'> & { hasDetail: boolean };
+export type Project = ProjectText & Omit<ProjectItem, Language> & { hasDetail: boolean };

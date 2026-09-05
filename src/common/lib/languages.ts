@@ -2,6 +2,8 @@ export const LANGUAGES = ['ko', 'en'] as const;
 
 export type Language = (typeof LANGUAGES)[number];
 
+export type Localized<T> = Record<Language, T>;
+
 export const DEFAULT_LANGUAGE = 'ko' satisfies Language;
 
 export const LANGUAGE_NAMES = {

@@ -1,4 +1,4 @@
-import type { Language } from '@/common/lib';
+import { localize, type Language } from '@/common/lib';
 
 import type { Research, ResearchItem } from './types';
 
@@ -22,8 +22,5 @@ export const PAPER_SLUGS = new Set(
 );
 
 export function researchOf(lang: Language): Research[] {
-  return RESEARCH_ITEMS.map(({ ko, en, ...rest }) => ({
-    ...rest,
-    ...(lang === 'en' ? en : ko),
-  }));
+  return RESEARCH_ITEMS.map((item) => localize(item, lang));
 }
