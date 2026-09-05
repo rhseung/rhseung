@@ -12,6 +12,7 @@ export {
   type Language,
   type Localized,
 } from './languages';
+export { collectModules } from './collect-modules';
 export { defineItem } from './define';
 export { localize } from './localize';
 export { localeHref, localeHrefOf, type LocaleRoute, type LocaleRouteRef } from './href';
