@@ -2,26 +2,27 @@ import { expect, test } from '@playwright/test';
 
 test('네비가 모든 라우트를 잇는다', async ({ page }) => {
   await page.goto('/ko/');
+  const dock = page.getByRole('navigation', { name: '주요 메뉴' });
 
-  await page.getByRole('link', { name: '글' }).click();
+  await dock.getByRole('link', { name: '글', exact: true }).click();
   await expect(page).toHaveURL(/\/ko\/blog\/$/);
 
-  await page.getByRole('link', { name: '이력' }).click();
+  await dock.getByRole('link', { name: '이력', exact: true }).click();
   await expect(page).toHaveURL(/\/ko\/career\/$/);
 
-  await page.getByRole('link', { name: '홈', exact: true }).click();
+  await dock.getByRole('link', { name: '홈', exact: true }).click();
   await expect(page).toHaveURL(/\/ko\/$/);
 });
 
 test('글을 목록에서 열어 본문까지 읽는다', async ({ page }) => {
   await page.goto('/ko/blog/');
 
-  const post = page.getByRole('link', { name: /Provider 하나가/ });
+  const post = page.getByRole('link', { name: /Hello, world/ });
   await expect(post).toBeVisible();
 
   await post.click();
-  await expect(page.getByRole('heading', { level: 1, name: /Provider 하나가/ })).toBeVisible();
-  await expect(page.getByText('원인')).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: /Hello, world/ })).toBeVisible();
+  await expect(page.getByText('제일 먼저 하는 일')).toBeVisible();
 });
 
 test('이력서 PDF가 실제로 있다', async ({ request }) => {
