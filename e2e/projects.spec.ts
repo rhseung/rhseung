@@ -15,11 +15,15 @@ test('목록에서 좁히고, 상세로 들어가고, 영어판으로 넘어간�
   await expect(card).toBeVisible();
   await waitForHydration(page);
 
-  await page.getByRole('button', { name: 'Astro', exact: true }).click();
+  const astro = page
+    .getByRole('group', { name: '웹 프론트엔드' })
+    .getByRole('button', { name: 'Astro' });
+
+  await astro.click();
   await expect(page).toHaveURL(/\?stack=Astro/);
   await expect(card).toBeVisible();
 
-  await page.goBack();
+  await astro.click();
   await expect(page).not.toHaveURL(/stack=/);
 
   await card.click();
@@ -27,7 +31,7 @@ test('목록에서 좁히고, 상세로 들어가고, 영어판으로 넘어간�
   await expect(page.getByRole('heading', { level: 1, name: 'rhseung.me' })).toBeVisible();
   await waitForHydration(page);
 
-  await page.getByRole('link', { name: /EN/ }).click();
+  await page.getByLabel('언어 변경').click();
   await expect(page).toHaveURL(/\/en\/projects\/rhseung-me\/$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 });
@@ -50,9 +54,8 @@ test('JS 없이도 프로젝트 본문이 읽힌다', async ({ browser }) => {
 test('직접 연 필터 URL이 그 상태로 뜬다', async ({ page }) => {
   await page.goto('/ko/projects/?stack=Python');
 
-  await expect(page.getByRole('button', { name: 'Python', exact: true })).toHaveAttribute(
-    'aria-pressed',
-    'true',
-  );
+  await expect(
+    page.getByRole('group', { name: '언어' }).getByRole('button', { name: 'Python' }),
+  ).toHaveAttribute('aria-pressed', 'true');
   await expect(page.getByRole('link', { name: 'rhseung.me' })).toBeHidden();
 });
