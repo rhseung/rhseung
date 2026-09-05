@@ -45,27 +45,28 @@ astro dev stop && rm -rf .astro node_modules/.astro dist && bun run dev
 에러가 컴포넌트를 가리키기 때문에 캐시를 의심하기 어렵다. 스키마를 만졌는데
 이상하면 이것부터 지운다.
 
-### 생성물은 손대지 않는다
+### 생성물은 손대지 않고, 커밋하지도 않는다
 
-`src/@types/`, `src/locales/**`(값 제외), `public/resume-*.pdf`, `public/favicons/`,
-`src/common/lib/favicon-hosts.gen.ts`, README 의
-`<!-- tech:start -->`~`<!-- tech:end -->` 구간은 생성물이고
-**커밋되어 있다**. (Bun이 루트 패키지의 `prepare`/`postinstall`을 실행하지 않아서,
-설치 시 재생성 훅은 조용히 아무 일도 안 한다. 그래서 커밋한다.)
+`src/@types/`, `public/favicons/`, `src/common/lib/favicon-hosts.gen.ts`, `public/resume-*.pdf`
+는 생성물이고 **gitignore 다.** `bun install` 의 `postinstall` 이 `bun run gen` 으로 타입과
+파비콘을 만들고(Bun 1.3 은 루트 패키지의 `prepare`·`postinstall` 을 실행한다), `bun run build`
+가 앞에서 한 번 더 돌린 뒤 끝에 이력서 PDF 와 README 배지를 굽는다. 프레시 클론은
+`bun install && bun run dev` 로 끝난다. 손으로 고치면 다음 `bun run gen` 에 사라진다.
 
-손으로 고치면 다음 `bun run gen`에 사라진다. CI(`.github/workflows/ci.yml`)는
-`bun run gen:i18n` 후 `src/locales`·`src/@types` 만 `git diff --exit-code`로 검증한다.
+`src/locales/**` 는 생성물이 아니다 - 키는 추출기가 만들지만 **값(번역문)은 사람이 채운다.**
+그래서 커밋하고, CI(`.github/workflows/ci.yml`)는 `bun run gen` 뒤 `src/locales` 가 깨끗한지
+본다 - 더러우면 키를 추가하고 재생성을 안 했거나, 호출부가 사라진 키가 남은 것이다.
 
-이력서 PDF와 README 배지는 **`astro build` 끝에 자동으로 다시 구워진다.** 손으로 트리거하지
-않는다 — 데이터를 고치고 산출물을 안 올리는 일이 없게. 이 둘과 favicon 은 CI 가 diff 로
-검증하지 않는다 — Chromium 버전과 네트워크를 타서 바이트가 흔들린다. 빌드가 끝나는지가
-게이트다. README 의 로고·GitHub 위젯·푸터는 마커 밖이라 손으로 고친다.
+README 의 `<!-- tech:start -->`~`<!-- tech:end -->` 구간도 생성물이지만 README 는 소스
+파일이라 커밋한다. 마커 밖(로고·GitHub 위젯·푸터)은 손으로 고친다.
+
+이력서 PDF 는 **빌드가 반드시 만든다.** Chromium 을 못 띄우면 빌드가 실패한다 - 조용히
+이전 파일로 폴백하면 배포본이 로컬과 달라진다. Vercel 빌드 이미지(Amazon Linux 2023)에는
+Playwright 브라우저도 공유 라이브러리도 없어서 `@sparticuz/chromium` 으로 폴백한다.
+파비콘은 `node_modules/.cache/favicons/` 에 남겨 웜 빌드가 네트워크를 안 타게 한다.
 
 (폰트를 자체 호스팅하기 전에는 CI에서 못 돌렸다. 우분투 이미지에 한글 폰트가 없어
 글자가 두부로 나왔기 때문인데, 이제 Chromium이 시스템 폰트를 안 써서 사라진 제약이다.)
-
-Vercel 빌드 이미지에는 Playwright 브라우저가 없다 — 거기서는 생성을 건너뛰고 커밋된
-PDF를 배포한다.
 
 ## 2. 아키텍처 — MVVM + feature-first
 
@@ -442,8 +443,7 @@ CI는 `bun run gen:i18n` 후 `git diff --exit-code`로 JSON이 최신인지 검�
 `<type>: <title>`, 명령형. PR 전에 `bun run verify`.
 
 **Husky의 `.husky/pre-push`가 push 직전에 `verify`를 대신 돌려준다.** `package.json`의
-`prepare: husky`는 `npm install`이면 자동으로 걸리는데, Bun은 `prepare`를 실행하지 않아서
-새로 클론하면 안 걸려 있다 - 한 번만: `bunx husky`.
+`prepare: husky`가 `bun install` 때 걸린다 - Bun 1.3 은 루트 패키지의 `prepare` 를 실행한다.
 
 **커밋 하나에 변경 하나.** 판정은 `git diff --staged` 로 한다 - 스테이지한 변경이 서로
 독립적으로 되돌려질 수 있으면 커밋 두 개다. 리팩터와 기능, 서식과 로직을 같이 담지 않는다.
