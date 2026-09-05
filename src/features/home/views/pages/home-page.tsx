@@ -115,7 +115,7 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
         />
       </main>
 
-      <SiteDock lang={lang} altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/')} />
+      <SiteDock lang={lang} altHref={localeHref(lang === 'ko' ? 'en' : 'ko', '/[lang]')} />
     </div>
   );
 }

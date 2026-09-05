@@ -20,7 +20,7 @@ export async function getStaticPaths() {
     const alternates = Object.fromEntries(
       LANGUAGES.filter((other) => siblings.includes(other)).map((other) => [
         other,
-        localeHref(other, `/projects/${slug}`),
+        localeHref(other, '/[lang]/projects/[slug]', { slug: slug }),
       ]),
     );
 

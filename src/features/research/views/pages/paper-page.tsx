@@ -61,7 +61,7 @@ export function PaperPage({
       <div className="mx-auto w-full max-w-4xl p-4 sm:p-6 md:p-8">
         <DetailHeader
           lang={lang}
-          backHref={localeHref(lang, '/research')}
+          backHref={localeHref(lang, '/[lang]/research')}
           backLabel={t(($) => $.detail.back)}
         />
 

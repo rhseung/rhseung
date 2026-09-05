@@ -29,7 +29,7 @@ export function ProjectDetailPage({
       <div className="mx-auto w-full max-w-3xl p-4 sm:p-6 md:p-8">
         <DetailHeader
           lang={lang}
-          backHref={localeHref(lang, '/projects')}
+          backHref={localeHref(lang, '/[lang]/projects')}
           backLabel={t(($) => $.detail.back)}
         />
 

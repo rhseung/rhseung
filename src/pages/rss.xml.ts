@@ -21,7 +21,7 @@ export async function GET(context: APIContext) {
       title: post.title,
       description: post.summary,
       pubDate: new Date(post.date),
-      link: localeHref(post.lang, `/blog/${post.slug}`),
+      link: localeHref(post.lang, '/[lang]/blog/[slug]', { slug: post.slug }),
       categories: [...post.tags],
       customData: `<language>${post.lang}</language>`,
     })),

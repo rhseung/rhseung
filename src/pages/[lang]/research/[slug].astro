@@ -44,8 +44,8 @@ const otherLang = lang === 'ko' ? 'en' : 'ko';
   description={item.summary}
   type="article"
   alternates={{
-    ko: localeHref('ko', `/research/${slug}`),
-    en: localeHref('en', `/research/${slug}`),
+    ko: localeHref('ko', '/[lang]/research/[slug]', { slug: slug }),
+    en: localeHref('en', '/[lang]/research/[slug]', { slug: slug }),
   }}
 >
   <PaperIsland
@@ -53,7 +53,7 @@ const otherLang = lang === 'ko' ? 'en' : 'ko';
     item={item}
     authors={paper.authors}
     bibtex={bib}
-    altHref={localeHref(otherLang, `/research/${slug}`)}
+    altHref={localeHref(otherLang, '/[lang]/research/[slug]', { slug: slug })}
     client:idle
   >
     <Fragment set:html={paper.html} />

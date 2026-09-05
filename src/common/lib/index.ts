@@ -11,7 +11,8 @@ export {
   preferredLanguage,
   type Language,
 } from './languages';
-export { isNoindex, languagePaths, SITE, localeHref } from './site';
+export { localeHref, type LocaleRoute } from './href';
+export { isNoindex, languagePaths, SITE } from './site';
 export type { Url } from './scalars';
 export { formatYearMonth, yearMonthKey, type YearMonth, type YearOrMonth } from './year-month';
 export {

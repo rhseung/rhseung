@@ -83,7 +83,7 @@ export function SiteDock({ lang, current, altHref, className }: SiteDock.Props) 
           className="border-border bg-background/70 flex items-center gap-1 rounded-full border p-2 backdrop-blur-md"
         >
           <DockLink
-            href={localeHref(lang, '/')}
+            href={localeHref(lang, '/[lang]')}
             label={t(($) => $.nav.home)}
             Icon={HomeIcon}
             IconSolid={HomeSolidIcon}
