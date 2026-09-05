@@ -7,14 +7,12 @@ import { POST_ITEMS } from './index';
 
 import type { PostItem } from './types';
 
-const schema = z
-  .object({
-    slug,
-    date: z.iso.date(),
-    tags: z.array(filled).max(5),
-    draft: z.boolean().optional(),
-  })
-  .strict() satisfies z.ZodType<PostItem>;
+const schema = z.strictObject({
+  slug,
+  date: z.iso.date(),
+  tags: z.array(filled).max(5),
+  draft: z.boolean().optional(),
+}) satisfies z.ZodType<PostItem>;
 
 describe('POST_ITEMS', () => {
   it('파일이 하나도 안 빠졌다', () => {
