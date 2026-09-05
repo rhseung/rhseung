@@ -248,21 +248,41 @@ brew install --cask vorssaint
 brew install --cask gitify
 ```
 
-### [Setapp](https://setapp.com/)
+## [Setapp](https://setapp.com/)
 
-월 구독으로 유료 맥 앱을 쓸 수 있게 해주는 서비스이다. 몇 개만 써도 구독이 싸게 먹히는 편이다.
+월 구독으로 유료 맥 앱을 쓸 수 있게 해주는 서비스이다. 몇 개만 써도 구독이 싸게 먹히는 편이다. 아래 앱들은 전부 Setapp 안에서 받는다.
 
 ```zsh
 brew install --cask setapp
 ```
 
-- [AlDente Pro](https://apphousekitchen.com/): 맥북 배터리 충전 상한, 방전, 발열 보호, 보정, 배터리 수명과 관련된 종합 앱
-- [CleanShot X](https://cleanshot.com/): macOS 기본 스크린샷을 통째로 대체하는 종합 앱. 캡처, 스크롤 캡처, 주석, GIF, 화면 녹화까지 50가지가 넘는 기능이 있다.
-- [CleanMyMac](https://macpaw.com/cleanmymac): 맥 유지보수 종합 도구. 청소만이 아니라 중복 파일, 악성코드 검사, 앱 삭제와 업데이트, 성능 점검 등 많은 기능이 있다.
-- [TablePlus](https://tableplus.com/): 데이터베이스 GUI
-- [Dato](https://sindresorhus.com/dato): 메뉴 막대 시계와 캘린더
-- [Paste](https://pasteapp.io/): 클립보드를 보여준다. iCloud 동기화로 iPhone, iPad에서 사용할 수 있어 편리하다.
-- [Supercharge](https://sindresorhus.com/supercharge): macOS Tweaks
+### [AlDente Pro](https://apphousekitchen.com/)
+
+맥북 배터리 충전 상한, 방전, 발열 보호, 보정, 배터리 수명과 관련된 종합 앱이다.
+
+### [CleanShot X](https://cleanshot.com/)
+
+macOS 기본 스크린샷을 통째로 대체하는 종합 앱이다. 캡처, 스크롤 캡처, 주석, GIF, 화면 녹화까지 50가지가 넘는 기능이 있다.
+
+### [CleanMyMac](https://macpaw.com/cleanmymac)
+
+맥 유지보수 종합 도구이다. 청소만이 아니라 중복 파일, 악성코드 검사, 앱 삭제와 업데이트, 성능 점검 등 많은 기능이 있다.
+
+### [TablePlus](https://tableplus.com/)
+
+데이터베이스 GUI이다.
+
+### [Dato](https://sindresorhus.com/dato)
+
+메뉴 막대 시계와 캘린더이다.
+
+### [Paste](https://pasteapp.io/)
+
+클립보드를 보여준다. iCloud 동기화로 iPhone, iPad에서 사용할 수 있어 편리하다.
+
+### [Supercharge](https://sindresorhus.com/supercharge)
+
+macOS Tweaks 앱이다.
 
 ## 개발 앱
 
@@ -380,13 +400,35 @@ brew install --cask notion
 
 ## 커뮤니케이션 앱
 
-- [Slack](https://slack.com/): 업무 연락용 앱
-- [Discord](https://discord.com/): 회사에서도 쓰고, 여러 커뮤니티로도 활용된다.
-- [Zoom](https://zoom.us/): 화상 회의 앱
-- [카카오톡](https://www.kakaocorp.com/page/service/service/KakaoTalk): Homebrew에 cask가 없어서 App Store에서 받아야 한다.
+### [Slack](https://slack.com/)
+
+업무 연락용 앱이다.
 
 ```zsh
-brew install --cask slack discord zoom
+brew install --cask slack
+```
+
+### [Discord](https://discord.com/)
+
+회사에서도 쓰고, 여러 커뮤니티로도 활용된다.
+
+```zsh
+brew install --cask discord
+```
+
+### [Zoom](https://zoom.us/)
+
+화상 회의 앱이다.
+
+```zsh
+brew install --cask zoom
+```
+
+### [카카오톡](https://www.kakaocorp.com/page/service/service/KakaoTalk)
+
+Homebrew에 cask가 없어서 App Store에서 받아야 한다.
+
+```zsh
 mas install 869223134 # 카카오톡
 ```
 
@@ -398,10 +440,17 @@ brew install silver-flight-group/tap/kakaocli
 
 ## 문서 앱
 
-- [Microsoft Office](https://www.microsoft.com/ko-kr/microsoft-365): 다양한 포맷의 문서를 작성하고, 사용하고, 주고 받으려면 Word, PowerPoint, Excel는 필수적이다. 유료이기에 학교 계정 라이선스가 붙어 있는 교내 소프트웨어 배포처에서 받는다.
-- [한컴오피스](https://www.hancom.com/): 학교와 공공기관 문서가 `.hwp`, `.hwpx`로 오기 때문에 이것도 필요하다. 마찬가지로 유료라 교내 소프트웨어 배포처에서 받는다.
+### [Microsoft Office](https://www.microsoft.com/ko-kr/microsoft-365)
 
-라이선스가 없어 급할 때 쓸 대안으로 [HOP](https://golbin.github.io/hop/)이 있다. HWP 엔진 [rhwp](https://github.com/edwardkim/rhwp)가 공개되면서 나온 오픈소스 앱이라 `.hwp`, `.hwpx`를 그냥 열고 고칠 수 있다. 다만 공식 앱에 비해 아쉽고 버그도 많다.
+다양한 포맷의 문서를 작성하고, 사용하고, 주고 받으려면 Word, PowerPoint, Excel는 필수적이다. 유료이기에 학교 계정 라이선스가 붙어 있는 교내 소프트웨어 배포처에서 받는다.
+
+### [한컴오피스](https://www.hancom.com/)
+
+학교와 공공기관 문서가 `.hwp`, `.hwpx`로 오기 때문에 이것도 필요하다. 마찬가지로 유료라 교내 소프트웨어 배포처에서 받는다.
+
+### [HOP](https://golbin.github.io/hop/)
+
+라이선스가 없어 급할 때 쓸 대안이다. HWP 엔진 [rhwp](https://github.com/edwardkim/rhwp)가 공개되면서 나온 오픈소스 앱이라 `.hwp`, `.hwpx`를 그냥 열고 고칠 수 있다. 다만 공식 앱에 비해 아쉽고 버그도 많다.
 
 ```zsh
 brew install --cask hop
@@ -427,12 +476,24 @@ brew install --cask obsidian
 
 ## 그 외 앱
 
-- [Apple Mail](https://www.icloud.com/mail/), [Apple Calendar](https://www.icloud.com/calendar/), [Apple Reminder](https://www.icloud.com/reminders/): 설치는 이미 되어있기에 세팅만 하면 된다. **시스템 설정 > 인터넷 계정**에서 계정을 추가해주면 자동으로 연동된다.
-- [Spotify](https://www.spotify.com/): 음악 스트리밍 앱
-- [Logitech G HUB](https://www.logitechg.com/ko-kr/innovation/g-hub.html): 현재 사용중인 마우스인 [G PRO X SUPERLIGHT 2](https://www.logitechg.com/ko-kr/shop/p/pro-x2-superlight-wireless-mouse) 같은 G 시리즈 기기의 DPI, 폴링레이트, 버튼 매핑을 잡는 소프트웨어이다.
+### Apple 기본 앱
+
+[Apple Mail](https://www.icloud.com/mail/), [Apple Calendar](https://www.icloud.com/calendar/), [Apple Reminder](https://www.icloud.com/reminders/)는 설치는 이미 되어있기에 세팅만 하면 된다. **시스템 설정 > 인터넷 계정**에서 계정을 추가해주면 자동으로 연동된다.
+
+### [Spotify](https://www.spotify.com/)
+
+음악 스트리밍 앱이다.
 
 ```zsh
-brew install --cask spotify logitech-g-hub
+brew install --cask spotify
+```
+
+### [Logitech G HUB](https://www.logitechg.com/ko-kr/innovation/g-hub.html)
+
+현재 사용중인 마우스인 [G PRO X SUPERLIGHT 2](https://www.logitechg.com/ko-kr/shop/p/pro-x2-superlight-wireless-mouse) 같은 G 시리즈 기기의 DPI, 폴링레이트, 버튼 매핑을 잡는 소프트웨어이다.
+
+```zsh
+brew install --cask logitech-g-hub
 ```
 
 ## 게임
