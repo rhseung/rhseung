@@ -12,3 +12,7 @@ export function formatYearMonth(value: YearOrMonth): string {
 export function yearMonthKey(value: YearOrMonth): number {
   return value.year * 12 + ((value.month ?? 1) - 1);
 }
+
+export function byStartDesc(a: { start: YearOrMonth }, b: { start: YearOrMonth }): number {
+  return yearMonthKey(b.start) - yearMonthKey(a.start);
+}
