@@ -17,18 +17,20 @@ export function PostListItem({ post, href, showLanguage }: PostListItem.Props) {
 
         {showLanguage && (
           <Badge variant="outline" aria-label={t(($) => $.item.writtenIn)}>
-            {post.lang.toUpperCase()}
+            {post.bodyLang.toUpperCase()}
           </Badge>
         )}
       </div>
 
-      <h2 data-vt-title={post.slug} className="text-base font-medium">
+      <h2 lang={post.bodyLang} data-vt-title={post.slug} className="text-base font-medium">
         <a href={href} className="hover:underline">
           {post.title}
         </a>
       </h2>
 
-      <p className="text-muted-foreground text-sm">{post.summary}</p>
+      <p lang={post.bodyLang} className="text-muted-foreground text-sm">
+        {post.summary}
+      </p>
     </article>
   );
 }
