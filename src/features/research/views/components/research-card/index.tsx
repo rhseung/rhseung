@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
 
-import { Badge, ExternalLink } from '@/common/components';
+import { Badge, LinkRow } from '@/common/components';
 import { formatPeriod, tone } from '@/common/lib';
 
 import {
   RESEARCH_KIND_TONE,
-  RESEARCH_LINK_KINDS,
+  researchLinks,
   useResearchLabels,
   type Research,
 } from '../../../viewmodels';
@@ -21,10 +21,12 @@ export function ResearchCard({ item, detailHref }: ResearchCard.Props) {
     t(($) => $.period.ongoing),
   );
 
-  const links = RESEARCH_LINK_KINDS.flatMap((kind) => {
-    const href = item.links?.[kind];
-    return href ? [{ kind, href }] : [];
-  });
+  const links = researchLinks(item).map(({ kind, href }) => ({
+    key: kind,
+    href,
+    label: label.link[kind],
+    Icon: RESEARCH_LINK_ICON[kind],
+  }));
 
   return (
     <article className="border-border bg-card/40 flex flex-col gap-2 rounded-xl border p-4">
@@ -51,25 +53,7 @@ export function ResearchCard({ item, detailHref }: ResearchCard.Props) {
 
       <p className="text-muted-foreground text-sm leading-relaxed">{item.summary}</p>
 
-      {links.length > 0 && (
-        <ul className="flex flex-wrap items-center gap-x-3 gap-y-1">
-          {links.map(({ kind, href }) => {
-            const Icon = RESEARCH_LINK_ICON[kind];
-
-            return (
-              <li key={kind}>
-                <ExternalLink
-                  href={href}
-                  className="text-muted-foreground hover:text-foreground text-xs hover:underline"
-                >
-                  <Icon aria-hidden className="size-3.5 shrink-0" />
-                  {label.link[kind]}
-                </ExternalLink>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      <LinkRow links={links} />
     </article>
   );
 }

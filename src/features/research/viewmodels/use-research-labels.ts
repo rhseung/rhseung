@@ -1,10 +1,7 @@
 import { zipObject } from 'es-toolkit';
 import { useTranslation } from 'react-i18next';
 
-import {
-  RESEARCH_KINDS,
-  RESEARCH_LINK_KINDS,
-} from '../models';
+import { RESEARCH_KINDS, RESEARCH_LINK_KINDS } from '../models';
 
 export function useResearchLabels() {
   const { t } = useTranslation('research');
