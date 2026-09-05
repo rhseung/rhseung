@@ -6,26 +6,24 @@ lang: ko
 tags: [macos, settings]
 ---
 
-## Preset
+## 개요
 
-아래 글은 하나씩 짚어가는 기록이고, 실제로 새 맥을 받으면 [dotfiles](https://github.com/rhseung/dotfiles) 저장소를 풀어 세 줄로 끝낸다. 설정 파일은 [chezmoi](https://www.chezmoi.io/)가, 설치 목록은 [Brewfile](https://github.com/rhseung/dotfiles/blob/main/Brewfile)이 들고 있다.
+2026년 버전 개발자 Macbook 종합 세팅, 대부분의 설정은 [dotfiles](https://github.com/rhseung/dotfiles) 저장소에 들어있으나 세부적인 것을 정리하기 위해 작성했다.
+
+해당 저장소 README에 나와있듯이 몇 가지 선행 조건을 만족한 뒤 다음 스크립트로 대부분의 설정을 적용할 수 있다.
 
 ```zsh
-brew install chezmoi # 또는 sh -c "$(curl -fsLS get.chezmoi.io)"
+brew install chezmoi
 
 chezmoi init --apply https://github.com/rhseung/dotfiles.git
 brew bundle --file ~/.local/share/chezmoi/Brewfile
 ```
 
-`chezmoi apply`는 dotfiles를 풀면서 `run_onchange_` 스크립트로 한/영 키 LaunchAgent 등록과 VS Code 확장 설치까지 같이 돌린다. `brew bundle`을 따로 부르는 건 Brewfile이 chezmoi가 관리하는 파일이 아니라 저장소 자산이기 때문이다.
+자동화 되지 않은 것들은 다음과 같다.
 
-여기까지 와도 손으로 해야 하는 것들이 남는다.
-
-- **Homebrew와 [1Password](#1password)는 먼저 있어야 한다.** VS Code 설정이 `.tmpl`이라 apply 도중 1Password에서 [Flow Icons](https://marketplace.visualstudio.com/items?itemName=thang-nm.flow-icons) 라이선스 키를 읽는다. 앱에 로그인하고 **설정 > 개발자**에서 CLI 통합을 켜둔 상태여야 한다.
-- **App Store에 로그인해야** [mas](#mas)가 [카카오톡](#카카오톡), [Klack](#klack), [Notability](#notability)를 받는다.
-- **언어 환경은 Brewfile에 없다.** [Mise](#mise), [uv](#uv), [Bun](#bun)과 uv tool로 까는 [Ruff](#ruff), [Pyrefly](#pyrefly), [claude-swap](#claude-swap)은 각 섹션대로 따로 깐다.
+- **[Mise](#mise), [uv](#uv), [Bun](#bun)은 각자 설치 스크립트로 깐다.** Homebrew로 깔면 `mise self-update`, `uv self update`, `bun upgrade`가 막혀서 Brewfile에 안 넣었다.
 - **직접 받는 것들**: [Raycast](#raycast-v2), 교내 배포처의 오피스류, 유료 폰트 [MonoLisa](#monolisa), [Setapp](#setapp) 안에서 받는 앱들, 한국 서버 [League of Legends](#league-of-legends).
-- **GUI로만 되는 macOS 설정**: [컴퓨터 이름](#컴퓨터-이름), 한/영 키의 "이전 입력 소스 선택" 체크박스, [Apple 기본 앱](#apple-기본-앱)의 인터넷 계정 연동.
+- **GUI로만 되는 macOS 설정**
 
 ## 시스템 설정
 
