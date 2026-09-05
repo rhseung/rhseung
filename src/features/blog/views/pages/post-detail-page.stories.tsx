@@ -7,10 +7,9 @@ const post: PostSummary = {
   slug: 'astro-island-ssr-gap',
   title: 'Provider 하나가 페이지를 통째로 백지로 만들었다',
   summary: 'Astro 아일랜드가 SSR을 건너뛰고 본문이 하이드레이션 template에 갇힌 이야기.',
-  lang: 'ko',
+  bodyLang: 'ko',
   tags: ['astro', 'react', 'ssr'],
-  draft: false,
-  date: '2026-08-17T00:00:00.000Z',
+  date: '2026-08-17',
 };
 
 const headings: PostHeading[] = [
@@ -40,7 +39,7 @@ const meta = {
     // 비활성 목차 항목을 일부러 대비 하한 아래로 내렸다.
     a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
   },
-  args: { post, headings, children: body },
+  args: { lang: 'ko', post, headings, children: body },
 } satisfies Meta<typeof PostDetailPage>;
 
 export default meta;
@@ -52,5 +51,10 @@ export const Default: Story = {};
 export const WithoutHeadings: Story = { args: { headings: [] } };
 
 export const English: Story = {
-  args: { post: { ...post, lang: 'en', title: 'One provider blanked the whole page' } },
+  args: {
+    lang: 'en',
+    post: { ...post, bodyLang: 'en', title: 'One provider blanked the whole page' },
+  },
 };
+
+export const Untranslated: Story = { args: { lang: 'en' } };

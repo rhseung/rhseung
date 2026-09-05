@@ -1,6 +1,6 @@
-export { postSchema } from './models';
-export type { Post, PostHeading, PostSummary } from './models';
+export { publishedPosts } from './models';
+export type { PostHeading, PostItem, PostSummary } from './models';
 
-export { pickRecent, sortPosts, tocHeadings, toPostSummary } from './viewmodels';
+export { pickBody, pickRecent, sortPosts, tocHeadings, toPostSummary } from './viewmodels';
 
 export { BlogPage, PostDetailPage, PostListItem, PostToc, TocDock } from './views';

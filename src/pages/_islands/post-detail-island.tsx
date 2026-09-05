@@ -1,10 +1,10 @@
 import { AppProviders } from '@/common/components';
 import { PostDetailPage } from '@/features/blog';
 
-export function PostDetailIsland({ post, headings, children }: PostDetailIsland.Props) {
+export function PostDetailIsland({ lang, post, headings, children }: PostDetailIsland.Props) {
   return (
-    <AppProviders lang={post.lang}>
-      <PostDetailPage post={post} headings={headings}>
+    <AppProviders lang={lang}>
+      <PostDetailPage lang={lang} post={post} headings={headings}>
         {children}
       </PostDetailPage>
     </AppProviders>

@@ -2,38 +2,40 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 
 import { PostDetailIsland } from '@/pages/_islands/post-detail-island';
-import { toPostSummary, tocHeadings } from '@/features/blog';
+import { LANGUAGES } from '@/common/lib';
+import { pickBody, publishedPosts, toPostSummary, tocHeadings } from '@/features/blog';
 import { mdxComponents } from '@/common/components';
 import Layout from '@/layouts/layout.astro';
 
 export async function getStaticPaths() {
-  const entries: CollectionEntry<'posts'>[] = await getCollection(
-    'posts',
-    ({ data }: CollectionEntry<'posts'>) => !data.draft,
-  );
+  const entries: CollectionEntry<'posts'>[] = await getCollection('posts');
 
-  return entries.map((entry) => ({
-    params: { lang: entry.data.lang, slug: entry.id },
-    props: { entry },
-  }));
+  return LANGUAGES.flatMap((lang) =>
+    publishedPosts().map((item) => {
+      const body = pickBody(entries, item.slug, lang);
+
+      return {
+        params: { lang, slug: item.slug },
+        props: { lang, post: toPostSummary(item, body), entry: body.entry },
+      };
+    }),
+  );
 }
 
-const { entry } = Astro.props;
+const { lang, post, entry } = Astro.props;
 
-const post = toPostSummary(entry);
 const { Content, headings } = await render(entry);
 ---
 
 <Layout
-  lang={post.lang}
+  lang={lang}
   title={post.title}
   description={post.summary}
   type="article"
   published={post.date}
   route={{ to: '/[lang]/blog/[slug]', params: { slug: post.slug } }}
-  available={[post.lang]}
 >
-  <PostDetailIsland post={post} headings={tocHeadings(headings)} client:idle>
-    <Content components={mdxComponents(post.lang)} />
+  <PostDetailIsland lang={lang} post={post} headings={tocHeadings(headings)} client:idle>
+    <Content components={mdxComponents(lang)} />
   </PostDetailIsland>
 </Layout>

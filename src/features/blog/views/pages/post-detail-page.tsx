@@ -1,16 +1,14 @@
 import { useTranslation } from 'react-i18next';
 
-import { Badge, DetailHeader, SiteDock } from '@/common/components';
-import { dayjs, localeHref } from '@/common/lib';
+import { Badge, DetailHeader, SiteDock, TranslationNotice } from '@/common/components';
+import { dayjs, localeHref, type Language } from '@/common/lib';
 
 import { PostToc, TocDock } from '../components';
 
 import type { PostHeading, PostSummary } from '../../viewmodels';
 
-export function PostDetailPage({ post, headings, children }: PostDetailPage.Props) {
+export function PostDetailPage({ lang, post, headings, children }: PostDetailPage.Props) {
   const { t } = useTranslation('blog');
-
-  const lang = post.lang;
 
   return (
     <div className="bg-background min-h-dvh">
@@ -23,7 +21,7 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
         />
 
         <main className="flex min-w-0 flex-col gap-8 lg:col-start-1 lg:row-start-2">
-          <header className="flex flex-col gap-3">
+          <header lang={post.bodyLang} className="flex flex-col gap-3">
             <time dateTime={post.date} className="text-muted-foreground text-xs tabular-nums">
               {dayjs(post.date).format('LL')}
             </time>
@@ -44,7 +42,11 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
             )}
           </header>
 
-          <div className="prose prose-zinc dark:prose-invert max-w-none">{children}</div>
+          {post.bodyLang !== lang && <TranslationNotice bodyLang={post.bodyLang} />}
+
+          <div lang={post.bodyLang} className="prose prose-zinc dark:prose-invert max-w-none">
+            {children}
+          </div>
         </main>
 
         {/* 셋 다 행·열을 명시해야 한다. 하나라도 자동 배치면 암시적 행·열이 생겨 칸이 어긋난다. */}
@@ -61,7 +63,6 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
         lang={lang}
         current="blog"
         route={{ to: '/[lang]/blog/[slug]', params: { slug: post.slug } }}
-        available={[post.lang]}
       />
     </div>
   );
@@ -69,6 +70,7 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
 
 export declare namespace PostDetailPage {
   export type Props = {
+    lang: Language;
     post: PostSummary;
     headings: readonly PostHeading[];
     children: React.ReactNode;
