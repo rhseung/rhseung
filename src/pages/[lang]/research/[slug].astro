@@ -1,6 +1,6 @@
 ---
 import { PaperIsland } from '@/pages/_islands/paper-island';
-import { LANGUAGES, SITE } from '@/common/lib';
+import { LANGUAGES } from '@/common/lib';
 import { PAPER_SLUGS, researchOf } from '@/features/research';
 import { renderPaper } from '@/features/research/viewmodels/render-paper';
 import Layout from '@/layouts/layout.astro';
@@ -39,7 +39,7 @@ const paper = renderPaper(source, bib);
 
 <Layout
   lang={lang}
-  title={`${item.title} — ${SITE.title}`}
+  title={item.title}
   description={item.summary}
   type="article"
   route={{ to: '/[lang]/research/[slug]', params: { slug } }}

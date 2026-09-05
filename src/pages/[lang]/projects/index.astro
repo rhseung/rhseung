@@ -2,7 +2,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 import { ProjectsIsland } from '@/pages/_islands/projects-island';
-import { i18n, languagePaths, SITE } from '@/common/lib';
+import { i18n, languagePaths } from '@/common/lib';
 import { awardsOf } from '@/features/career';
 import { projectsOf } from '@/features/projects';
 import Layout from '@/layouts/layout.astro';
@@ -21,7 +21,7 @@ const detailSlugs = new Set(
 
 <Layout
   lang={lang}
-  title={`${i18n.getFixedT(lang, 'common')(($) => $.nav.projects)} — ${SITE.title}`}
+  title={i18n.getFixedT(lang, 'common')(($) => $.nav.projects)}
   route={{ to: '/[lang]/projects' }}
 >
   <ProjectsIsland

@@ -2,7 +2,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 import { ResumeIsland } from '@/pages/_islands/resume-islands';
-import { i18n, languagePaths, SITE } from '@/common/lib';
+import { i18n, languagePaths } from '@/common/lib';
 import { projectsOf, sortProjects } from '@/features/projects';
 import { awardsOf, educationOf, experienceOf, skillGroupsOf } from '@/features/career';
 import Layout from '@/layouts/layout.astro';
@@ -23,7 +23,7 @@ const t = i18n.getFixedT(lang, 'resume');
 
 <Layout
   lang={lang}
-  title={`${t(($) => $.page.title)} — ${SITE.title}`}
+  title={t(($) => $.page.title)}
   description={i18n.getFixedT(lang, 'common')(($) => $.site.description)}
   route={{ to: '/[lang]/resume' }}
 >

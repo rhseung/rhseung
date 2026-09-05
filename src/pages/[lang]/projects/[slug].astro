@@ -2,7 +2,7 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 
 import { ProjectDetailIsland } from '@/pages/_islands/project-detail-island';
-import { LANGUAGES, SITE } from '@/common/lib';
+import { LANGUAGES } from '@/common/lib';
 import { awardsOf } from '@/features/career';
 import { projectsOf } from '@/features/projects';
 import { MDX_COMPONENTS } from '@/common/components';
@@ -36,7 +36,7 @@ const { Content } = await render(entry);
 
 <Layout
   lang={lang}
-  title={`${project.title} — ${SITE.title}`}
+  title={project.title}
   description={project.summary}
   type="article"
   route={{ to: '/[lang]/projects/[slug]', params: { slug } }}

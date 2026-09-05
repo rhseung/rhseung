@@ -46,7 +46,6 @@ import type { Localized } from '@/common/lib/languages';
 
 import type { SimpleIcon } from 'simple-icons';
 
-
 export type TechSpec = {
   name: string;
   hex: string;

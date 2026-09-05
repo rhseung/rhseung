@@ -1,6 +1,6 @@
 ---
 import { ResearchIsland } from '@/pages/_islands/research-island';
-import { i18n, languagePaths, SITE } from '@/common/lib';
+import { i18n, languagePaths } from '@/common/lib';
 import { PAPER_SLUGS, researchOf } from '@/features/research';
 import Layout from '@/layouts/layout.astro';
 
@@ -13,7 +13,7 @@ const { lang } = Astro.props;
 
 <Layout
   lang={lang}
-  title={`${i18n.getFixedT(lang, 'common')(($) => $.nav.research)} — ${SITE.title}`}
+  title={i18n.getFixedT(lang, 'common')(($) => $.nav.research)}
   route={{ to: '/[lang]/research' }}
 >
   <ResearchIsland lang={lang} items={researchOf(lang)} papers={[...PAPER_SLUGS]} client:load />
