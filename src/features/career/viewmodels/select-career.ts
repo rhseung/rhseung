@@ -1,3 +1,5 @@
+import { groupBy, orderBy, uniq } from 'es-toolkit';
+
 import { byStartDesc, yearMonthKey } from '@/common/lib';
 
 import type { Award, CareerEntry, SkillGroup } from '../models';
@@ -7,19 +9,14 @@ export function sortCareer(entries: readonly CareerEntry[]): CareerEntry[] {
 }
 
 export function sortAwards(awards: readonly Award[]): Award[] {
-  return [...awards].sort(
-    (a, b) => yearMonthKey(b.date) - yearMonthKey(a.date) || a.title.localeCompare(b.title),
-  );
+  return orderBy([...awards], [(award) => yearMonthKey(award.date), 'title'], ['desc', 'asc']);
 }
 
 export function groupAwardsByYear(awards: readonly Award[]): [year: number, awards: Award[]][] {
-  const byYear = new Map<number, Award[]>();
+  const sorted = sortAwards(awards);
+  const byYear = groupBy(sorted, (award) => award.date.year);
 
-  for (const award of sortAwards(awards)) {
-    byYear.set(award.date.year, [...(byYear.get(award.date.year) ?? []), award]);
-  }
-
-  return [...byYear.entries()];
+  return uniq(sorted.map((award) => award.date.year)).map((year) => [year, byYear[year] ?? []]);
 }
 
 export function sortSkillGroups(groups: readonly SkillGroup[]): SkillGroup[] {
