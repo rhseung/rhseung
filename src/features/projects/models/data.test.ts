@@ -1,42 +1,53 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { endsAfterStart, validDate } from '@/common/lib/date-schema';
+import {
+  endsAfterStart,
+  filled,
+  slug,
+  SUMMARY_MAX,
+  url,
+  validDate,
+} from '@/common/lib/content-schema';
+import { TECH_BY_NAME, type Tech } from '@/content/skills';
 import { CAREER_ITEMS } from '@/features/career/models';
 
-import { PROJECT_STATUSES } from './types';
+import { PROJECT_STATUSES, type ProjectItem } from './types';
 
 import { PROJECT_ITEMS } from './index';
 
-/** 데이터가 컴파일되어 들어가므로 zod 를 클라이언트에 싣지 않고 여기서만 검사한다. */
-const SUMMARY_MAX = 200;
+const tech = z.custom<Tech>((value) => typeof value === 'string' && value in TECH_BY_NAME);
 
-const filled = z.string().trim().min(1);
+const text = z
+  .object({
+    title: filled,
+    summary: filled.max(SUMMARY_MAX),
+    highlight: filled.optional(),
+  })
+  .strict();
 
-const text = z.object({
-  title: filled,
-  summary: filled.max(SUMMARY_MAX),
-  highlight: filled.optional(),
-});
-
-const schema = z.object({
-  slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'kebab-case 여야 합니다'),
-  stack: z.array(filled).min(1).max(6),
-  start: validDate,
-  end: validDate.optional(),
-  status: z.enum(PROJECT_STATUSES),
-  links: z
-    .object({
-      repo: z.url().optional(),
-      demo: z.url().optional(),
-      package: z.url().optional(),
-      post: z.url().optional(),
-      paper: z.url().optional(),
-    })
-    .optional(),
-  ko: text,
-  en: text,
-});
+const schema = z
+  .object({
+    slug,
+    stack: z.array(tech).min(1).max(6),
+    start: validDate,
+    end: validDate.optional(),
+    status: z.enum(PROJECT_STATUSES),
+    links: z
+      .object({
+        repo: url.optional(),
+        demo: url.optional(),
+        package: url.optional(),
+        post: url.optional(),
+        paper: url.optional(),
+      })
+      .strict()
+      .optional(),
+    awards: z.array(slug).optional(),
+    ko: text,
+    en: text,
+  })
+  .strict() satisfies z.ZodType<ProjectItem>;
 
 describe('PROJECT_ITEMS', () => {
   it('파일이 하나도 안 빠졌다', () => {
@@ -44,7 +55,7 @@ describe('PROJECT_ITEMS', () => {
   });
 
   it.each(PROJECT_ITEMS.map((p) => [p.slug, p] as const))(
-    '%s 가 스키마를 만족한다',
+    '%s 가 스키마를 만족한다 - stack 은 skills.ts 에 있는 이름만',
     (_slug, project) => {
       expect(schema.safeParse(project).error).toBeUndefined();
     },
