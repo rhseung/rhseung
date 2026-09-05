@@ -18,36 +18,32 @@ import { PROJECT_ITEMS } from './index';
 
 const tech = z.custom<Tech>((value) => typeof value === 'string' && value in TECH_BY_NAME);
 
-const text = z
-  .object({
-    title: filled,
-    summary: filled.max(SUMMARY_MAX),
-    highlight: filled.optional(),
-  })
-  .strict();
+const text = z.strictObject({
+  title: filled,
+  summary: filled.max(SUMMARY_MAX),
+  highlight: filled.optional(),
+});
 
-const schema = z
-  .object({
-    slug,
-    stack: z.array(tech).min(1).max(6),
-    start: validDate,
-    end: validDate.optional(),
-    status: z.enum(PROJECT_STATUSES),
-    links: z
-      .object({
-        repo: url.optional(),
-        demo: url.optional(),
-        package: url.optional(),
-        post: url.optional(),
-        paper: url.optional(),
-      })
-      .strict()
-      .optional(),
-    awards: z.array(slug).optional(),
-    ko: text,
-    en: text,
-  })
-  .strict() satisfies z.ZodType<ProjectItem>;
+const schema = z.strictObject({
+  slug,
+  stack: z.array(tech).min(1).max(6),
+  start: validDate,
+  end: validDate.optional(),
+  status: z.enum(PROJECT_STATUSES),
+  links: z
+    .strictObject({
+      repo: url.optional(),
+      demo: url.optional(),
+      package: url.optional(),
+      post: url.optional(),
+      paper: url.optional(),
+    })
+
+    .optional(),
+  awards: z.array(slug).optional(),
+  ko: text,
+  en: text,
+}) satisfies z.ZodType<ProjectItem>;
 
 describe('PROJECT_ITEMS', () => {
   it('파일이 하나도 안 빠졌다', () => {

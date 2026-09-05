@@ -16,11 +16,12 @@ export const url = z.custom<Url>(
 
 const year = z.number().int().min(1900).max(2100);
 
-export const validDate = z.object({ year, month: z.number().int().min(1).max(12) }).strict();
+export const validDate = z.strictObject({ year, month: z.number().int().min(1).max(12) });
 
-export const yearOrMonth = z
-  .object({ year, month: z.number().int().min(1).max(12).optional() })
-  .strict();
+export const yearOrMonth = z.strictObject({
+  year,
+  month: z.number().int().min(1).max(12).optional(),
+});
 
 export function endsAfterStart(entry: { start: YearOrMonth; end?: YearOrMonth }): boolean {
   return entry.end === undefined || yearMonthKey(entry.end) >= yearMonthKey(entry.start);
