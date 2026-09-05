@@ -10,11 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 import type { IconComponent } from '@/common/lib';
 
-import {
-  PROJECT_LINK_KINDS,
-  PROJECT_STATUSES,
-  type ProjectLinkKind,
-} from '../models';
+import { PROJECT_LINK_KINDS, PROJECT_STATUSES, type ProjectLinkKind } from '../models';
 
 export function useProjectLabels() {
   const { t } = useTranslation('projects');

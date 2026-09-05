@@ -1,7 +1,7 @@
 import { TrophyIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 
-import { Badge, ExternalLink } from '@/common/components';
+import { Badge, ExternalLink, LinkRow } from '@/common/components';
 import { brand, formatPeriod, tone } from '@/common/lib';
 import { cn } from '@/common/utils';
 import { TECH_BY_NAME, TechIcon, type Award } from '@/features/career';
@@ -40,7 +40,12 @@ export function ProjectCard({
   const stack = ordered.slice(0, STACK_SHOWN);
   const overflow = project.stack.length - stack.length;
 
-  const links = projectLinks(project);
+  const links = projectLinks(project).map(({ kind, href }) => ({
+    key: kind,
+    href,
+    label: label.link[kind],
+    Icon: PROJECT_LINK_ICON[kind],
+  }));
 
   return (
     <article className="hover:bg-muted/40 flex flex-col gap-2 rounded-lg px-3 py-4 transition-colors">
@@ -123,25 +128,7 @@ export function ProjectCard({
           )}
         </ul>
 
-        {links.length > 0 && (
-          <ul className="flex flex-wrap items-center gap-x-3 gap-y-1">
-            {links.map(({ kind, href }) => {
-              const Icon = PROJECT_LINK_ICON[kind];
-
-              return (
-                <li key={kind}>
-                  <ExternalLink
-                    href={href}
-                    className="text-muted-foreground hover:text-foreground text-xs hover:underline"
-                  >
-                    <Icon aria-hidden className="size-3.5 shrink-0" />
-                    {label.link[kind]}
-                  </ExternalLink>
-                </li>
-              );
-            })}
-          </ul>
-        )}
+        <LinkRow links={links} />
       </div>
     </article>
   );
