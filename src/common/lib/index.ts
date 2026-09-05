@@ -14,6 +14,7 @@ export {
   type Language,
   type Localized,
 } from './languages';
+export { defineItem } from './define';
 export { localize } from './localize';
 export { localeHref, localeHrefOf, type LocaleRoute, type LocaleRouteRef } from './href';
 export { isNoindex, languagePaths, SITE } from './site';
