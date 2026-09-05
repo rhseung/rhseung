@@ -1,6 +1,5 @@
 import { AppProviders } from '@/common/components';
-import type { Language } from '@/common/lib';
-import { PaperPage, type Research } from '@/features/research';
+import { PaperPage } from '@/features/research';
 
 export function PaperIsland({
   lang,
@@ -26,12 +25,5 @@ export function PaperIsland({
 }
 
 export declare namespace PaperIsland {
-  export type Props = {
-    lang: Language;
-    item: Research;
-    authors?: string;
-    bibtex?: string;
-    children: React.ReactNode;
-    bibliography?: React.ReactNode;
-  };
+  export type Props = PaperPage.Props;
 }
