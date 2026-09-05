@@ -144,6 +144,9 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 - 다른 feature는 `@/features/<name>` 배럴만. 내부 경로 직접 접근 금지.
 - 같은 feature 안에서는 `../models`, `../../viewmodels` 처럼 **디렉토리**를 가리킨다.
 - `astro:content`·`astro:assets` 같은 Astro 빌드타임 가상 모듈은 `.astro`에서만.
+- **한 파일은 한 개념을 선언한다.** 도메인이 둘이면 파일도 둘. export 가 많은 건 괜찮고
+  서로 다른 개념이 섞이는 게 문제다 (`career/models/types.ts` 가 Career·Award·SkillGroup 을
+  한 파일에 둔 게 반례).
 
 ### 배럴 규칙
 
