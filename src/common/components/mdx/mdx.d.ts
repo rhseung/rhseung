@@ -1,5 +1,5 @@
-import type { MDX_COMPONENTS } from '.';
+import type { mdxComponents } from '.';
 
 declare global {
-  type MDXProvidedComponents = typeof MDX_COMPONENTS;
+  type MDXProvidedComponents = ReturnType<typeof mdxComponents>;
 }

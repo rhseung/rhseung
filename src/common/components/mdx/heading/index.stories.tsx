@@ -13,7 +13,11 @@ const meta = {
       </div>
     ),
   ],
-  args: { id: 'gicho-program-seolchi', children: '기초 프로그램 설치' },
+  args: {
+    id: 'gicho-program-seolchi',
+    permalinkLabel: '이 절 링크',
+    children: '기초 프로그램 설치',
+  },
 } satisfies Meta<typeof MdxHeading>;
 
 export default meta;
