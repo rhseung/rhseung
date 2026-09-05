@@ -12,7 +12,9 @@ export {
   otherLanguages,
   preferredLanguage,
   type Language,
+  type Localized,
 } from './languages';
+export { localize } from './localize';
 export { localeHref, localeHrefOf, type LocaleRoute, type LocaleRouteRef } from './href';
 export { isNoindex, languagePaths, SITE } from './site';
 export type { Url } from './scalars';

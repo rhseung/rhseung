@@ -302,7 +302,8 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 다른 컬렉션과 달리 glob 이 아니라 **static import** 인 이유가 둘이다. (1) glob 은 타입을
 지워서 `Tech` 리터럴 유니온이 `string` 으로 무너진다 — 프로젝트 `stack` 의 오타를 못 잡는다.
 (2) `import.meta.glob` 은 Vite 전용이라 bare `bun` 으로 도는 `scripts/gen-readme.ts` 가
-못 읽는다. 같은 이유로 그 파일에는 import 가 하나도 없다.
+못 읽는다. 같은 이유로 그 파일은 bare bun 이 못 푸는 import(`import.meta.glob`, Vite 가상 모듈)를
+안 쓴다 - npm 패키지와 타입 import 는 괜찮다.
 
 남은 컬렉션은 둘뿐이다.
 

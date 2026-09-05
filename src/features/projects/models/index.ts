@@ -1,4 +1,4 @@
-import type { Language } from '@/common/lib';
+import { localize, type Language } from '@/common/lib';
 
 import type { Project, ProjectItem } from './types';
 
@@ -19,9 +19,8 @@ export function projectsOf(
   lang: Language,
   detailSlugs: ReadonlySet<string> = new Set(),
 ): Project[] {
-  return PROJECT_ITEMS.map(({ ko, en, ...rest }) => ({
-    ...rest,
-    ...(lang === 'en' ? en : ko),
-    hasDetail: detailSlugs.has(rest.slug),
+  return PROJECT_ITEMS.map((item) => ({
+    ...localize(item, lang),
+    hasDetail: detailSlugs.has(item.slug),
   }));
 }

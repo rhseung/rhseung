@@ -1,4 +1,4 @@
-import type { Language } from '@/common/lib';
+import { localize, type Language } from '@/common/lib';
 import { SKILL_GROUPS } from '@/content/skills';
 import type { TechSpec } from '@/content/skills';
 
@@ -34,23 +34,20 @@ export const TECH_BY_NAME: Record<string, TechSpec> = Object.fromEntries(
   skillGroups.flatMap((group) => group.items.map((tech) => [tech.name, tech] as const)),
 );
 
-// 제네릭 `flatten` 은 반환 타입에서 타입 매개변수가 먼저 추론돼 `astro check` 가 깨진다.
-const pick = (lang: Language) => (lang === 'en' ? 'en' : 'ko');
-
 export function experienceOf(lang: Language): CareerEntry[] {
-  return experience.map(({ ko, en, ...rest }) => ({ ...rest, ...{ ko, en }[pick(lang)] }));
+  return experience.map((item) => localize(item, lang));
 }
 
 export function educationOf(lang: Language): CareerEntry[] {
-  return education.map(({ ko, en, ...rest }) => ({ ...rest, ...{ ko, en }[pick(lang)] }));
+  return education.map((item) => localize(item, lang));
 }
 
 export function awardsOf(lang: Language): Award[] {
-  return awards.map(({ ko, en, ...rest }) => ({ ...rest, ...{ ko, en }[pick(lang)] }));
+  return awards.map((item) => localize(item, lang));
 }
 
 export function skillGroupsOf(lang: Language): SkillGroup[] {
-  return skillGroups.map(({ ko, en, ...rest }) => ({ ...rest, ...{ ko, en }[pick(lang)] }));
+  return skillGroups.map((item) => localize(item, lang));
 }
 
 export const CAREER_ITEMS = { experience, education, awards, skillGroups };
