@@ -1,52 +1,29 @@
-import i18next from 'i18next';
+import i18next, { type Resource } from 'i18next';
 import { initReactI18next } from 'react-i18next';
-
-import blogEn from '@/locales/en/blog.json';
-import commonEn from '@/locales/en/common.json';
-import homeEn from '@/locales/en/home.json';
-import projectsEn from '@/locales/en/projects.json';
-import researchEn from '@/locales/en/research.json';
-import resumeEn from '@/locales/en/resume.json';
-import blogKo from '@/locales/ko/blog.json';
-import commonKo from '@/locales/ko/common.json';
-import homeKo from '@/locales/ko/home.json';
-import projectsKo from '@/locales/ko/projects.json';
-import researchKo from '@/locales/ko/research.json';
-import resumeKo from '@/locales/ko/resume.json';
 
 import { DEFAULT_LANGUAGE } from './languages';
 
-export const I18N_NAMESPACES = [
-  'common',
-  'blog',
-  'home',
-  'projects',
-  'research',
-  'resume',
-] as const;
+const modules = import.meta.glob<Record<string, unknown>>('@/locales/*/*.json', {
+  eager: true,
+  import: 'default',
+});
 
-export type I18nNamespace = (typeof I18N_NAMESPACES)[number];
+const resources: Resource = {};
 
-// 정적 import 라야 `changeLanguage` 가 동기로 돌아 첫 렌더 전에 언어를 갈아끼울 수 있다.
+for (const [path, json] of Object.entries(modules)) {
+  const match = /\/locales\/([^/]+)\/([^/]+)\.json$/.exec(path);
+  if (match === null) throw new Error(`로케일 경로가 아닙니다: ${path}`);
+
+  const [, lang, namespace] = match as unknown as [string, string, string];
+  (resources[lang] ??= {})[namespace] = json;
+}
+
+export const I18N_NAMESPACES: readonly string[] = [
+  ...new Set(Object.values(resources).flatMap((bundle) => Object.keys(bundle))),
+];
+
 void i18next.use(initReactI18next).init({
-  resources: {
-    ko: {
-      common: commonKo,
-      blog: blogKo,
-      home: homeKo,
-      projects: projectsKo,
-      research: researchKo,
-      resume: resumeKo,
-    },
-    en: {
-      common: commonEn,
-      blog: blogEn,
-      home: homeEn,
-      projects: projectsEn,
-      research: researchEn,
-      resume: resumeEn,
-    },
-  },
+  resources,
   lng: DEFAULT_LANGUAGE,
   fallbackLng: DEFAULT_LANGUAGE,
   defaultNS: 'common',
