@@ -5,12 +5,10 @@ export type { IconComponent } from './icons';
 export {
   DEFAULT_LANGUAGE,
   isLanguage,
-  langFromParam,
   LANGUAGE_NAMES,
   LANGUAGE_TAGS,
   LANGUAGES,
   otherLanguages,
-  preferredLanguage,
   type Language,
   type Localized,
 } from './languages';
