@@ -468,17 +468,17 @@ CI는 `bun run gen:i18n` 후 `git diff --exit-code`로 JSON이 최신인지 검�
 
 ## 11. 지금 있는 것
 
-| 라우트                           | 내용                                  |
-| -------------------------------- | ------------------------------------- |
-| `/`, `/en/`                      | 히어로 + 퀵 엔트리 + 최근 글 3        |
-| `/projects/`, `/en/projects/`    | 도메인 필터(`?domain=`) + 카드 목록   |
-| `/projects/<slug>/` (+`/en/`)    | MDX 상세. 본문을 쓴 프로젝트만 생긴다 |
-| `/blog/`, `/en/blog/`            | 글 목록 (UI만 이중언어)               |
-| `/blog/<slug>/`                  | MDX 본문. 원본 언어 한 벌             |
-| `/career/`, `/en/career/`        | 경력·학력·수상·기술                   |
-| `/research/`, `/en/research/`    | 연구 이력 (샘플 논문 하나)            |
-| `/resume/`, `/en/resume/`        | PDF 원본. `noindex`                   |
-| `/rss.xml`, `/sitemap-index.xml` | 피드·색인                             |
+| 라우트                           | 내용                                    |
+| -------------------------------- | --------------------------------------- |
+| `/ko/`, `/en/`                   | 히어로 + 퀵 엔트리 + 최근 글 3          |
+| `/ko/projects/`, `/en/projects/` | 스택 필터(`?stack=`, `?q=`) + 카드 목록 |
+| `/ko/projects/<slug>/` (+`/en/`) | MDX 상세. 본문을 쓴 프로젝트만 생긴다   |
+| `/ko/blog/`, `/en/blog/`         | 글 목록 (UI만 이중언어)                 |
+| `/ko/blog/<slug>/`               | MDX 본문. 원본 언어 한 벌               |
+| `/ko/career/`, `/en/career/`     | 경력·학력·수상·기술                     |
+| `/ko/research/`, `/en/research/` | 연구 이력 (샘플 논문 하나)              |
+| `/ko/resume/`, `/en/resume/`     | PDF 원본. `noindex`                     |
+| `/rss.xml`, `/sitemap-index.xml` | 피드·색인                               |
 
 아직 얇은 것: `src/content/research/`에 `sample-paper` 하나, 상세 MDX 를 쓴 프로젝트가
 하나뿐이다. `public/images/og.png`는 있다.
