@@ -28,6 +28,7 @@
     "ui:add": "bunx --bun shadcn@latest add",
     "verify": "bun run format && bun run lint && bun run typecheck && bun run doctor && bun run test",
     "prepare": "husky",
+    "postinstall": "bun run gen",
     "gen:favicons": "bun scripts/gen-favicons.ts"
   },
   "dependencies": {
