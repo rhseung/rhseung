@@ -1,12 +1,7 @@
 import { TrophyIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 
-import {
-  Badge,
-  DetailHeader,
-  LinkRow,
-  SiteDock,
-} from '@/common/components';
+import { Badge, DetailHeader, LinkRow, SiteDock } from '@/common/components';
 import { formatPeriod, formatYearMonth, localeHref, type Language } from '@/common/lib';
 import type { Award } from '@/features/career';
 

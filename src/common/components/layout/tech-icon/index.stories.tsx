@@ -1,11 +1,11 @@
-import { TECH_BY_NAME } from '../../../viewmodels';
+import { TECH_BY_NAME } from '@/content/skills';
 
 import { TechIcon } from '.';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
-  title: 'Resume/TechIcon',
+  title: 'Common/TechIcon',
   component: TechIcon,
   parameters: { layout: 'centered' },
   args: { icon: TECH_BY_NAME.TypeScript.icon! },

@@ -1,4 +1,4 @@
-import { TECH_BY_NAME } from '../../../viewmodels';
+import { TECH_BY_NAME } from '@/content/skills';
 
 import { SkillGroups } from '.';
 

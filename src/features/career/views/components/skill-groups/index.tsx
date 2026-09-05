@@ -1,8 +1,6 @@
-import { Badge } from '@/common/components';
+import { Badge, TechIcon } from '@/common/components';
 import { brand, tone } from '@/common/lib';
 import { cn } from '@/common/utils';
-
-import { TechIcon } from '../tech-icon';
 
 import type { SkillGroup } from '../../../viewmodels';
 

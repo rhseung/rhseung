@@ -1,10 +1,11 @@
 import { TrophyIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 
-import { Badge, ExternalLink, LinkRow } from '@/common/components';
+import { Badge, ExternalLink, LinkRow, TechIcon } from '@/common/components';
 import { brand, formatPeriod, tone } from '@/common/lib';
 import { cn } from '@/common/utils';
-import { TECH_BY_NAME, TechIcon, type Award } from '@/features/career';
+import { TECH_BY_NAME } from '@/content/skills';
+import type { Award } from '@/features/career';
 
 import {
   PROJECT_LINK_ICON,
