@@ -29,6 +29,7 @@ const overlay = css({
   bg: 'overlay',
   transition: 'opacity',
   transitionDuration: 'fast',
+  backdropFilter: 'auto',
   backdropBlur: 'xs',
   '&[data-starting-style], &[data-ending-style]': { opacity: 0 },
 });
