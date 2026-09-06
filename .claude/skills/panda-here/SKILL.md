@@ -41,6 +41,10 @@ Panda 의 원자 클래스는 같은 속성이 두 번 붙으면 **스타일시�
   로 한 객체가 되어 나중 키가 이긴다.
 - 상태는 클래스 삼항이 아니라 속성 셀렉터다 - `'&[aria-current=page]'`, `_pressed`, `_open`.
 
+`backdropBlur`·`blur`·`brightness` 같은 필터 토큰은 변수만 세팅한다. `backdropFilter: 'auto'`
+(또는 `filter: 'auto'`)를 같이 줘야 실제 `backdrop-filter` 가 나온다 - Tailwind 와 달리 자동으로
+안 붙는다.
+
 ## 4. 프리미티브는 우리 것이다
 
 `src/common/components/ui/` 는 shadcn 에서 시작했지만 이제 Panda 레시피로 다시 쓴 우리 코드다.
