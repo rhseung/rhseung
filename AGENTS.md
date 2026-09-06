@@ -5,6 +5,7 @@
 - Claude Code(`CLAUDE.md`가 이 파일을 import한다), Cursor, Copilot이 전부 이 파일 하나를 본다.
 - 여기 적힌 규칙 대부분은 **ESLint가 강제**한다. 애매하면 `bun run lint`가 정답이다.
 - 규칙이 불편하면 규칙을 끄지 말고 물어봐라. 대부분은 이유가 있고, 없으면 같이 지우면 된다.
+- "어디에 파일을 두면 되나" 는 `docs/registries.md` 가 지도다. 여기는 이유, 거기는 자리.
 
 ## 1. Environment & Tooling
 
