@@ -17,8 +17,8 @@ export const prose = cva({
     '& h1': { textStyle: 'heading.page' },
     '& h2': { textStyle: 'heading.section' },
     '& h3': { textStyle: 'heading.sub' },
-    '& h4': { textStyle: 'heading.card', fontWeight: 'semibold' },
-    '& :is(h5, h6)': { textStyle: 'sm', fontWeight: 'semibold' },
+    '& h4': { textStyle: 'heading.minor' },
+    '& :is(h5, h6)': { textStyle: 'heading.card' },
     '& :is(h1, h2, h3, h4, h5, h6) a:not([data-permalink])': {
       color: '[inherit]',
       fontWeight: '[inherit]',
