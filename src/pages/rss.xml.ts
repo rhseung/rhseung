@@ -23,7 +23,7 @@ export async function GET(context: APIContext) {
       title: post.title,
       description: post.summary,
       pubDate: new Date(post.date),
-      link: localeHref(post.bodyLang, '/[lang]/blog/[slug]', { slug: post.slug }),
+      link: localeHref(DEFAULT_LANGUAGE, '/[lang]/blog/[slug]', { slug: post.slug }),
       categories: [...post.tags],
     })),
   });
