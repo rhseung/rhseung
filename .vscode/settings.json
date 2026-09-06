@@ -39,9 +39,6 @@
     "_islands": "components"
   },
 
-  "tailwindCSS.experimental.configFile": "src/styles.css",
-  "tailwindCSS.classFunctions": ["cn", "cva", "tv"],
-
   "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
