@@ -67,7 +67,11 @@ async function fetchFavicon(host: string): Promise<boolean> {
     }
   }
 
-  await copyFile(cached, join(OUT_DIR, file));
+  try {
+    await copyFile(cached, join(OUT_DIR, file));
+  } catch {
+    return false;
+  }
 
   return true;
 }
