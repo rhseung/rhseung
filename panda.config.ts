@@ -2,6 +2,7 @@ import { defineConfig, defineSemanticTokens } from '@pandacss/dev';
 import { preset } from '@pandacss/preset-panda';
 
 import { DEFAULT_THEME, THEME_MODES } from './src/common/lib/theme';
+import { globalCss } from './src/common/styles/global';
 import { PALETTES, type ColorRole } from './src/common/styles/palette';
 import { textStyles } from './src/common/styles/text-styles';
 
@@ -43,9 +44,11 @@ export default defineConfig({
   include: ['./src/**/*.{ts,tsx,astro}'],
   outdir: 'styled-system',
   jsxFramework: 'react',
-  preflight: false,
+  preflight: true,
   strictTokens: true,
   strictPropertyValues: true,
+
+  globalCss,
 
   conditions: {
     extend: Object.fromEntries(THEME_MODES.map((mode) => [mode, `[data-theme=${mode}] &`])),
@@ -102,6 +105,10 @@ export default defineConfig({
       },
       textStyles,
       keyframes: {
+        vtExitLeft: { to: { opacity: 0, transform: 'translateX(-1.5rem)' } },
+        vtEnterLeft: { from: { opacity: 0, transform: 'translateX(-3rem)' } },
+        vtExitRight: { to: { opacity: 0, transform: 'translateX(1.5rem)' } },
+        vtEnterRight: { from: { opacity: 0, transform: 'translateX(3rem)' } },
         popIn: {
           from: {
             opacity: 0,
