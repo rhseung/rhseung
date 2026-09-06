@@ -4,6 +4,7 @@ export const globalCss = defineGlobalStyles({
   html: {
     overscrollBehavior: 'none',
     '--global-font-body': '{fonts.body}',
+    '--global-font-mono': '{fonts.mono}',
     '--global-color-border': '{colors.line}',
   },
   '*': { outlineColor: '{colors.focus/50}' },

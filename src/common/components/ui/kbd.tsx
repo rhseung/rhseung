@@ -26,7 +26,7 @@ export function Kbd({ className, ...props }: React.ComponentProps<'kbd'>) {
   return <kbd data-slot="kbd" className={cx(kbd, className)} {...props} />;
 }
 
-const group = css({ display: 'inline-flex', alignItems: 'center', gap: '1' });
+const group = css({ display: 'inline-flex', alignItems: 'center', gap: '1', fontFamily: 'body' });
 
 export function KbdGroup({ className, ...props }: React.ComponentProps<'div'>) {
   return <kbd data-slot="kbd-group" className={cx(group, className)} {...props} />;
