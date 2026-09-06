@@ -1,3 +1,5 @@
+import { css } from 'styled-system/css';
+
 import { DetailHeader } from '.';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -8,7 +10,7 @@ const meta = {
   parameters: { layout: 'fullscreen' },
   decorators: [
     (Story) => (
-      <div className="mx-auto max-w-3xl px-4">
+      <div className={css({ mx: 'auto', maxW: '3xl', px: '4' })}>
         <Story />
       </div>
     ),

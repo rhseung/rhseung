@@ -1,3 +1,5 @@
+import { css } from 'styled-system/css';
+
 import { PostToc } from '.';
 
 import type { PostHeading } from '../../../viewmodels';
@@ -22,7 +24,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div className="w-56">
+      <div className={css({ w: '56' })}>
         <Story />
       </div>
     ),
