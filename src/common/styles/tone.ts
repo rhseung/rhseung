@@ -6,7 +6,6 @@ export const TONES = ['blue', 'teal', 'green', 'amber', 'purple', 'rose'] as con
 
 export type Tone = (typeof TONES)[number];
 
-// `--brand` 가 무채색(`000000`)이면 `h` 가 없어 회색으로 떨어진다.
 export const techTone = css.raw({
   '--tone': 'oklch(from var(--brand) 0.45 min(c, 0.07) h)',
   '--tone-bg': 'oklch(from var(--brand) 0.97 min(c, 0.03) h / 55%)',
