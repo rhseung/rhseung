@@ -6,10 +6,6 @@ import { useMediaQuery } from '@/common/viewmodels';
 
 const SLIDE_MS = 500;
 
-const clip = css({ h: '5', overflow: 'hidden', _motionReduce: { h: 'auto' } });
-const role = css({ textStyle: 'sm' });
-const ghost = css({ textStyle: 'sm', _motionReduce: { display: 'none' } });
-
 export function RoleRotator({ roles, intervalMs = 2000 }: RoleRotator.Props) {
   const listRef = useRef<HTMLUListElement>(null);
   const reduced = useMediaQuery('(prefers-reduced-motion: reduce)');
@@ -44,16 +40,16 @@ export function RoleRotator({ roles, intervalMs = 2000 }: RoleRotator.Props) {
   }, [roles, looping, intervalMs, reduced]);
 
   return (
-    <div className={clip}>
+    <div className={css({ h: '5', overflow: 'hidden', _motionReduce: { h: 'auto' } })}>
       <ul ref={listRef}>
         {roles.map((item) => (
-          <li key={item} className={role}>
+          <li key={item} className={css({ textStyle: 'sm' })}>
             {item}
           </li>
         ))}
 
         {looping && (
-          <li aria-hidden className={ghost}>
+          <li aria-hidden className={css({ textStyle: 'sm', _motionReduce: { display: 'none' } })}>
             {roles[0]}
           </li>
         )}

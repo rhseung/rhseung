@@ -10,7 +10,6 @@ import { sortResearch, type Research } from '../../viewmodels';
 import { ResearchCard } from '../components';
 
 const title = css({ textStyle: 'heading.page' });
-const list = stack({ gap: '3' });
 
 export function ResearchPage({ lang, items, papers = [] }: ResearchPage.Props) {
   const { t } = useTranslation('research');
@@ -31,7 +30,7 @@ export function ResearchPage({ lang, items, papers = [] }: ResearchPage.Props) {
             </EmptyHeader>
           </Empty>
         ) : (
-          <ul className={list}>
+          <ul className={stack({ gap: '3' })}>
             {visible.map((item) => (
               <li key={item.slug}>
                 <ResearchCard

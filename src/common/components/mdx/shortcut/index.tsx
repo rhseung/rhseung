@@ -26,9 +26,6 @@ import { css } from 'styled-system/css';
 
 import { Kbd, KbdGroup } from '../../ui/kbd';
 
-const group = css({ p: '0', verticalAlign: 'middle' });
-const plus = css({ color: 'text.muted', boxSize: '2.5' });
-const flipped = css({ scaleX: '[-1]' });
 const srOnly = css({ srOnly: true });
 
 const KEY_GLYPHS = {
@@ -42,7 +39,7 @@ const KEY_GLYPHS = {
   tab: <ArrowLineRightIcon aria-hidden />,
   backtab: <ArrowLineLeftIcon aria-hidden />,
   backspace: <BackspaceIcon aria-hidden />,
-  del: <BackspaceIcon aria-hidden className={flipped} />,
+  del: <BackspaceIcon aria-hidden className={css({ scaleX: '[-1]' })} />,
   esc: <span aria-hidden>esc</span>,
   space: <span aria-hidden>space</span>,
   up: <ArrowUpIcon aria-hidden />,
@@ -85,10 +82,12 @@ function glyphOf(key: string, os: Shortcut.Os): ReactNode {
 
 export function Shortcut({ keys, os = 'mac' }: Shortcut.Props) {
   return (
-    <KbdGroup className={group}>
+    <KbdGroup className={css({ p: '0', verticalAlign: 'middle' })}>
       {keys.map((key, index) => (
         <Fragment key={key}>
-          {index > 0 && <PlusIcon aria-hidden className={plus} />}
+          {index > 0 && (
+            <PlusIcon aria-hidden className={css({ color: 'text.muted', boxSize: '2.5' })} />
+          )}
           <Kbd>
             {glyphOf(key, os)}
             <span className={srOnly}>{key}</span>

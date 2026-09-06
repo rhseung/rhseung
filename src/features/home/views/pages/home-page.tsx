@@ -21,8 +21,6 @@ const main = css({
   px: '4',
   py: '16',
 });
-const hero = css({ display: 'flex', alignItems: 'center', gap: '5' });
-const heroText = stack({ gap: '1' });
 const name = css({ textStyle: 'heading.page' });
 const muted = css({ color: 'text.muted' });
 const section = stack({ gap: '4' });
@@ -35,25 +33,6 @@ const bio = css({
   textStyle: 'body',
 });
 const entries = stack({ gap: '3' });
-const entryGrid = css({
-  display: 'grid',
-  gap: '2',
-  sm: { gridTemplateColumns: 'repeat(5, minmax(0, 1fr))', gap: '3' },
-});
-const entry = css({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '2',
-  rounded: 'lg',
-  border: 'line',
-  p: '3',
-  textStyle: 'sm',
-  fontWeight: 'medium',
-  transition: 'colors',
-  _hover: { bg: 'surface.muted' },
-  '& > svg': { color: 'text.muted', boxSize: '5' },
-});
-const contacts = css({ display: 'flex', flexWrap: 'wrap', gap: '2' });
 const contact = css({
   display: 'inline-flex',
   alignItems: 'center',
@@ -76,7 +55,6 @@ const footer = css({
   color: 'text.muted',
   textStyle: 'caption',
 });
-const strong = css({ color: 'text' });
 const signature = css({
   mx: 'auto',
   display: 'inline-block',
@@ -98,12 +76,12 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
   return (
     <div className={shell.root}>
       <main className={main}>
-        <header className={hero}>
+        <header className={css({ display: 'flex', alignItems: 'center', gap: '5' })}>
           <Avatar size="xl">
             <AvatarImage src="/images/profile.png" alt={SITE.handle} />
             <AvatarFallback>{SITE.handle}</AvatarFallback>
           </Avatar>
-          <div className={heroText}>
+          <div className={stack({ gap: '1' })}>
             <h1 className={name}>{t(($) => $.site.name, { ns: 'common' })}</h1>
             <div className={muted}>
               <RoleRotator roles={roles} />
@@ -131,10 +109,31 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
             {t(($) => $.entries.label)}
           </h2>
           <nav aria-labelledby="entries-heading" className={entries}>
-            <ul className={entryGrid}>
+            <ul
+              className={css({
+                display: 'grid',
+                gap: '2',
+                sm: { gridTemplateColumns: 'repeat(5, minmax(0, 1fr))', gap: '3' },
+              })}
+            >
               {sections.map(({ key, href, label, Icon }) => (
                 <li key={key}>
-                  <a href={href} className={entry}>
+                  <a
+                    href={href}
+                    className={css({
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '2',
+                      rounded: 'lg',
+                      border: 'line',
+                      p: '3',
+                      textStyle: 'sm',
+                      fontWeight: 'medium',
+                      transition: 'colors',
+                      _hover: { bg: 'surface.muted' },
+                      '& > svg': { color: 'text.muted', boxSize: '5' },
+                    })}
+                  >
                     <Icon aria-hidden />
                     {label}
                   </a>
@@ -142,7 +141,7 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
               ))}
             </ul>
 
-            <ul className={contacts}>
+            <ul className={css({ display: 'flex', flexWrap: 'wrap', gap: '2' })}>
               {links.map(({ key, href, label, Icon, blank }) => (
                 <li key={key}>
                   {blank ? (
@@ -169,7 +168,7 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
           </p>
           <p>
             {t(($) => $.footer.updated)}{' '}
-            <span className={strong}>{dayjs(updatedAt).format('ll')}</span>
+            <span className={css({ color: 'text' })}>{dayjs(updatedAt).format('ll')}</span>
           </p>
         </div>
 

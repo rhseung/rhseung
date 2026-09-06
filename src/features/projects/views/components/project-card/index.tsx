@@ -29,20 +29,9 @@ const article = css({
   transition: 'colors',
   _hover: { bg: 'surface.muted/40' },
 });
-const head = css({
-  display: 'flex',
-  flexWrap: 'wrap',
-  alignItems: 'baseline',
-  columnGap: '2',
-  rowGap: '1',
-});
 const title = css({ textStyle: 'heading.card', '& a:hover': { textDecoration: 'underline' } });
 const period = css({ ml: 'auto', alignSelf: 'center' });
 const summary = css({ color: 'text.muted', textStyle: 'body' });
-const awardList = stack({ gap: '0.5' });
-const award = css({ display: 'flex', alignItems: 'center', gap: '1.5', textStyle: 'caption' });
-const trophy = css({ color: 'accent', boxSize: '3.5', flexShrink: 0 });
-const strong = css({ fontWeight: 'medium' });
 const highlight = css({
   borderLeftWidth: '[2px]',
   borderLeftStyle: 'solid',
@@ -51,14 +40,8 @@ const highlight = css({
   textStyle: 'caption',
   fontWeight: 'medium',
 });
-const foot = css({ mt: '0.5', display: 'flex', flexDirection: 'column', gap: '2' });
-const stackList = css({ display: 'flex', flexWrap: 'wrap', gap: '1' });
 // `flex` 를 빼면 아이콘 유무로 baseline 이 어긋난다.
-const stackItem = css({ display: 'flex' });
-const toggle = css({ cursor: 'pointer' });
 const micro = css.raw({ textStyle: 'micro' });
-const ring = css.raw({ boxShadow: 'selected' });
-const overflowCount = css({ color: 'text.muted', alignSelf: 'center', textStyle: 'micro' });
 
 export function ProjectCard({
   project,
@@ -93,7 +76,15 @@ export function ProjectCard({
 
   return (
     <article className={article}>
-      <div className={head}>
+      <div
+        className={css({
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'baseline',
+          columnGap: '2',
+          rowGap: '1',
+        })}
+      >
         <h2 data-vt-title={project.slug} className={title}>
           {target === null && project.title}
           {target?.external === false && <a href={target.href}>{project.title}</a>}
@@ -107,11 +98,22 @@ export function ProjectCard({
       <p className={summary}>{project.summary}</p>
 
       {awards.length > 0 && (
-        <ul className={awardList}>
+        <ul className={stack({ gap: '0.5' })}>
           {awards.map((item) => (
-            <li key={item.slug} className={award}>
-              <TrophyIcon aria-hidden className={trophy} />
-              <span className={strong}>{item.title}</span>
+            <li
+              key={item.slug}
+              className={css({
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1.5',
+                textStyle: 'caption',
+              })}
+            >
+              <TrophyIcon
+                aria-hidden
+                className={css({ color: 'accent', boxSize: '3.5', flexShrink: 0 })}
+              />
+              <span className={css({ fontWeight: 'medium' })}>{item.title}</span>
             </li>
           ))}
         </ul>
@@ -119,8 +121,8 @@ export function ProjectCard({
 
       {project.highlight && <p className={highlight}>{project.highlight}</p>}
 
-      <div className={foot}>
-        <ul className={stackList}>
+      <div className={css({ mt: '0.5', display: 'flex', flexDirection: 'column', gap: '2' })}>
+        <ul className={css({ display: 'flex', flexWrap: 'wrap', gap: '1' })}>
           {shown.map((item) => {
             const selected = selectedStack.includes(item);
             const tech = TECH_BY_NAME[item];
@@ -128,7 +130,7 @@ export function ProjectCard({
               <Badge
                 variant={tech === undefined ? 'outline' : 'secondary'}
                 tone={tech === undefined ? undefined : 'brand'}
-                css={selected ? { ...micro, ...ring } : micro}
+                css={selected ? { ...micro, ...css.raw({ boxShadow: 'selected' }) } : micro}
                 style={tech === undefined ? undefined : brand(tech.hex)}
               >
                 {tech?.icon && <TechIcon icon={tech.icon} />}
@@ -137,13 +139,13 @@ export function ProjectCard({
             );
 
             return (
-              <li key={item} className={stackItem}>
+              <li key={item} className={css({ display: 'flex' })}>
                 {onToggleStack ? (
                   <button
                     type="button"
                     aria-pressed={selected}
                     onClick={() => onToggleStack(item)}
-                    className={toggle}
+                    className={css({ cursor: 'pointer' })}
                   >
                     {badge}
                   </button>
@@ -153,7 +155,11 @@ export function ProjectCard({
               </li>
             );
           })}
-          {overflow > 0 && <li className={overflowCount}>+{overflow}</li>}
+          {overflow > 0 && (
+            <li className={css({ color: 'text.muted', alignSelf: 'center', textStyle: 'micro' })}>
+              +{overflow}
+            </li>
+          )}
         </ul>
 
         <LinkRow links={links} />

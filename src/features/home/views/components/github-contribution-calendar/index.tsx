@@ -22,20 +22,7 @@ const LEVEL_COLORS = [
 
 const TOOLTIP_DELAY = 200;
 
-const root = css({ display: 'flex', flexDirection: 'column', gap: '2' });
-const scroller = css({ display: 'flex', flexDirection: 'column', gap: '1', overflowX: 'auto' });
-const months = css({ display: 'grid', gap: '[3px]', color: 'text.muted', textStyle: 'caption' });
-const cells = css({ display: 'grid', gridAutoFlow: 'column', gap: '[3px]' });
-const cell = css({ aspectRatio: 'square', rounded: '[3px]' });
-const legend = css({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '1',
-  color: 'text.muted',
-  textStyle: 'caption',
-});
 const less = css({ ml: 'auto' });
-const swatch = css({ boxSize: '2.5', rounded: '[3px]' });
 
 type MonthCol = { month: Dayjs; span: number };
 
@@ -62,9 +49,19 @@ export function GithubContributionCalendar({ total, days }: GithubContributionCa
   const columns = { gridTemplateColumns: `repeat(${weeks.length}, minmax(${MIN_CELL}px, 1fr))` };
 
   return (
-    <div className={root}>
-      <div className={scroller}>
-        <div className={months} style={columns}>
+    <div className={css({ display: 'flex', flexDirection: 'column', gap: '2' })}>
+      <div
+        className={css({ display: 'flex', flexDirection: 'column', gap: '1', overflowX: 'auto' })}
+      >
+        <div
+          className={css({
+            display: 'grid',
+            gap: '[3px]',
+            color: 'text.muted',
+            textStyle: 'caption',
+          })}
+          style={columns}
+        >
           {getMonthCols(weeks).map(({ month, span }) => (
             <span key={month.format('YYYY-MM')} style={{ gridColumn: `span ${span}` }}>
               {span >= MIN_LABEL_WEEKS ? month.format('MMM') : ''}
@@ -74,13 +71,18 @@ export function GithubContributionCalendar({ total, days }: GithubContributionCa
 
         <TooltipProvider delay={TOOLTIP_DELAY}>
           <div
-            className={cells}
+            className={css({ display: 'grid', gridAutoFlow: 'column', gap: '[3px]' })}
             style={{ ...columns, gridTemplateRows: `repeat(${DAYS_IN_WEEK}, auto)` }}
           >
             {days.map(({ date, count, level }) => (
               <Tooltip key={date}>
                 <TooltipTrigger
-                  render={<div className={cell} style={{ backgroundColor: LEVEL_COLORS[level] }} />}
+                  render={
+                    <div
+                      className={css({ aspectRatio: 'square', rounded: '[3px]' })}
+                      style={{ backgroundColor: LEVEL_COLORS[level] }}
+                    />
+                  }
                 />
                 <TooltipContent>
                   {t(($) => $.contributions.day, { date: dayjs(date).format('ll'), count })}
@@ -91,12 +93,24 @@ export function GithubContributionCalendar({ total, days }: GithubContributionCa
         </TooltipProvider>
       </div>
 
-      <p className={legend}>
+      <p
+        className={css({
+          display: 'flex',
+          alignItems: 'center',
+          gap: '1',
+          color: 'text.muted',
+          textStyle: 'caption',
+        })}
+      >
         <span>{t(($) => $.contributions.total, { value: total })}</span>
 
         <span className={less}>{t(($) => $.contributions.less)}</span>
         {LEVEL_COLORS.map((color) => (
-          <span key={color} className={swatch} style={{ backgroundColor: color }} />
+          <span
+            key={color}
+            className={css({ boxSize: '2.5', rounded: '[3px]' })}
+            style={{ backgroundColor: color }}
+          />
         ))}
         <span>{t(($) => $.contributions.more)}</span>
       </p>

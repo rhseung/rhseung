@@ -1,23 +1,30 @@
 import { css, cx } from 'styled-system/css';
 
-const root = css({
-  display: 'flex',
-  w: 'full',
-  minW: '0',
-  flex: '1',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '4',
-  rounded: 'xl',
-  borderStyle: 'dashed',
-  p: '6',
-  textAlign: 'center',
-  textWrap: 'balance',
-});
-
 export function Empty({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div data-slot="empty" className={cx(root, className)} {...props} />;
+  return (
+    <div
+      data-slot="empty"
+      className={cx(
+        css({
+          display: 'flex',
+          w: 'full',
+          minW: '0',
+          flex: '1',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '4',
+          rounded: 'xl',
+          borderStyle: 'dashed',
+          p: '6',
+          textAlign: 'center',
+          textWrap: 'balance',
+        }),
+        className,
+      )}
+      {...props}
+    />
+  );
 }
 
 const header = css({

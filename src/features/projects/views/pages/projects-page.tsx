@@ -36,42 +36,10 @@ import {
 import { ProjectCard } from '../components';
 
 const title = css({ textStyle: 'heading.page' });
-const panel = css({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '4',
-  rounded: 'xl',
-  border: 'line',
-  p: '4',
-});
 const search = css({ '&::-webkit-search-cancel-button': { appearance: 'none' } });
-const groups = stack({ gap: '2.5' });
-const group = css({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1',
-  sm: { flexDirection: 'row', gap: '3' },
-});
-const groupLabel = css({
-  flexShrink: 0,
-  pt: '1.5',
-  textStyle: 'sm',
-  fontWeight: 'medium',
-  color: 'text.muted',
-  sm: { w: '32' },
-});
 const wrap = css({ flexWrap: 'wrap' });
-const result = css({
-  display: 'flex',
-  minH: '8',
-  alignItems: 'center',
-  gap: '2',
-  color: 'text.muted',
-  textStyle: 'caption',
-});
 const count = css({ fontVariantNumeric: 'tabular-nums' });
 const reset = css({ ml: 'auto' });
-const list = css({ mx: '-3', divideY: '1px', divideColor: 'line' });
 
 export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props) {
   const { t } = useTranslation('projects');
@@ -96,7 +64,16 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
       <main className={shell.main}>
         <h1 className={title}>{t(($) => $.page.title)}</h1>
 
-        <div className={panel}>
+        <div
+          className={css({
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '4',
+            rounded: 'xl',
+            border: 'line',
+            p: '4',
+          })}
+        >
           <InputGroup>
             <InputGroupAddon>
               <MagnifyingGlassIcon aria-hidden />
@@ -122,14 +99,32 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
             )}
           </InputGroup>
 
-          <div className={groups}>
+          <div className={stack({ gap: '2.5' })}>
             {stackGroups.map((stackGroup) => {
               const labelId = `${groupId}-${stackGroup.slug}`;
               const selected = stackGroup.items.filter((item) => filters.stack.includes(item));
 
               return (
-                <div key={stackGroup.slug} className={group}>
-                  <span id={labelId} className={groupLabel}>
+                <div
+                  key={stackGroup.slug}
+                  className={css({
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '1',
+                    sm: { flexDirection: 'row', gap: '3' },
+                  })}
+                >
+                  <span
+                    id={labelId}
+                    className={css({
+                      flexShrink: 0,
+                      pt: '1.5',
+                      textStyle: 'sm',
+                      fontWeight: 'medium',
+                      color: 'text.muted',
+                      sm: { w: '32' },
+                    })}
+                  >
                     {stackGroup.label}
                   </span>
 
@@ -164,7 +159,16 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
             })}
           </div>
 
-          <div className={result}>
+          <div
+            className={css({
+              display: 'flex',
+              minH: '8',
+              alignItems: 'center',
+              gap: '2',
+              color: 'text.muted',
+              textStyle: 'caption',
+            })}
+          >
             <span className={count}>{t(($) => $.filter.results, { count: visible.length })}</span>
 
             {active && (
@@ -183,7 +187,7 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
             </EmptyHeader>
           </Empty>
         ) : (
-          <ul className={list}>
+          <ul className={css({ mx: '-3', divideY: '1px', divideColor: 'line' })}>
             {visible.map((project) => (
               <li key={project.slug}>
                 <ProjectCard

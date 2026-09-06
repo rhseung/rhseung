@@ -41,7 +41,6 @@ const dot = cva({
   },
 });
 
-const row = css({ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', columnGap: '2' });
 const logo = css({
   boxSize: '5',
   flexShrink: 0,
@@ -50,7 +49,6 @@ const logo = css({
   objectFit: 'contain',
 });
 const org = css({ fontWeight: 'medium' });
-const period = css({ ml: 'auto' });
 const role = css({ color: 'text.muted', textStyle: 'sm' });
 const summary = css({ color: 'text.muted', textStyle: 'body' });
 const achievements = css({
@@ -63,7 +61,6 @@ const achievements = css({
   borderLeftColor: 'line/60',
   pl: '3',
 });
-const achievement = css({ color: 'text.muted', textStyle: 'caption' });
 const site = css({
   w: 'fit',
   color: 'text.muted',
@@ -89,7 +86,14 @@ export function CareerList({
           <li key={item.slug} className={entry({ timeline, last })}>
             {timeline && <span aria-hidden className={dot({ ongoing })} />}
 
-            <div className={row}>
+            <div
+              className={css({
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'baseline',
+                columnGap: '2',
+              })}
+            >
               {item.logo && (
                 // eslint-disable-next-line no-restricted-syntax
                 <img
@@ -103,7 +107,7 @@ export function CareerList({
                 />
               )}
               <Heading className={org}>{item.org}</Heading>
-              <span className={cx(metaText, period)}>
+              <span className={cx(metaText, css({ ml: 'auto' }))}>
                 {formatPeriod(item.start, item.end, ongoingLabel)}
               </span>
             </div>
@@ -114,7 +118,7 @@ export function CareerList({
             {(item.achievements?.length ?? 0) > 0 && (
               <ul className={achievements}>
                 {item.achievements?.map((text) => (
-                  <li key={text} className={achievement}>
+                  <li key={text} className={css({ color: 'text.muted', textStyle: 'caption' })}>
                     {text}
                   </li>
                 ))}

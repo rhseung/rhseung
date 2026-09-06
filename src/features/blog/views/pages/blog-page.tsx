@@ -10,7 +10,6 @@ import { sortPosts, type PostSummary } from '../../viewmodels';
 import { PostListItem } from '../components';
 
 const title = css({ textStyle: 'heading.page' });
-const list = stack({ gap: '8' });
 
 export function BlogPage({ lang, posts }: BlogPage.Props) {
   const { t } = useTranslation('blog');
@@ -31,7 +30,7 @@ export function BlogPage({ lang, posts }: BlogPage.Props) {
             </EmptyHeader>
           </Empty>
         ) : (
-          <ul className={list}>
+          <ul className={stack({ gap: '8' })}>
             {visible.map((post) => (
               <li key={post.slug}>
                 <PostListItem

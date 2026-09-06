@@ -32,7 +32,6 @@ const fab = css({
   _print: { display: 'none' },
 });
 const srOnly = css({ srOnly: true });
-const body = css({ display: 'flex', minH: '0', flex: '1', px: '4', pb: '8' });
 const toc = css({ boxSize: 'full' });
 
 export function TocDock({ headings }: TocDock.Props) {
@@ -63,7 +62,7 @@ export function TocDock({ headings }: TocDock.Props) {
           <SheetDescription className={srOnly}>{label}</SheetDescription>
         </SheetHeader>
 
-        <div className={body}>
+        <div className={css({ display: 'flex', minH: '0', flex: '1', px: '4', pb: '8' })}>
           <PostToc headings={headings} className={toc} />
         </div>
       </SheetContent>

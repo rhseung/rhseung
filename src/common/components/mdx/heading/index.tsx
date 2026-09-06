@@ -1,24 +1,6 @@
 import { LinkIcon } from '@heroicons/react/24/outline';
 import { css, cx } from 'styled-system/css';
 
-const heading = css({ position: 'relative' });
-const anchor = css({
-  position: 'absolute',
-  left: '-7',
-  display: 'none',
-  h: '[1lh]',
-  alignItems: 'center',
-  textDecoration: 'none',
-  opacity: 0,
-  transition: 'opacity',
-  color: 'text.muted/60',
-  _hover: { color: 'text.muted' },
-  _focusVisible: { opacity: 1 },
-  _groupHover: { opacity: 1 },
-  lg: { display: 'flex' },
-});
-const icon = css({ boxSize: '[0.8em]' });
-
 /**
  * `@astrojs/mdx` 가 사용자 rehype 플러그인을 `rehypeHeadingIds` 앞에 밀어넣어서
  * `rehype-autolink-headings` 는 id 가 없는 채로 돌다 조용히 아무것도 안 한다.
@@ -32,9 +14,27 @@ export function MdxHeading({ level, id, permalinkLabel, children }: MdxHeading.P
   if (id === undefined) return <Tag>{children}</Tag>;
 
   return (
-    <Tag id={id} className={cx('group', heading)}>
-      <a href={`#${id}`} aria-label={permalinkLabel} className={anchor}>
-        <LinkIcon aria-hidden className={icon} />
+    <Tag id={id} className={cx('group', css({ position: 'relative' }))}>
+      <a
+        href={`#${id}`}
+        aria-label={permalinkLabel}
+        className={css({
+          position: 'absolute',
+          left: '-7',
+          display: 'none',
+          h: '[1lh]',
+          alignItems: 'center',
+          textDecoration: 'none',
+          opacity: 0,
+          transition: 'opacity',
+          color: 'text.muted/60',
+          _hover: { color: 'text.muted' },
+          _focusVisible: { opacity: 1 },
+          _groupHover: { opacity: 1 },
+          lg: { display: 'flex' },
+        })}
+      >
+        <LinkIcon aria-hidden className={css({ boxSize: '[0.8em]' })} />
       </a>
       {children}
     </Tag>

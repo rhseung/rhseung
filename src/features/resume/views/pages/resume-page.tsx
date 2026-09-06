@@ -11,22 +11,7 @@ import type { Project } from '@/features/projects';
 import { ResumeDocument } from '../components/resume-document';
 
 const main = css(page.raw().main, { _print: { maxW: '[none]', gap: '0', p: '0' } });
-const head = css({
-  display: 'flex',
-  alignItems: 'flex-start',
-  justifyContent: 'space-between',
-  gap: '4',
-  _print: { display: 'none' },
-});
 const title = css({ textStyle: 'heading.page' });
-const sheet = css({
-  rounded: 'xl',
-  border: 'line',
-  bg: 'surface.raised/40',
-  p: '6',
-  sm: { p: '8' },
-  _print: { rounded: 'none', border: 'none', bg: 'transparent', p: '0' },
-});
 
 export function ResumePage({
   lang,
@@ -43,7 +28,15 @@ export function ResumePage({
   return (
     <div className={shell.root}>
       <main className={main}>
-        <div className={head}>
+        <div
+          className={css({
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'space-between',
+            gap: '4',
+            _print: { display: 'none' },
+          })}
+        >
           <h1 className={title}>{t(($) => $.page.title)}</h1>
 
           <a
@@ -56,7 +49,16 @@ export function ResumePage({
           </a>
         </div>
 
-        <div className={sheet}>
+        <div
+          className={css({
+            rounded: 'xl',
+            border: 'line',
+            bg: 'surface.raised/40',
+            p: '6',
+            sm: { p: '8' },
+            _print: { rounded: 'none', border: 'none', bg: 'transparent', p: '0' },
+          })}
+        >
           <ResumeDocument
             experience={experience}
             education={education}

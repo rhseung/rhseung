@@ -21,13 +21,11 @@ const COPIED_MS = 1600;
 
 const main = css({ display: 'flex', minW: '0', flexDirection: 'column', gap: '8' });
 const header = stack({ gap: '3' });
-const kindRow = css({ display: 'flex', alignItems: 'center', gap: '1.5' });
 const period = css({ ml: 'auto' });
 const title = css({ textStyle: 'heading.page' });
 const authors = css({ color: 'text.muted', textStyle: 'sm' });
 const paper = stack({ gap: '8' });
 const references = stack({ gap: '3' });
-const referencesTitle = css({ textStyle: 'heading.sub' });
 
 export function PaperPage({
   lang,
@@ -76,7 +74,7 @@ export function PaperPage({
 
         <main className={main}>
           <header className={header}>
-            <div className={kindRow}>
+            <div className={css({ display: 'flex', alignItems: 'center', gap: '1.5' })}>
               <Badge variant="secondary" tone={RESEARCH_KIND_TONE[item.kind]}>
                 {label.kind[item.kind]}
               </Badge>
@@ -111,7 +109,9 @@ export function PaperPage({
 
             {bibliography !== undefined && (
               <section className={references}>
-                <h2 className={referencesTitle}>{t(($) => $.detail.references)}</h2>
+                <h2 className={css({ textStyle: 'heading.sub' })}>
+                  {t(($) => $.detail.references)}
+                </h2>
                 <div className={bibliographyStyle}>{bibliography}</div>
               </section>
             )}
