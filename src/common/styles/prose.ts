@@ -2,7 +2,7 @@ import { css, cva } from 'styled-system/css';
 
 export const prose = cva({
   base: {
-    color: 'text',
+    color: 'text.body',
     textStyle: 'prose',
     wordBreak: 'keep-all',
     '& > * + *, & > astro-slot > * + *': { mt: '5' },
@@ -13,19 +13,23 @@ export const prose = cva({
     },
     '& :is(li, blockquote, td, th) > * + *': { mt: '2' },
 
+    '& :is(h1, h2, h3, h4, h5, h6)': { color: 'text' },
     '& h1': { textStyle: 'heading.page' },
     '& h2': { textStyle: 'heading.section' },
     '& h3': { textStyle: 'heading.sub' },
     '& h4': { textStyle: 'heading.card', fontWeight: 'semibold' },
     '& :is(h5, h6)': { textStyle: 'sm', fontWeight: 'semibold' },
-    '& :is(h1, h2, h3, h4, h5, h6) a': { color: '[inherit]', fontWeight: '[inherit]' },
+    '& :is(h1, h2, h3, h4, h5, h6) a:not([data-permalink])': {
+      color: '[inherit]',
+      fontWeight: '[inherit]',
+    },
 
-    '& :is(ul, ol)': { pl: '6' },
-    '& ul': { listStyleType: 'disc' },
-    '& ol': { listStyleType: 'decimal' },
-    '& li': { pl: '1' },
-    '& li + li': { mt: '1' },
-    '& li > :is(ul, ol)': { mt: '1' },
+    '& :is(ul, ol):not([class])': { pl: '6' },
+    '& ul:not([class])': { listStyleType: 'disc' },
+    '& ol:not([class])': { listStyleType: 'decimal' },
+    '& li:not([class])': { pl: '1' },
+    '& li:not([class]) + li': { mt: '1' },
+    '& li > :is(ul, ol):not([class])': { mt: '1' },
     '& ::marker': { color: 'text.muted' },
     '& li:has(> input[type=checkbox])': { position: 'relative', listStyleType: 'none' },
     // 체크는 mask 라야 색이 토큰을 따라간다. GFM 은 체크박스를 항상 `disabled` 로 낸다.
@@ -51,15 +55,17 @@ export const prose = cva({
       },
     },
 
-    '& blockquote': {
+    '& blockquote:not([class])': {
       borderLeftWidth: '[4px]',
       borderLeftStyle: 'solid',
       borderLeftColor: 'line',
       pl: '4',
-      color: 'text.muted',
+      color: 'text.body',
     },
-    '& hr': { borderTop: 'line', my: '10' },
-    '& :is(img, video)': { rounded: 'lg', border: 'line' },
+    '& hr:not([class])': { borderTop: 'line', my: '10' },
+    '& :is(img, video):not([class])': { rounded: 'lg', border: 'line' },
+    '& a:not([data-permalink])': { color: 'text' },
+    '& kbd': { color: 'text' },
     '& strong': { fontWeight: 'semibold' },
 
     '& :not(pre) > code': {
@@ -72,7 +78,7 @@ export const prose = cva({
       fontWeight: 'normal',
     },
     // shiki 가 `defaultColor: false` 로 두 테마 색을 CSS 변수로 낸다. `pre` 에 배경, `span` 에 글자색.
-    '& pre': {
+    '& pre:not([class*="_"])': {
       overflowX: 'auto',
       rounded: 'lg',
       p: '4',

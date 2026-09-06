@@ -8,7 +8,7 @@ export function Steps({ children }: Steps.Props) {
       className={css({
         my: '6',
         display: 'flex',
-        listStyle: 'none',
+        listStyleType: 'none',
         flexDirection: 'column',
         gap: '4',
         pl: '0',
