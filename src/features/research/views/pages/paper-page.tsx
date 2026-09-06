@@ -21,11 +21,9 @@ const COPIED_MS = 1600;
 
 const main = css({ display: 'flex', minW: '0', flexDirection: 'column', gap: '8' });
 const header = stack({ gap: '3' });
-const period = css({ ml: 'auto' });
 const title = css({ textStyle: 'heading.page' });
 const authors = css({ color: 'text.muted', textStyle: 'sm' });
 const paper = stack({ gap: '8' });
-const references = stack({ gap: '3' });
 
 export function PaperPage({
   lang,
@@ -78,7 +76,7 @@ export function PaperPage({
               <Badge variant="secondary" tone={RESEARCH_KIND_TONE[item.kind]}>
                 {label.kind[item.kind]}
               </Badge>
-              <span className={cx(metaText, period)}>{periodText}</span>
+              <span className={cx(metaText, css({ ml: 'auto' }))}>{periodText}</span>
             </div>
 
             <h1 data-vt-title={item.slug} className={title}>
@@ -108,7 +106,7 @@ export function PaperPage({
             <Prose layout="paper">{children}</Prose>
 
             {bibliography !== undefined && (
-              <section className={references}>
+              <section className={stack({ gap: '3' })}>
                 <h2 className={css({ textStyle: 'heading.sub' })}>
                   {t(($) => $.detail.references)}
                 </h2>

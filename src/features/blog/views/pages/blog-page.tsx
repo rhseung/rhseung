@@ -9,8 +9,6 @@ import { page } from '@/common/styles';
 import { sortPosts, type PostSummary } from '../../viewmodels';
 import { PostListItem } from '../components';
 
-const title = css({ textStyle: 'heading.page' });
-
 export function BlogPage({ lang, posts }: BlogPage.Props) {
   const { t } = useTranslation('blog');
   const shell = page();
@@ -20,7 +18,7 @@ export function BlogPage({ lang, posts }: BlogPage.Props) {
   return (
     <div className={shell.root}>
       <main className={shell.main}>
-        <h1 className={title}>{t(($) => $.page.title)}</h1>
+        <h1 className={css({ textStyle: 'heading.page' })}>{t(($) => $.page.title)}</h1>
 
         {visible.length === 0 ? (
           <Empty>

@@ -30,16 +30,6 @@ const article = css({
   _hover: { bg: 'surface.muted/40' },
 });
 const title = css({ textStyle: 'heading.card', '& a:hover': { textDecoration: 'underline' } });
-const period = css({ ml: 'auto', alignSelf: 'center' });
-const summary = css({ color: 'text.muted', textStyle: 'body' });
-const highlight = css({
-  borderLeftWidth: '[2px]',
-  borderLeftStyle: 'solid',
-  borderLeftColor: 'line',
-  pl: '3',
-  textStyle: 'caption',
-  fontWeight: 'medium',
-});
 // `flex` 를 빼면 아이콘 유무로 baseline 이 어긋난다.
 const micro = css.raw({ textStyle: 'micro' });
 
@@ -92,10 +82,10 @@ export function ProjectCard({
             <ExternalLink href={target.href}>{project.title}</ExternalLink>
           )}
         </h2>
-        <span className={cx(metaText, period)}>{periodText}</span>
+        <span className={cx(metaText, css({ ml: 'auto', alignSelf: 'center' }))}>{periodText}</span>
       </div>
 
-      <p className={summary}>{project.summary}</p>
+      <p className={css({ color: 'text.muted', textStyle: 'body' })}>{project.summary}</p>
 
       {awards.length > 0 && (
         <ul className={stack({ gap: '0.5' })}>
@@ -119,7 +109,20 @@ export function ProjectCard({
         </ul>
       )}
 
-      {project.highlight && <p className={highlight}>{project.highlight}</p>}
+      {project.highlight && (
+        <p
+          className={css({
+            borderLeftWidth: '[2px]',
+            borderLeftStyle: 'solid',
+            borderLeftColor: 'line',
+            pl: '3',
+            textStyle: 'caption',
+            fontWeight: 'medium',
+          })}
+        >
+          {project.highlight}
+        </p>
+      )}
 
       <div className={css({ mt: '0.5', display: 'flex', flexDirection: 'column', gap: '2' })}>
         <ul className={css({ display: 'flex', flexWrap: 'wrap', gap: '1' })}>

@@ -11,7 +11,6 @@ import type { Project } from '@/features/projects';
 import { ResumeDocument } from '../components/resume-document';
 
 const main = css(page.raw().main, { _print: { maxW: '[none]', gap: '0', p: '0' } });
-const title = css({ textStyle: 'heading.page' });
 
 export function ResumePage({
   lang,
@@ -37,7 +36,7 @@ export function ResumePage({
             _print: { display: 'none' },
           })}
         >
-          <h1 className={title}>{t(($) => $.page.title)}</h1>
+          <h1 className={css({ textStyle: 'heading.page' })}>{t(($) => $.page.title)}</h1>
 
           <a
             href={resumeHref}

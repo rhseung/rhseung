@@ -41,33 +41,6 @@ const dot = cva({
   },
 });
 
-const logo = css({
-  boxSize: '5',
-  flexShrink: 0,
-  alignSelf: 'center',
-  rounded: 'sm',
-  objectFit: 'contain',
-});
-const org = css({ fontWeight: 'medium' });
-const role = css({ color: 'text.muted', textStyle: 'sm' });
-const summary = css({ color: 'text.muted', textStyle: 'body' });
-const achievements = css({
-  mt: '1',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1',
-  borderLeftWidth: '[1px]',
-  borderLeftStyle: 'solid',
-  borderLeftColor: 'line/60',
-  pl: '3',
-});
-const site = css({
-  w: 'fit',
-  color: 'text.muted',
-  textStyle: 'xs',
-  _hover: { color: 'text', textDecoration: 'underline' },
-});
-
 export function CareerList({
   entries,
   ongoingLabel,
@@ -103,20 +76,39 @@ export function CareerList({
                   height={20}
                   loading="lazy"
                   decoding="async"
-                  className={logo}
+                  className={css({
+                    boxSize: '5',
+                    flexShrink: 0,
+                    alignSelf: 'center',
+                    rounded: 'sm',
+                    objectFit: 'contain',
+                  })}
                 />
               )}
-              <Heading className={org}>{item.org}</Heading>
+              <Heading className={css({ fontWeight: 'medium' })}>{item.org}</Heading>
               <span className={cx(metaText, css({ ml: 'auto' }))}>
                 {formatPeriod(item.start, item.end, ongoingLabel)}
               </span>
             </div>
 
-            <p className={role}>{item.role}</p>
-            {item.summary && <p className={summary}>{item.summary}</p>}
+            <p className={css({ color: 'text.muted', textStyle: 'sm' })}>{item.role}</p>
+            {item.summary && (
+              <p className={css({ color: 'text.muted', textStyle: 'body' })}>{item.summary}</p>
+            )}
 
             {(item.achievements?.length ?? 0) > 0 && (
-              <ul className={achievements}>
+              <ul
+                className={css({
+                  mt: '1',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '1',
+                  borderLeftWidth: '[1px]',
+                  borderLeftStyle: 'solid',
+                  borderLeftColor: 'line/60',
+                  pl: '3',
+                })}
+              >
                 {item.achievements?.map((text) => (
                   <li key={text} className={css({ color: 'text.muted', textStyle: 'caption' })}>
                     {text}
@@ -126,7 +118,15 @@ export function CareerList({
             )}
 
             {item.links?.site && (
-              <ExternalLink href={item.links.site} className={site}>
+              <ExternalLink
+                href={item.links.site}
+                className={css({
+                  w: 'fit',
+                  color: 'text.muted',
+                  textStyle: 'xs',
+                  _hover: { color: 'text', textDecoration: 'underline' },
+                })}
+              >
                 {item.links.site.replace('https://', '')}
               </ExternalLink>
             )}

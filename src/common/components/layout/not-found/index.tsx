@@ -12,7 +12,6 @@ import {
 import { DEFAULT_LANGUAGE, localeHref } from '@/common/lib';
 import { page } from '@/common/styles';
 
-const root = css({ display: 'flex', flexDirection: 'column' });
 const main = css({
   display: 'flex',
   flex: '1',
@@ -26,7 +25,7 @@ export function NotFound() {
   const shell = page();
 
   return (
-    <div className={cx(shell.root, root)}>
+    <div className={cx(shell.root, css({ display: 'flex', flexDirection: 'column' }))}>
       <main className={main}>
         <Empty>
           <EmptyHeader>

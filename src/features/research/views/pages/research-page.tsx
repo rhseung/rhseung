@@ -9,8 +9,6 @@ import { page } from '@/common/styles';
 import { sortResearch, type Research } from '../../viewmodels';
 import { ResearchCard } from '../components';
 
-const title = css({ textStyle: 'heading.page' });
-
 export function ResearchPage({ lang, items, papers = [] }: ResearchPage.Props) {
   const { t } = useTranslation('research');
   const shell = page();
@@ -20,7 +18,7 @@ export function ResearchPage({ lang, items, papers = [] }: ResearchPage.Props) {
   return (
     <div className={shell.root}>
       <main className={shell.main}>
-        <h1 className={title}>{t(($) => $.page.title)}</h1>
+        <h1 className={css({ textStyle: 'heading.page' })}>{t(($) => $.page.title)}</h1>
 
         {visible.length === 0 ? (
           <Empty>

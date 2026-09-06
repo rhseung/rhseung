@@ -22,8 +22,6 @@ const main = css({
 const aside = css({ display: 'none', lg: { display: 'block', gridColumn: '[2]', gridRow: '[1]' } });
 
 const title = css({ textStyle: 'heading.page' });
-const summary = css({ color: 'text.muted', textStyle: 'body' });
-const tags = css({ display: 'flex', flexWrap: 'wrap', gap: '1' });
 
 export function PostDetailPage({ lang, post, headings, children }: PostDetailPage.Props) {
   const { t } = useTranslation('blog');
@@ -60,10 +58,10 @@ export function PostDetailPage({ lang, post, headings, children }: PostDetailPag
             <h1 data-vt-title={post.slug} className={title}>
               {post.title}
             </h1>
-            <p className={summary}>{post.summary}</p>
+            <p className={css({ color: 'text.muted', textStyle: 'body' })}>{post.summary}</p>
 
             {post.tags.length > 0 && (
-              <ul className={tags}>
+              <ul className={css({ display: 'flex', flexWrap: 'wrap', gap: '1' })}>
                 {post.tags.map((tag) => (
                   <li key={tag}>
                     <Badge variant="outline">{tag}</Badge>

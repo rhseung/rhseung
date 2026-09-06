@@ -52,8 +52,6 @@ const nav = css({
   _print: { display: 'none' },
 });
 
-const menu = css({ display: 'flex', flexDirection: 'column', px: '4' });
-
 const menuLink = css({
   display: 'flex',
   alignItems: 'center',
@@ -65,7 +63,6 @@ const menuLink = css({
   '& svg': { boxSize: '4', flexShrink: 0 },
 });
 
-const muted = css({ color: 'text.muted' });
 const srOnly = css({ srOnly: true });
 
 export function SiteDock({
@@ -212,7 +209,7 @@ export function SiteDock({
                 <SheetDescription className={srOnly}>{t(($) => $.nav.label)}</SheetDescription>
               </SheetHeader>
 
-              <ul className={menu}>
+              <ul className={css({ display: 'flex', flexDirection: 'column', px: '4' })}>
                 {sections.map(({ key, href, label, Icon }) => (
                   <li key={key}>
                     <a
@@ -231,7 +228,7 @@ export function SiteDock({
                     <a
                       href={href}
                       {...(blank ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
-                      className={cx(menuLink, muted)}
+                      className={cx(menuLink, css({ color: 'text.muted' }))}
                     >
                       <Icon aria-hidden />
                       {label}

@@ -12,17 +12,7 @@ import { PROJECT_LINK_ICON, projectLinks, useProjectLabels, type Project } from 
 
 const main = css({ display: 'flex', minW: '0', flexDirection: 'column', gap: '8' });
 const header = stack({ gap: '3' });
-const period = css({ ml: 'auto' });
 const title = css({ textStyle: 'heading.page' });
-const summary = css({ color: 'text.muted', textStyle: 'body' });
-const highlight = css({
-  borderLeftWidth: '[2px]',
-  borderLeftStyle: 'solid',
-  borderLeftColor: 'line',
-  pl: '3',
-  fontWeight: 'medium',
-});
-const muted = css({ color: 'text.muted' });
 
 export function ProjectDetailPage({
   lang,
@@ -61,15 +51,27 @@ export function ProjectDetailPage({
           <header className={header}>
             <div className={css({ display: 'flex', alignItems: 'center', gap: '1.5' })}>
               <Badge variant="outline">{label.status[project.status]}</Badge>
-              <span className={cx(metaText, period)}>{periodText}</span>
+              <span className={cx(metaText, css({ ml: 'auto' }))}>{periodText}</span>
             </div>
 
             <h1 data-vt-title={project.slug} className={title}>
               {project.title}
             </h1>
-            <p className={summary}>{project.summary}</p>
+            <p className={css({ color: 'text.muted', textStyle: 'body' })}>{project.summary}</p>
 
-            {project.highlight && <p className={highlight}>{project.highlight}</p>}
+            {project.highlight && (
+              <p
+                className={css({
+                  borderLeftWidth: '[2px]',
+                  borderLeftStyle: 'solid',
+                  borderLeftColor: 'line',
+                  pl: '3',
+                  fontWeight: 'medium',
+                })}
+              >
+                {project.highlight}
+              </p>
+            )}
 
             <ul className={css({ display: 'flex', flexWrap: 'wrap', gap: '1' })}>
               {project.stack.map((item) => (
@@ -98,7 +100,9 @@ export function ProjectDetailPage({
                       className={css({ color: 'accent', boxSize: '4', flexShrink: 0 })}
                     />
                     <span className={css({ fontWeight: 'medium' })}>{item.title}</span>
-                    {item.issuer && <span className={muted}>{item.issuer}</span>}
+                    {item.issuer && (
+                      <span className={css({ color: 'text.muted' })}>{item.issuer}</span>
+                    )}
                     <span className={metaText}>{formatYearMonth(item.date)}</span>
                   </li>
                 ))}
