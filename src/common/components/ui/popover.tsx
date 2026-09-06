@@ -49,7 +49,7 @@ export function PopoverContent({
                 bg: 'surface.raised',
                 color: 'text',
                 textStyle: 'sm',
-                boxShadow: 'md',
+                boxShadow: 'popover',
                 outlineStyle: 'none',
                 '&[data-side=top]': { '--enter-y': '0.5rem' },
                 '&[data-side=bottom]': { '--enter-y': '-0.5rem' },
