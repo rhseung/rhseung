@@ -1,12 +1,31 @@
+import { css } from 'styled-system/css';
+
+const grid = css({
+  my: '6',
+  display: 'grid',
+  gap: '3',
+  sm: { gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' },
+});
+const card = css({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1',
+  rounded: 'md',
+  border: 'line',
+  p: '3',
+});
+const value = css({ color: 'text', textStyle: 'stat' });
+const label = css({ color: 'text.muted', textStyle: 'caption' });
+
 export function Stats({ children }: Stats.Props) {
-  return <div className="my-6 grid gap-3 sm:grid-cols-3">{children}</div>;
+  return <div className={grid}>{children}</div>;
 }
 
-export function Stat({ value, label }: Stat.Props) {
+export function Stat({ value: figure, label: text }: Stat.Props) {
   return (
-    <div className="border-border flex flex-col gap-1 rounded-md border p-3">
-      <span className="text-foreground text-lg font-semibold tabular-nums">{value}</span>
-      <span className="text-muted-foreground text-xs">{label}</span>
+    <div className={card}>
+      <span className={value}>{figure}</span>
+      <span className={label}>{text}</span>
     </div>
   );
 }

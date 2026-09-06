@@ -62,6 +62,8 @@ export default defineConfig({
           display: { value: "'Pretendard GOV Variable', sans-serif" },
           body: { value: "'Pretendard GOV Variable', sans-serif" },
           mono: { value: "'Monaspace Neon Var', ui-monospace, monospace" },
+          // 한글은 CM 에 없어 시스템 명조로 떨어진다.
+          serif: { value: 'KaTeX_Main, serif' },
         },
         zIndex: {
           blur: { value: 10 },

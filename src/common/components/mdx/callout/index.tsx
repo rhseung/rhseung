@@ -5,9 +5,9 @@ import {
   MegaphoneIcon,
   NoSymbolIcon,
 } from '@heroicons/react/24/solid';
-import { tv } from 'tailwind-variants';
+import { sva } from 'styled-system/css';
 
-const TONES = {
+const CALLOUT_KINDS = {
   note: InformationCircleIcon,
   tip: LightBulbIcon,
   important: MegaphoneIcon,
@@ -15,39 +15,56 @@ const TONES = {
   caution: NoSymbolIcon,
 } as const;
 
-const callout = tv({
-  slots: {
-    root: 'my-6 grid grid-cols-[auto_1fr] items-center gap-x-2 gap-y-1 rounded-r-md border-l-4 bg-muted/40 px-4 py-3 [&_ol]:my-2 [&_p+p]:mt-2 [&_p]:my-0 [&_ul]:my-2',
-    icon: 'size-4 shrink-0',
-    title: 'font-medium',
-    body: 'col-start-2 text-muted-foreground leading-relaxed',
+const callout = sva({
+  slots: ['root', 'icon', 'title', 'body'],
+  base: {
+    root: {
+      my: '6',
+      display: 'grid',
+      gridTemplateColumns: '[auto 1fr]',
+      alignItems: 'center',
+      columnGap: '2',
+      rowGap: '1',
+      roundedRight: 'md',
+      borderLeftWidth: '[4px]',
+      borderLeftStyle: 'solid',
+      bg: 'surface.muted/40',
+      px: '4',
+      py: '3',
+      '& p': { my: '0' },
+      '& p + p': { mt: '2' },
+      '& :is(ul, ol)': { my: '2' },
+    },
+    icon: { boxSize: '4', flexShrink: 0 },
+    title: { fontWeight: 'medium' },
+    body: { gridColumnStart: 2, color: 'text.muted', lineHeight: 'relaxed' },
   },
   variants: {
     tone: {
       note: {
-        root: 'border-tone-blue-foreground/50',
-        icon: 'text-tone-blue-foreground',
-        title: 'text-tone-blue-foreground',
+        root: { borderLeftColor: 'tone.blue/50' },
+        icon: { color: 'tone.blue' },
+        title: { color: 'tone.blue' },
       },
       tip: {
-        root: 'border-tone-green-foreground/50',
-        icon: 'text-tone-green-foreground',
-        title: 'text-tone-green-foreground',
+        root: { borderLeftColor: 'tone.green/50' },
+        icon: { color: 'tone.green' },
+        title: { color: 'tone.green' },
       },
       important: {
-        root: 'border-tone-purple-foreground/50',
-        icon: 'text-tone-purple-foreground',
-        title: 'text-tone-purple-foreground',
+        root: { borderLeftColor: 'tone.purple/50' },
+        icon: { color: 'tone.purple' },
+        title: { color: 'tone.purple' },
       },
       warning: {
-        root: 'border-tone-amber-foreground/50',
-        icon: 'text-tone-amber-foreground',
-        title: 'text-tone-amber-foreground',
+        root: { borderLeftColor: 'tone.amber/50' },
+        icon: { color: 'tone.amber' },
+        title: { color: 'tone.amber' },
       },
       caution: {
-        root: 'border-tone-rose-foreground/50',
-        icon: 'text-tone-rose-foreground',
-        title: 'text-tone-rose-foreground',
+        root: { borderLeftColor: 'tone.rose/50' },
+        icon: { color: 'tone.rose' },
+        title: { color: 'tone.rose' },
       },
     },
   },
@@ -55,21 +72,21 @@ const callout = tv({
 });
 
 export function Callout({ tone = 'note', title, children }: Callout.Props) {
-  const Icon = TONES[tone];
+  const Icon = CALLOUT_KINDS[tone];
   const styles = callout({ tone });
 
   return (
-    <aside className={styles.root()}>
-      <Icon className={styles.icon()} />
-      <p className={styles.title()}>{title}</p>
+    <aside className={styles.root}>
+      <Icon className={styles.icon} />
+      <p className={styles.title}>{title}</p>
 
-      <div className={styles.body()}>{children}</div>
+      <div className={styles.body}>{children}</div>
     </aside>
   );
 }
 
 export declare namespace Callout {
-  export type Tone = keyof typeof TONES;
+  export type Tone = keyof typeof CALLOUT_KINDS;
 
   export type Props = {
     tone?: Tone;

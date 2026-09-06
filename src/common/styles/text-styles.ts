@@ -36,6 +36,9 @@ export const textStyles = defineTextStyles({
   body: {
     value: { fontSize: '0.875rem', fontWeight: '400', lineHeight: '1.6' },
   },
+  prose: {
+    value: { fontSize: '1rem', fontWeight: '400', lineHeight: '1.7' },
+  },
   caption: {
     value: { fontSize: '0.75rem', fontWeight: '400', lineHeight: '1.5' },
   },
