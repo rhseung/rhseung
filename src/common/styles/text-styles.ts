@@ -1,6 +1,5 @@
 import { defineTextStyles, defineTokens } from '@pandacss/dev';
 
-// 자간은 글자가 커질수록 시각적으로 더 벌어져 보인다. 크기별로 조여주는 값이고, 본문 크기 이하는 0 이다.
 export const letterSpacings = defineTokens.letterSpacings({
   body: { value: '0' },
   heading: {

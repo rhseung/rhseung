@@ -18,7 +18,6 @@ export const globalCss = defineGlobalStyles({
   },
   'code, kbd, pre, samp': { fontFeatureSettings: "'calt' 1, 'liga' 1" },
 
-  // 스코프를 안 걸면 `<ClientRouter />` 의 페이지 전환 애니메이션까지 같이 죽는다.
   'html[data-theme-transition]::view-transition-group(root), html[data-theme-transition]::view-transition-old(root), html[data-theme-transition]::view-transition-new(root)':
     { animation: 'none', mixBlendMode: 'normal' },
   'html[data-theme-transition]::view-transition-old(root)': { zIndex: 0 },
