@@ -5,10 +5,12 @@ export const prose = cva({
     color: 'text',
     textStyle: 'prose',
     wordBreak: 'keep-all',
-    '& > * + *': { mt: '5' },
-    '& > :is(h1, h2)': { mt: '12' },
-    '& > :is(h3, h4, h5, h6)': { mt: '8' },
-    '& > :is(h1, h2, h3, h4, h5, h6) + *': { mt: '3' },
+    '& > * + *, & > astro-slot > * + *': { mt: '5' },
+    '& > :is(h1, h2), & > astro-slot > :is(h1, h2)': { mt: '12' },
+    '& > :is(h3, h4, h5, h6), & > astro-slot > :is(h3, h4, h5, h6)': { mt: '8' },
+    '& > :is(h1, h2, h3, h4, h5, h6) + *, & > astro-slot > :is(h1, h2, h3, h4, h5, h6) + *': {
+      mt: '3',
+    },
     '& :is(li, blockquote, td, th) > * + *': { mt: '2' },
 
     '& h1': { textStyle: 'heading.page' },
@@ -145,7 +147,7 @@ export const prose = cva({
         '& h2::before': { content: 'counter(section)', mr: '[0.75em]' },
         '& h3::before': { content: "counter(section) '.' counter(subsection)", mr: '[0.75em]' },
         // unified-latex 는 이어지는 텍스트를 같은 `<p>` 에 넣는다. 새 `<p>` 는 곧 새 문단이다.
-        '& > p + p': { mt: '0' },
+        '& > p + p, & > astro-slot > p + p': { mt: '0' },
         '& p': { textIndent: '[1.5em]' },
         '& :is(h2, h3, h4) + p': { textIndent: '0' },
         '& .katex': { fontSize: '[1em]' },
