@@ -41,7 +41,6 @@ export function LinkRow({ links, variant = 'inline', children }: LinkRow.Props) 
         <li key={key}>
           <ExternalLink
             href={href}
-            plain
             className={css({
               color: 'text.muted',
               textStyle: 'xs',

@@ -126,7 +126,7 @@ export function CareerList({
             )}
 
             {item.links?.site && (
-              <ExternalLink href={item.links.site} plain className={site}>
+              <ExternalLink href={item.links.site} className={site}>
                 {item.links.site.replace('https://', '')}
               </ExternalLink>
             )}
