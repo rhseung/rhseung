@@ -19,13 +19,10 @@ export function ExternalLink({
       target="_blank"
       rel="noreferrer noopener"
       className={cx(
-        css({
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '0.5',
-        }),
+        css({ display: 'inline-flex', alignItems: 'center' }),
         !plain &&
           css({
+            gap: '0.5',
             textDecoration: 'underline',
             textDecorationColor: 'current/40',
             textDecorationThickness: '[0.0625em]',
