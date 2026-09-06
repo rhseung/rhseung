@@ -21,7 +21,6 @@ const COPIED_MS = 1600;
 
 const main = css({ display: 'flex', minW: '0', flexDirection: 'column', gap: '8' });
 const header = stack({ gap: '3' });
-const title = css({ textStyle: 'heading.page' });
 const authors = css({ color: 'text.muted', textStyle: 'sm' });
 const paper = stack({ gap: '8' });
 
@@ -79,7 +78,7 @@ export function PaperPage({
               <span className={cx(metaText, css({ ml: 'auto' }))}>{periodText}</span>
             </div>
 
-            <h1 data-vt-title={item.slug} className={title}>
+            <h1 data-vt-title={item.slug} className={css({ textStyle: 'heading.page' })}>
               {item.title}
             </h1>
 

@@ -21,8 +21,6 @@ const main = css({
 });
 const aside = css({ display: 'none', lg: { display: 'block', gridColumn: '[2]', gridRow: '[1]' } });
 
-const title = css({ textStyle: 'heading.page' });
-
 export function PostDetailPage({ lang, post, headings, children }: PostDetailPage.Props) {
   const { t } = useTranslation('blog');
   const shell = page();
@@ -55,7 +53,7 @@ export function PostDetailPage({ lang, post, headings, children }: PostDetailPag
               {dayjs(post.date).format('LL')}
             </time>
 
-            <h1 data-vt-title={post.slug} className={title}>
+            <h1 data-vt-title={post.slug} className={css({ textStyle: 'heading.page' })}>
               {post.title}
             </h1>
             <p className={css({ color: 'text.muted', textStyle: 'body' })}>{post.summary}</p>

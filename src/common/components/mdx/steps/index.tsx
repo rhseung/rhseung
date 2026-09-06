@@ -1,7 +1,5 @@
 import { css } from 'styled-system/css';
 
-const title = css({ color: 'text', textStyle: 'sm', fontWeight: 'medium' });
-
 export function Steps({ children }: Steps.Props) {
   return (
     <ol
@@ -41,7 +39,7 @@ export function Step({ index, title: heading, children }: Step.Props) {
       </span>
 
       <div className={css({ display: 'flex', minW: '0', flexDirection: 'column', gap: '1' })}>
-        <p className={title}>{heading}</p>
+        <p className={css({ color: 'text', textStyle: 'sm', fontWeight: 'medium' })}>{heading}</p>
         <div className={css({ color: 'text.muted', textStyle: 'sm', lineHeight: 'relaxed' })}>
           {children}
         </div>

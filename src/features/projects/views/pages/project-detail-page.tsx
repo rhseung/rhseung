@@ -12,7 +12,6 @@ import { PROJECT_LINK_ICON, projectLinks, useProjectLabels, type Project } from 
 
 const main = css({ display: 'flex', minW: '0', flexDirection: 'column', gap: '8' });
 const header = stack({ gap: '3' });
-const title = css({ textStyle: 'heading.page' });
 
 export function ProjectDetailPage({
   lang,
@@ -54,7 +53,7 @@ export function ProjectDetailPage({
               <span className={cx(metaText, css({ ml: 'auto' }))}>{periodText}</span>
             </div>
 
-            <h1 data-vt-title={project.slug} className={title}>
+            <h1 data-vt-title={project.slug} className={css({ textStyle: 'heading.page' })}>
               {project.title}
             </h1>
             <p className={css({ color: 'text.muted', textStyle: 'body' })}>{project.summary}</p>

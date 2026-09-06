@@ -100,8 +100,6 @@ const contentVariants = cva({
   defaultVariants: { side: 'right' },
 });
 
-const srOnly = css({ srOnly: true });
-
 export function SheetContent({
   className,
   css: cssProp,
@@ -136,7 +134,7 @@ export function SheetContent({
             }
           >
             <XIcon />
-            <span className={srOnly}>Close</span>
+            <span className={css({ srOnly: true })}>Close</span>
           </SheetPrimitive.Close>
         )}
       </SheetPrimitive.Popup>

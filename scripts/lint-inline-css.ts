@@ -14,8 +14,10 @@ for await (const file of new Glob('src/**/*.tsx').scan('.')) {
   const source = await readFile(file, 'utf8');
 
   for (const [, name] of source.matchAll(DECL)) {
-    const uses = source.match(new RegExp(String.raw`(?<![.\w$])${name}\b`, 'g'))?.length ?? 0;
-    if (uses === 2) offenders.push(`${file}: ${name}`);
+    const uses =
+      source.match(new RegExp(String.raw`(?<![.\w$])${name}(?!\w)(?!\s*[:=])`, 'g'))?.length ?? 0;
+    // 선언 줄의 `name =` 는 `(?!\s*[:=])` 가 빼므로 남은 1이 유일한 사용처다.
+    if (uses === 1) offenders.push(`${file}: ${name}`);
   }
 }
 

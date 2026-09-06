@@ -9,10 +9,6 @@ import { metaText } from '@/common/styles';
 import type { PostSummary } from '../../../viewmodels';
 
 const article = stack({ gap: '1' });
-const title = css({
-  textStyle: 'heading.card',
-  '& a': { _hover: { textDecoration: 'underline' } },
-});
 
 export function PostListItem({ post, href, showLanguage }: PostListItem.Props) {
   const { t } = useTranslation('blog');
@@ -31,7 +27,14 @@ export function PostListItem({ post, href, showLanguage }: PostListItem.Props) {
         )}
       </div>
 
-      <h2 lang={post.bodyLang} data-vt-title={post.slug} className={title}>
+      <h2
+        lang={post.bodyLang}
+        data-vt-title={post.slug}
+        className={css({
+          textStyle: 'heading.card',
+          '& a': { _hover: { textDecoration: 'underline' } },
+        })}
+      >
         <a href={href}>{post.title}</a>
       </h2>
 

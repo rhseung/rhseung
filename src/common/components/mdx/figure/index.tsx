@@ -7,13 +7,12 @@ const figure = css({
   gap: '2',
   '& > *': { my: '0' },
 });
-const caption = css({ color: 'text.muted', textStyle: 'sm' });
 
 export function Figure({ caption: text, children }: Figure.Props) {
   return (
     <figure className={figure}>
       {children}
-      <figcaption className={caption}>{text}</figcaption>
+      <figcaption className={css({ color: 'text.muted', textStyle: 'sm' })}>{text}</figcaption>
     </figure>
   );
 }
