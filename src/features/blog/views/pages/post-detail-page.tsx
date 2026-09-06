@@ -10,18 +10,6 @@ import { PostToc, TocDock } from '../components';
 
 import type { PostHeading, PostSummary } from '../../viewmodels';
 
-const frame = css({
-  mx: 'auto',
-  display: 'grid',
-  w: 'full',
-  maxW: '3xl',
-  columnGap: '10',
-  p: '4',
-  sm: { p: '6' },
-  md: { p: '8' },
-  lg: { maxW: '5xl', gridTemplateColumns: '[minmax(0, 1fr) 13rem]' },
-});
-
 // 셋 다 행·열을 명시해야 한다. 하나라도 자동 배치면 암시적 행·열이 생겨 칸이 어긋난다.
 const header = css({ lg: { gridColumn: '[1 / 3]', gridRow: '[1]' } });
 const main = css({
@@ -33,12 +21,9 @@ const main = css({
 });
 const aside = css({ display: 'none', lg: { display: 'block', gridColumn: '[2]', gridRow: '[1]' } });
 
-const meta = stack({ gap: '3' });
 const title = css({ textStyle: 'heading.page' });
 const summary = css({ color: 'text.muted', textStyle: 'body' });
 const tags = css({ display: 'flex', flexWrap: 'wrap', gap: '1' });
-const tocFrame = css({ position: 'fixed', top: '[50%]', w: '52', transform: 'translateY(-50%)' });
-const toc = css({ maxH: '[calc(100dvh - 336px)]', w: 'full' });
 
 export function PostDetailPage({ lang, post, headings, children }: PostDetailPage.Props) {
   const { t } = useTranslation('blog');
@@ -46,7 +31,19 @@ export function PostDetailPage({ lang, post, headings, children }: PostDetailPag
 
   return (
     <div className={shell.root}>
-      <div className={frame}>
+      <div
+        className={css({
+          mx: 'auto',
+          display: 'grid',
+          w: 'full',
+          maxW: '3xl',
+          columnGap: '10',
+          p: '4',
+          sm: { p: '6' },
+          md: { p: '8' },
+          lg: { maxW: '5xl', gridTemplateColumns: '[minmax(0, 1fr) 13rem]' },
+        })}
+      >
         <DetailHeader
           lang={lang}
           backHref={localeHref(lang, '/[lang]/blog')}
@@ -55,7 +52,7 @@ export function PostDetailPage({ lang, post, headings, children }: PostDetailPag
         />
 
         <main className={main}>
-          <header lang={post.bodyLang} className={meta}>
+          <header lang={post.bodyLang} className={stack({ gap: '3' })}>
             <time dateTime={post.date} className={metaText}>
               {dayjs(post.date).format('LL')}
             </time>
@@ -82,8 +79,18 @@ export function PostDetailPage({ lang, post, headings, children }: PostDetailPag
         </main>
 
         <aside className={aside}>
-          <div className={tocFrame}>
-            <PostToc headings={headings} className={toc} />
+          <div
+            className={css({
+              position: 'fixed',
+              top: '[50%]',
+              w: '52',
+              transform: 'translateY(-50%)',
+            })}
+          >
+            <PostToc
+              headings={headings}
+              className={css({ maxH: '[calc(100dvh - 336px)]', w: 'full' })}
+            />
           </div>
         </aside>
       </div>

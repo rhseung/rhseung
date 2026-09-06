@@ -41,16 +41,6 @@ const BLUR_LAYERS = [
   { height: '1rem', blur: '24px' },
 ];
 
-const blurLayer = css({
-  pointerEvents: 'none',
-  position: 'fixed',
-  insetX: '0',
-  bottom: '0',
-  zIndex: 'blur',
-  maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
-  _print: { display: 'none' },
-});
-
 const nav = css({
   position: 'fixed',
   insetX: '0',
@@ -61,14 +51,6 @@ const nav = css({
   px: '4',
   _print: { display: 'none' },
 });
-
-const desktopOnly = css({
-  display: 'none',
-  sm: { display: 'flex', alignItems: 'center', gap: '1' },
-});
-const mobileOnly = css({ sm: { display: 'none' } });
-
-const divider = css({ mx: '0.5', h: '6', w: '[1px]', flexShrink: 0, bg: 'line' });
 
 const menu = css({ display: 'flex', flexDirection: 'column', px: '4' });
 
@@ -85,7 +67,6 @@ const menuLink = css({
 
 const muted = css({ color: 'text.muted' });
 const srOnly = css({ srOnly: true });
-const sheetBody = css({ pb: '8' });
 
 export function SiteDock({
   lang,
@@ -121,7 +102,15 @@ export function SiteDock({
         <div
           key={height}
           aria-hidden
-          className={blurLayer}
+          className={css({
+            pointerEvents: 'none',
+            position: 'fixed',
+            insetX: '0',
+            bottom: '0',
+            zIndex: 'blur',
+            maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+            _print: { display: 'none' },
+          })}
           style={{ height, backdropFilter: `blur(${blur})` }}
         />
       ))}
@@ -136,7 +125,12 @@ export function SiteDock({
             current={current === undefined}
           />
 
-          <div className={desktopOnly}>
+          <div
+            className={css({
+              display: 'none',
+              sm: { display: 'flex', alignItems: 'center', gap: '1' },
+            })}
+          >
             <DockDivider />
 
             {sections.map(({ key, href, label, Icon, IconSolid }) => (
@@ -204,7 +198,7 @@ export function SiteDock({
               render={
                 <button
                   type="button"
-                  className={cx(dockItem, mobileOnly)}
+                  className={cx(dockItem, css({ sm: { display: 'none' } }))}
                   aria-label={t(($) => $.nav.menu)}
                 />
               }
@@ -212,7 +206,7 @@ export function SiteDock({
               <Bars3Icon aria-hidden />
             </SheetTrigger>
 
-            <SheetContent side="bottom" className={sheetBody}>
+            <SheetContent side="bottom" className={css({ pb: '8' })}>
               <SheetHeader>
                 <SheetTitle>{t(($) => $.nav.menu)}</SheetTitle>
                 <SheetDescription className={srOnly}>{t(($) => $.nav.label)}</SheetDescription>
@@ -254,10 +248,14 @@ export function SiteDock({
 }
 
 function DockDivider() {
-  return <span role="separator" aria-orientation="vertical" className={divider} />;
+  return (
+    <span
+      role="separator"
+      aria-orientation="vertical"
+      className={css({ mx: '0.5', h: '6', w: '[1px]', flexShrink: 0, bg: 'line' })}
+    />
+  );
 }
-
-const themeIconStack = css({ display: 'grid', boxSize: '5', placeItems: 'center' });
 
 const themeIcon = css({
   gridColumnStart: 1,
@@ -268,20 +266,26 @@ const themeIcon = css({
   _motionReduce: { transitionProperty: '[none]' },
 });
 
-const sun = css({ _dark: { scale: '[0.5]', rotate: '[90deg]', opacity: 0 } });
-const moon = css({
-  scale: '[0.5]',
-  rotate: '[-90deg]',
-  opacity: 0,
-  _dark: { scale: '[1]', rotate: '[0deg]', opacity: 1 },
-});
-
 // 두 아이콘을 겹쳐 CSS 로 굴린다. 마운트를 안 태워야 하이드레이션 전에도 맞는 그림이 나온다.
 function ThemeIcons() {
   return (
-    <span className={themeIconStack}>
-      <SunIcon aria-hidden className={cx(themeIcon, sun)} />
-      <MoonIcon aria-hidden className={cx(themeIcon, moon)} />
+    <span className={css({ display: 'grid', boxSize: '5', placeItems: 'center' })}>
+      <SunIcon
+        aria-hidden
+        className={cx(themeIcon, css({ _dark: { scale: '[0.5]', rotate: '[90deg]', opacity: 0 } }))}
+      />
+      <MoonIcon
+        aria-hidden
+        className={cx(
+          themeIcon,
+          css({
+            scale: '[0.5]',
+            rotate: '[-90deg]',
+            opacity: 0,
+            _dark: { scale: '[1]', rotate: '[0deg]', opacity: 1 },
+          }),
+        )}
+      />
     </span>
   );
 }

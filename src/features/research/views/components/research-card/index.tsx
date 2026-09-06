@@ -22,7 +22,6 @@ const article = css({
   bg: 'surface.raised/40',
   p: '4',
 });
-const head = css({ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '2' });
 const title = css({
   textStyle: 'sm',
   fontWeight: 'semibold',
@@ -51,7 +50,7 @@ export function ResearchCard({ item, detailHref }: ResearchCard.Props) {
 
   return (
     <article className={article}>
-      <div className={head}>
+      <div className={css({ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '2' })}>
         <h2 data-vt-title={item.slug} className={title}>
           {detailHref === undefined ? item.title : <a href={detailHref}>{item.title}</a>}
         </h2>

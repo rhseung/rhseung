@@ -6,9 +6,6 @@ import { metaText } from '@/common/styles';
 
 import type { Award } from '../../../viewmodels';
 
-const list = stack({ gap: '4' });
-const item = css({ display: 'flex', breakInside: 'avoid', flexDirection: 'column', gap: '0.5' });
-const row = css({ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', columnGap: '2' });
 const title = css({ fontWeight: 'medium' });
 const date = css({ ml: 'auto' });
 const issuer = css({ color: 'accent', textStyle: 'sm' });
@@ -17,10 +14,25 @@ const summary = css({ color: 'text.muted', textStyle: 'sm' });
 export function AwardList({ awards, headingLevel = 3, showDate = true }: AwardList.Props) {
   const Heading = `h${headingLevel}` as const;
   return (
-    <ul className={list}>
+    <ul className={stack({ gap: '4' })}>
       {awards.map((award) => (
-        <li key={award.slug} className={item}>
-          <div className={row}>
+        <li
+          key={award.slug}
+          className={css({
+            display: 'flex',
+            breakInside: 'avoid',
+            flexDirection: 'column',
+            gap: '0.5',
+          })}
+        >
+          <div
+            className={css({
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'baseline',
+              columnGap: '2',
+            })}
+          >
             <Heading className={title}>{award.title}</Heading>
             {showDate && <span className={cx(metaText, date)}>{formatYearMonth(award.date)}</span>}
           </div>

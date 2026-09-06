@@ -12,7 +12,6 @@ import { PROJECT_LINK_ICON, projectLinks, useProjectLabels, type Project } from 
 
 const main = css({ display: 'flex', minW: '0', flexDirection: 'column', gap: '8' });
 const header = stack({ gap: '3' });
-const statusRow = css({ display: 'flex', alignItems: 'center', gap: '1.5' });
 const period = css({ ml: 'auto' });
 const title = css({ textStyle: 'heading.page' });
 const summary = css({ color: 'text.muted', textStyle: 'body' });
@@ -23,17 +22,6 @@ const highlight = css({
   pl: '3',
   fontWeight: 'medium',
 });
-const stackList = css({ display: 'flex', flexWrap: 'wrap', gap: '1' });
-const awardList = stack({ gap: '1' });
-const award = css({
-  display: 'flex',
-  flexWrap: 'wrap',
-  alignItems: 'baseline',
-  columnGap: '2',
-  textStyle: 'sm',
-});
-const trophy = css({ color: 'accent', boxSize: '4', flexShrink: 0 });
-const strong = css({ fontWeight: 'medium' });
 const muted = css({ color: 'text.muted' });
 
 export function ProjectDetailPage({
@@ -71,7 +59,7 @@ export function ProjectDetailPage({
 
         <main className={main}>
           <header className={header}>
-            <div className={statusRow}>
+            <div className={css({ display: 'flex', alignItems: 'center', gap: '1.5' })}>
               <Badge variant="outline">{label.status[project.status]}</Badge>
               <span className={cx(metaText, period)}>{periodText}</span>
             </div>
@@ -83,7 +71,7 @@ export function ProjectDetailPage({
 
             {project.highlight && <p className={highlight}>{project.highlight}</p>}
 
-            <ul className={stackList}>
+            <ul className={css({ display: 'flex', flexWrap: 'wrap', gap: '1' })}>
               {project.stack.map((item) => (
                 <li key={item}>
                   <Badge variant="outline">{item}</Badge>
@@ -93,11 +81,23 @@ export function ProjectDetailPage({
 
             <LinkRow links={links} variant="button" />
             {awards.length > 0 && (
-              <ul className={awardList}>
+              <ul className={stack({ gap: '1' })}>
                 {awards.map((item) => (
-                  <li key={item.slug} className={award}>
-                    <TrophyIcon aria-hidden className={trophy} />
-                    <span className={strong}>{item.title}</span>
+                  <li
+                    key={item.slug}
+                    className={css({
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      alignItems: 'baseline',
+                      columnGap: '2',
+                      textStyle: 'sm',
+                    })}
+                  >
+                    <TrophyIcon
+                      aria-hidden
+                      className={css({ color: 'accent', boxSize: '4', flexShrink: 0 })}
+                    />
+                    <span className={css({ fontWeight: 'medium' })}>{item.title}</span>
                     {item.issuer && <span className={muted}>{item.issuer}</span>}
                     <span className={metaText}>{formatYearMonth(item.date)}</span>
                   </li>

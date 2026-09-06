@@ -99,7 +99,6 @@ const contentVariants = cva({
   defaultVariants: { side: 'right' },
 });
 
-const closeButton = css({ position: 'absolute', top: '3', right: '3' });
 const srOnly = css({ srOnly: true });
 
 export function SheetContent({
@@ -127,7 +126,13 @@ export function SheetContent({
         {showCloseButton && (
           <SheetPrimitive.Close
             data-slot="sheet-close"
-            render={<Button variant="ghost" className={closeButton} size="icon-sm" />}
+            render={
+              <Button
+                variant="ghost"
+                className={css({ position: 'absolute', top: '3', right: '3' })}
+                size="icon-sm"
+              />
+            }
           >
             <XIcon />
             <span className={srOnly}>Close</span>

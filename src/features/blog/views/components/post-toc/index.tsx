@@ -12,23 +12,6 @@ const label = css({
   textStyle: 'caption',
   fontWeight: 'medium',
 });
-const list = css({
-  display: 'flex',
-  minH: '0',
-  flexDirection: 'column',
-  gap: '1',
-  overflowY: 'auto',
-  textStyle: 'sm',
-});
-const link = css({
-  display: 'block',
-  py: '0.5',
-  lineHeight: 'snug',
-  color: 'text.muted/70',
-  transition: 'colors',
-  _hover: { color: 'text' },
-  '&[aria-current=location]': { color: 'text', fontWeight: 'medium' },
-});
 
 export function PostToc({ headings, className }: PostToc.Props) {
   const { t } = useTranslation('blog');
@@ -48,7 +31,16 @@ export function PostToc({ headings, className }: PostToc.Props) {
     <nav aria-label={heading} className={cx(nav, className)}>
       <p className={label}>{heading}</p>
 
-      <ul className={list}>
+      <ul
+        className={css({
+          display: 'flex',
+          minH: '0',
+          flexDirection: 'column',
+          gap: '1',
+          overflowY: 'auto',
+          textStyle: 'sm',
+        })}
+      >
         {headings.map(({ depth, slug, text }) => (
           <li key={slug}>
             <a
@@ -56,7 +48,15 @@ export function PostToc({ headings, className }: PostToc.Props) {
               href={`#${slug}`}
               aria-current={slug === active ? 'location' : undefined}
               style={{ paddingLeft: `${(depth - 2) * 0.75}rem` }}
-              className={link}
+              className={css({
+                display: 'block',
+                py: '0.5',
+                lineHeight: 'snug',
+                color: 'text.muted/70',
+                transition: 'colors',
+                _hover: { color: 'text' },
+                '&[aria-current=location]': { color: 'text', fontWeight: 'medium' },
+              })}
             >
               {text}
             </a>

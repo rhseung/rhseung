@@ -3,22 +3,6 @@ import { css, cx } from 'styled-system/css';
 
 import { FAVICON_HOSTS } from '@/common/lib';
 
-const link = css({
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '0.5',
-});
-
-const underlined = css({
-  textDecoration: 'underline',
-  textDecorationColor: 'current/40',
-  textDecorationThickness: '[0.0625em]',
-  textUnderlineOffset: '2px',
-});
-
-const favicon = css({ boxSize: '[1em]', flexShrink: 0, rounded: 'full' });
-const arrow = css({ boxSize: '[1em]', flexShrink: 0, opacity: 0.4 });
-
 export function ExternalLink({
   href,
   showFavicon = false,
@@ -34,7 +18,21 @@ export function ExternalLink({
       href={href}
       target="_blank"
       rel="noreferrer noopener"
-      className={cx(link, !plain && underlined, className)}
+      className={cx(
+        css({
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.5',
+        }),
+        !plain &&
+          css({
+            textDecoration: 'underline',
+            textDecorationColor: 'current/40',
+            textDecorationThickness: '[0.0625em]',
+            textUnderlineOffset: '2px',
+          }),
+        className,
+      )}
     >
       {children}
       {canShowFavicon ? (
@@ -47,10 +45,13 @@ export function ExternalLink({
           loading="lazy"
           decoding="async"
           fetchPriority="low"
-          className={favicon}
+          className={css({ boxSize: '[1em]', flexShrink: 0, rounded: 'full' })}
         />
       ) : (
-        <ArrowTopRightOnSquareIcon aria-hidden className={arrow} />
+        <ArrowTopRightOnSquareIcon
+          aria-hidden
+          className={css({ boxSize: '[1em]', flexShrink: 0, opacity: 0.4 })}
+        />
       )}
     </a>
   );

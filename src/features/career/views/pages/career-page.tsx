@@ -18,18 +18,12 @@ import { AwardList, CareerList, SkillGroups } from '../components';
 
 const title = css({ textStyle: 'heading.page' });
 const section = stack({ gap: '5' });
-const sectionHead = stack({ gap: '1' });
-const sectionTitle = css({ textStyle: 'sm', fontWeight: 'medium' });
-const years = stack({ gap: '6' });
-const yearRow = css({ display: 'flex', gap: '4' });
-const year = css({ w: '10', flexShrink: 0, pt: '0.5' });
-const yearBody = css({ flex: '1' });
 
 function Section({ title: heading, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className={section}>
-      <div className={sectionHead}>
-        <h2 className={sectionTitle}>{heading}</h2>
+      <div className={stack({ gap: '1' })}>
+        <h2 className={css({ textStyle: 'sm', fontWeight: 'medium' })}>{heading}</h2>
         <Separator />
       </div>
       {children}
@@ -79,11 +73,13 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
 
         {awards.length > 0 && (
           <Section title={t(($) => $.awards.title)}>
-            <div className={years}>
+            <div className={stack({ gap: '6' })}>
               {groupAwardsByYear(awards).map(([label, yearAwards]) => (
-                <div key={label} className={yearRow}>
-                  <span className={cx(metaText, year)}>{label}</span>
-                  <div className={yearBody}>
+                <div key={label} className={css({ display: 'flex', gap: '4' })}>
+                  <span className={cx(metaText, css({ w: '10', flexShrink: 0, pt: '0.5' }))}>
+                    {label}
+                  </span>
+                  <div className={css({ flex: '1' })}>
                     <AwardList awards={yearAwards} showDate={false} />
                   </div>
                 </div>

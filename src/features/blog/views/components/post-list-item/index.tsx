@@ -9,7 +9,6 @@ import { metaText } from '@/common/styles';
 import type { PostSummary } from '../../../viewmodels';
 
 const article = stack({ gap: '1' });
-const head = hstack({ gap: '2' });
 const title = css({
   textStyle: 'heading.card',
   '& a': { _hover: { textDecoration: 'underline' } },
@@ -21,7 +20,7 @@ export function PostListItem({ post, href, showLanguage }: PostListItem.Props) {
 
   return (
     <article className={article}>
-      <div className={head}>
+      <div className={hstack({ gap: '2' })}>
         <time dateTime={post.date} className={metaText}>
           {dayjs(post.date).format('LL')}
         </time>

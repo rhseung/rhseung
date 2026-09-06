@@ -20,7 +20,6 @@ const main = css({
   justifyContent: 'center',
   p: '6',
 });
-const actions = css({ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2' });
 
 export function NotFound() {
   const { t } = useTranslation('common');
@@ -37,7 +36,14 @@ export function NotFound() {
             <EmptyDescription>{t(($) => $.notFound.description)}</EmptyDescription>
           </EmptyHeader>
 
-          <div className={actions}>
+          <div
+            className={css({
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              gap: '2',
+            })}
+          >
             <a
               href={localeHref(DEFAULT_LANGUAGE, '/[lang]')}
               className={buttonVariants({ size: 'sm' })}

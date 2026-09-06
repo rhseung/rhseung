@@ -20,23 +20,27 @@ const summary = css({
   textStyle: 'sm',
   fontWeight: 'medium',
 });
-const chevron = css({
-  boxSize: '3.5',
-  flexShrink: 0,
-  transition: 'transform',
-  'details[open] > summary > &': { rotate: '[90deg]' },
-});
-const body = css({ mt: '3', color: 'text.muted', textStyle: 'sm', lineHeight: 'relaxed' });
 
 export function Detail({ summary: label, children }: Detail.Props) {
   return (
     <details className={details}>
       <summary className={summary}>
-        <ChevronRightIcon className={chevron} />
+        <ChevronRightIcon
+          className={css({
+            boxSize: '3.5',
+            flexShrink: 0,
+            transition: 'transform',
+            'details[open] > summary > &': { rotate: '[90deg]' },
+          })}
+        />
         {label}
       </summary>
 
-      <div className={body}>{children}</div>
+      <div
+        className={css({ mt: '3', color: 'text.muted', textStyle: 'sm', lineHeight: 'relaxed' })}
+      >
+        {children}
+      </div>
     </details>
   );
 }

@@ -1,43 +1,50 @@
 import { css } from 'styled-system/css';
 
-const list = css({
-  my: '6',
-  display: 'flex',
-  listStyle: 'none',
-  flexDirection: 'column',
-  gap: '4',
-  pl: '0',
-});
-const step = css({ display: 'flex', gap: '3', '& p': { my: '0' }, '& p + p': { mt: '2' } });
-const marker = css({
-  mt: '0.5',
-  display: 'flex',
-  boxSize: '6',
-  flexShrink: 0,
-  alignItems: 'center',
-  justifyContent: 'center',
-  rounded: 'full',
-  border: 'line',
-  color: 'text.muted',
-  textStyle: 'caption',
-  fontVariantNumeric: 'tabular-nums',
-});
-const content = css({ display: 'flex', minW: '0', flexDirection: 'column', gap: '1' });
 const title = css({ color: 'text', textStyle: 'sm', fontWeight: 'medium' });
-const body = css({ color: 'text.muted', textStyle: 'sm', lineHeight: 'relaxed' });
 
 export function Steps({ children }: Steps.Props) {
-  return <ol className={list}>{children}</ol>;
+  return (
+    <ol
+      className={css({
+        my: '6',
+        display: 'flex',
+        listStyle: 'none',
+        flexDirection: 'column',
+        gap: '4',
+        pl: '0',
+      })}
+    >
+      {children}
+    </ol>
+  );
 }
 
 export function Step({ index, title: heading, children }: Step.Props) {
   return (
-    <li className={step}>
-      <span className={marker}>{index}</span>
+    <li className={css({ display: 'flex', gap: '3', '& p': { my: '0' }, '& p + p': { mt: '2' } })}>
+      <span
+        className={css({
+          mt: '0.5',
+          display: 'flex',
+          boxSize: '6',
+          flexShrink: 0,
+          alignItems: 'center',
+          justifyContent: 'center',
+          rounded: 'full',
+          border: 'line',
+          color: 'text.muted',
+          textStyle: 'caption',
+          fontVariantNumeric: 'tabular-nums',
+        })}
+      >
+        {index}
+      </span>
 
-      <div className={content}>
+      <div className={css({ display: 'flex', minW: '0', flexDirection: 'column', gap: '1' })}>
         <p className={title}>{heading}</p>
-        <div className={body}>{children}</div>
+        <div className={css({ color: 'text.muted', textStyle: 'sm', lineHeight: 'relaxed' })}>
+          {children}
+        </div>
       </div>
     </li>
   );
