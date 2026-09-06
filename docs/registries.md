@@ -1,50 +1,112 @@
 # 파일이 곧 등록이다
 
 이 저장소는 "어딘가에 등록" 하는 대신 **정해진 자리에 파일을 두면 걷어가는** 구조다. 이 문서는
-그 자리들의 지도다. 미래의 나를 위해 쓴다 - 각 항목은 "어디에 무엇을 두면, 누가 읽고, 무엇이
-검사하나" 만 적는다. 규칙의 이유는 `AGENTS.md` 에 있다.
+그 자리들의 지도다 - "어디에 무엇을 두면, 누가 읽고, 무엇이 검사하나". 규칙의 이유는
+`AGENTS.md` 에 있다.
 
 README 는 GitHub 프로필이라 여기 적는다.
 
-## 한눈에
+## 원칙 셋
 
-| 자리                                     | 무엇                     | 걷어가는 곳                                 | 검사                              |
-| ---------------------------------------- | ------------------------ | ------------------------------------------- | --------------------------------- |
-| `src/content/experience/<slug>/index.ts` | 경력                     | `features/career/models/data.ts` (glob)     | `career/models/data.test.ts`      |
-| `src/content/education/<slug>/index.ts`  | 학력                     | 같은 곳                                     | 같은 곳                           |
-| `src/content/awards/<slug>.ts`           | 수상                     | 같은 곳                                     | 같은 곳                           |
-| `src/content/projects/<slug>.ts`         | 프로젝트                 | `features/projects/models` (glob)           | `projects/models/data.test.ts`    |
-| `src/content/projects/<slug>/<lang>.mdx` | 프로젝트 상세 본문       | `content.config.ts` `projects` 컬렉션       | 같은 곳                           |
-| `src/content/posts/<slug>/index.ts`      | 글 메타                  | `features/blog/models` (glob)               | `blog/models/data.test.ts`        |
-| `src/content/posts/<slug>/<lang>.mdx`    | 글 본문                  | `content.config.ts` `posts` 컬렉션          | zod frontmatter                   |
-| `src/content/research/<slug>/index.ts`   | 연구                     | `features/research/models` (glob)           | `research/models/data.test.ts`    |
-| `src/content/research/<slug>/paper.tex`  | 논문 본문 (+`refs.bib`)  | `pages/[lang]/research/[slug].astro` (glob) | 빌드                              |
-| `src/content/skills.ts`                  | 기술 목록 (한 파일)      | 뱃지, 프로젝트 `stack` 검증, README 배지    | `career/models/data.test.ts`      |
-| `src/locales/<lang>/<ns>.json`           | 번역                     | `common/lib/i18n.ts` (glob)                 | `i18n.test.ts` 완전성, CI diff    |
-| `src/pages/[lang]/<route>/index.astro`   | 라우트                   | Astro 파일 라우터 + `astro-typesafe-routes` | 타입 (`localeHref` 오타 = 에러)   |
-| `src/common/components/mdx/<name>/`      | MDX 컴포넌트             | `mdx/components.tsx` 맵 (**손으로 등록**)   | 스토리                            |
-| `src/common/styles/<name>.ts`            | 스타일 레시피            | `styles/index.ts` 배럴 (**손으로 등록**)    | `strictTokens`, `lint-inline-css` |
-| `**/*.stories.tsx`                       | 스토리 = 브라우저 테스트 | vitest `storybook` 프로젝트 (glob)          | a11y 위반 = 실패                  |
-| `**/*.test.ts`                           | 순수 로직 테스트         | vitest `unit` 프로젝트                      |                                   |
-| `e2e/*.spec.ts`                          | 사용자 여정              | Playwright (`astro preview` 상대)           |                                   |
-| `scripts/gen-*.ts`                       | 생성기                   | `package.json` `gen`·`build` (**손으로**)   |                                   |
-| `.claude/skills/<name>/SKILL.md`         | 에이전트 스킬            | Claude Code (glob)                          |                                   |
-| `.claude/commands/<name>.md`             | `/name` 커맨드           | Claude Code (glob)                          |                                   |
+1. **파일이 곧 등록이다.** 정해진 자리에 두면 glob 이 걷어간다. 목록에 이름을 적는 곳은 없다.
+2. **언어 무관 값은 한 곳에.** `slug`, 날짜, 링크, `stack` 은 항목 파일 하나에만 있고, 번역되는
+   문자열만 `ko:`/`en:` 아래 또는 `<lang>.mdx` 에 있다. 한 언어를 빠뜨리면 컴파일 에러다.
+3. **항목은 파일 하나로 시작해서 폴더로 자란다.** 메타데이터만 있을 땐 `<slug>.ts` 하나.
+   본문(MDX)이나 첨부(로고, 논문)가 생기면 `<slug>/` 폴더로 옮기고 `index.ts` 가 그 파일이 된다.
+   glob 이 `*.ts` 와 `*/index.ts` 를 둘 다 보므로 옮겨도 등록은 그대로다.
 
-"**손으로 등록**" 이 붙은 셋만 파일을 만든 뒤 한 줄을 더 고친다. 나머지는 파일이 곧 등록이다.
+## 콘텐츠 - 자라는 모양
 
-## 콘텐츠
+| 종류      | 시작 (메타만)          | 자란 뒤 (폴더)                                            | 자라는 계기                |
+| --------- | ---------------------- | --------------------------------------------------------- | -------------------------- |
+| 프로젝트  | `projects/<slug>.ts`   | `projects/<slug>/index.ts` + `ko.mdx` (+`en.mdx`)         | 상세 페이지를 쓰고 싶을 때 |
+| 연구      | `research/<slug>.ts`   | `research/<slug>/index.ts` + `paper.tex` (+`refs.bib`)    | 논문 본문을 올릴 때        |
+| 글        | (없음 - 본문이 곧 글)  | `posts/<slug>/index.ts` + `ko.mdx` (+`en.mdx`, `assets/`) | 항상 폴더                  |
+| 경력·학력 | (없음 - 로고가 딸린다) | `experience/<slug>/index.ts` + `logo.png`                 | 항상 폴더                  |
+| 수상      | `awards/<slug>.ts`     | 자라지 않는다                                             |                            |
+| 기술      | `skills.ts` 한 파일    | 자라지 않는다                                             |                            |
 
-공통 규칙: 언어 무관 값(`slug`, 날짜, `links`, `stack`)은 항목 한 곳에, 번역되는 문자열은
-`ko:`/`en:` 아래에. 언어를 빠뜨리면 컴파일 에러다(`Localized<T> = Record<Language, T>`).
-`slug` 는 kebab-case 고 파일(폴더) 이름과 같아야 한다.
+경로는 전부 `src/content/` 아래다.
 
-### 경력 · 학력 · 수상
+### 프로젝트 - 파일에서 폴더로
+
+시작은 파일 하나다.
+
+```ts
+// src/content/projects/campass.ts
+import { defineProject } from '@/features/projects/models/define';
+
+export default defineProject({
+  slug: 'campass', // 파일 이름과 같게
+  stack: ['React', 'TanStack Router'], // skills.ts 에 있는 이름만. 오타는 컴파일 에러
+  start: { year: 2024, month: 11 },
+  end: { year: 2024, month: 11 }, // 빼면 "현재"
+  status: 'shipped', // 'active' | 'shipped' | 'archived'
+  links: { repo: 'https://...', demo: 'https://...' }, // repo, demo, package, post, paper
+  awards: ['junction-asia-2025'], // 실제 수상 슬러그여야 한다 (테스트)
+  ko: { title: 'Campass', summary: '...', highlight: '...' },
+  en: { title: 'Campass', summary: '...' },
+});
+```
+
+이 상태에서는 목록 카드만 있고 제목은 `links.repo` 로 나간다. 상세 페이지를 쓰고 싶어지면
+**파일을 폴더로 옮기고 본문을 옆에 둔다.** 내용은 한 글자도 안 바뀐다.
+
+```sh
+mkdir src/content/projects/campass
+git mv src/content/projects/campass.ts src/content/projects/campass/index.ts
+$EDITOR src/content/projects/campass/ko.mdx   # 본문. frontmatter 없음
+```
+
+`ko.mdx` 가 생기는 순간 `/ko/projects/campass/` 라우트가 생기고 카드 제목이 거기로 간다.
+`en.mdx` 는 선택이다 - **있는 언어에만** 상세 페이지가 생기고(`hasDetail`), 없는 언어의 카드는
+계속 외부 링크로 나간다. 본문 안에서 `Callout`, `Steps` 같은 MDX 컴포넌트를 바로 쓸 수 있다.
+
+되돌리기도 같다 - `ko.mdx` 를 지우면 라우트가 사라지고, 폴더를 파일로 되돌려도 된다.
+
+### 연구 - 파일에서 폴더로
+
+```ts
+// src/content/research/<slug>.ts
+export default defineResearch({
+  slug,
+  kind: 'rne' | 'lab' | 'paper',
+  start, end?,
+  links?: { paper, poster, repo, site },
+  ko: { title, org, role?, summary }, en,
+});
+```
+
+논문 본문을 사이트에서 직접 보여주고 싶으면 폴더로 옮기고 `paper.tex` 를 둔다. `refs.bib` 이
+있으면 `\cite{}` 가 인용 링크와 참고문헌 목록이 된다. `paper.tex` 가 생기는 순간
+`/research/<slug>/` 가 생긴다. LaTeX 는 빌드 때 hast 로 파싱해 글과 같은 MDX 컴포넌트로
+렌더하므로 클라이언트에는 안 실린다.
+
+### 글 - 처음부터 폴더
+
+본문이 곧 글이라 파일 하나 형태가 없다.
+
+```
+src/content/posts/<slug>/
+  index.ts   definePost({ slug, date: 'YYYY-MM-DD', tags, draft? })   <- 언어 무관
+  ko.mdx     frontmatter 에 title, summary + 본문                     <- 언어별
+  en.mdx     (선택) 번역본
+  assets/    본문이 ./assets/x.png 로 참조. astro:assets 최적화를 탄다
+```
+
+프로젝트와 반대로 라우트는 **모든 언어에** 생긴다. 요청 언어 파일이 없으면 `LANGUAGES` 순서로
+첫 본문을 원문 그대로 보여주고 번역 안내(`TranslationNotice`)를 얹는다. `draft: true` 면
+목록·라우트·RSS 전부에서 빠진다. 제목·요약이 `index.ts` 가 아니라 frontmatter 에 있는 이유는
+본문과 한 몸이라서다.
+
+### 경력 · 학력 - 처음부터 폴더
+
+로고가 딸려서 폴더다.
 
 ```ts
 // src/content/experience/<slug>/index.ts   (education 도 같은 모양)
 import { defineCareer } from '@/features/career/models/define';
-import logo from './logo.png?url'; // 로고는 항목 폴더에 같이 둔다. 없어도 된다.
+import logo from './logo.png?url'; // 없으면 이 줄과 logo 필드를 뺀다
 
 export default defineCareer({
   slug: 'gist-aiter',
@@ -56,59 +118,44 @@ export default defineCareer({
 });
 ```
 
+### 수상 - 파일 하나
+
 ```ts
 // src/content/awards/<slug>.ts
 export default defineAward({ slug, date: { year, month? }, ko: { title, issuer?, summary? }, en });
 ```
 
-- 나오는 곳: `/career`, `/resume`(PDF 도 같은 컴포넌트).
-- 검사: 모르는 필드는 실패(strict), 슬러그 중복, 끝 날짜 < 시작 날짜.
+프로젝트가 `awards: ['<slug>']` 로 가리킬 수 있다. 없는 슬러그를 가리키면 테스트가 실패한다.
 
-### 프로젝트
+### 기술 - 파일 하나가 전부
 
-```ts
-// src/content/projects/<slug>.ts  또는  <slug>/index.ts (본문이 있을 때)
-export default defineProject({
-  slug,
-  stack: ['Astro', 'React'], // skills.ts 에 있는 이름만. 오타는 컴파일 에러
-  start, end?, status: 'active' | 'shipped' | 'archived',
-  links?: { repo, demo, package, post, paper },
-  awards?: ['<award slug>'], // 실제 수상 슬러그여야 한다 (테스트)
-  ko: { title, summary, highlight? }, en,
-});
-```
+`src/content/skills.ts` 에 그룹, 이름, 브랜드 색, simple-icons 아이콘이 다 있다. glob 이 아니라
+static import 인 이유는 `Tech` 리터럴 유니온을 살리기 위해서다 - 그래서 프로젝트 `stack` 의
+오타가 컴파일 에러다. 사이트 뱃지 색과 README 배지(`gen:readme`)가 같이 여기서 나온다.
 
-상세 페이지는 `<slug>/<lang>.mdx` 가 **있는 언어에만** 생긴다. 파일이 곧 `hasDetail` 이다.
+### 검사
 
-### 글
+`bun run test` 의 `models/data.test.ts` 들이 항목마다 본다 - 스키마가 모르는 필드(strict),
+슬러그 중복, 끝 날짜가 시작보다 이른 것, 프로젝트가 가리키는 수상 슬러그, `stack` 이름,
+같은 기술이 두 그룹에 있는 것. 나오는 곳은 `/career`·`/resume`(경력·학력·수상·기술),
+`/projects`, `/research`, `/blog` 다.
 
-```
-src/content/posts/<slug>/
-  index.ts   definePost({ slug, date: 'YYYY-MM-DD', tags, draft? })
-  ko.mdx     frontmatter: title, summary  + 본문
-  en.mdx     (선택) 번역본
-  assets/    본문이 ./assets/x.png 로 참조. astro:assets 최적화를 탄다
-```
+## 콘텐츠 밖의 자리
 
-라우트는 **모든 언어에** 생긴다. 요청 언어 파일이 없으면 `LANGUAGES` 순서로 첫 본문을 보여주고
-번역 안내(`TranslationNotice`)를 얹는다. `draft: true` 면 목록·라우트·RSS 전부에서 빠진다.
+| 자리                                   | 무엇                     | 걷어가는 곳                                 | 검사                              |
+| -------------------------------------- | ------------------------ | ------------------------------------------- | --------------------------------- |
+| `src/locales/<lang>/<ns>.json`         | 번역                     | `common/lib/i18n.ts` (glob)                 | `i18n.test.ts` 완전성, CI diff    |
+| `src/pages/[lang]/<route>/index.astro` | 라우트                   | Astro 파일 라우터 + `astro-typesafe-routes` | 타입 (`localeHref` 오타 = 에러)   |
+| `src/common/components/mdx/<name>/`    | MDX 컴포넌트             | `mdx/components.tsx` 맵 (**손으로 등록**)   | 스토리                            |
+| `src/common/styles/<name>.ts`          | 스타일 레시피            | `styles/index.ts` 배럴 (**손으로 등록**)    | `strictTokens`, `lint-inline-css` |
+| `**/*.stories.tsx`                     | 스토리 = 브라우저 테스트 | vitest `storybook` 프로젝트 (glob)          | a11y 위반 = 실패                  |
+| `**/*.test.ts`                         | 순수 로직 테스트         | vitest `unit` 프로젝트                      |                                   |
+| `e2e/*.spec.ts`                        | 사용자 여정              | Playwright (`astro preview` 상대)           |                                   |
+| `scripts/gen-*.ts`                     | 생성기                   | `package.json` `gen`·`build` (**손으로**)   |                                   |
+| `.claude/skills/<name>/SKILL.md`       | 에이전트 스킬            | Claude Code (glob)                          |                                   |
+| `.claude/commands/<name>.md`           | `/name` 커맨드           | Claude Code (glob)                          |                                   |
 
-### 연구
-
-```
-src/content/research/<slug>/
-  index.ts    defineResearch({ slug, kind: 'rne' | 'lab' | 'paper', start, end?, links?, ko, en })
-  paper.tex   (선택) 있으면 /research/<slug>/ 논문 페이지가 생긴다
-  refs.bib    (선택) 인용·참고문헌
-```
-
-LaTeX 는 빌드 때 hast 로 파싱해 글과 같은 MDX 컴포넌트로 렌더한다. 클라이언트에는 안 실린다.
-
-### 기술
-
-`src/content/skills.ts` 한 파일이 전부다 - 그룹, 이름, 브랜드 색, simple-icons 아이콘.
-glob 이 아니라 static import 인 이유는 `Tech` 리터럴 유니온을 살리기 위해서다(그래서 프로젝트
-`stack` 오타가 컴파일 에러). 사이트 뱃지 색과 README 배지(`gen-readme`)가 같이 여기서 나온다.
+"**손으로 등록**" 이 붙은 셋만 파일을 만든 뒤 한 줄을 더 고친다.
 
 ## 번역
 
