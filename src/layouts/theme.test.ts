@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 
-import { DARK_CLASS, applyTheme, type ThemeMode } from '@/common/lib';
+import { applyTheme, type ThemeMode } from '@/common/lib';
 
 import source from './theme.js?raw';
 
@@ -23,13 +23,13 @@ function stubMatchMedia(systemDark: boolean) {
 }
 
 function prepare({ override, systemDark }: { override?: ThemeMode; systemDark: boolean }) {
-  document.documentElement.className = '';
+  delete document.documentElement.dataset.theme;
   globalThis.__theme = override;
   stubMatchMedia(systemDark);
 }
 
 function isDark() {
-  return document.documentElement.classList.contains(DARK_CLASS);
+  return document.documentElement.dataset.theme === 'dark';
 }
 
 afterEach(() => {
@@ -60,7 +60,7 @@ describe('페인트 전 테마 스크립트', () => {
     new Function(source)();
 
     // 스왑이 <html> 의 속성을 전부 지운다. 그래서 다시 붙이는 리스너가 필요하다.
-    document.documentElement.className = '';
+    delete document.documentElement.dataset.theme;
     document.dispatchEvent(new Event('astro:after-swap'));
 
     expect(isDark()).toBe(true);

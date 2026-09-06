@@ -27,10 +27,10 @@ export {
   type YearOrMonth,
 } from './year-month';
 export {
-  DARK_CLASS,
   SYSTEM_DARK_QUERY,
   THEME_MODES,
   applyTheme,
+  nextTheme,
   resolveTheme,
   setTheme,
   subscribeTheme,

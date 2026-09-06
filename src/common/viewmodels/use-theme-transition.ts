@@ -2,7 +2,7 @@ import { useCallback, useSyncExternalStore } from 'react';
 
 import { flushSync } from 'react-dom';
 
-import { resolveTheme, setTheme, subscribeTheme, type ThemeMode } from '@/common/lib';
+import { nextTheme, resolveTheme, setTheme, subscribeTheme } from '@/common/lib';
 
 const DURATION = 450;
 
@@ -51,7 +51,7 @@ export function useThemeTransition() {
 
   const toggleTheme = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
-      const next: ThemeMode = mode === 'dark' ? 'light' : 'dark';
+      const next = nextTheme(mode ?? resolveTheme());
       const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       if (reduced || !document.startViewTransition) {
