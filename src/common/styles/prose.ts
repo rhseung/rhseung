@@ -24,12 +24,12 @@ export const prose = cva({
       fontWeight: '[inherit]',
     },
 
-    '& :is(ul, ol):not([class])': { pl: '6' },
-    '& ul:not([class])': { listStyleType: 'disc' },
-    '& ol:not([class])': { listStyleType: 'decimal' },
-    '& li:not([class])': { pl: '1' },
-    '& li:not([class]) + li': { mt: '1' },
-    '& li > :is(ul, ol):not([class])': { mt: '1' },
+    '& :is(ul, ol):not([class*="_"])': { pl: '6' },
+    '& ul:not([class*="_"])': { listStyleType: 'disc' },
+    '& ol:not([class*="_"])': { listStyleType: 'decimal' },
+    '& li:not([class*="_"])': { pl: '1' },
+    '& li:not([class*="_"]) + li': { mt: '1' },
+    '& li > :is(ul, ol):not([class*="_"])': { mt: '1' },
     '& ::marker': { color: 'text.muted' },
     '& li:has(> input[type=checkbox])': { position: 'relative', listStyleType: 'none' },
     // 체크는 mask 라야 색이 토큰을 따라간다. GFM 은 체크박스를 항상 `disabled` 로 낸다.
@@ -55,15 +55,15 @@ export const prose = cva({
       },
     },
 
-    '& blockquote:not([class])': {
+    '& blockquote:not([class*="_"])': {
       borderLeftWidth: '[4px]',
       borderLeftStyle: 'solid',
       borderLeftColor: 'line',
       pl: '4',
       color: 'text.body',
     },
-    '& hr:not([class])': { borderTop: 'line', my: '10' },
-    '& :is(img, video):not([class])': { rounded: 'lg', border: 'line' },
+    '& hr:not([class*="_"])': { borderTop: 'line', my: '10' },
+    '& :is(img, video):not([class*="_"])': { rounded: 'lg', border: 'line' },
     '& a:not([data-permalink])': { color: 'text' },
     '& kbd': { color: 'text' },
     '& strong': { fontWeight: 'semibold' },
@@ -115,6 +115,8 @@ export const prose = cva({
 
     '& sup a': { color: 'accent', fontWeight: 'medium', textDecoration: 'none' },
     '& .footnotes': { mt: '12', borderTop: 'line', pt: '6', color: 'text.muted', textStyle: 'sm' },
+    // remark-gfm 은 라벨 h2 에 `sr-only` 를 붙이지만 Astro 의 MDX 는 컴포넌트에 class 를 안 넘긴다.
+    '& .footnotes > h2': { srOnly: true },
     '& .footnotes li::marker': { color: 'text.muted', textStyle: 'caption' },
     '& .footnotes p': { my: '0' },
 
