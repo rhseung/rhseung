@@ -52,6 +52,8 @@ astro dev stop && rm -rf .astro node_modules/.astro dist && bun run dev
 파비콘을 만들고(Bun 1.3 은 루트 패키지의 `prepare`·`postinstall` 을 실행한다), `bun run build`
 가 앞에서 한 번 더 돌린 뒤 끝에 이력서 PDF 와 README 배지를 굽는다. 프레시 클론은
 `bun install && bun run dev` 로 끝난다. 손으로 고치면 다음 `bun run gen` 에 사라진다.
+이력서 PDF 만 예외다 - `dist/` 를 구워야 나오므로 `bun run build` 전에는 `/resume/` 의
+다운로드 링크가 dev 에서 404 다. 배포본에는 항상 있다.
 
 `src/locales/**` 는 생성물이 아니다 - 키는 추출기가 만들지만 **값(번역문)은 사람이 채운다.**
 그래서 커밋하고, CI(`.github/workflows/ci.yml`)는 `bun run gen` 뒤 `src/locales` 가 깨끗한지
