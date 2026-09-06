@@ -8,10 +8,10 @@ const applyTheme = () => {
     globalThis.__theme === 'dark' ||
     (globalThis.__theme === undefined && matchMedia('(prefers-color-scheme: dark)').matches);
 
-  document.documentElement.classList.toggle('dark', dark);
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
 };
 
 applyTheme();
 
-// 스왑이 <html> 의 클래스를 지운다.
+// 스왑이 <html> 의 속성을 지운다.
 document.addEventListener('astro:after-swap', applyTheme);

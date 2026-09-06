@@ -5,7 +5,7 @@
 
 @plugin '@tailwindcss/typography';
 
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *, .dark, .dark *));
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 :root {
   /* 자간은 글자가 커질수록 시각적으로 더 벌어져 보인다. 크기별로 조여주는 값이고,
@@ -59,7 +59,6 @@
   --tone-rose-foreground: oklch(0.5 0.16 15);
 }
 
-.dark,
 [data-theme='dark'] {
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
@@ -200,12 +199,12 @@
     text-decoration: var(--shiki-light-text-decoration);
   }
 
-  .dark pre.astro-code {
+  [data-theme='dark'] pre.astro-code {
     color: var(--shiki-dark);
     background-color: var(--shiki-dark-bg);
   }
 
-  .dark pre.astro-code span {
+  [data-theme='dark'] pre.astro-code span {
     color: var(--shiki-dark);
     font-style: var(--shiki-dark-font-style);
     font-weight: var(--shiki-dark-font-weight);

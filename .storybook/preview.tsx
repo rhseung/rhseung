@@ -1,4 +1,4 @@
-import { withThemeByClassName } from '@storybook/addon-themes';
+import { withThemeByDataAttribute } from '@storybook/addon-themes';
 import { mswLoader } from 'msw-storybook-addon/csf3';
 
 import { withLocale, withQueryClient } from './decorators';
@@ -41,9 +41,10 @@ const preview: Preview = {
   ],
 
   decorators: [
-    withThemeByClassName({
-      themes: { light: '', dark: 'dark' },
+    withThemeByDataAttribute({
+      themes: { light: 'light', dark: 'dark' },
       defaultTheme: 'light',
+      attributeName: 'data-theme',
     }),
     withLocale,
     withQueryClient,
