@@ -64,6 +64,8 @@ export default defineConfig({
           mono: { value: "'Monaspace Neon Var', ui-monospace, monospace" },
         },
         zIndex: {
+          blur: { value: 10 },
+          dock: { value: 20 },
           popover: { value: 50 },
         },
         animations: {

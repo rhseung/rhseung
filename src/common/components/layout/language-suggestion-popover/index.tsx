@@ -1,12 +1,14 @@
 import type { ReactElement } from 'react';
 
 import { useTranslation } from 'react-i18next';
+import { css } from 'styled-system/css';
 
 import { LANGUAGE_NAMES, type Language } from '@/common/lib';
-import { cn } from '@/common/utils';
 
 import { Button, buttonVariants } from '../../ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
+
+const actions = css({ display: 'flex', alignItems: 'center', gap: '1' });
 
 export function LanguageSuggestionPopover({
   suggested,
@@ -31,18 +33,18 @@ export function LanguageSuggestionPopover({
         <PopoverContent
           side="top"
           align="center"
-          // `document.body` 로 포탈돼 독의 `print:hidden` 밖으로 빠져나간다.
-          className="w-auto max-w-72 p-3 print:hidden"
+          // `document.body` 로 포탈돼 독의 print 숨김 밖으로 빠져나간다.
+          css={{ w: 'auto', maxW: '72', p: '3', _print: { display: 'none' } }}
           aria-label={t(($) => $.actions.switchLanguage)}
         >
           <p>{t(($) => $.language.available, { name })}</p>
 
-          <div className="flex items-center gap-1">
+          <div className={actions}>
             <a
               href={href}
               hrefLang={suggested}
               onClick={onDismiss}
-              className={cn(buttonVariants({ size: 'sm' }))}
+              className={buttonVariants({ size: 'sm' })}
             >
               {t(($) => $.language.view, { name })}
             </a>

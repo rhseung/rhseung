@@ -1,20 +1,39 @@
+import { css } from 'styled-system/css';
+
 import type { IconComponent } from '@/common/lib';
-import { cn } from '@/common/utils';
 
 import { buttonVariants } from '../../ui/button';
 import { ExternalLink } from '../external-link';
+
+const buttons = css({ display: 'flex', flexWrap: 'wrap', gap: '2' });
+
+const list = css({
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+  columnGap: '3',
+  rowGap: '1',
+});
+
+const inlineLink = css({
+  color: 'text.muted',
+  textStyle: 'xs',
+  _hover: { color: 'text', textDecoration: 'underline' },
+  '& > svg:first-child': { boxSize: '3.5', flexShrink: 0 },
+});
 
 export function LinkRow({ links, variant = 'inline', children }: LinkRow.Props) {
   if (links.length === 0 && !children) return null;
 
   if (variant === 'button') {
     return (
-      <div className="flex flex-wrap gap-2">
+      <div className={buttons}>
         {links.map(({ key, href, label, Icon }) => (
           <ExternalLink
             key={key}
             href={href}
-            className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
+            plain
+            className={buttonVariants({ variant: 'outline', size: 'sm' })}
           >
             <Icon data-icon="inline-start" />
             {label}
@@ -26,14 +45,11 @@ export function LinkRow({ links, variant = 'inline', children }: LinkRow.Props) 
   }
 
   return (
-    <ul className="flex flex-wrap items-center gap-x-3 gap-y-1">
+    <ul className={list}>
       {links.map(({ key, href, label, Icon }) => (
         <li key={key}>
-          <ExternalLink
-            href={href}
-            className="text-muted-foreground hover:text-foreground text-xs hover:underline"
-          >
-            <Icon aria-hidden className="size-3.5 shrink-0" />
+          <ExternalLink href={href} plain className={inlineLink}>
+            <Icon aria-hidden />
             {label}
           </ExternalLink>
         </li>

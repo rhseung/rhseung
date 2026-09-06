@@ -1,6 +1,8 @@
 import { Popover as PopoverPrimitive } from '@base-ui/react/popover';
 import { css, cx } from 'styled-system/css';
 
+import type { SystemStyleObject } from 'styled-system/types';
+
 export function Popover({ ...props }: PopoverPrimitive.Root.Props) {
   return <PopoverPrimitive.Root data-slot="popover" {...props} />;
 }
@@ -11,7 +13,7 @@ export function PopoverTrigger({ ...props }: PopoverPrimitive.Trigger.Props) {
 
 const positioner = css({ isolation: 'isolate', zIndex: 'popover' });
 
-const popup = css({
+const popup = css.raw({
   zIndex: 'popover',
   display: 'flex',
   w: '72',
@@ -59,16 +61,17 @@ const arrowTip = css({
 
 export function PopoverContent({
   className,
+  css: cssProp,
   align = 'center',
   alignOffset = 0,
   side = 'bottom',
   sideOffset = 4,
   children,
   ...props
-}: Omit<PopoverPrimitive.Popup.Props, 'className'> & { className?: string } & Pick<
-    PopoverPrimitive.Positioner.Props,
-    'align' | 'alignOffset' | 'side' | 'sideOffset'
-  >) {
+}: Omit<PopoverPrimitive.Popup.Props, 'className'> & {
+  className?: string;
+  css?: SystemStyleObject;
+} & Pick<PopoverPrimitive.Positioner.Props, 'align' | 'alignOffset' | 'side' | 'sideOffset'>) {
   return (
     <PopoverPrimitive.Portal>
       <PopoverPrimitive.Positioner
@@ -80,7 +83,7 @@ export function PopoverContent({
       >
         <PopoverPrimitive.Popup
           data-slot="popover-content"
-          className={cx(popup, className)}
+          className={cx(css(popup, cssProp), className)}
           {...props}
         >
           {children}
