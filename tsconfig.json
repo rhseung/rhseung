@@ -17,7 +17,8 @@
     "types": ["astro/client", "vite/client", "node", "msw-storybook-addon/csf3"],
     // `baseUrl` 없음 — TS 6에서 deprecate됐다. `paths`는 이 파일 기준으로 해석된다.
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "styled-system/*": ["./styled-system/*"]
     }
   }
 }
