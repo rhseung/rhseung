@@ -4,7 +4,7 @@ import { preset } from '@pandacss/preset-panda';
 import { DEFAULT_THEME, THEME_MODES } from './src/common/lib/theme';
 import { globalCss } from './src/common/styles/global';
 import { PALETTES, type ColorRole } from './src/common/styles/palette';
-import { textStyles } from './src/common/styles/text-styles';
+import { letterSpacings, textStyles } from './src/common/styles/text-styles';
 
 import type { SemanticTokens } from '@pandacss/dev';
 
@@ -61,6 +61,7 @@ export default defineConfig({
           transparent: { value: 'transparent' },
           current: { value: 'currentColor' },
         },
+        letterSpacings,
         fonts: {
           display: { value: "'Pretendard GOV Variable', sans-serif" },
           body: { value: "'Pretendard GOV Variable', sans-serif" },
