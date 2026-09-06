@@ -38,6 +38,7 @@ export function LinkRow({ links, variant = 'inline', children }: LinkRow.Props) 
           </ExternalLink>
         </li>
       ))}
+      {children && <li>{children}</li>}
     </ul>
   );
 }
