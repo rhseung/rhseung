@@ -256,6 +256,7 @@ Tailwind 에서 옮긴 이유는 하나다. 토큰 밖 값을 **컴파일러가*
 - **한 번 쓰는 `css()` 는 변수로 빼지 않는다.** `className={css({...})}` 처럼 그 자리에 쓴다.
   같은 파일에서 두 번 이상 쓸 때만 상수로 올리고, 파일 둘 이상이 쓰면 `src/common/styles/` 의
   레시피다. 이름을 붙이는 순간 "어디서 또 쓰나" 를 찾게 되는데, 한 번뿐이면 그 탐색이 헛일이다.
+  `bun run lint` 의 `scripts/lint-inline-css.ts` 가 어긴 자리를 잡는다.
 - **본문 HTML 은 전부 React 가 렌더한다.** 글(MDX), 프로젝트 상세, 논문(hast -> JSX) 이 같은
   `mdxComponents(lang)` 와 `<Prose>` 를 거치고, 본문 디자인은 `src/common/styles/prose.ts`
   한 파일이다. 블록 사이 리듬은 `> * + *` 가 맡아서 MDX 컴포넌트는 자기 마진을 안 갖는다.
