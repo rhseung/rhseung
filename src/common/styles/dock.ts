@@ -8,6 +8,7 @@ export const dockBar = css({
   border: 'line',
   bg: 'surface/70',
   p: '2',
+  backdropFilter: 'auto',
   backdropBlur: 'md',
 });
 

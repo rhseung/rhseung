@@ -27,6 +27,7 @@ const fab = css({
   border: 'line',
   bg: 'surface/70',
   p: '2',
+  backdropFilter: 'auto',
   backdropBlur: 'md',
   lg: { display: 'none' },
   _print: { display: 'none' },
