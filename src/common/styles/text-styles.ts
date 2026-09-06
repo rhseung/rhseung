@@ -1,4 +1,16 @@
-import { defineTextStyles } from '@pandacss/dev';
+import { defineTextStyles, defineTokens } from '@pandacss/dev';
+
+// 자간은 글자가 커질수록 시각적으로 더 벌어져 보인다. 크기별로 조여주는 값이고, 본문 크기 이하는 0 이다.
+export const letterSpacings = defineTokens.letterSpacings({
+  body: { value: '0' },
+  heading: {
+    card: { value: '0' },
+    sub: { value: '-0.01em' },
+    section: { value: '-0.02em' },
+    page: { value: '-0.026em' },
+  },
+  caption: { value: '0' },
+});
 
 export const textStyles = defineTextStyles({
   heading: {
@@ -8,7 +20,7 @@ export const textStyles = defineTextStyles({
         fontSize: '1.875rem',
         fontWeight: '700',
         lineHeight: '1.2',
-        letterSpacing: '-0.026em',
+        letterSpacing: '{letterSpacings.heading.page}',
       },
     },
     section: {
@@ -17,7 +29,7 @@ export const textStyles = defineTextStyles({
         fontSize: '1.5rem',
         fontWeight: '600',
         lineHeight: '1.3',
-        letterSpacing: '-0.02em',
+        letterSpacing: '{letterSpacings.heading.section}',
       },
     },
     sub: {
@@ -26,30 +38,56 @@ export const textStyles = defineTextStyles({
         fontSize: '1.125rem',
         fontWeight: '600',
         lineHeight: '1.4',
-        letterSpacing: '-0.01em',
+        letterSpacing: '{letterSpacings.heading.sub}',
       },
     },
     card: {
-      value: { fontSize: '1rem', fontWeight: '500', lineHeight: '1.5' },
+      value: {
+        fontSize: '1rem',
+        fontWeight: '500',
+        lineHeight: '1.5',
+        letterSpacing: '{letterSpacings.heading.card}',
+      },
     },
   },
   body: {
-    value: { fontSize: '0.875rem', fontWeight: '400', lineHeight: '1.6' },
+    value: {
+      fontSize: '0.875rem',
+      fontWeight: '400',
+      lineHeight: '1.6',
+      letterSpacing: '{letterSpacings.body}',
+    },
   },
   prose: {
-    value: { fontSize: '1rem', fontWeight: '400', lineHeight: '1.7' },
+    value: {
+      fontSize: '1rem',
+      fontWeight: '400',
+      lineHeight: '1.7',
+      letterSpacing: '{letterSpacings.body}',
+    },
   },
   caption: {
-    value: { fontSize: '0.75rem', fontWeight: '400', lineHeight: '1.5' },
+    value: {
+      fontSize: '0.75rem',
+      fontWeight: '400',
+      lineHeight: '1.5',
+      letterSpacing: '{letterSpacings.caption}',
+    },
   },
   micro: {
-    value: { fontSize: '0.7rem', fontWeight: '500', lineHeight: '1.4' },
+    value: {
+      fontSize: '0.7rem',
+      fontWeight: '500',
+      lineHeight: '1.4',
+      letterSpacing: '{letterSpacings.caption}',
+    },
   },
   stat: {
     value: {
       fontSize: '1.125rem',
       fontWeight: '600',
       lineHeight: '1',
+      letterSpacing: '{letterSpacings.heading.sub}',
       fontVariantNumeric: 'tabular-nums',
     },
   },
