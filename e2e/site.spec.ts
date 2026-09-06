@@ -84,3 +84,14 @@ test('RSS와 sitemap이 나간다', async ({ request }) => {
   const sitemap = await request.get('/sitemap-index.xml');
   expect(sitemap.status()).toBe(200);
 });
+
+// 표 셀 안의 sr-only(absolute) 가 스크롤 상자를 벗어나 문서 폭을 늘린 적이 있다.
+test('모바일에서 가로 스크롤이 생기지 않는다', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+
+  for (const path of ['/ko/blog/hello-world/', '/ko/research/sample-paper/', '/ko/projects/']) {
+    await page.goto(path);
+    const width = await page.evaluate(() => document.documentElement.scrollWidth);
+    expect(width, path).toBeLessThanOrEqual(390);
+  }
+});

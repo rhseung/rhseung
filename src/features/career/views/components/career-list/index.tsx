@@ -91,7 +91,6 @@ export function CareerList({
 
             <div className={row}>
               {item.logo && (
-                // 아일랜드라 `<Image />` 를 못 쓴다.
                 // eslint-disable-next-line no-restricted-syntax
                 <img
                   src={item.logo}

@@ -1,6 +1,5 @@
 import { css, cva } from 'styled-system/css';
 
-// 본문 디자인 전체가 이 한 객체다. 블록 사이 리듬은 `> * + *` 가 맡고, 요소는 자기 모양만 갖는다.
 export const prose = cva({
   base: {
     color: 'text',
@@ -111,7 +110,6 @@ export const prose = cva({
     '& .footnotes li::marker': { color: 'text.muted', textStyle: 'caption' },
     '& .footnotes p': { my: '0' },
 
-    // 논문. unified-latex 가 낸 클래스와 KaTeX 내부 DOM 을 여기서 받는다.
     '& .environment.abstract': {
       mb: '8',
       borderLeftWidth: '[2px]',

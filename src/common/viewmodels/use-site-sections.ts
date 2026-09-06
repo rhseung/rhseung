@@ -18,7 +18,6 @@ import { localeHref, type IconComponent, type Language, type LocaleRoute } from 
 
 type SectionKey<R = LocaleRoute> = R extends `/[lang]/${infer K}` ? K : never;
 
-// heroicons 는 채운 변형이 별도 import 라 쌍으로 들고 다녀야 한다.
 const SECTIONS = [
   { key: 'projects', Icon: FolderIcon, IconSolid: FolderSolidIcon },
   { key: 'research', Icon: BeakerIcon, IconSolid: BeakerSolidIcon },
