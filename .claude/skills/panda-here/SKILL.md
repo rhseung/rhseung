@@ -12,7 +12,7 @@ description: 이 프로젝트에서 스타일을 쓰거나 컴포넌트를 만�
 | 그 자리에서만 쓰는 레이아웃 (flex, gap, 폭, 정렬) | `css({...})` 인라인. 반복 레이아웃은 `styled-system/patterns` 의 `stack`/`hstack`                                               |
 | 같은 묶음이 두 번 이상 나오거나 variant 가 있다   | `cva` 레시피. 여러 파일이 쓰면 `src/common/styles/`                                                                             |
 | 슬롯이 여럿이다 (root, item, label)               | `sva` 레시피 (`page`, `prose` 가 예)                                                                                            |
-| 텍스트 한 줄 (크기, 굵기, 행간)                   | `textStyle: 'body' \| 'caption' \| 'micro' \| 'heading.page' \| 'heading.section' \| 'heading.sub' \| 'heading.card' \| 'stat'` |
+| 텍스트 한 줄 (크기, 굵기, 행간)                   | `textStyle: 'body' \| 'caption' \| 'micro' \| 'heading.page' \| 'heading.section' \| 'heading.sub' \| 'heading.minor' \| 'heading.card' \| 'stat'` |
 
 한 번 쓰는 `css()` 는 변수로 빼지 않고 `className={css({...})}` 로 그 자리에 쓴다. 같은 파일에서
 두 번 이상일 때만 상수, 파일 둘 이상이면 `src/common/styles/` 의 레시피다.

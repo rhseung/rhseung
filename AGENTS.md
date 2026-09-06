@@ -244,7 +244,7 @@ Tailwind 에서 옮긴 이유는 하나다. 토큰 밖 값을 **컴파일러가*
   레시피는 `src/common/styles/`, 컴포넌트는 그걸 부른다. `styled-system/` 은 생성물이다.
 - **콜사이트 규칙.** 그 자리에서만 쓰는 레이아웃은 `css({...})`(반복 레이아웃은 `stack`/`hstack`
   패턴). 두 번 이상 나오거나 variant 가 있으면 `cva`, 슬롯이 여럿이면 `sva`. 텍스트 한 줄은
-  레시피가 아니라 `textStyle` 이다(`body`, `caption`, `micro`, `heading.page/section/sub/card`,
+  레시피가 아니라 `textStyle` 이다(`body`, `caption`, `micro`, `heading.page/section/sub/minor/card`,
   `stat`, `prose`). 두 번째로 같은 걸 쓰는 순간 인라인을 레시피로 올린다 - 미리 만들지 않는다.
 - 토큰 이름은 컴포넌트가 아니라 **역할**이다 - `surface`, `text.muted`, `line`, `accent`.
   디자인 방향이 바뀌어도 이름이 산다. 투명도는 `'text.muted/60'`.

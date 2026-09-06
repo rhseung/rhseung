@@ -16,9 +16,9 @@ export const textStyles = defineTextStyles({
     page: {
       value: {
         fontFamily: 'display',
-        fontSize: '1.875rem',
+        fontSize: '1.75rem',
         fontWeight: '700',
-        lineHeight: '1.2',
+        lineHeight: '1.25',
         letterSpacing: '{letterSpacings.heading.page}',
       },
     },
@@ -34,16 +34,25 @@ export const textStyles = defineTextStyles({
     sub: {
       value: {
         fontFamily: 'display',
-        fontSize: '1.125rem',
+        fontSize: '1.25rem',
         fontWeight: '600',
         lineHeight: '1.4',
+        letterSpacing: '{letterSpacings.heading.sub}',
+      },
+    },
+    minor: {
+      value: {
+        fontFamily: 'display',
+        fontSize: '1.125rem',
+        fontWeight: '600',
+        lineHeight: '1.45',
         letterSpacing: '{letterSpacings.heading.sub}',
       },
     },
     card: {
       value: {
         fontSize: '1rem',
-        fontWeight: '500',
+        fontWeight: '600',
         lineHeight: '1.5',
         letterSpacing: '{letterSpacings.heading.card}',
       },
