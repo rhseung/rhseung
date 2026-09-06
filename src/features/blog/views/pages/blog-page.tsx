@@ -1,22 +1,27 @@
 import { useTranslation } from 'react-i18next';
+import { css } from 'styled-system/css';
+import { stack } from 'styled-system/patterns';
 
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle, SiteDock } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
+import { page } from '@/common/styles';
 
 import { sortPosts, type PostSummary } from '../../viewmodels';
 import { PostListItem } from '../components';
 
+const title = css({ textStyle: 'heading.page' });
+const list = stack({ gap: '8' });
+
 export function BlogPage({ lang, posts }: BlogPage.Props) {
   const { t } = useTranslation('blog');
+  const shell = page();
 
   const visible = sortPosts(posts);
 
   return (
-    <div className="bg-background min-h-dvh">
-      <main className="mx-auto flex max-w-3xl flex-col gap-8 p-4 sm:p-6 md:p-8">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-2xl font-semibold">{t(($) => $.page.title)}</h1>
-        </div>
+    <div className={shell.root}>
+      <main className={shell.main}>
+        <h1 className={title}>{t(($) => $.page.title)}</h1>
 
         {visible.length === 0 ? (
           <Empty>
@@ -26,7 +31,7 @@ export function BlogPage({ lang, posts }: BlogPage.Props) {
             </EmptyHeader>
           </Empty>
         ) : (
-          <ul className="flex flex-col gap-8">
+          <ul className={list}>
             {visible.map((post) => (
               <li key={post.slug}>
                 <PostListItem

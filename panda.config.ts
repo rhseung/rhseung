@@ -66,6 +66,7 @@ export default defineConfig({
         zIndex: {
           blur: { value: 10 },
           dock: { value: 20 },
+          fab: { value: 30 },
           popover: { value: 50 },
         },
         animations: {

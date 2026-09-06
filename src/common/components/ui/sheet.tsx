@@ -6,7 +6,7 @@ import { css, cva, cx } from 'styled-system/css';
 
 import { Button } from './button';
 
-import type { RecipeVariantProps } from 'styled-system/types';
+import type { RecipeVariantProps, SystemStyleObject } from 'styled-system/types';
 
 type WithClassName<T> = Omit<T, 'className'> & { className?: string };
 
@@ -104,19 +104,23 @@ const srOnly = css({ srOnly: true });
 
 export function SheetContent({
   className,
+  css: cssProp,
   children,
   side = 'right',
   showCloseButton = true,
   ...props
 }: WithClassName<SheetPrimitive.Popup.Props> &
-  RecipeVariantProps<typeof contentVariants> & { showCloseButton?: boolean }) {
+  RecipeVariantProps<typeof contentVariants> & {
+    css?: SystemStyleObject;
+    showCloseButton?: boolean;
+  }) {
   return (
     <SheetPrimitive.Portal data-slot="sheet-portal">
       <SheetOverlay />
       <SheetPrimitive.Popup
         data-slot="sheet-content"
         data-side={side}
-        className={cx(contentVariants({ side }), className)}
+        className={cx(css(contentVariants.raw({ side }), cssProp), className)}
         {...props}
       >
         {children}

@@ -1,17 +1,28 @@
 import { useTranslation } from 'react-i18next';
+import { css } from 'styled-system/css';
+import { hstack, stack } from 'styled-system/patterns';
 
 import { Badge } from '@/common/components';
 import { dayjs } from '@/common/lib';
+import { metaText } from '@/common/styles';
 
 import type { PostSummary } from '../../../viewmodels';
+
+const article = stack({ gap: '1' });
+const head = hstack({ gap: '2' });
+const title = css({
+  textStyle: 'heading.card',
+  '& a': { _hover: { textDecoration: 'underline' } },
+});
+const summary = css({ color: 'text.muted', textStyle: 'body' });
 
 export function PostListItem({ post, href, showLanguage }: PostListItem.Props) {
   const { t } = useTranslation('blog');
 
   return (
-    <article className="flex flex-col gap-1">
-      <div className="flex items-center gap-2">
-        <time dateTime={post.date} className="text-muted-foreground text-xs tabular-nums">
+    <article className={article}>
+      <div className={head}>
+        <time dateTime={post.date} className={metaText}>
           {dayjs(post.date).format('LL')}
         </time>
 
@@ -22,13 +33,11 @@ export function PostListItem({ post, href, showLanguage }: PostListItem.Props) {
         )}
       </div>
 
-      <h2 lang={post.bodyLang} data-vt-title={post.slug} className="text-base font-medium">
-        <a href={href} className="hover:underline">
-          {post.title}
-        </a>
+      <h2 lang={post.bodyLang} data-vt-title={post.slug} className={title}>
+        <a href={href}>{post.title}</a>
       </h2>
 
-      <p lang={post.bodyLang} className="text-muted-foreground text-sm">
+      <p lang={post.bodyLang} className={summary}>
         {post.summary}
       </p>
     </article>
