@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { LANGUAGES } from '@/common/lib';
 
-import { pickBody, pickRecent, sortPosts, toPostSummary } from './select-posts';
+import { pickBody, sortPosts, toPostSummary } from './select-posts';
 
 import type { PostSummary } from '../models';
 
@@ -61,13 +61,5 @@ describe('sortPosts', () => {
     sortPosts(posts);
 
     expect(posts.map((p) => p.slug)).toEqual(['a', 'b']);
-  });
-});
-
-describe('pickRecent', () => {
-  it('최신 n개', () => {
-    const posts = [post('a', '2024-01-01'), post('b', '2026-01-01'), post('c', '2025-01-01')];
-
-    expect(pickRecent(posts, 2).map((p) => p.slug)).toEqual(['b', 'c']);
   });
 });
