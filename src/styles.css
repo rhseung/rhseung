@@ -1,4 +1,4 @@
-@import 'katex/dist/katex.min.css';
-@import './fonts.css';
+@layer reset, base, katex, tokens, recipes, utilities;
 
-@layer reset, base, tokens, recipes, utilities;
+@import 'katex/dist/katex.min.css' layer(katex);
+@import './fonts.css';
