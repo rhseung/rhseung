@@ -21,8 +21,6 @@
 | `bun run verify`    | **PR 전** — format+lint+typecheck(astro check)+doctor+test |
 | `bun run gen`       | `t()` 키를 추가·삭제하거나 MDX 에 새 외부 링크를 넣은 뒤   |
 
-| `bun run ui:add` | shadcn 컴포넌트 추가 |
-
 `typecheck`는 `tsc`가 아니라 `astro check`다 — `.astro` 파일은 tsc가 못 읽는다.
 
 ### collection 스키마를 바꿨으면 `.astro/`를 지운다
@@ -76,10 +74,10 @@ Playwright 브라우저도 공유 라이브러리도 없어서 `@sparticuz/chrom
 src/
 ├── common/                    # 크로스 피처. 루트 배럴 없음.
 │   ├── components/
-│   │   ├── ui/                #   프리미티브 (shadcn CLI 생성, 손으로 안 만든다)
+│   │   ├── ui/                #   프리미티브 (shadcn 에서 시작해 Panda 로 다시 쓴 우리 코드)
 │   │   └── layout/            #   앱을 아는 조합 컴포넌트 (AppProviders 포함)
 │   ├── lib/                   #   라이브러리 설정·싱글턴 (i18n, dayjs, site)
-│   └── utils/                 #   순수 헬퍼 (cn)
+│   └── styles/                #   디자인 시스템 - 팔레트·textStyles·레시피 (page, prose, dock)
 ├── content.config.ts          # collection 정의. 스키마는 각 feature의 models가 소유한다
 ├── content/                   # MDX·yaml 원본 (projects, posts, resume)
 ├── features/<name>/
@@ -137,7 +135,7 @@ side-effect import로 런타임에 살아남아 실제로 터진다. 그래서 �
 ### Storybook은 Astro를 모른다
 
 `common/`과 `features/*/views`는 순수 `.tsx` React라서 `@storybook/react-vite`가
-Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`는 Storybook·vitest
+Vite + React + Panda(PostCSS)만으로 그대로 돌아간다(루트 `vite.config.ts`는 Storybook·vitest
 전용이고 `astro.config.ts`와 무관하다). `.astro`는 스토리 대상이 아니다 — 텍스트도
 로직도 없이 페이지·레이아웃 셸만 맡기 때문이다.
 
@@ -196,23 +194,21 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 
 ## 4. UI
 
-### shadcn/ui
+### 프리미티브
 
-- **프리미티브를 손으로 만들지 않는다.** `bun run ui:add <name>` 후
-  `src/common/components/index.ts`에 재export.
-- 스타일은 `base-nova` = **Base UI**. Radix가 아니다.
+- `src/common/components/ui/` 는 shadcn 에서 시작했지만 **Panda 레시피로 다시 쓴 우리 코드다.**
+  CLI 로 재생성하지 않는다. 쓰이는 것만 남겼다(card, checkbox, field 류는 호출부가 없어 지웠다).
+- 헤드리스는 **Base UI**. Radix가 아니다.
   → 합성은 `asChild`가 아니라 **`render` prop**: `<Button render={<a href="/">…</a>} />`
 - 아이콘은 **heroicons 를 먼저 쥐어짜낸다.** 손으로 쓰는 코드는 `@heroicons/react/24/outline`,
   채운 변형이 필요하면 `/24/solid`. 없으면 그때만 `@phosphor-icons/react`.
   지금 phosphor 가 남은 자리는 셋뿐이다 - `mdx/shortcut`(mac 모디파이어 글리프. heroicons 에
-  개념이 없다), `GithubLogo`(heroicons 는 브랜드 로고를 안 만든다), `ui/**`(생성물).
-- **`components.json` 의 `iconLibrary` 는 `phosphor` 로 둔다.** `ui/**` 는 CLI 가 다시 구우면
-  어차피 phosphor 로 돌아오고, 거기 쓰이는 아이콘은 둘뿐이라 맞출 값어치가 없다.
+  개념이 없다), `GithubLogo`(heroicons 는 브랜드 로고를 안 만든다), `ui/sheet`(닫기 X).
 - **heroicons 는 채운 변형을 prop 이 아니라 import 경로로 준다.** phosphor 의 `weight="fill"`
   처럼 런타임에 못 바꾼다. 상태에 따라 채움이 달라지는 자리는 아이콘을 쌍으로 들고 다녀야
   한다 (`use-site-sections.ts` 의 `Icon`/`IconSolid`).
 - 두 라이브러리를 같은 자리에 꽂는 prop 은 `@/common/lib` 의 `IconComponent` 로 받는다.
-- 생성된 `ui/**`는 린트 예외가 걸려 있다. 고치지 말고 재생성한다.
+- 컴포넌트 안의 아이콘은 크기를 안 준다. `& svg:not([class*=size_])` 로 컴포넌트가 정한다.
 
 ### 컴포넌트 규약
 
@@ -231,20 +227,39 @@ Vite + React + Tailwind만으로 그대로 돌아간다(루트 `vite.config.ts`�
 
 - 본문·제목 전부 **Pretendard 단독**이다. 라틴까지 Pretendard 가 덮는다.
 - 코드는 **Monaspace Neon Var**. texture healing(`calt`)이 켜져 있어 코드 덩어리가 고르게
-  보인다 - `styles.css` 의 `code, kbd, pre, samp` 블록.
-- 토큰은 `--font-sans`(본문)·`--font-mono`(코드).
+  보인다 - `src/common/styles/global.ts` 의 `code, kbd, pre, samp` 블록.
+- 토큰은 `fontFamily: 'body' | 'display' | 'mono' | 'serif'`. `display` 는 지금 `body` 와 같은
+  값이지만 슬롯을 열어둔다 - 제목 서체를 바꿀 때 값만 바꾸면 되게. `serif` 는 논문 전용이다.
 - `src/fonts.css` 는 **생성물**이다. 손으로 고치지 않고 파일 헤더의 출처에서 다시 받는다.
   자체 호스팅인 이유: 외부 CDN 이면 첫 페인트가 남의 서버에 묶이고 `gen:resume` 이 굽는
   PDF 도 네트워크 상태를 탄다.
 
-### 스타일
+### 스타일 - Panda CSS
 
-- 손으로 쓰는 variants는 `tailwind-variants`(`tv()`). shadcn이 만든 CVA는 그대로 둔다.
-- 색을 하드코딩하지 않는다. `src/styles.css`의 시맨틱 토큰(`bg-card`, `text-muted-foreground`)만.
-- 정렬은 `prettier-plugin-tailwindcss`가 한다. 손으로 정렬하지 않는다.
-- **variable에 담는 className은 항상 `cn()`으로 감싼다.** 순수 문자열 리터럴로 두면
-  Tailwind CSS IntelliSense 확장이 그 변수를 인식 못 해 자동완성이 안 된다.
-  `const x = cn('...')`, `className={x}` 처럼 JSX 밖에서 선언할 때도 예외 없다.
+Tailwind 에서 옮긴 이유는 하나다. 토큰 밖 값을 **컴파일러가** 막는다(`strictTokens`). 규칙으로
+"색을 하드코딩하지 않는다" 고 적어두는 동안 하드코딩이 하나 들어와 있었다.
+
+- 세 층이다. 원시·시맨틱 토큰은 `panda.config.ts` + `src/common/styles/palette.ts`(색을
+  `Record<ThemeMode, Palette>` 로 - 테마를 추가하면 팔레트 전체가 컴파일 에러로 채워진다),
+  레시피는 `src/common/styles/`, 컴포넌트는 그걸 부른다. `styled-system/` 은 생성물이다.
+- **콜사이트 규칙.** 그 자리에서만 쓰는 레이아웃은 `css({...})`(반복 레이아웃은 `stack`/`hstack`
+  패턴). 두 번 이상 나오거나 variant 가 있으면 `cva`, 슬롯이 여럿이면 `sva`. 텍스트 한 줄은
+  레시피가 아니라 `textStyle` 이다(`body`, `caption`, `micro`, `heading.page/section/sub/card`,
+  `stat`, `prose`). 두 번째로 같은 걸 쓰는 순간 인라인을 레시피로 올린다 - 미리 만들지 않는다.
+- 토큰 이름은 컴포넌트가 아니라 **역할**이다 - `surface`, `text.muted`, `line`, `accent`.
+  디자인 방향이 바뀌어도 이름이 산다. 투명도는 `'text.muted/60'`.
+- **같은 속성을 `className` 으로 덮어쓰지 않는다.** 원자 클래스는 같은 속성이 두 번 붙으면
+  호출 순서가 아니라 스타일시트 순서가 이긴다. 컴포넌트의 속성을 바꾸려면 그 컴포넌트의 `css`
+  prop 으로 병합한다(`Badge`, `ToggleGroupItem`, `PopoverContent`, `SheetContent`). 상태는
+  삼항 클래스가 아니라 속성 셀렉터(`'&[aria-current=page]'`, `_pressed`)다.
+- 임의값 탈출구는 대괄호 `'[1px]'` 뿐이다. 토큰이 될 수 있는 값이면 토큰을 추가한다.
+- **본문 HTML 은 전부 React 가 렌더한다.** 글(MDX), 프로젝트 상세, 논문(hast -> JSX) 이 같은
+  `mdxComponents(lang)` 와 `<Prose>` 를 거치고, 본문 디자인은 `src/common/styles/prose.ts`
+  한 파일이다. 블록 사이 리듬은 `> * + *` 가 맡아서 MDX 컴포넌트는 자기 마진을 안 갖는다.
+  전역 CSS(`src/common/styles/global.ts`)에는 토큰으로 못 적는 것만 남는다 - 페이지 전환
+  의사요소, KaTeX 내부 DOM, 리셋.
+- 기술 배지의 브랜드 색은 토큰이 될 수 없다(기술마다 다르다). `techTone` 이 `--brand` 를 받아
+  그 자리에서 톤을 만든다 - `<Badge tone="brand" style={brand(hex)}>`.
 - **배지에 `variant="ghost"`를 쓰지 않는다.** hover 전에는 컨테이너가 안 보여서 배지로
   읽히지 않는다. 분류축은 `secondary`(채움), 나머지는 `outline`(테두리).
 
@@ -471,7 +486,7 @@ CI는 `bun run gen:i18n` 후 `git diff --exit-code`로 JSON이 최신인지 검�
   주석에 적는다 (eager glob 의 TDZ 처럼 빌드가 터지는 것 말고는 알 길이 없는 것).
   함수·타입·prop 에 이름값을 되풀이하는 JSDoc 은 금지.
 - 린트 규칙을 끄는 커밋을 만들지 않는다. 막히면 물어본다.
-- 생성물(`src/api`, `src/@types`)을 편집하지 않는다.
+- 생성물(`src/@types`, `styled-system`)을 편집하지 않는다.
 
 ## 11. 지금 있는 것
 

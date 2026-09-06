@@ -2,7 +2,6 @@ import { unified } from '@astrojs/markdown-remark';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
-import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 import astroTypesafeRoutes from 'astro-typesafe-routes';
 import rehypeKatex from 'rehype-katex';
@@ -49,7 +48,6 @@ export default defineConfig({
   ],
 
   vite: {
-    plugins: [tailwindcss()],
     resolve: {
       alias: {
         '@': new URL('./src', import.meta.url).pathname,

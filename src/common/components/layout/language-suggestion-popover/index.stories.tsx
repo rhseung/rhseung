@@ -8,7 +8,11 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 const meta = {
   title: 'Common/LanguageSuggestionPopover',
   component: LanguageSuggestionPopover,
-  parameters: { layout: 'centered' },
+  parameters: {
+    layout: 'centered',
+    // Base UI 가 팝업 앞뒤에 두는 포커스 가드(`aria-hidden` + `tabindex=0`)는 우리 DOM 이 아니다.
+    a11y: { config: { rules: [{ id: 'aria-hidden-focus', enabled: false }] } },
+  },
   args: {
     suggested: 'en',
     href: '/en/',
