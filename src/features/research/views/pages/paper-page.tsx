@@ -2,9 +2,12 @@ import { useState } from 'react';
 
 import { CheckIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
+import { css, cx } from 'styled-system/css';
+import { stack } from 'styled-system/patterns';
 
-import { Badge, Button, DetailHeader, LinkRow, SiteDock } from '@/common/components';
-import { formatPeriod, localeHref, tone, type Language } from '@/common/lib';
+import { Badge, Button, DetailHeader, LinkRow, Prose, SiteDock } from '@/common/components';
+import { formatPeriod, localeHref, type Language } from '@/common/lib';
+import { bibliography as bibliographyStyle, metaText, page } from '@/common/styles';
 
 import {
   RESEARCH_KIND_TONE,
@@ -16,20 +19,31 @@ import { RESEARCH_LINK_ICON } from '../components';
 
 const COPIED_MS = 1600;
 
+const main = css({ display: 'flex', minW: '0', flexDirection: 'column', gap: '8' });
+const header = stack({ gap: '3' });
+const kindRow = css({ display: 'flex', alignItems: 'center', gap: '1.5' });
+const period = css({ ml: 'auto' });
+const title = css({ textStyle: 'heading.page' });
+const authors = css({ color: 'text.muted', textStyle: 'sm' });
+const paper = stack({ gap: '8' });
+const references = stack({ gap: '3' });
+const referencesTitle = css({ textStyle: 'heading.sub' });
+
 export function PaperPage({
   lang,
   item,
-  authors,
+  authors: authorLine,
   bibtex,
   children,
   bibliography,
 }: PaperPage.Props) {
   const { t } = useTranslation('research');
   const label = useResearchLabels();
+  const shell = page({ width: 'lg' });
 
   const [copied, setCopied] = useState(false);
 
-  const period = formatPeriod(
+  const periodText = formatPeriod(
     item.start,
     item.end,
     t(($) => $.period.ongoing),
@@ -52,30 +66,30 @@ export function PaperPage({
   };
 
   return (
-    <div className="bg-background min-h-dvh">
-      <div className="mx-auto w-full max-w-4xl p-4 sm:p-6 md:p-8">
+    <div className={shell.root}>
+      <div className={shell.frame}>
         <DetailHeader
           lang={lang}
           backHref={localeHref(lang, '/[lang]/research')}
           backLabel={t(($) => $.detail.back)}
         />
 
-        <main className="flex min-w-0 flex-col gap-8">
-          <header className="flex flex-col gap-3">
-            <div className="flex items-center gap-1.5">
-              <Badge variant="secondary" className={tone({ tone: RESEARCH_KIND_TONE[item.kind] })}>
+        <main className={main}>
+          <header className={header}>
+            <div className={kindRow}>
+              <Badge variant="secondary" tone={RESEARCH_KIND_TONE[item.kind]}>
                 {label.kind[item.kind]}
               </Badge>
-              <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
+              <span className={cx(metaText, period)}>{periodText}</span>
             </div>
 
-            <h1 data-vt-title={item.slug} className="text-3xl font-extrabold">
+            <h1 data-vt-title={item.slug} className={title}>
               {item.title}
             </h1>
 
-            <p className="text-muted-foreground text-sm">
-              {authors ?? item.org}
-              {authors !== undefined && ` · ${item.org}`}
+            <p className={authors}>
+              {authorLine ?? item.org}
+              {authorLine !== undefined && ` · ${item.org}`}
             </p>
 
             <LinkRow links={links} variant="button">
@@ -92,13 +106,13 @@ export function PaperPage({
             </LinkRow>
           </header>
 
-          <div className="paper flex flex-col gap-8">
-            <div className="prose prose-zinc dark:prose-invert max-w-none">{children}</div>
+          <div className={paper}>
+            <Prose layout="paper">{children}</Prose>
 
             {bibliography !== undefined && (
-              <section className="flex flex-col gap-3">
-                <h2 className="text-lg font-semibold">{t(($) => $.detail.references)}</h2>
-                {bibliography}
+              <section className={references}>
+                <h2 className={referencesTitle}>{t(($) => $.detail.references)}</h2>
+                <div className={bibliographyStyle}>{bibliography}</div>
               </section>
             )}
           </div>

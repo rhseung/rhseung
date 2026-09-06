@@ -1,5 +1,4 @@
 import { buttonVariants } from '@/common/components';
-import { cn } from '@/common/utils';
 
 import { ExternalLink } from '.';
 
@@ -19,7 +18,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 export const AsButton: Story = {
-  args: { className: cn(buttonVariants({ variant: 'outline', size: 'sm' })) },
+  args: { plain: true, className: buttonVariants({ variant: 'outline', size: 'sm' }) },
 };
 
 /** `showFavicon` 을 켰고 파비콘을 받아둔 도메인이면 ↗ 대신 그 사이트 아이콘이 선다. MDX 본문 링크만 이걸 켠다. */

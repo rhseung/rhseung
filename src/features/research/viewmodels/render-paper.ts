@@ -5,17 +5,19 @@ import { unifiedLatexToHast } from '@unified-latex/unified-latex-to-hast';
 import { parse } from '@unified-latex/unified-latex-util-parse';
 import { printRaw } from '@unified-latex/unified-latex-util-print-raw';
 import { visit as visitLatex } from '@unified-latex/unified-latex-util-visit';
-import { toHtml } from 'hast-util-to-html';
+import { fromHtml } from 'hast-util-from-html';
 import katex from 'katex';
 import { unified } from 'unified';
 import { visit } from 'unist-util-visit';
+
+import type { Root } from 'hast';
 
 export type Paper = {
   title?: string;
   authors?: string;
   abstract?: string;
-  html: string;
-  bibliography?: string;
+  body: Root;
+  bibliography?: Root;
 };
 
 const STYLE = 'apa';
@@ -39,7 +41,7 @@ function keysOf(raw: string): string[] {
 export function renderPaper(tex: string, bib?: string): Paper {
   const tree = parse(tex);
 
-  const paper: Paper = { html: '' };
+  const paper: Paper = { body: { type: 'root', children: [] } };
   const cited: string[] = [];
 
   visitLatex(tree, (node) => {
@@ -78,15 +80,11 @@ export function renderPaper(tex: string, bib?: string): Paper {
       const display = classes.includes('display-math');
 
       if (display || classes.includes('inline-math')) {
-        node.children = [
-          {
-            type: 'raw',
-            value: katex.renderToString(textOf(node), {
-              displayMode: display,
-              throwOnError: false,
-            }),
-          },
-        ];
+        // 문자열이 아니라 트리로 넣어야 `raw` 노드 없이 JSX 로 바로 나간다.
+        node.children = fromHtml(
+          katex.renderToString(textOf(node), { displayMode: display, throwOnError: false }),
+          { fragment: true },
+        ).children;
         return;
       }
 
@@ -104,15 +102,18 @@ export function renderPaper(tex: string, bib?: string): Paper {
     },
   );
 
-  paper.html = toHtml(hast, { allowDangerousHtml: true });
+  paper.body = hast;
 
   const entries = [...new Set(cited)].filter((key) => known.has(key));
 
-  if (source !== undefined && entries.length > 0)
-    paper.bibliography = source
+  if (source !== undefined && entries.length > 0) {
+    const html: string = source
       .format('bibliography', { format: 'html', template: STYLE, entry: entries })
       // citation-js 는 앵커로 쓸 `id` 를 안 붙인다. 인용 마크가 걸 자리를 만든다.
       .replace(/data-csl-entry-id="([^"]+)"/g, 'id="ref-$1" data-csl-entry-id="$1"');
+
+    paper.bibliography = fromHtml(html, { fragment: true });
+  }
 
   return paper;
 }

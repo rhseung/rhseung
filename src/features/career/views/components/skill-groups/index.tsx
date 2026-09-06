@@ -1,27 +1,38 @@
+import { css, cva } from 'styled-system/css';
+
 import { Badge, TechIcon } from '@/common/components';
-import { brand, tone } from '@/common/lib';
-import { cn } from '@/common/utils';
+import { brand } from '@/common/styles';
 
 import type { SkillGroup } from '../../../viewmodels';
 
+const list = cva({
+  base: { gap: '4' },
+  variants: {
+    layout: {
+      list: { display: 'flex', flexDirection: 'column' },
+      grid: { display: 'grid', sm: { gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' } },
+    },
+  },
+});
+const group = css({ display: 'flex', breakInside: 'avoid', flexDirection: 'column', gap: '1.5' });
+const groupName = css({ color: 'text.muted', textStyle: 'caption' });
+const items = css({ display: 'flex', flexWrap: 'wrap', gap: '1' });
+// `flex` 를 빼면 `inline-flex` baseline 이 첫 자식에서 나와 뱃지끼리 어긋난다.
+const item = css({ display: 'flex' });
+
 export function SkillGroups({ groups, layout = 'list' }: SkillGroups.Props) {
   return (
-    <dl className={cn('gap-4', layout === 'grid' ? 'grid sm:grid-cols-2' : 'flex flex-col')}>
-      {groups.map((group) => (
-        <div key={group.group} className="flex break-inside-avoid flex-col gap-1.5">
-          <dt className="text-muted-foreground text-xs">{group.group}</dt>
+    <dl className={list({ layout })}>
+      {groups.map((skillGroup) => (
+        <div key={skillGroup.group} className={group}>
+          <dt className={groupName}>{skillGroup.group}</dt>
           <dd>
-            <ul className="flex flex-wrap gap-1">
-              {group.items.map((item) => (
-                // `flex` 를 빼면 `inline-flex` baseline 이 첫 자식에서 나와 뱃지끼리 어긋난다.
-                <li key={item.name} className="flex">
-                  <Badge
-                    variant="secondary"
-                    className={tone({ tone: 'brand' })}
-                    style={brand(item.hex)}
-                  >
-                    {item.icon && <TechIcon icon={item.icon} />}
-                    {item.name}
+            <ul className={items}>
+              {skillGroup.items.map((tech) => (
+                <li key={tech.name} className={item}>
+                  <Badge variant="secondary" tone="brand" style={brand(tech.hex)}>
+                    {tech.icon && <TechIcon icon={tech.icon} />}
+                    {tech.name}
                   </Badge>
                 </li>
               ))}

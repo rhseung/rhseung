@@ -6,7 +6,7 @@ import { css, cx } from 'styled-system/css';
 
 import { toggleVariants } from './toggle';
 
-import type { RecipeVariantProps } from 'styled-system/types';
+import type { RecipeVariantProps, SystemStyleObject } from 'styled-system/types';
 
 type ToggleGroupVariants = RecipeVariantProps<typeof toggleVariants> & {
   orientation?: 'horizontal' | 'vertical';
@@ -57,12 +57,14 @@ export function ToggleGroup({
 
 export function ToggleGroupItem({
   className,
+  css: cssProp,
   children,
   variant = 'default',
   size = 'default',
   ...props
 }: Omit<TogglePrimitive.Props, 'className'> & {
   className?: string;
+  css?: SystemStyleObject;
 } & RecipeVariantProps<typeof toggleVariants>) {
   const context = React.useContext(ToggleGroupContext);
 
@@ -73,7 +75,10 @@ export function ToggleGroupItem({
       data-size={context.size ?? size}
       className={cx(
         item,
-        toggleVariants({ variant: context.variant ?? variant, size: context.size ?? size }),
+        css(
+          toggleVariants.raw({ variant: context.variant ?? variant, size: context.size ?? size }),
+          cssProp,
+        ),
         className,
       )}
       {...props}

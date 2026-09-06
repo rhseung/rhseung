@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { css } from 'styled-system/css';
 import { stack } from 'styled-system/patterns';
 
-import { Badge, DetailHeader, SiteDock, TranslationNotice } from '@/common/components';
+import { Badge, DetailHeader, Prose, SiteDock, TranslationNotice } from '@/common/components';
 import { dayjs, localeHref, type Language } from '@/common/lib';
 import { metaText, page } from '@/common/styles';
 
@@ -78,9 +78,7 @@ export function PostDetailPage({ lang, post, headings, children }: PostDetailPag
 
           {post.bodyLang !== lang && <TranslationNotice bodyLang={post.bodyLang} />}
 
-          <div lang={post.bodyLang} className="prose prose-zinc dark:prose-invert max-w-none">
-            {children}
-          </div>
+          <Prose lang={post.bodyLang}>{children}</Prose>
         </main>
 
         <aside className={aside}>

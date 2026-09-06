@@ -1,13 +1,32 @@
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
+import { css } from 'styled-system/css';
 
 import { SiteDock, buttonVariants } from '@/common/components';
 import { type Language } from '@/common/lib';
-import { cn } from '@/common/utils';
+import { page } from '@/common/styles';
 import type { Award, CareerEntry, SkillGroup } from '@/features/career';
 import type { Project } from '@/features/projects';
 
 import { ResumeDocument } from '../components/resume-document';
+
+const main = css(page.raw().main, { _print: { maxW: '[none]', gap: '0', p: '0' } });
+const head = css({
+  display: 'flex',
+  alignItems: 'flex-start',
+  justifyContent: 'space-between',
+  gap: '4',
+  _print: { display: 'none' },
+});
+const title = css({ textStyle: 'heading.page' });
+const sheet = css({
+  rounded: 'xl',
+  border: 'line',
+  bg: 'surface.raised/40',
+  p: '6',
+  sm: { p: '8' },
+  _print: { rounded: 'none', border: 'none', bg: 'transparent', p: '0' },
+});
 
 export function ResumePage({
   lang,
@@ -19,26 +38,25 @@ export function ResumePage({
   resumeHref,
 }: ResumePage.Props) {
   const { t } = useTranslation('resume');
+  const shell = page();
 
   return (
-    <div className="bg-background min-h-dvh">
-      <main className="mx-auto flex max-w-3xl flex-col gap-8 p-4 sm:p-6 md:p-8 print:max-w-none print:gap-0 print:p-0">
-        <div className="flex items-start justify-between gap-4 print:hidden">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-2xl font-semibold">{t(($) => $.page.title)}</h1>
-          </div>
+    <div className={shell.root}>
+      <main className={main}>
+        <div className={head}>
+          <h1 className={title}>{t(($) => $.page.title)}</h1>
 
           <a
             href={resumeHref}
             download
-            className={cn(buttonVariants({ size: 'sm', variant: 'outline' }))}
+            className={buttonVariants({ size: 'sm', variant: 'outline' })}
           >
             <ArrowDownTrayIcon data-icon="inline-start" />
             {t(($) => $.download.label)}
           </a>
         </div>
 
-        <div className="border-border bg-card/40 rounded-xl border p-6 sm:p-8 print:rounded-none print:border-0 print:bg-transparent print:p-0">
+        <div className={sheet}>
           <ResumeDocument
             experience={experience}
             education={education}

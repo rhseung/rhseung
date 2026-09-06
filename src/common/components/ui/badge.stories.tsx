@@ -1,4 +1,6 @@
-import { TONES, tone } from '@/common/lib';
+import { css } from 'styled-system/css';
+
+import { TONES } from '@/common/styles';
 
 import { Badge } from './badge';
 
@@ -26,9 +28,9 @@ export const Secondary: Story = {
 
 export const Tones: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-1">
+    <div className={css({ display: 'flex', flexWrap: 'wrap', gap: '1' })}>
       {TONES.map((name) => (
-        <Badge key={name} variant="secondary" className={tone({ tone: name })}>
+        <Badge key={name} variant="secondary" tone={name}>
           {name}
         </Badge>
       ))}

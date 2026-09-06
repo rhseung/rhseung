@@ -1,4 +1,5 @@
-import type { Language, Localized, Tone, Url, YearMonth } from '@/common/lib';
+import type { Language, Localized, Url, YearMonth } from '@/common/lib';
+import type { Tone } from '@/common/styles';
 
 export const RESEARCH_KINDS = ['rne', 'lab', 'paper'] as const;
 

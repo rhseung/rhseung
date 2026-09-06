@@ -3,4 +3,4 @@ export type { Research, ResearchKind } from './models';
 
 export { sortResearch, useResearchLabels } from './viewmodels';
 
-export { PaperPage, ResearchCard, ResearchPage } from './views';
+export { PaperContent, PaperPage, ResearchCard, ResearchPage } from './views';

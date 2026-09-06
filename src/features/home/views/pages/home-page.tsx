@@ -1,93 +1,158 @@
 import { useMemo } from 'react';
 
 import { useTranslation } from 'react-i18next';
+import { css } from 'styled-system/css';
+import { stack } from 'styled-system/patterns';
 
 import { Avatar, AvatarFallback, AvatarImage, ExternalLink, SiteDock } from '@/common/components';
 import { dayjs, SITE, type Language } from '@/common/lib';
-import { cn } from '@/common/utils';
+import { page } from '@/common/styles';
 import { useExternalLinks, useSiteSections } from '@/common/viewmodels';
 
 import { useContributions, useKstTime, type Contributions } from '../../viewmodels';
 import { GithubContributionCalendar, RoleRotator } from '../components';
 
+const main = css({
+  mx: 'auto',
+  display: 'flex',
+  maxW: '3xl',
+  flexDirection: 'column',
+  gap: '12',
+  px: '4',
+  py: '16',
+});
+const hero = css({ display: 'flex', alignItems: 'center', gap: '5' });
+const heroText = stack({ gap: '1' });
+const name = css({ textStyle: 'heading.page' });
+const muted = css({ color: 'text.muted' });
+const section = stack({ gap: '4' });
+const heading = css({ textStyle: 'heading.sub' });
+const bio = css({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '3',
+  color: 'text.muted',
+  textStyle: 'body',
+});
+const entries = stack({ gap: '3' });
+const entryGrid = css({
+  display: 'grid',
+  gap: '2',
+  sm: { gridTemplateColumns: 'repeat(5, minmax(0, 1fr))', gap: '3' },
+});
+const entry = css({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '2',
+  rounded: 'lg',
+  border: 'line',
+  p: '3',
+  textStyle: 'sm',
+  fontWeight: 'medium',
+  transition: 'colors',
+  _hover: { bg: 'surface.muted' },
+  '& > svg': { color: 'text.muted', boxSize: '5' },
+});
+const contacts = css({ display: 'flex', flexWrap: 'wrap', gap: '2' });
+const contact = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '2',
+  rounded: 'full',
+  border: 'line',
+  px: '4',
+  py: '2',
+  textStyle: 'sm',
+  fontWeight: 'medium',
+  transition: 'colors',
+  _hover: { bg: 'surface.muted' },
+  '& > svg:first-child': { color: 'text.muted', boxSize: '4' },
+});
+const footer = css({
+  mt: '4',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  color: 'text.muted',
+  textStyle: 'caption',
+});
+const strong = css({ color: 'text' });
+const signature = css({
+  mx: 'auto',
+  display: 'inline-block',
+  boxSize: '12',
+  flexShrink: 0,
+  bg: 'text.muted',
+});
+
 export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage.Props) {
   const { t } = useTranslation('home');
   const { total, days } = useContributions({ initialData: contributions, fetchedAt });
+  const shell = page();
 
   const sections = useSiteSections(lang);
   const links = useExternalLinks().filter((link) => link.key !== 'rss');
   const kstTime = useKstTime();
   const roles = useMemo(() => t(($) => $.site.roles, { ns: 'common', returnObjects: true }), [t]);
 
-  const entryClass = cn(
-    'border-border hover:bg-muted flex items-center gap-2 rounded-lg border p-3 text-sm font-medium transition-colors',
-  );
-  const contactClass = cn(
-    'border-border hover:bg-muted inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors',
-  );
-
   return (
-    <div className="bg-background min-h-dvh">
-      <main className="mx-auto flex max-w-3xl flex-col gap-12 px-4 py-16">
-        <header className="flex items-center gap-5">
-          <Avatar className="size-20">
+    <div className={shell.root}>
+      <main className={main}>
+        <header className={hero}>
+          <Avatar size="xl">
             <AvatarImage src="/images/profile.png" alt={SITE.handle} />
-            <AvatarFallback className="text-foreground">{SITE.handle}</AvatarFallback>
+            <AvatarFallback>{SITE.handle}</AvatarFallback>
           </Avatar>
-          <div className="flex flex-col gap-1">
-            <h1 className="text-3xl leading-snug font-bold">
-              {t(($) => $.site.name, { ns: 'common' })}
-            </h1>
-            <div className="text-muted-foreground">
+          <div className={heroText}>
+            <h1 className={name}>{t(($) => $.site.name, { ns: 'common' })}</h1>
+            <div className={muted}>
               <RoleRotator roles={roles} />
             </div>
           </div>
         </header>
 
-        <section className="flex flex-col gap-4">
-          <div className="flex flex-col gap-1">
-            <h2 className="font-bold">{t(($) => $.sections.about)}</h2>
-          </div>
-          <div className="text-muted-foreground flex flex-col gap-3 text-sm leading-relaxed">
+        <section className={section}>
+          <h2 className={heading}>{t(($) => $.sections.about)}</h2>
+          <div className={bio}>
             {t(($) => $.site.bio, { ns: 'common', returnObjects: true }).map((paragraph, i) => (
               <p key={i}>{paragraph}</p>
             ))}
           </div>
         </section>
         {days.length > 0 && (
-          <section className="flex flex-col gap-4">
-            <h2 className="font-bold">{t(($) => $.sections.contributions)}</h2>
+          <section className={section}>
+            <h2 className={heading}>{t(($) => $.sections.contributions)}</h2>
             <GithubContributionCalendar total={total} days={days} />
           </section>
         )}
 
-        <section className="flex flex-col gap-4">
-          <h2 id="entries-heading" className="font-bold">
+        <section className={section}>
+          <h2 id="entries-heading" className={heading}>
             {t(($) => $.entries.label)}
           </h2>
-          <nav aria-labelledby="entries-heading" className="flex flex-col gap-3">
-            <ul className="grid gap-2 sm:grid-cols-5 sm:gap-3">
+          <nav aria-labelledby="entries-heading" className={entries}>
+            <ul className={entryGrid}>
               {sections.map(({ key, href, label, Icon }) => (
                 <li key={key}>
-                  <a href={href} className={entryClass}>
-                    <Icon aria-hidden className="text-muted-foreground size-5" />
+                  <a href={href} className={entry}>
+                    <Icon aria-hidden />
                     {label}
                   </a>
                 </li>
               ))}
             </ul>
 
-            <ul className="flex flex-wrap gap-2">
+            <ul className={contacts}>
               {links.map(({ key, href, label, Icon, blank }) => (
                 <li key={key}>
                   {blank ? (
-                    <ExternalLink href={href} className={contactClass}>
-                      <Icon aria-hidden className="text-muted-foreground size-4" />
+                    <ExternalLink href={href} plain className={contact}>
+                      <Icon aria-hidden />
                       {label}
                     </ExternalLink>
                   ) : (
-                    <a href={href} className={contactClass}>
-                      <Icon aria-hidden className="text-muted-foreground size-4" />
+                    <a href={href} className={contact}>
+                      <Icon aria-hidden />
                       {label}
                     </a>
                   )}
@@ -97,20 +162,20 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
           </nav>
         </section>
 
-        <div className="text-muted-foreground mt-4 flex items-center justify-between text-xs">
+        <div className={footer}>
           <p>
             {t(($) => $.site.location, { ns: 'common' })}
             {kstTime && ` · ${kstTime}`}
           </p>
           <p>
             {t(($) => $.footer.updated)}{' '}
-            <span className="text-foreground">{dayjs(updatedAt).format('ll')}</span>
+            <span className={strong}>{dayjs(updatedAt).format('ll')}</span>
           </p>
         </div>
 
         <span
           aria-hidden
-          className="bg-muted-foreground mx-auto inline-block size-12 shrink-0"
+          className={signature}
           style={{ mask: "url('/images/signature.png') center / contain no-repeat" }}
         />
       </main>
