@@ -24,11 +24,13 @@ function colorTokens(): ColorTree {
     const path = role.split('.');
     let node = tree;
     for (const key of path.slice(0, -1)) {
-      node[key] ??= {};
+      const child = node[key] as Record<string, unknown> | undefined;
+      node[key] = child === undefined ? {} : 'value' in child ? { DEFAULT: child } : child;
       node = node[key] as Record<string, unknown>;
     }
     const leaf = path.at(-1) as string;
-    node[leaf] = typeof node[leaf] === 'object' ? { ...node[leaf], DEFAULT: { value } } : { value };
+    const existing = node[leaf] as Record<string, unknown> | undefined;
+    node[leaf] = existing === undefined ? { value } : { ...existing, DEFAULT: { value } };
   }
 
   return tree as ColorTree;
@@ -52,12 +54,35 @@ export default defineConfig({
   theme: {
     extend: {
       tokens: {
+        colors: {
+          transparent: { value: 'transparent' },
+          current: { value: 'currentColor' },
+        },
         fonts: {
           display: { value: "'Pretendard GOV Variable', sans-serif" },
           body: { value: "'Pretendard GOV Variable', sans-serif" },
           mono: { value: "'Monaspace Neon Var', ui-monospace, monospace" },
         },
+        zIndex: {
+          popover: { value: 50 },
+        },
+        animations: {
+          popIn: { value: 'popIn {durations.faster} {easings.out}' },
+          popOut: { value: 'popOut {durations.faster} {easings.in}' },
+        },
+        shadows: {
+          none: { value: 'none' },
+          focus: { value: '0 0 0 3px {colors.focus/50}' },
+          danger: { value: '0 0 0 3px {colors.danger/20}' },
+          ring: { value: '0 0 0 1px {colors.text/10}' },
+        },
+        borders: {
+          line: { value: { width: '1px', style: 'solid', color: '{colors.line}' } },
+          input: { value: { width: '1px', style: 'solid', color: '{colors.line.input}' } },
+          transparent: { value: { width: '1px', style: 'solid', color: '{colors.transparent}' } },
+        },
         radii: {
+          none: { value: '0' },
           sm: { value: '0.375rem' },
           md: { value: '0.5rem' },
           lg: { value: '0.625rem' },
@@ -69,6 +94,22 @@ export default defineConfig({
         colors: defineSemanticTokens.colors(colorTokens()),
       },
       textStyles,
+      keyframes: {
+        popIn: {
+          from: {
+            opacity: 0,
+            transform: 'translate(var(--enter-x, 0), var(--enter-y, 0)) scale(0.95)',
+          },
+          to: { opacity: 1, transform: 'translate(0, 0) scale(1)' },
+        },
+        popOut: {
+          from: { opacity: 1, transform: 'translate(0, 0) scale(1)' },
+          to: {
+            opacity: 0,
+            transform: 'translate(var(--enter-x, 0), var(--enter-y, 0)) scale(0.95)',
+          },
+        },
+      },
     },
   },
 });

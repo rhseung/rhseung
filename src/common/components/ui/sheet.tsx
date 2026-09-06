@@ -2,123 +2,169 @@ import * as React from 'react';
 
 import { Dialog as SheetPrimitive } from '@base-ui/react/dialog';
 import { XIcon } from '@phosphor-icons/react';
+import { css, cva, cx } from 'styled-system/css';
 
-import { Button } from '@/common/components/ui/button';
-import { cn } from '@/common/utils/index';
+import { Button } from './button';
 
-function Sheet({ ...props }: SheetPrimitive.Root.Props) {
+import type { RecipeVariantProps } from 'styled-system/types';
+
+type WithClassName<T> = Omit<T, 'className'> & { className?: string };
+
+export function Sheet({ ...props }: SheetPrimitive.Root.Props) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />;
 }
 
-function SheetTrigger({ ...props }: SheetPrimitive.Trigger.Props) {
+export function SheetTrigger({ ...props }: SheetPrimitive.Trigger.Props) {
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />;
 }
 
-function SheetClose({ ...props }: SheetPrimitive.Close.Props) {
+export function SheetClose({ ...props }: SheetPrimitive.Close.Props) {
   return <SheetPrimitive.Close data-slot="sheet-close" {...props} />;
 }
 
-function SheetPortal({ ...props }: SheetPrimitive.Portal.Props) {
-  return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />;
-}
+const overlay = css({
+  position: 'fixed',
+  inset: '0',
+  zIndex: 'popover',
+  bg: 'overlay',
+  transition: 'opacity',
+  transitionDuration: 'fast',
+  backdropBlur: 'xs',
+  '&[data-starting-style], &[data-ending-style]': { opacity: 0 },
+});
 
-function SheetOverlay({ className, ...props }: SheetPrimitive.Backdrop.Props) {
+function SheetOverlay({ className, ...props }: WithClassName<SheetPrimitive.Backdrop.Props>) {
   return (
     <SheetPrimitive.Backdrop
       data-slot="sheet-overlay"
-      className={cn(
-        'fixed inset-0 z-50 bg-black/10 transition-opacity duration-150 data-ending-style:opacity-0 data-starting-style:opacity-0 supports-backdrop-filter:backdrop-blur-xs',
-        className,
-      )}
+      className={cx(overlay, className)}
       {...props}
     />
   );
 }
 
-function SheetContent({
+const contentVariants = cva({
+  base: {
+    position: 'fixed',
+    zIndex: 'popover',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '4',
+    bg: 'surface.raised',
+    color: 'text',
+    backgroundClip: 'padding-box',
+    textStyle: 'sm',
+    boxShadow: 'lg',
+    transition: 'all',
+    transitionDuration: 'normal',
+    transitionTimingFunction: 'in-out',
+    '&[data-starting-style], &[data-ending-style]': { opacity: 0 },
+  },
+  variants: {
+    side: {
+      top: {
+        insetX: '0',
+        top: '0',
+        h: 'auto',
+        borderBottom: 'line',
+        '&[data-starting-style], &[data-ending-style]': { transform: 'translateY(-2.5rem)' },
+      },
+      bottom: {
+        insetX: '0',
+        bottom: '0',
+        h: 'auto',
+        borderTop: 'line',
+        '&[data-starting-style], &[data-ending-style]': { transform: 'translateY(2.5rem)' },
+      },
+      left: {
+        insetY: '0',
+        left: '0',
+        h: 'full',
+        w: '[75%]',
+        borderRight: 'line',
+        sm: { maxW: 'sm' },
+        '&[data-starting-style], &[data-ending-style]': { transform: 'translateX(-2.5rem)' },
+      },
+      right: {
+        insetY: '0',
+        right: '0',
+        h: 'full',
+        w: '[75%]',
+        borderLeft: 'line',
+        sm: { maxW: 'sm' },
+        '&[data-starting-style], &[data-ending-style]': { transform: 'translateX(2.5rem)' },
+      },
+    },
+  },
+  defaultVariants: { side: 'right' },
+});
+
+const closeButton = css({ position: 'absolute', top: '3', right: '3' });
+const srOnly = css({ srOnly: true });
+
+export function SheetContent({
   className,
   children,
   side = 'right',
   showCloseButton = true,
   ...props
-}: SheetPrimitive.Popup.Props & {
-  side?: 'top' | 'right' | 'bottom' | 'left';
-  showCloseButton?: boolean;
-}) {
+}: WithClassName<SheetPrimitive.Popup.Props> &
+  RecipeVariantProps<typeof contentVariants> & { showCloseButton?: boolean }) {
   return (
-    <SheetPortal>
+    <SheetPrimitive.Portal data-slot="sheet-portal">
       <SheetOverlay />
       <SheetPrimitive.Popup
         data-slot="sheet-content"
         data-side={side}
-        className={cn(
-          'bg-popover text-popover-foreground fixed z-50 flex flex-col gap-4 bg-clip-padding text-sm shadow-lg transition duration-200 ease-in-out data-ending-style:opacity-0 data-starting-style:opacity-0 data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t data-[side=bottom]:data-ending-style:translate-y-[2.5rem] data-[side=bottom]:data-starting-style:translate-y-[2.5rem] data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=left]:border-r data-[side=left]:data-ending-style:translate-x-[-2.5rem] data-[side=left]:data-starting-style:translate-x-[-2.5rem] data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=right]:border-l data-[side=right]:data-ending-style:translate-x-[2.5rem] data-[side=right]:data-starting-style:translate-x-[2.5rem] data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b data-[side=top]:data-ending-style:translate-y-[-2.5rem] data-[side=top]:data-starting-style:translate-y-[-2.5rem] data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm',
-          className,
-        )}
+        className={cx(contentVariants({ side }), className)}
         {...props}
       >
         {children}
         {showCloseButton && (
           <SheetPrimitive.Close
             data-slot="sheet-close"
-            render={<Button variant="ghost" className="absolute top-3 right-3" size="icon-sm" />}
+            render={<Button variant="ghost" className={closeButton} size="icon-sm" />}
           >
             <XIcon />
-            <span className="sr-only">Close</span>
+            <span className={srOnly}>Close</span>
           </SheetPrimitive.Close>
         )}
       </SheetPrimitive.Popup>
-    </SheetPortal>
+    </SheetPrimitive.Portal>
   );
 }
 
-function SheetHeader({ className, ...props }: React.ComponentProps<'div'>) {
+const header = css({ display: 'flex', flexDirection: 'column', gap: '0.5', p: '4' });
+
+export function SheetHeader({ className, ...props }: React.ComponentProps<'div'>) {
+  return <div data-slot="sheet-header" className={cx(header, className)} {...props} />;
+}
+
+const footer = css({ mt: 'auto', display: 'flex', flexDirection: 'column', gap: '2', p: '4' });
+
+export function SheetFooter({ className, ...props }: React.ComponentProps<'div'>) {
+  return <div data-slot="sheet-footer" className={cx(footer, className)} {...props} />;
+}
+
+const title = css({ color: 'text', textStyle: 'md', fontWeight: 'medium' });
+
+export function SheetTitle({ className, ...props }: WithClassName<SheetPrimitive.Title.Props>) {
   return (
-    <div
-      data-slot="sheet-header"
-      className={cn('flex flex-col gap-0.5 p-4', className)}
-      {...props}
-    />
+    <SheetPrimitive.Title data-slot="sheet-title" className={cx(title, className)} {...props} />
   );
 }
 
-function SheetFooter({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      data-slot="sheet-footer"
-      className={cn('mt-auto flex flex-col gap-2 p-4', className)}
-      {...props}
-    />
-  );
-}
+const description = css({ color: 'text.muted', textStyle: 'sm' });
 
-function SheetTitle({ className, ...props }: SheetPrimitive.Title.Props) {
-  return (
-    <SheetPrimitive.Title
-      data-slot="sheet-title"
-      className={cn('text-foreground text-base font-medium', className)}
-      {...props}
-    />
-  );
-}
-
-function SheetDescription({ className, ...props }: SheetPrimitive.Description.Props) {
+export function SheetDescription({
+  className,
+  ...props
+}: WithClassName<SheetPrimitive.Description.Props>) {
   return (
     <SheetPrimitive.Description
       data-slot="sheet-description"
-      className={cn('text-muted-foreground text-sm', className)}
+      className={cx(description, className)}
       {...props}
     />
   );
 }
-
-export {
-  Sheet,
-  SheetTrigger,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetFooter,
-  SheetTitle,
-  SheetDescription,
-};
