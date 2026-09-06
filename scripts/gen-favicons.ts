@@ -17,6 +17,7 @@ const OUT_DIR = 'public/favicons';
 const CACHE_DIR = 'node_modules/.cache/favicons';
 const MANIFEST = 'src/common/lib/favicon-hosts.gen.ts';
 const CONCURRENCY = 10;
+const TIMEOUT_MS = 10_000;
 
 /**
  * 사이트마다 `.ico`·`.svg`·여러 크기로 흩어져 있고 HTML 을 파싱해야 찾을 수 있다.
@@ -54,11 +55,16 @@ async function fetchFavicon(host: string): Promise<boolean> {
   const cached = join(CACHE_DIR, file);
 
   if (!existsSync(cached)) {
-    const response = await fetch(source(host));
+    // 한 도메인이 안 받아진다고 `postinstall` 이 죽으면 `bun install` 이 통째로 실패한다.
+    try {
+      const response = await fetch(source(host), { signal: AbortSignal.timeout(TIMEOUT_MS) });
 
-    if (!response.ok) return false;
+      if (!response.ok) return false;
 
-    await writeFile(cached, Buffer.from(await response.arrayBuffer()));
+      await writeFile(cached, Buffer.from(await response.arrayBuffer()));
+    } catch {
+      return false;
+    }
   }
 
   await copyFile(cached, join(OUT_DIR, file));
