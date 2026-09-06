@@ -37,4 +37,3 @@ export {
   subscribeTheme,
   type ThemeMode,
 } from './theme';
-export { brand, TONES, tone, type Tone } from './tone';

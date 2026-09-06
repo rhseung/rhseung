@@ -1,5 +1,7 @@
-import { chunk, range } from 'es-toolkit';
+import { chunk } from 'es-toolkit';
 import { useTranslation } from 'react-i18next';
+import { css } from 'styled-system/css';
+import { token } from 'styled-system/tokens';
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/common/components';
 import { dayjs } from '@/common/lib';
@@ -10,9 +12,30 @@ import type { Dayjs } from 'dayjs';
 const DAYS_IN_WEEK = 7;
 const MIN_CELL = 10;
 const MIN_LABEL_WEEKS = 3;
-const LEVEL_COLORS = range(5).map((level) => `var(--contribution-${level})`);
+const LEVEL_COLORS = [
+  token.var('colors.contribution.0'),
+  token.var('colors.contribution.1'),
+  token.var('colors.contribution.2'),
+  token.var('colors.contribution.3'),
+  token.var('colors.contribution.4'),
+];
 
 const TOOLTIP_DELAY = 200;
+
+const root = css({ display: 'flex', flexDirection: 'column', gap: '2' });
+const scroller = css({ display: 'flex', flexDirection: 'column', gap: '1', overflowX: 'auto' });
+const months = css({ display: 'grid', gap: '[3px]', color: 'text.muted', textStyle: 'caption' });
+const cells = css({ display: 'grid', gridAutoFlow: 'column', gap: '[3px]' });
+const cell = css({ aspectRatio: 'square', rounded: '[3px]' });
+const legend = css({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '1',
+  color: 'text.muted',
+  textStyle: 'caption',
+});
+const less = css({ ml: 'auto' });
+const swatch = css({ boxSize: '2.5', rounded: '[3px]' });
 
 type MonthCol = { month: Dayjs; span: number };
 
@@ -39,9 +62,9 @@ export function GithubContributionCalendar({ total, days }: GithubContributionCa
   const columns = { gridTemplateColumns: `repeat(${weeks.length}, minmax(${MIN_CELL}px, 1fr))` };
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex flex-col gap-1 overflow-x-auto">
-        <div className="text-muted-foreground grid gap-0.75 text-xs" style={columns}>
+    <div className={root}>
+      <div className={scroller}>
+        <div className={months} style={columns}>
           {getMonthCols(weeks).map(({ month, span }) => (
             <span key={month.format('YYYY-MM')} style={{ gridColumn: `span ${span}` }}>
               {span >= MIN_LABEL_WEEKS ? month.format('MMM') : ''}
@@ -51,18 +74,13 @@ export function GithubContributionCalendar({ total, days }: GithubContributionCa
 
         <TooltipProvider delay={TOOLTIP_DELAY}>
           <div
-            className="grid grid-flow-col gap-0.75"
+            className={cells}
             style={{ ...columns, gridTemplateRows: `repeat(${DAYS_IN_WEEK}, auto)` }}
           >
             {days.map(({ date, count, level }) => (
               <Tooltip key={date}>
                 <TooltipTrigger
-                  render={
-                    <div
-                      className="aspect-square rounded-[3px]"
-                      style={{ backgroundColor: LEVEL_COLORS[level] }}
-                    />
-                  }
+                  render={<div className={cell} style={{ backgroundColor: LEVEL_COLORS[level] }} />}
                 />
                 <TooltipContent>
                   {t(($) => $.contributions.day, { date: dayjs(date).format('ll'), count })}
@@ -73,12 +91,12 @@ export function GithubContributionCalendar({ total, days }: GithubContributionCa
         </TooltipProvider>
       </div>
 
-      <p className="text-muted-foreground flex items-center gap-1 text-xs">
+      <p className={legend}>
         <span>{t(($) => $.contributions.total, { value: total })}</span>
 
-        <span className="ml-auto">{t(($) => $.contributions.less)}</span>
+        <span className={less}>{t(($) => $.contributions.less)}</span>
         {LEVEL_COLORS.map((color) => (
-          <span key={color} className="size-2.5 rounded-[3px]" style={{ backgroundColor: color }} />
+          <span key={color} className={swatch} style={{ backgroundColor: color }} />
         ))}
         <span>{t(($) => $.contributions.more)}</span>
       </p>

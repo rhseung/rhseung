@@ -78,6 +78,8 @@ export default defineConfig({
           focus: { value: '0 0 0 3px {colors.focus/50}' },
           danger: { value: '0 0 0 3px {colors.danger/20}' },
           ring: { value: '0 0 0 1px {colors.text/10}' },
+          selected: { value: '0 0 0 2px {colors.text/40}' },
+          halo: { value: '0 0 0 4px {colors.surface}' },
         },
         borders: {
           line: { value: { width: '1px', style: 'solid', color: '{colors.line}' } },

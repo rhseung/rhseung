@@ -1,11 +1,40 @@
 import { TrophyIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
+import { css, cx } from 'styled-system/css';
+import { stack } from 'styled-system/patterns';
 
-import { Badge, DetailHeader, LinkRow, SiteDock } from '@/common/components';
+import { Badge, DetailHeader, LinkRow, Prose, SiteDock } from '@/common/components';
 import { formatPeriod, formatYearMonth, localeHref, type Language } from '@/common/lib';
+import { metaText, page } from '@/common/styles';
 import type { Award } from '@/features/career';
 
 import { PROJECT_LINK_ICON, projectLinks, useProjectLabels, type Project } from '../../viewmodels';
+
+const main = css({ display: 'flex', minW: '0', flexDirection: 'column', gap: '8' });
+const header = stack({ gap: '3' });
+const statusRow = css({ display: 'flex', alignItems: 'center', gap: '1.5' });
+const period = css({ ml: 'auto' });
+const title = css({ textStyle: 'heading.page' });
+const summary = css({ color: 'text.muted', textStyle: 'body' });
+const highlight = css({
+  borderLeftWidth: '[2px]',
+  borderLeftStyle: 'solid',
+  borderLeftColor: 'line',
+  pl: '3',
+  fontWeight: 'medium',
+});
+const stackList = css({ display: 'flex', flexWrap: 'wrap', gap: '1' });
+const awardList = stack({ gap: '1' });
+const award = css({
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'baseline',
+  columnGap: '2',
+  textStyle: 'sm',
+});
+const trophy = css({ color: 'accent', boxSize: '4', flexShrink: 0 });
+const strong = css({ fontWeight: 'medium' });
+const muted = css({ color: 'text.muted' });
 
 export function ProjectDetailPage({
   lang,
@@ -16,8 +45,9 @@ export function ProjectDetailPage({
 }: ProjectDetailPage.Props) {
   const { t } = useTranslation('projects');
   const label = useProjectLabels();
+  const shell = page();
 
-  const period = formatPeriod(
+  const periodText = formatPeriod(
     project.start,
     project.end,
     t(($) => $.period.ongoing),
@@ -31,31 +61,29 @@ export function ProjectDetailPage({
   }));
 
   return (
-    <div className="bg-background min-h-dvh">
-      <div className="mx-auto w-full max-w-3xl p-4 sm:p-6 md:p-8">
+    <div className={shell.root}>
+      <div className={shell.frame}>
         <DetailHeader
           lang={lang}
           backHref={localeHref(lang, '/[lang]/projects')}
           backLabel={t(($) => $.detail.back)}
         />
 
-        <main className="flex min-w-0 flex-col gap-8">
-          <header className="flex flex-col gap-3">
-            <div className="flex items-center gap-1.5">
+        <main className={main}>
+          <header className={header}>
+            <div className={statusRow}>
               <Badge variant="outline">{label.status[project.status]}</Badge>
-              <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
+              <span className={cx(metaText, period)}>{periodText}</span>
             </div>
 
-            <h1 data-vt-title={project.slug} className="text-3xl font-extrabold">
+            <h1 data-vt-title={project.slug} className={title}>
               {project.title}
             </h1>
-            <p className="text-muted-foreground">{project.summary}</p>
+            <p className={summary}>{project.summary}</p>
 
-            {project.highlight && (
-              <p className="border-border border-l-2 pl-3 font-medium">{project.highlight}</p>
-            )}
+            {project.highlight && <p className={highlight}>{project.highlight}</p>}
 
-            <ul className="flex flex-wrap gap-1">
+            <ul className={stackList}>
               {project.stack.map((item) => (
                 <li key={item}>
                   <Badge variant="outline">{item}</Badge>
@@ -65,22 +93,20 @@ export function ProjectDetailPage({
 
             <LinkRow links={links} variant="button" />
             {awards.length > 0 && (
-              <ul className="flex flex-col gap-1">
-                {awards.map((award) => (
-                  <li key={award.slug} className="flex flex-wrap items-baseline gap-x-2 text-sm">
-                    <TrophyIcon aria-hidden className="text-primary size-4 shrink-0" />
-                    <span className="font-medium">{award.title}</span>
-                    {award.issuer && <span className="text-muted-foreground">{award.issuer}</span>}
-                    <span className="text-muted-foreground text-xs tabular-nums">
-                      {formatYearMonth(award.date)}
-                    </span>
+              <ul className={awardList}>
+                {awards.map((item) => (
+                  <li key={item.slug} className={award}>
+                    <TrophyIcon aria-hidden className={trophy} />
+                    <span className={strong}>{item.title}</span>
+                    {item.issuer && <span className={muted}>{item.issuer}</span>}
+                    <span className={metaText}>{formatYearMonth(item.date)}</span>
                   </li>
                 ))}
               </ul>
             )}
           </header>
 
-          <div className="prose prose-zinc dark:prose-invert max-w-none">{children}</div>
+          <Prose>{children}</Prose>
         </main>
       </div>
 

@@ -27,6 +27,7 @@ const avatarVariants = cva({
       default: { boxSize: '8' },
       sm: { boxSize: '6' },
       lg: { boxSize: '10' },
+      xl: { boxSize: '20' },
     },
   },
   defaultVariants: { size: 'default' },

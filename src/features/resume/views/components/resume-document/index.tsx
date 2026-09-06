@@ -1,6 +1,9 @@
 import { useTranslation } from 'react-i18next';
+import { css, cx } from 'styled-system/css';
+import { stack } from 'styled-system/patterns';
 
 import { formatYearMonth, SITE } from '@/common/lib';
+import { metaText } from '@/common/styles';
 import {
   AwardList,
   CareerList,
@@ -14,10 +17,37 @@ import {
 } from '@/features/career';
 import type { Project } from '@/features/projects';
 
+const section = stack({ gap: '3' });
+const sectionTitle = css({
+  borderBottom: 'line',
+  pb: '1',
+  textStyle: 'sm',
+  fontWeight: 'medium',
+  color: 'accent',
+});
+const article = stack({ gap: '8' });
+const header = stack({ gap: '3' });
+const name = css({ textStyle: 'heading.page' });
+const contacts = css({
+  display: 'flex',
+  flexWrap: 'wrap',
+  columnGap: '4',
+  rowGap: '1',
+  color: 'text.muted',
+  textStyle: 'caption',
+});
+const projectList = stack({ gap: '3' });
+const project = css({ display: 'flex', breakInside: 'avoid', flexDirection: 'column', gap: '0.5' });
+const row = css({ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', columnGap: '2' });
+const strong = css({ fontWeight: 'medium' });
+const period = css({ ml: 'auto' });
+const summary = css({ color: 'text.muted', textStyle: 'body' });
+const highlight = css({ textStyle: 'sm' });
+
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="flex flex-col gap-3">
-      <h2 className="border-border text-primary border-b pb-1 text-sm font-medium">{title}</h2>
+    <section className={section}>
+      <h2 className={sectionTitle}>{title}</h2>
       {children}
     </section>
   );
@@ -33,11 +63,11 @@ export function ResumeDocument({
   const { t } = useTranslation('resume');
 
   return (
-    <article className="flex flex-col gap-8">
-      <header className="flex flex-col gap-3">
-        <h1 className="text-3xl font-semibold">{t(($) => $.site.name, { ns: 'common' })}</h1>
+    <article className={article}>
+      <header className={header}>
+        <h1 className={name}>{t(($) => $.site.name, { ns: 'common' })}</h1>
 
-        <ul className="text-muted-foreground flex flex-wrap gap-x-4 gap-y-1 text-xs">
+        <ul className={contacts}>
           <li>{t(($) => $.site.location, { ns: 'common' })}</li>
           <li>{SITE.email}</li>
           <li>{SITE.github.replace('https://', '')}</li>
@@ -59,18 +89,18 @@ export function ResumeDocument({
 
       {projects.length > 0 && (
         <Section title={t(($) => $.projects.title)}>
-          <ul className="flex flex-col gap-3">
-            {projects.map((project) => (
-              <li key={project.slug} className="flex break-inside-avoid flex-col gap-0.5">
-                <div className="flex flex-wrap items-baseline gap-x-2">
-                  <span className="font-medium">{project.title}</span>
-                  <span className="text-muted-foreground ml-auto text-xs tabular-nums">
-                    {formatYearMonth(project.start)}
-                    {project.end ? ` – ${formatYearMonth(project.end)}` : ''}
+          <ul className={projectList}>
+            {projects.map((item) => (
+              <li key={item.slug} className={project}>
+                <div className={row}>
+                  <span className={strong}>{item.title}</span>
+                  <span className={cx(metaText, period)}>
+                    {formatYearMonth(item.start)}
+                    {item.end ? ` – ${formatYearMonth(item.end)}` : ''}
                   </span>
                 </div>
-                <p className="text-muted-foreground text-sm leading-relaxed">{project.summary}</p>
-                {project.highlight && <p className="text-sm">{project.highlight}</p>}
+                <p className={summary}>{item.summary}</p>
+                {item.highlight && <p className={highlight}>{item.highlight}</p>}
               </li>
             ))}
           </ul>

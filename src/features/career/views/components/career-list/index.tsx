@@ -1,8 +1,75 @@
+import { css, cva, cx } from 'styled-system/css';
+
 import { ExternalLink } from '@/common/components';
 import { formatPeriod } from '@/common/lib';
-import { cn } from '@/common/utils';
+import { metaText } from '@/common/styles';
 
 import type { CareerEntry } from '../../../viewmodels';
+
+const list = cva({
+  base: { display: 'flex', flexDirection: 'column' },
+  variants: {
+    timeline: {
+      true: { gap: '0', pl: '2.5' },
+      false: { gap: '6' },
+    },
+  },
+});
+
+const entry = cva({
+  base: { display: 'flex', breakInside: 'avoid', flexDirection: 'column', gap: '1' },
+  variants: {
+    timeline: { true: { position: 'relative', borderLeft: 'line', pl: '6', pb: '8' }, false: {} },
+    last: { true: {}, false: {} },
+  },
+  compoundVariants: [
+    { timeline: true, last: true, css: { borderLeftColor: 'transparent', pb: '0' } },
+  ],
+});
+
+const dot = cva({
+  base: {
+    position: 'absolute',
+    top: '1.5',
+    left: '[-0.3125rem]',
+    boxSize: '2.5',
+    rounded: 'full',
+    boxShadow: 'halo',
+  },
+  variants: {
+    ongoing: { true: { bg: 'accent' }, false: { bg: 'text.muted/40' } },
+  },
+});
+
+const row = css({ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', columnGap: '2' });
+const logo = css({
+  boxSize: '5',
+  flexShrink: 0,
+  alignSelf: 'center',
+  rounded: 'sm',
+  objectFit: 'contain',
+});
+const org = css({ fontWeight: 'medium' });
+const period = css({ ml: 'auto' });
+const role = css({ color: 'text.muted', textStyle: 'sm' });
+const summary = css({ color: 'text.muted', textStyle: 'body' });
+const achievements = css({
+  mt: '1',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1',
+  borderLeftWidth: '[1px]',
+  borderLeftStyle: 'solid',
+  borderLeftColor: 'line/60',
+  pl: '3',
+});
+const achievement = css({ color: 'text.muted', textStyle: 'caption' });
+const site = css({
+  w: 'fit',
+  color: 'text.muted',
+  textStyle: 'xs',
+  _hover: { color: 'text', textDecoration: 'underline' },
+});
 
 export function CareerList({
   entries,
@@ -13,32 +80,16 @@ export function CareerList({
   const Heading = `h${headingLevel}` as const;
 
   return (
-    <ul className={cn('flex flex-col', timeline ? 'gap-0 pl-2.5' : 'gap-6')}>
+    <ul className={list({ timeline })}>
       {entries.map((item, index) => {
-        const isLast = index === entries.length - 1;
+        const last = index === entries.length - 1;
         const ongoing = item.end === undefined;
-        const period = formatPeriod(item.start, item.end, ongoingLabel);
 
         return (
-          <li
-            key={item.slug}
-            className={cn(
-              'flex break-inside-avoid flex-col gap-1',
-              timeline && 'relative border-l pl-6',
-              timeline && (isLast ? 'border-transparent pb-0' : 'border-border pb-8'),
-            )}
-          >
-            {timeline && (
-              <span
-                aria-hidden
-                className={cn(
-                  'ring-background absolute top-1.5 -left-1.25 size-2.5 rounded-full ring-4',
-                  ongoing ? 'bg-primary' : 'bg-muted-foreground/40',
-                )}
-              />
-            )}
+          <li key={item.slug} className={entry({ timeline, last })}>
+            {timeline && <span aria-hidden className={dot({ ongoing })} />}
 
-            <div className="flex flex-wrap items-baseline gap-x-2">
+            <div className={row}>
               {item.logo && (
                 // 아일랜드라 `<Image />` 를 못 쓴다.
                 // eslint-disable-next-line no-restricted-syntax
@@ -49,33 +100,30 @@ export function CareerList({
                   height={20}
                   loading="lazy"
                   decoding="async"
-                  className="size-5 shrink-0 self-center rounded-sm object-contain"
+                  className={logo}
                 />
               )}
-              <Heading className="font-medium">{item.org}</Heading>
-              <span className="text-muted-foreground ml-auto text-xs tabular-nums">{period}</span>
+              <Heading className={org}>{item.org}</Heading>
+              <span className={cx(metaText, period)}>
+                {formatPeriod(item.start, item.end, ongoingLabel)}
+              </span>
             </div>
 
-            <p className="text-muted-foreground text-sm">{item.role}</p>
-            {item.summary && (
-              <p className="text-muted-foreground text-sm leading-relaxed">{item.summary}</p>
-            )}
+            <p className={role}>{item.role}</p>
+            {item.summary && <p className={summary}>{item.summary}</p>}
 
             {(item.achievements?.length ?? 0) > 0 && (
-              <ul className="border-border/60 mt-1 flex flex-col gap-1 border-l pl-3">
-                {item.achievements?.map((achievement) => (
-                  <li key={achievement} className="text-muted-foreground text-xs leading-relaxed">
-                    {achievement}
+              <ul className={achievements}>
+                {item.achievements?.map((text) => (
+                  <li key={text} className={achievement}>
+                    {text}
                   </li>
                 ))}
               </ul>
             )}
 
             {item.links?.site && (
-              <ExternalLink
-                href={item.links.site}
-                className="text-muted-foreground hover:text-foreground w-fit text-xs hover:underline"
-              >
+              <ExternalLink href={item.links.site} plain className={site}>
                 {item.links.site.replace('https://', '')}
               </ExternalLink>
             )}

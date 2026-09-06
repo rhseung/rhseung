@@ -1,7 +1,10 @@
 import { useTranslation } from 'react-i18next';
+import { css, cx } from 'styled-system/css';
+import { stack } from 'styled-system/patterns';
 
 import { Empty, EmptyHeader, EmptyTitle, Separator, SiteDock } from '@/common/components';
 import { type Language } from '@/common/lib';
+import { metaText, page } from '@/common/styles';
 
 import {
   groupAwardsByYear,
@@ -13,11 +16,20 @@ import {
 } from '../../viewmodels';
 import { AwardList, CareerList, SkillGroups } from '../components';
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+const title = css({ textStyle: 'heading.page' });
+const section = stack({ gap: '5' });
+const sectionHead = stack({ gap: '1' });
+const sectionTitle = css({ textStyle: 'sm', fontWeight: 'medium' });
+const years = stack({ gap: '6' });
+const yearRow = css({ display: 'flex', gap: '4' });
+const year = css({ w: '10', flexShrink: 0, pt: '0.5' });
+const yearBody = css({ flex: '1' });
+
+function Section({ title: heading, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="flex flex-col gap-5">
-      <div className="flex flex-col gap-1">
-        <h2 className="text-sm font-medium">{title}</h2>
+    <section className={section}>
+      <div className={sectionHead}>
+        <h2 className={sectionTitle}>{heading}</h2>
         <Separator />
       </div>
       {children}
@@ -27,14 +39,15 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export function CareerPage({ lang, experience, education, awards, skills }: CareerPage.Props) {
   const { t } = useTranslation('resume');
+  const shell = page({ spacing: 'loose' });
 
   const isEmpty =
     experience.length === 0 && education.length === 0 && awards.length === 0 && skills.length === 0;
 
   return (
-    <div className="bg-background min-h-dvh">
-      <main className="mx-auto flex max-w-3xl flex-col gap-12 p-4 sm:p-6 md:p-8">
-        <h1 className="text-2xl font-semibold">{t(($) => $.career.title)}</h1>
+    <div className={shell.root}>
+      <main className={shell.main}>
+        <h1 className={title}>{t(($) => $.career.title)}</h1>
 
         {isEmpty && (
           <Empty>
@@ -66,13 +79,11 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
 
         {awards.length > 0 && (
           <Section title={t(($) => $.awards.title)}>
-            <div className="flex flex-col gap-6">
-              {groupAwardsByYear(awards).map(([year, yearAwards]) => (
-                <div key={year} className="flex gap-4">
-                  <span className="text-muted-foreground w-10 shrink-0 pt-0.5 text-xs tabular-nums">
-                    {year}
-                  </span>
-                  <div className="flex-1">
+            <div className={years}>
+              {groupAwardsByYear(awards).map(([label, yearAwards]) => (
+                <div key={label} className={yearRow}>
+                  <span className={cx(metaText, year)}>{label}</span>
+                  <div className={yearBody}>
                     <AwardList awards={yearAwards} showDate={false} />
                   </div>
                 </div>

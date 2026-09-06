@@ -1,8 +1,10 @@
 import { mergeProps } from '@base-ui/react/merge-props';
 import { useRender } from '@base-ui/react/use-render';
-import { cva, cx } from 'styled-system/css';
+import { css, cva, cx } from 'styled-system/css';
 
-import type { RecipeVariantProps } from 'styled-system/types';
+import { techTone, type Tone } from '@/common/styles';
+
+import type { RecipeVariantProps, SystemStyleObject } from 'styled-system/types';
 
 export const badgeVariants = cva({
   base: {
@@ -67,19 +69,29 @@ export const badgeVariants = cva({
   defaultVariants: { variant: 'default' },
 });
 
+type BadgeVariant = NonNullable<RecipeVariantProps<typeof badgeVariants>>['variant'];
+
 export function Badge({
   className,
+  css: cssProp,
   variant = 'default',
   tone,
   render,
   ...props
-}: useRender.ComponentProps<'span'> & RecipeVariantProps<typeof badgeVariants>) {
+}: useRender.ComponentProps<'span'> & {
+  variant?: BadgeVariant;
+  tone?: Tone | 'brand';
+  css?: SystemStyleObject;
+}) {
+  const styles = css(
+    badgeVariants.raw({ variant, tone: tone === 'brand' ? undefined : tone }),
+    tone === 'brand' ? techTone : undefined,
+    cssProp,
+  );
+
   return useRender({
     defaultTagName: 'span',
-    props: mergeProps<'span'>(
-      { className: cx(badgeVariants({ variant, tone }), className) },
-      props,
-    ),
+    props: mergeProps<'span'>({ className: cx(styles, className) }, props),
     render,
     state: { slot: 'badge', variant },
   });
