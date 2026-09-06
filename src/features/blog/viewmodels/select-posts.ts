@@ -35,7 +35,3 @@ export function toPostSummary(
 export function sortPosts(posts: readonly PostSummary[]): PostSummary[] {
   return [...posts].sort((a, b) => b.date.localeCompare(a.date));
 }
-
-export function pickRecent(posts: readonly PostSummary[], count: number): PostSummary[] {
-  return sortPosts(posts).slice(0, count);
-}
