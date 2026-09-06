@@ -17,6 +17,7 @@ export function MdxHeading({ level, id, permalinkLabel, children }: MdxHeading.P
     <Tag id={id} className={cx('group', css({ position: 'relative' }))}>
       <a
         href={`#${id}`}
+        data-permalink
         aria-label={permalinkLabel}
         className={css({
           position: 'absolute',

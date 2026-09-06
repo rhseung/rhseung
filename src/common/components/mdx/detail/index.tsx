@@ -13,7 +13,7 @@ const details = css({
 const summary = css({
   display: 'flex',
   cursor: 'pointer',
-  listStyle: 'none',
+  listStyleType: 'none',
   alignItems: 'center',
   gap: '2',
   color: 'text',
