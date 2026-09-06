@@ -30,7 +30,7 @@ export function Detail({ summary: label, children }: Detail.Props) {
             boxSize: '3.5',
             flexShrink: 0,
             transition: 'transform',
-            'details[open] > summary > &': { rotate: '[90deg]' },
+            'details[open] > summary > &': { transform: 'rotate(90deg)' },
           })}
         />
         {label}
