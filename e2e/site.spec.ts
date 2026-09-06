@@ -100,10 +100,12 @@ test('모바일에서 가로 스크롤이 생기지 않는다', async ({ page })
 test('글 본문의 블록 사이에 간격이 있다', async ({ page }) => {
   await page.goto('/ko/blog/mac-settings/');
 
-  const gap = await page.evaluate(() => {
-    const blocks = [...document.querySelectorAll('main h2 ~ p')];
-    return Math.min(...blocks.map((el) => parseFloat(getComputedStyle(el).marginTop)));
-  });
+  const gaps = await page.evaluate(() =>
+    [...document.querySelectorAll('main h2 ~ p')].map((el) =>
+      parseFloat(getComputedStyle(el).marginTop),
+    ),
+  );
 
-  expect(gap).toBeGreaterThan(0);
+  expect(gaps.length).toBeGreaterThan(0);
+  expect(Math.min(...gaps)).toBeGreaterThan(0);
 });
