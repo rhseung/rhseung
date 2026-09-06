@@ -1,38 +1,72 @@
 import { useTranslation } from 'react-i18next';
+import { css } from 'styled-system/css';
+import { stack } from 'styled-system/patterns';
 
 import { Badge, DetailHeader, SiteDock, TranslationNotice } from '@/common/components';
 import { dayjs, localeHref, type Language } from '@/common/lib';
+import { metaText, page } from '@/common/styles';
 
 import { PostToc, TocDock } from '../components';
 
 import type { PostHeading, PostSummary } from '../../viewmodels';
 
+const frame = css({
+  mx: 'auto',
+  display: 'grid',
+  w: 'full',
+  maxW: '3xl',
+  columnGap: '10',
+  p: '4',
+  sm: { p: '6' },
+  md: { p: '8' },
+  lg: { maxW: '5xl', gridTemplateColumns: '[minmax(0, 1fr) 13rem]' },
+});
+
+// 셋 다 행·열을 명시해야 한다. 하나라도 자동 배치면 암시적 행·열이 생겨 칸이 어긋난다.
+const header = css({ lg: { gridColumn: '[1 / 3]', gridRow: '[1]' } });
+const main = css({
+  display: 'flex',
+  minW: '0',
+  flexDirection: 'column',
+  gap: '8',
+  lg: { gridColumn: '[1]', gridRow: '[2]' },
+});
+const aside = css({ display: 'none', lg: { display: 'block', gridColumn: '[2]', gridRow: '[1]' } });
+
+const meta = stack({ gap: '3' });
+const title = css({ textStyle: 'heading.page' });
+const summary = css({ color: 'text.muted', textStyle: 'body' });
+const tags = css({ display: 'flex', flexWrap: 'wrap', gap: '1' });
+const tocFrame = css({ position: 'fixed', top: '[50%]', w: '52', transform: 'translateY(-50%)' });
+const toc = css({ maxH: '[calc(100dvh - 336px)]', w: 'full' });
+
 export function PostDetailPage({ lang, post, headings, children }: PostDetailPage.Props) {
   const { t } = useTranslation('blog');
+  const shell = page();
 
   return (
-    <div className="bg-background min-h-dvh">
-      <div className="mx-auto grid w-full max-w-3xl gap-x-10 p-4 sm:p-6 md:p-8 lg:max-w-5xl lg:grid-cols-[minmax(0,1fr)_13rem]">
+    <div className={shell.root}>
+      <div className={frame}>
         <DetailHeader
           lang={lang}
           backHref={localeHref(lang, '/[lang]/blog')}
           backLabel={t(($) => $.detail.back)}
-          className="lg:col-start-1 lg:col-end-3 lg:row-start-1"
+          className={header}
         />
 
-        <main className="flex min-w-0 flex-col gap-8 lg:col-start-1 lg:row-start-2">
-          <header lang={post.bodyLang} className="flex flex-col gap-3">
-            <time dateTime={post.date} className="text-muted-foreground text-xs tabular-nums">
+        <main className={main}>
+          <header lang={post.bodyLang} className={meta}>
+            <time dateTime={post.date} className={metaText}>
               {dayjs(post.date).format('LL')}
             </time>
 
-            <h1 data-vt-title={post.slug} className="text-3xl font-extrabold">
+            <h1 data-vt-title={post.slug} className={title}>
               {post.title}
             </h1>
-            <p className="text-muted-foreground">{post.summary}</p>
+            <p className={summary}>{post.summary}</p>
 
             {post.tags.length > 0 && (
-              <ul className="flex flex-wrap gap-1">
+              <ul className={tags}>
                 {post.tags.map((tag) => (
                   <li key={tag}>
                     <Badge variant="outline">{tag}</Badge>
@@ -49,10 +83,9 @@ export function PostDetailPage({ lang, post, headings, children }: PostDetailPag
           </div>
         </main>
 
-        {/* 셋 다 행·열을 명시해야 한다. 하나라도 자동 배치면 암시적 행·열이 생겨 칸이 어긋난다. */}
-        <aside className="hidden lg:col-start-2 lg:row-start-1 lg:block">
-          <div className="fixed top-1/2 w-52 -translate-y-1/2">
-            <PostToc headings={headings} className="max-h-[calc(100dvh-336px)] w-full" />
+        <aside className={aside}>
+          <div className={tocFrame}>
+            <PostToc headings={headings} className={toc} />
           </div>
         </aside>
       </div>

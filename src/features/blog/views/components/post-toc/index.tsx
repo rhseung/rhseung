@@ -1,10 +1,34 @@
 import { useEffect, useRef } from 'react';
 
 import { useTranslation } from 'react-i18next';
-
-import { cn } from '@/common/utils';
+import { css, cx } from 'styled-system/css';
 
 import { useActiveHeading, type PostHeading } from '../../../viewmodels';
+
+const nav = css({ display: 'flex', flexDirection: 'column', gap: '3' });
+const label = css({
+  flexShrink: 0,
+  color: 'text.muted',
+  textStyle: 'caption',
+  fontWeight: 'medium',
+});
+const list = css({
+  display: 'flex',
+  minH: '0',
+  flexDirection: 'column',
+  gap: '1',
+  overflowY: 'auto',
+  textStyle: 'sm',
+});
+const link = css({
+  display: 'block',
+  py: '0.5',
+  lineHeight: 'snug',
+  color: 'text.muted/70',
+  transition: 'colors',
+  _hover: { color: 'text' },
+  '&[aria-current=location]': { color: 'text', fontWeight: 'medium' },
+});
 
 export function PostToc({ headings, className }: PostToc.Props) {
   const { t } = useTranslation('blog');
@@ -18,13 +42,13 @@ export function PostToc({ headings, className }: PostToc.Props) {
 
   if (headings.length === 0) return null;
 
-  const label = t(($) => $.detail.toc);
+  const heading = t(($) => $.detail.toc);
 
   return (
-    <nav aria-label={label} className={cn('flex flex-col gap-3', className)}>
-      <p className="text-muted-foreground shrink-0 text-xs font-medium">{label}</p>
+    <nav aria-label={heading} className={cx(nav, className)}>
+      <p className={label}>{heading}</p>
 
-      <ul className="flex min-h-0 flex-col gap-1 overflow-y-auto text-sm">
+      <ul className={list}>
         {headings.map(({ depth, slug, text }) => (
           <li key={slug}>
             <a
@@ -32,12 +56,7 @@ export function PostToc({ headings, className }: PostToc.Props) {
               href={`#${slug}`}
               aria-current={slug === active ? 'location' : undefined}
               style={{ paddingLeft: `${(depth - 2) * 0.75}rem` }}
-              className={cn(
-                'block py-0.5 leading-snug transition-colors',
-                slug === active
-                  ? 'text-foreground font-medium'
-                  : 'text-muted-foreground/70 hover:text-foreground',
-              )}
+              className={link}
             >
               {text}
             </a>

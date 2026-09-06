@@ -14,6 +14,7 @@ import {
   type Language,
   type LocaleRouteRef,
 } from '@/common/lib';
+import { dockBar, dockItem } from '@/common/styles';
 import {
   useExternalLinks,
   useLanguageSuggestion,
@@ -60,33 +61,6 @@ const nav = css({
   px: '4',
   _print: { display: 'none' },
 });
-
-const bar = css({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '1',
-  rounded: 'full',
-  border: 'line',
-  bg: 'surface/70',
-  p: '2',
-  backdropBlur: 'md',
-});
-
-const item = css({
-  display: 'flex',
-  boxSize: '10',
-  alignItems: 'center',
-  justifyContent: 'center',
-  rounded: 'full',
-  color: 'text.muted',
-  transition: 'colors',
-  outlineStyle: 'none',
-  _hover: { color: 'text', bg: 'surface.muted' },
-  _focusVisible: { boxShadow: 'focus' },
-  '&[aria-current=page]': { color: 'text', bg: 'surface.muted' },
-});
-
-const icon = css({ boxSize: '5' });
 
 const desktopOnly = css({
   display: 'none',
@@ -153,7 +127,7 @@ export function SiteDock({
       ))}
 
       <nav aria-label={t(($) => $.nav.label)} className={cx(nav, className)}>
-        <div data-vt-dock className={bar}>
+        <div data-vt-dock className={dockBar}>
           <DockLink
             href={localeHref(lang, '/[lang]')}
             label={t(($) => $.nav.home)}
@@ -198,11 +172,11 @@ export function SiteDock({
                       href={href}
                       aria-label={t(($) => $.actions.switchLanguage)}
                       hrefLang={other}
-                      className={item}
+                      className={dockItem}
                     />
                   }
                 >
-                  <GlobeAltIcon aria-hidden className={icon} />
+                  <GlobeAltIcon aria-hidden />
                 </TooltipTrigger>
               </LanguageSuggestionPopover>
               <TooltipContent>{t(($) => $.actions.switchLanguage)}</TooltipContent>
@@ -214,7 +188,7 @@ export function SiteDock({
               render={
                 <button
                   type="button"
-                  className={item}
+                  className={dockItem}
                   onClick={toggleTheme}
                   aria-label={themeLabel}
                 />
@@ -230,12 +204,12 @@ export function SiteDock({
               render={
                 <button
                   type="button"
-                  className={cx(item, mobileOnly)}
+                  className={cx(dockItem, mobileOnly)}
                   aria-label={t(($) => $.nav.menu)}
                 />
               }
             >
-              <Bars3Icon aria-hidden className={icon} />
+              <Bars3Icon aria-hidden />
             </SheetTrigger>
 
             <SheetContent side="bottom" className={sheetBody}>
@@ -325,11 +299,11 @@ function DockLink({ href, label, Icon, IconSolid, current, blank, hrefLang }: Do
             aria-current={current ? 'page' : undefined}
             hrefLang={hrefLang}
             {...(blank ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
-            className={item}
+            className={dockItem}
           />
         }
       >
-        <Rendered aria-hidden className={icon} />
+        <Rendered aria-hidden />
       </TooltipTrigger>
       <TooltipContent>{label}</TooltipContent>
     </Tooltip>
