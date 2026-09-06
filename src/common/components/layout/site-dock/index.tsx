@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Bars3Icon, GlobeAltIcon, HomeIcon, MoonIcon, SunIcon } from '@heroicons/react/24/outline';
 import { HomeIcon as HomeSolidIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
+import { css, cx } from 'styled-system/css';
 
 import {
   LANGUAGES,
@@ -13,7 +14,6 @@ import {
   type Language,
   type LocaleRouteRef,
 } from '@/common/lib';
-import { cn } from '@/common/utils';
 import {
   useExternalLinks,
   useLanguageSuggestion,
@@ -22,8 +22,6 @@ import {
   type SiteSection,
 } from '@/common/viewmodels';
 
-import { Button } from '../../ui/button';
-import { Separator } from '../../ui/separator';
 import {
   Sheet,
   SheetContent,
@@ -42,14 +40,78 @@ const BLUR_LAYERS = [
   { height: '1rem', blur: '24px' },
 ];
 
-const themeIconClass = cn(
-  'col-start-1 row-start-1 size-5 transition-[opacity,rotate,scale] duration-300 motion-reduce:transition-none',
-);
+const blurLayer = css({
+  pointerEvents: 'none',
+  position: 'fixed',
+  insetX: '0',
+  bottom: '0',
+  zIndex: 'blur',
+  maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+  _print: { display: 'none' },
+});
 
-// modifier 를 그대로 맞춰야 tailwind-merge 가 `Button` 베이스의 눌림 이동을 걷어낸다.
-const itemClass = cn(
-  'text-muted-foreground hover:text-foreground hover:bg-muted flex size-10 items-center justify-center rounded-full transition-colors active:not-aria-[haspopup]:translate-y-0',
-);
+const nav = css({
+  position: 'fixed',
+  insetX: '0',
+  bottom: '4',
+  zIndex: 'dock',
+  display: 'flex',
+  justifyContent: 'center',
+  px: '4',
+  _print: { display: 'none' },
+});
+
+const bar = css({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '1',
+  rounded: 'full',
+  border: 'line',
+  bg: 'surface/70',
+  p: '2',
+  backdropBlur: 'md',
+});
+
+const item = css({
+  display: 'flex',
+  boxSize: '10',
+  alignItems: 'center',
+  justifyContent: 'center',
+  rounded: 'full',
+  color: 'text.muted',
+  transition: 'colors',
+  outlineStyle: 'none',
+  _hover: { color: 'text', bg: 'surface.muted' },
+  _focusVisible: { boxShadow: 'focus' },
+  '&[aria-current=page]': { color: 'text', bg: 'surface.muted' },
+});
+
+const icon = css({ boxSize: '5' });
+
+const desktopOnly = css({
+  display: 'none',
+  sm: { display: 'flex', alignItems: 'center', gap: '1' },
+});
+const mobileOnly = css({ sm: { display: 'none' } });
+
+const divider = css({ mx: '0.5', h: '6', w: '[1px]', flexShrink: 0, bg: 'line' });
+
+const menu = css({ display: 'flex', flexDirection: 'column', px: '4' });
+
+const menuLink = css({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '3',
+  rounded: 'md',
+  p: '3',
+  textStyle: 'sm',
+  _hover: { bg: 'surface.muted' },
+  '& svg': { boxSize: '4', flexShrink: 0 },
+});
+
+const muted = css({ color: 'text.muted' });
+const srOnly = css({ srOnly: true });
+const sheetBody = css({ pb: '8' });
 
 export function SiteDock({
   lang,
@@ -85,22 +147,13 @@ export function SiteDock({
         <div
           key={height}
           aria-hidden
-          className="pointer-events-none fixed inset-x-0 bottom-0 z-10 mask-[linear-gradient(to_top,black_0%,transparent_100%)] print:hidden"
+          className={blurLayer}
           style={{ height, backdropFilter: `blur(${blur})` }}
         />
       ))}
 
-      <nav
-        aria-label={t(($) => $.nav.label)}
-        className={cn(
-          'fixed inset-x-0 bottom-4 z-20 flex justify-center px-4 print:hidden',
-          className,
-        )}
-      >
-        <div
-          data-vt-dock
-          className="border-border bg-background/70 flex items-center gap-1 rounded-full border p-2 backdrop-blur-md"
-        >
+      <nav aria-label={t(($) => $.nav.label)} className={cx(nav, className)}>
+        <div data-vt-dock className={bar}>
           <DockLink
             href={localeHref(lang, '/[lang]')}
             label={t(($) => $.nav.home)}
@@ -109,9 +162,9 @@ export function SiteDock({
             current={current === undefined}
           />
 
-          <Separator orientation="vertical" className="mx-0.5 hidden h-6! w-px sm:block" />
+          <div className={desktopOnly}>
+            <DockDivider />
 
-          <div className="hidden items-center gap-1 sm:flex">
             {sections.map(({ key, href, label, Icon, IconSolid }) => (
               <DockLink
                 key={key}
@@ -123,14 +176,14 @@ export function SiteDock({
               />
             ))}
 
-            <Separator orientation="vertical" className="mx-0.5 h-6! w-px" />
+            <DockDivider />
 
             {external.map(({ key, href, label, Icon, blank }) => (
               <DockLink key={key} href={href} label={label} Icon={Icon} blank={blank} />
             ))}
           </div>
 
-          <Separator orientation="vertical" className="mx-0.5 h-6! w-px" />
+          <DockDivider />
 
           {alternates.map(({ lang: other, href }) => (
             <Tooltip key={other}>
@@ -145,11 +198,11 @@ export function SiteDock({
                       href={href}
                       aria-label={t(($) => $.actions.switchLanguage)}
                       hrefLang={other}
-                      className={itemClass}
+                      className={item}
                     />
                   }
                 >
-                  <GlobeAltIcon aria-hidden className="size-5" />
+                  <GlobeAltIcon aria-hidden className={icon} />
                 </TooltipTrigger>
               </LanguageSuggestionPopover>
               <TooltipContent>{t(($) => $.actions.switchLanguage)}</TooltipContent>
@@ -159,10 +212,9 @@ export function SiteDock({
           <Tooltip>
             <TooltipTrigger
               render={
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  className={itemClass}
+                <button
+                  type="button"
+                  className={item}
                   onClick={toggleTheme}
                   aria-label={themeLabel}
                 />
@@ -176,32 +228,31 @@ export function SiteDock({
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger
               render={
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  className={cn(itemClass, 'sm:hidden')}
+                <button
+                  type="button"
+                  className={cx(item, mobileOnly)}
                   aria-label={t(($) => $.nav.menu)}
                 />
               }
             >
-              <Bars3Icon className="size-5" />
+              <Bars3Icon aria-hidden className={icon} />
             </SheetTrigger>
 
-            <SheetContent side="bottom" className="pb-8">
+            <SheetContent side="bottom" className={sheetBody}>
               <SheetHeader>
                 <SheetTitle>{t(($) => $.nav.menu)}</SheetTitle>
-                <SheetDescription className="sr-only">{t(($) => $.nav.label)}</SheetDescription>
+                <SheetDescription className={srOnly}>{t(($) => $.nav.label)}</SheetDescription>
               </SheetHeader>
 
-              <ul className="flex flex-col px-4">
+              <ul className={menu}>
                 {sections.map(({ key, href, label, Icon }) => (
                   <li key={key}>
                     <a
                       href={href}
                       aria-current={current === key ? 'page' : undefined}
-                      className="hover:bg-muted flex items-center gap-3 rounded-md p-3 text-sm"
+                      className={menuLink}
                     >
-                      <Icon aria-hidden className="size-4 shrink-0" />
+                      <Icon aria-hidden />
                       {label}
                     </a>
                   </li>
@@ -212,9 +263,9 @@ export function SiteDock({
                     <a
                       href={href}
                       {...(blank ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
-                      className="text-muted-foreground hover:bg-muted flex items-center gap-3 rounded-md p-3 text-sm"
+                      className={cx(menuLink, muted)}
                     >
-                      <Icon aria-hidden className="size-4 shrink-0" />
+                      <Icon aria-hidden />
                       {label}
                     </a>
                   </li>
@@ -228,21 +279,35 @@ export function SiteDock({
   );
 }
 
+function DockDivider() {
+  return <span role="separator" aria-orientation="vertical" className={divider} />;
+}
+
+const themeIconStack = css({ display: 'grid', boxSize: '5', placeItems: 'center' });
+
+const themeIcon = css({
+  gridColumnStart: 1,
+  gridRowStart: 1,
+  boxSize: '5',
+  transitionProperty: '[opacity, rotate, scale]',
+  transitionDuration: 'slow',
+  _motionReduce: { transitionProperty: '[none]' },
+});
+
+const sun = css({ _dark: { scale: '[0.5]', rotate: '[90deg]', opacity: 0 } });
+const moon = css({
+  scale: '[0.5]',
+  rotate: '[-90deg]',
+  opacity: 0,
+  _dark: { scale: '[1]', rotate: '[0deg]', opacity: 1 },
+});
+
 // 두 아이콘을 겹쳐 CSS 로 굴린다. 마운트를 안 태워야 하이드레이션 전에도 맞는 그림이 나온다.
 function ThemeIcons() {
   return (
-    <span className={cn('grid size-5 place-items-center')}>
-      <SunIcon
-        aria-hidden
-        className={cn(themeIconClass, 'dark:scale-50 dark:rotate-90 dark:opacity-0')}
-      />
-      <MoonIcon
-        aria-hidden
-        className={cn(
-          themeIconClass,
-          'scale-50 -rotate-90 opacity-0 dark:scale-100 dark:rotate-0 dark:opacity-100',
-        )}
-      />
+    <span className={themeIconStack}>
+      <SunIcon aria-hidden className={cx(themeIcon, sun)} />
+      <MoonIcon aria-hidden className={cx(themeIcon, moon)} />
     </span>
   );
 }
@@ -260,11 +325,11 @@ function DockLink({ href, label, Icon, IconSolid, current, blank, hrefLang }: Do
             aria-current={current ? 'page' : undefined}
             hrefLang={hrefLang}
             {...(blank ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
-            className={cn(itemClass, current && 'text-foreground bg-muted')}
+            className={item}
           />
         }
       >
-        <Rendered aria-hidden className="size-5" />
+        <Rendered aria-hidden className={icon} />
       </TooltipTrigger>
       <TooltipContent>{label}</TooltipContent>
     </Tooltip>

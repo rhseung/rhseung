@@ -1,11 +1,28 @@
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
+import { css, cx } from 'styled-system/css';
 
 import { FAVICON_HOSTS } from '@/common/lib';
-import { cn } from '@/common/utils';
+
+const link = css({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '0.5',
+});
+
+const underlined = css({
+  textDecoration: 'underline',
+  textDecorationColor: 'current/40',
+  textDecorationThickness: '[0.0625em]',
+  textUnderlineOffset: '2px',
+});
+
+const favicon = css({ boxSize: '[1em]', flexShrink: 0, rounded: 'full' });
+const arrow = css({ boxSize: '[1em]', flexShrink: 0, opacity: 0.4 });
 
 export function ExternalLink({
   href,
   showFavicon = false,
+  plain = false,
   className,
   children,
 }: ExternalLink.Props) {
@@ -17,10 +34,7 @@ export function ExternalLink({
       href={href}
       target="_blank"
       rel="noreferrer noopener"
-      className={cn(
-        'inline-flex items-center gap-0.5 underline decoration-current/40 decoration-[0.0625em] underline-offset-2',
-        className,
-      )}
+      className={cx(link, !plain && underlined, className)}
     >
       {children}
       {canShowFavicon ? (
@@ -33,10 +47,10 @@ export function ExternalLink({
           loading="lazy"
           decoding="async"
           fetchPriority="low"
-          className="size-[1em] shrink-0 rounded-full"
+          className={favicon}
         />
       ) : (
-        <ArrowTopRightOnSquareIcon aria-hidden className="size-[1em] shrink-0 opacity-40" />
+        <ArrowTopRightOnSquareIcon aria-hidden className={arrow} />
       )}
     </a>
   );
@@ -46,6 +60,8 @@ export declare namespace ExternalLink {
   export type Props = {
     href: string;
     showFavicon?: boolean;
+    /** 밑줄 없이 자기 스타일(버튼 등)만 입힐 때. */
+    plain?: boolean;
     className?: string;
     children: React.ReactNode;
   };

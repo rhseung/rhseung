@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { css, cx } from 'styled-system/css';
 
 import {
   Empty,
@@ -9,14 +10,25 @@ import {
   buttonVariants,
 } from '@/common/components';
 import { DEFAULT_LANGUAGE, localeHref } from '@/common/lib';
-import { cn } from '@/common/utils';
+import { page } from '@/common/styles';
+
+const root = css({ display: 'flex', flexDirection: 'column' });
+const main = css({
+  display: 'flex',
+  flex: '1',
+  alignItems: 'center',
+  justifyContent: 'center',
+  p: '6',
+});
+const actions = css({ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2' });
 
 export function NotFound() {
   const { t } = useTranslation('common');
+  const shell = page();
 
   return (
-    <div className="bg-background flex min-h-dvh flex-col">
-      <main className="flex flex-1 items-center justify-center p-6">
+    <div className={cx(shell.root, root)}>
+      <main className={main}>
         <Empty>
           <EmptyHeader>
             {/* `EmptyTitle` 은 div 라 안을 h1 로 채운다. */}
@@ -26,7 +38,7 @@ export function NotFound() {
             <EmptyDescription>{t(($) => $.notFound.description)}</EmptyDescription>
           </EmptyHeader>
 
-          <div className="flex flex-wrap justify-center gap-2">
+          <div className={actions}>
             <a
               href={localeHref(DEFAULT_LANGUAGE, '/[lang]')}
               className={buttonVariants({ size: 'sm' })}
@@ -35,13 +47,13 @@ export function NotFound() {
             </a>
             <a
               href={localeHref(DEFAULT_LANGUAGE, '/[lang]/projects')}
-              className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
+              className={buttonVariants({ variant: 'outline', size: 'sm' })}
             >
               {t(($) => $.nav.projects)}
             </a>
             <a
               href={localeHref(DEFAULT_LANGUAGE, '/[lang]/blog')}
-              className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
+              className={buttonVariants({ variant: 'outline', size: 'sm' })}
             >
               {t(($) => $.nav.blog)}
             </a>
