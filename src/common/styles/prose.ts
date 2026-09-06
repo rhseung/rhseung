@@ -185,6 +185,7 @@ export const proseLink = css({
 });
 
 export const bibliography = css({
+  fontFamily: 'serif',
   '& .csl-entry': {
     mb: '2',
     pl: '6',
