@@ -11,7 +11,8 @@ export const slug = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'kebab-case ì
 export const filled = z.string().trim().min(1);
 
 export const url = z.custom<Url>(
-  (value) => typeof value === 'string' && value.startsWith('https://'),
+  (value) =>
+    typeof value === 'string' && URL.canParse(value) && new URL(value).protocol === 'https:',
 );
 
 const year = z.number().int().min(1900).max(2100);
