@@ -15,7 +15,10 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
 
   resolve: {
-    alias: { '@': path.resolve(dirname, './src') },
+    alias: {
+      '@': path.resolve(dirname, './src'),
+      'styled-system': path.resolve(dirname, './styled-system'),
+    },
   },
 
   // 스토리가 적으면 esbuild 스캔이 aria-query 를 못 찾아

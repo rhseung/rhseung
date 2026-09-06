@@ -85,7 +85,7 @@ export function Shortcut({ keys, os = 'mac' }: Shortcut.Props) {
       {keys.map((key, index) => (
         <Fragment key={key}>
           {index > 0 && <PlusIcon aria-hidden className={cn('text-muted-foreground size-2.5')} />}
-          <Kbd className={cn('text-foreground shadow-none')}>
+          <Kbd>
             {glyphOf(key, os)}
             <span className={cn('sr-only')}>{key}</span>
           </Kbd>

@@ -24,6 +24,7 @@ const light = {
   'tone.amber': 'oklch(0.48 0.12 70)',
   'tone.purple': 'oklch(0.48 0.15 300)',
   'tone.rose': 'oklch(0.5 0.16 15)',
+  overlay: 'oklch(0 0 0 / 10%)',
 };
 
 export type ColorRole = keyof typeof light;
@@ -54,6 +55,7 @@ const dark: Palette = {
   'tone.amber': 'oklch(0.85 0.1 80)',
   'tone.purple': 'oklch(0.83 0.1 300)',
   'tone.rose': 'oklch(0.84 0.1 15)',
+  overlay: 'oklch(0 0 0 / 40%)',
 };
 
 export const PALETTES = { light, dark } satisfies Record<ThemeMode, Palette>;

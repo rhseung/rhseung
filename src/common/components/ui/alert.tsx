@@ -1,70 +1,72 @@
 import * as React from 'react';
 
-import { cva, type VariantProps } from 'class-variance-authority';
+import { css, cva, cx } from 'styled-system/css';
 
-import { cn } from '@/common/utils/index';
+import type { RecipeVariantProps } from 'styled-system/types';
 
-const alertVariants = cva(
-  "group/alert relative grid w-full gap-0.5 rounded-lg border px-2.5 py-2 text-left text-sm has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:text-current *:[svg:not([class*='size-'])]:size-4",
-  {
-    variants: {
-      variant: {
-        default: 'bg-card text-card-foreground',
-        destructive:
-          'bg-card text-destructive *:data-[slot=alert-description]:text-destructive/90 *:[svg]:text-current',
+const alertVariants = cva({
+  base: {
+    position: 'relative',
+    display: 'grid',
+    w: 'full',
+    gap: '0.5',
+    rounded: 'lg',
+    border: 'line',
+    px: '2.5',
+    py: '2',
+    textAlign: 'left',
+    textStyle: 'sm',
+    '&:has(> svg)': { gridTemplateColumns: 'auto 1fr', columnGap: '2' },
+    '& > svg': { gridRow: 'span 2', transform: 'translateY(2px)' },
+    '& > svg:not([class*=size_])': { boxSize: '4' },
+  },
+  variants: {
+    variant: {
+      default: { bg: 'surface.raised', color: 'text' },
+      destructive: {
+        bg: 'surface.raised',
+        color: 'danger',
+        '& > [data-slot=alert-description]': { color: 'danger/90' },
       },
     },
-    defaultVariants: {
-      variant: 'default',
-    },
   },
-);
+  defaultVariants: { variant: 'default' },
+});
 
-function Alert({
+export function Alert({
   className,
   variant,
   ...props
-}: React.ComponentProps<'div'> & VariantProps<typeof alertVariants>) {
+}: React.ComponentProps<'div'> & RecipeVariantProps<typeof alertVariants>) {
   return (
     <div
       data-slot="alert"
       role="alert"
-      className={cn(alertVariants({ variant }), className)}
+      className={cx(alertVariants({ variant }), className)}
       {...props}
     />
   );
 }
 
-function AlertTitle({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      data-slot="alert-title"
-      className={cn(
-        '[&_a]:hover:text-foreground font-medium group-has-[>svg]/alert:col-start-2 [&_a]:underline [&_a]:underline-offset-3',
-        className,
-      )}
-      {...props}
-    />
-  );
+const title = css({
+  fontWeight: 'medium',
+  '[data-slot=alert]:has(> svg) &': { gridColumnStart: 2 },
+  '& a': { textDecoration: 'underline', textUnderlineOffset: '3px', _hover: { color: 'text' } },
+});
+
+export function AlertTitle({ className, ...props }: React.ComponentProps<'div'>) {
+  return <div data-slot="alert-title" className={cx(title, className)} {...props} />;
 }
 
-function AlertDescription({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      data-slot="alert-description"
-      className={cn(
-        'text-muted-foreground [&_a]:hover:text-foreground text-sm text-balance md:text-pretty [&_a]:underline [&_a]:underline-offset-3 [&_p:not(:last-child)]:mb-4',
-        className,
-      )}
-      {...props}
-    />
-  );
-}
+const description = css({
+  color: 'text.muted',
+  textStyle: 'sm',
+  textWrap: 'balance',
+  md: { textWrap: '[pretty]' },
+  '& a': { textDecoration: 'underline', textUnderlineOffset: '3px', _hover: { color: 'text' } },
+  '& p:not(:last-child)': { mb: '4' },
+});
 
-function AlertAction({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div data-slot="alert-action" className={cn('absolute top-2 right-2', className)} {...props} />
-  );
+export function AlertDescription({ className, ...props }: React.ComponentProps<'div'>) {
+  return <div data-slot="alert-description" className={cx(description, className)} {...props} />;
 }
-
-export { Alert, AlertTitle, AlertDescription, AlertAction };
