@@ -79,7 +79,9 @@ export function ProjectCard({
           {target === null && project.title}
           {target?.external === false && <a href={target.href}>{project.title}</a>}
           {target?.external === true && (
-            <ExternalLink href={target.href}>{project.title}</ExternalLink>
+            <ExternalLink href={target.href} plain>
+              {project.title}
+            </ExternalLink>
           )}
         </h2>
         <span className={cx(metaText, css({ ml: 'auto', alignSelf: 'center' }))}>{periodText}</span>
