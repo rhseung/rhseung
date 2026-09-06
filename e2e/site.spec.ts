@@ -95,3 +95,15 @@ test('모바일에서 가로 스크롤이 생기지 않는다', async ({ page })
     expect(width, path).toBeLessThanOrEqual(390);
   }
 });
+
+// 아일랜드 children 은 `<astro-slot>` 에 싸여서 `> * + *` 리듬이 직계 자식만 보고 지나친 적이 있다.
+test('글 본문의 블록 사이에 간격이 있다', async ({ page }) => {
+  await page.goto('/ko/blog/mac-settings/');
+
+  const gap = await page.evaluate(() => {
+    const blocks = [...document.querySelectorAll('main h2 ~ p')];
+    return Math.min(...blocks.map((el) => parseFloat(getComputedStyle(el).marginTop)));
+  });
+
+  expect(gap).toBeGreaterThan(0);
+});
