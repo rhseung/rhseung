@@ -149,7 +149,7 @@ export const prose = cva({
         textAlign: 'justify',
         hyphens: 'auto',
         counterReset: 'section',
-        '& :is(h2, h3, h4)': { textAlign: 'left' },
+        '& :is(h1, h2, h3, h4, h5, h6)': { fontFamily: 'serif', textAlign: 'left' },
         '& h2': { counterIncrement: 'section', counterReset: 'subsection' },
         '& h3': { counterIncrement: 'subsection' },
         '& h2::before': { content: 'counter(section)', mr: '[0.75em]' },
