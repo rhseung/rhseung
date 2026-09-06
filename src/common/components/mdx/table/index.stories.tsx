@@ -1,3 +1,7 @@
+import { css } from 'styled-system/css';
+
+import { Prose } from '../prose';
+
 import { MdxTable } from '.';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -7,9 +11,9 @@ const meta = {
   component: MdxTable,
   decorators: [
     (Story) => (
-      <div className="prose prose-zinc dark:prose-invert max-w-md">
+      <Prose className={css({ maxW: 'md' })}>
         <Story />
-      </div>
+      </Prose>
     ),
   ],
 } satisfies Meta<typeof MdxTable>;

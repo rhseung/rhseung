@@ -1,3 +1,5 @@
+import { Prose } from '../prose';
+
 import { MdxLink } from '.';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -7,11 +9,11 @@ const meta = {
   component: MdxLink,
   decorators: [
     (Story) => (
-      <div className="prose prose-zinc dark:prose-invert">
+      <Prose>
         <p>
           문단 가운데에서 <Story /> 처럼 흐른다.
         </p>
-      </div>
+      </Prose>
     ),
   ],
   args: { children: 'Magnet' },

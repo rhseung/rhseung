@@ -1,3 +1,5 @@
+import { Prose } from '../prose';
+
 import { MdxHeading } from '.';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -7,10 +9,10 @@ const meta = {
   component: MdxHeading,
   decorators: [
     (Story) => (
-      <div className="prose prose-zinc dark:prose-invert">
+      <Prose>
         <Story />
         <p>제목에 마우스를 올리면 오른쪽에 앵커 표시가 나온다.</p>
-      </div>
+      </Prose>
     ),
   ],
   args: {

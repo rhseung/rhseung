@@ -1,5 +1,6 @@
 import { GlobeAltIcon } from '@heroicons/react/24/outline';
 import { fn } from 'storybook/test';
+import { css } from 'styled-system/css';
 
 import { LanguageSuggestionPopover } from '.';
 
@@ -18,8 +19,12 @@ const meta = {
     href: '/en/',
     onDismiss: fn(),
     children: (
-      <a href="/en/" aria-label="Switch language" className="grid size-10 place-items-center">
-        <GlobeAltIcon aria-hidden className="size-5" />
+      <a
+        href="/en/"
+        aria-label="Switch language"
+        className={css({ display: 'grid', boxSize: '10', placeItems: 'center' })}
+      >
+        <GlobeAltIcon aria-hidden className={css({ boxSize: '5' })} />
       </a>
     ),
   },

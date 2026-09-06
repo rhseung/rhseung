@@ -1,3 +1,5 @@
+import { css } from 'styled-system/css';
+
 import { TECH_BY_NAME } from '@/content/skills';
 
 import { TechIcon } from '.';
@@ -21,7 +23,7 @@ export const InheritsColor: Story = {
   args: { icon: TECH_BY_NAME.Storybook.icon! },
   decorators: [
     (Story) => (
-      <span className="text-[oklch(0.55_0.2_5)]">
+      <span className={css({ color: 'tone.rose' })}>
         <Story />
       </span>
     ),

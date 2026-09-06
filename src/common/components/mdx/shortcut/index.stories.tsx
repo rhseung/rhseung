@@ -1,3 +1,5 @@
+import { css } from 'styled-system/css';
+
 import { Shortcut } from '.';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -27,7 +29,7 @@ export const WindowsLabels: Story = {
 export const AllSymbols: Story = {
   args: { keys: [] },
   render: () => (
-    <div className="flex flex-wrap gap-3">
+    <div className={css({ display: 'flex', flexWrap: 'wrap', gap: '3' })}>
       {[
         'cmd',
         'opt',
@@ -53,7 +55,16 @@ export const AllSymbols: Story = {
         'eject',
         'win',
       ].map((key) => (
-        <span key={key} className="text-muted-foreground flex items-center gap-1.5 text-xs">
+        <span
+          key={key}
+          className={css({
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1.5',
+            color: 'text.muted',
+            textStyle: 'xs',
+          })}
+        >
           <Shortcut keys={[key]} />
           <Shortcut keys={[key]} os="win" />
           {key}
