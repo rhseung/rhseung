@@ -16,7 +16,7 @@
     "i18n:lint": "i18next-cli lint",
     "i18n:status": "i18next-cli status",
     "i18n:sync": "i18next-cli sync",
-    "lint": "eslint .",
+    "lint": "eslint . && bun scripts/lint-inline-css.ts",
     "msw:init": "msw init ./public --save",
     "preview": "astro preview",
     "storybook": "storybook dev -p 6006",
