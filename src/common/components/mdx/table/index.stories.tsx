@@ -60,8 +60,8 @@ export const Wide: Story = {
         <tbody>
           <tr>
             {['팔레트', '⌘⇧P', 'Ctrl+Shift+P', 'Ctrl+Shift+P', '전부 같다', 'a', 'b', 'c'].map(
-              (cell) => (
-                <td key={cell}>{cell}</td>
+              (cell, index) => (
+                <td key={index}>{cell}</td>
               ),
             )}
           </tr>
