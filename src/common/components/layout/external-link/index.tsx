@@ -60,7 +60,6 @@ export declare namespace ExternalLink {
   export type Props = {
     href: string;
     showFavicon?: boolean;
-    /** 밑줄 없이 자기 스타일(버튼 등)만 입힐 때. */
     plain?: boolean;
     className?: string;
     children: React.ReactNode;

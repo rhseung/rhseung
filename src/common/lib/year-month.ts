@@ -8,7 +8,6 @@ export function formatYearMonth(value: YearOrMonth): string {
     : `${value.year}.${String(value.month).padStart(2, '0')}`;
 }
 
-/** 월을 모르면 그 해 첫 달로 본다. */
 export function formatPeriod(
   start: YearOrMonth,
   end: YearOrMonth | undefined,

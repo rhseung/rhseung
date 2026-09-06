@@ -31,7 +31,6 @@ export function NotFound() {
       <main className={main}>
         <Empty>
           <EmptyHeader>
-            {/* `EmptyTitle` 은 div 라 안을 h1 로 채운다. */}
             <EmptyTitle>
               <h1>{t(($) => $.notFound.title)}</h1>
             </EmptyTitle>

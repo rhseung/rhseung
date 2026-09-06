@@ -80,7 +80,6 @@ export function renderPaper(tex: string, bib?: string): Paper {
       const display = classes.includes('display-math');
 
       if (display || classes.includes('inline-math')) {
-        // 문자열이 아니라 트리로 넣어야 `raw` 노드 없이 JSX 로 바로 나간다.
         node.children = fromHtml(
           katex.renderToString(textOf(node), { displayMode: display, throwOnError: false }),
           { fragment: true },
