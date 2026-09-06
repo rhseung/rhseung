@@ -11,7 +11,6 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 import prettierConfig from 'eslint-config-prettier';
-import betterTailwind from 'eslint-plugin-better-tailwindcss';
 import boundaries from 'eslint-plugin-boundaries';
 import checkFile from 'eslint-plugin-check-file';
 import importPlugin from 'eslint-plugin-import-x';
@@ -97,7 +96,6 @@ export default defineConfig(
       'react-refresh': reactRefresh,
       import: importPlugin,
       'unused-imports': unusedImports,
-      'better-tailwindcss': betterTailwind,
       boundaries,
       'check-file': checkFile,
     },
@@ -113,7 +111,6 @@ export default defineConfig(
       'import/resolver': {
         typescript: { project: './tsconfig.json', alwaysTryTypes: true },
       },
-      'better-tailwindcss': { entryPoint: 'src/styles.css' },
     },
     rules: {
       // React Compiler 급 진단이 여기 들어있다 — purity, set-state-in-effect,
@@ -209,18 +206,6 @@ export default defineConfig(
 
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
 
-      // 클래스 정렬·줄바꿈은 prettier-plugin-tailwindcss 담당. 둘 다 켜면 싸운다.
-      // 여기서는 정확성만 본다.
-      'better-tailwindcss/no-unknown-classes': 'error',
-      'better-tailwindcss/no-conflicting-classes': 'error',
-      'better-tailwindcss/no-duplicate-classes': 'error',
-      'better-tailwindcss/no-deprecated-classes': 'error',
-      'better-tailwindcss/no-unnecessary-whitespace': 'error',
-      // `w-4 h-4` → `size-4`. shadcn 규약과 같은 방향이라 켜둔다.
-      'better-tailwindcss/enforce-shorthand-classes': 'error',
-      'better-tailwindcss/enforce-consistent-class-order': 'off',
-      'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
-
       // 컴포넌트 props를 `export namespace Button { export type Props }` 로 쓰는 관례상 필수.
       '@typescript-eslint/no-namespace': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
@@ -263,10 +248,6 @@ export default defineConfig(
     files: ['src/common/components/ui/**/*.{ts,tsx}'],
     rules: {
       'react-refresh/only-export-components': 'off',
-      // shadcn CLI 생성물 — 싸우지 말고 재생성한다.
-      // 프리미티브가 정말로 접근성이 나쁘면 업스트림에 알린다.
-      'better-tailwindcss/no-unknown-classes': 'off',
-      'better-tailwindcss/enforce-shorthand-classes': 'off',
       'jsx-a11y/label-has-associated-control': 'off',
       'jsx-a11y/no-noninteractive-element-to-interactive-role': 'off',
     },
