@@ -7,10 +7,15 @@ export const prose = cva({
     wordBreak: 'keep-all',
     '& > * + *, & > astro-slot > * + *': { mt: '5' },
     '& > :is(h1, h2), & > astro-slot > :is(h1, h2)': { mt: '12' },
-    '& > :is(h3, h4, h5, h6), & > astro-slot > :is(h3, h4, h5, h6)': { mt: '8' },
-    '& > :is(h1, h2, h3, h4, h5, h6) + *, & > astro-slot > :is(h1, h2, h3, h4, h5, h6) + *': {
-      mt: '3',
+    '& > h3, & > astro-slot > h3': { mt: '8' },
+    '& > :is(h4, h5, h6), & > astro-slot > :is(h4, h5, h6)': { mt: '6' },
+    '& > :is(h1, h2) + *, & > astro-slot > :is(h1, h2) + *': { mt: '4' },
+    '& > h3 + *, & > astro-slot > h3 + *': { mt: '3' },
+    '& > :is(h4, h5, h6) + *, & > astro-slot > :is(h4, h5, h6) + *': { mt: '2' },
+    '& > :is(h1, h2) + :is(h3, h4, h5, h6), & > astro-slot > :is(h1, h2) + :is(h3, h4, h5, h6)': {
+      mt: '6',
     },
+    '& > h3 + :is(h4, h5, h6), & > astro-slot > h3 + :is(h4, h5, h6)': { mt: '4' },
     '& :is(li, blockquote, td, th) > * + *': { mt: '2' },
 
     '& :is(h1, h2, h3, h4, h5, h6)': { color: 'text' },
