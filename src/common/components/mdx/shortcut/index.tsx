@@ -26,8 +26,6 @@ import { css } from 'styled-system/css';
 
 import { Kbd, KbdGroup } from '../../ui/kbd';
 
-const srOnly = css({ srOnly: true });
-
 const KEY_GLYPHS = {
   cmd: <CommandIcon aria-hidden />,
   opt: <OptionIcon aria-hidden />,
@@ -90,7 +88,7 @@ export function Shortcut({ keys, os = 'mac' }: Shortcut.Props) {
           )}
           <Kbd>
             {glyphOf(key, os)}
-            <span className={srOnly}>{key}</span>
+            <span className={css({ srOnly: true })}>{key}</span>
           </Kbd>
         </Fragment>
       ))}

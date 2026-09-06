@@ -63,8 +63,6 @@ const menuLink = css({
   '& svg': { boxSize: '4', flexShrink: 0 },
 });
 
-const srOnly = css({ srOnly: true });
-
 export function SiteDock({
   lang,
   current,
@@ -206,7 +204,9 @@ export function SiteDock({
             <SheetContent side="bottom" className={css({ pb: '8' })}>
               <SheetHeader>
                 <SheetTitle>{t(($) => $.nav.menu)}</SheetTitle>
-                <SheetDescription className={srOnly}>{t(($) => $.nav.label)}</SheetDescription>
+                <SheetDescription className={css({ srOnly: true })}>
+                  {t(($) => $.nav.label)}
+                </SheetDescription>
               </SheetHeader>
 
               <ul className={css({ display: 'flex', flexDirection: 'column', px: '4' })}>

@@ -37,8 +37,6 @@ import { ProjectCard } from '../components';
 
 const search = css({ '&::-webkit-search-cancel-button': { appearance: 'none' } });
 const wrap = css({ flexWrap: 'wrap' });
-const count = css({ fontVariantNumeric: 'tabular-nums' });
-const reset = css({ ml: 'auto' });
 
 export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props) {
   const { t } = useTranslation('projects');
@@ -168,10 +166,17 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
               textStyle: 'caption',
             })}
           >
-            <span className={count}>{t(($) => $.filter.results, { count: visible.length })}</span>
+            <span className={css({ fontVariantNumeric: 'tabular-nums' })}>
+              {t(($) => $.filter.results, { count: visible.length })}
+            </span>
 
             {active && (
-              <Button variant="ghost" size="sm" onClick={resetFilters} className={reset}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={resetFilters}
+                className={css({ ml: 'auto' })}
+              >
                 {t(($) => $.filter.reset)}
               </Button>
             )}

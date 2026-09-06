@@ -6,8 +6,6 @@ const grid = css({
   gap: '3',
   sm: { gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' },
 });
-const value = css({ color: 'text', textStyle: 'stat' });
-const label = css({ color: 'text.muted', textStyle: 'caption' });
 
 export function Stats({ children }: Stats.Props) {
   return <div className={grid}>{children}</div>;
@@ -25,8 +23,8 @@ export function Stat({ value: figure, label: text }: Stat.Props) {
         p: '3',
       })}
     >
-      <span className={value}>{figure}</span>
-      <span className={label}>{text}</span>
+      <span className={css({ color: 'text', textStyle: 'stat' })}>{figure}</span>
+      <span className={css({ color: 'text.muted', textStyle: 'caption' })}>{text}</span>
     </div>
   );
 }

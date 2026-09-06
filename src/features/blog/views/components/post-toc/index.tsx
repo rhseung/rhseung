@@ -6,12 +6,6 @@ import { css, cx } from 'styled-system/css';
 import { useActiveHeading, type PostHeading } from '../../../viewmodels';
 
 const nav = css({ display: 'flex', flexDirection: 'column', gap: '3' });
-const label = css({
-  flexShrink: 0,
-  color: 'text.muted',
-  textStyle: 'caption',
-  fontWeight: 'medium',
-});
 
 export function PostToc({ headings, className }: PostToc.Props) {
   const { t } = useTranslation('blog');
@@ -29,7 +23,16 @@ export function PostToc({ headings, className }: PostToc.Props) {
 
   return (
     <nav aria-label={heading} className={cx(nav, className)}>
-      <p className={label}>{heading}</p>
+      <p
+        className={css({
+          flexShrink: 0,
+          color: 'text.muted',
+          textStyle: 'caption',
+          fontWeight: 'medium',
+        })}
+      >
+        {heading}
+      </p>
 
       <ul
         className={css({

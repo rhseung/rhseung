@@ -29,7 +29,6 @@ const article = css({
   transition: 'colors',
   _hover: { bg: 'surface.muted/40' },
 });
-const title = css({ textStyle: 'heading.card', '& a:hover': { textDecoration: 'underline' } });
 // `flex` 를 빼면 아이콘 유무로 baseline 이 어긋난다.
 const micro = css.raw({ textStyle: 'micro' });
 
@@ -75,7 +74,13 @@ export function ProjectCard({
           rowGap: '1',
         })}
       >
-        <h2 data-vt-title={project.slug} className={title}>
+        <h2
+          data-vt-title={project.slug}
+          className={css({
+            textStyle: 'heading.card',
+            '& a:hover': { textDecoration: 'underline' },
+          })}
+        >
           {target === null && project.title}
           {target?.external === false && <a href={target.href}>{project.title}</a>}
           {target?.external === true && (

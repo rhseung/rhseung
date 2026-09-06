@@ -22,11 +22,6 @@ const article = css({
   bg: 'surface.raised/40',
   p: '4',
 });
-const title = css({
-  textStyle: 'sm',
-  fontWeight: 'semibold',
-  '& a:hover': { textDecoration: 'underline' },
-});
 
 export function ResearchCard({ item, detailHref }: ResearchCard.Props) {
   const { t } = useTranslation('research');
@@ -48,7 +43,14 @@ export function ResearchCard({ item, detailHref }: ResearchCard.Props) {
   return (
     <article className={article}>
       <div className={css({ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '2' })}>
-        <h2 data-vt-title={item.slug} className={title}>
+        <h2
+          data-vt-title={item.slug}
+          className={css({
+            textStyle: 'sm',
+            fontWeight: 'semibold',
+            '& a:hover': { textDecoration: 'underline' },
+          })}
+        >
           {detailHref === undefined ? item.title : <a href={detailHref}>{item.title}</a>}
         </h2>
         <Badge variant="secondary" tone={RESEARCH_KIND_TONE[item.kind]}>

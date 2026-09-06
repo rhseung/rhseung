@@ -16,7 +16,6 @@ import {
 } from '../../viewmodels';
 import { AwardList, CareerList, SkillGroups } from '../components';
 
-const title = css({ textStyle: 'heading.page' });
 const section = stack({ gap: '5' });
 
 function Section({ title: heading, children }: { title: string; children: React.ReactNode }) {
@@ -41,7 +40,7 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
   return (
     <div className={shell.root}>
       <main className={shell.main}>
-        <h1 className={title}>{t(($) => $.career.title)}</h1>
+        <h1 className={css({ textStyle: 'heading.page' })}>{t(($) => $.career.title)}</h1>
 
         {isEmpty && (
           <Empty>
