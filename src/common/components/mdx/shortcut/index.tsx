@@ -22,10 +22,14 @@ import {
   PlusIcon,
   WindowsLogoIcon,
 } from '@phosphor-icons/react';
-
-import { cn } from '@/common/utils';
+import { css } from 'styled-system/css';
 
 import { Kbd, KbdGroup } from '../../ui/kbd';
+
+const group = css({ p: '0', verticalAlign: 'middle' });
+const plus = css({ color: 'text.muted', boxSize: '2.5' });
+const flipped = css({ scaleX: '[-1]' });
+const srOnly = css({ srOnly: true });
 
 const KEY_GLYPHS = {
   cmd: <CommandIcon aria-hidden />,
@@ -38,7 +42,7 @@ const KEY_GLYPHS = {
   tab: <ArrowLineRightIcon aria-hidden />,
   backtab: <ArrowLineLeftIcon aria-hidden />,
   backspace: <BackspaceIcon aria-hidden />,
-  del: <BackspaceIcon aria-hidden className={cn('scale-x-[-1]')} />,
+  del: <BackspaceIcon aria-hidden className={flipped} />,
   esc: <span aria-hidden>esc</span>,
   space: <span aria-hidden>space</span>,
   up: <ArrowUpIcon aria-hidden />,
@@ -81,13 +85,13 @@ function glyphOf(key: string, os: Shortcut.Os): ReactNode {
 
 export function Shortcut({ keys, os = 'mac' }: Shortcut.Props) {
   return (
-    <KbdGroup className={cn('p-0 align-middle shadow-none')}>
+    <KbdGroup className={group}>
       {keys.map((key, index) => (
         <Fragment key={key}>
-          {index > 0 && <PlusIcon aria-hidden className={cn('text-muted-foreground size-2.5')} />}
+          {index > 0 && <PlusIcon aria-hidden className={plus} />}
           <Kbd>
             {glyphOf(key, os)}
-            <span className={cn('sr-only')}>{key}</span>
+            <span className={srOnly}>{key}</span>
           </Kbd>
         </Fragment>
       ))}

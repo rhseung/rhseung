@@ -4,6 +4,7 @@ export { Detail } from './detail';
 export { Figure } from './figure';
 export { MdxHeading } from './heading';
 export { MdxLink } from './link';
+export { Prose } from './prose';
 export { Shortcut } from './shortcut';
 export { Stat, Stats } from './stat';
 export { Step, Steps } from './steps';

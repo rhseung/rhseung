@@ -1,17 +1,43 @@
+import { css } from 'styled-system/css';
+
+const list = css({
+  my: '6',
+  display: 'flex',
+  listStyle: 'none',
+  flexDirection: 'column',
+  gap: '4',
+  pl: '0',
+});
+const step = css({ display: 'flex', gap: '3', '& p': { my: '0' }, '& p + p': { mt: '2' } });
+const marker = css({
+  mt: '0.5',
+  display: 'flex',
+  boxSize: '6',
+  flexShrink: 0,
+  alignItems: 'center',
+  justifyContent: 'center',
+  rounded: 'full',
+  border: 'line',
+  color: 'text.muted',
+  textStyle: 'caption',
+  fontVariantNumeric: 'tabular-nums',
+});
+const content = css({ display: 'flex', minW: '0', flexDirection: 'column', gap: '1' });
+const title = css({ color: 'text', textStyle: 'sm', fontWeight: 'medium' });
+const body = css({ color: 'text.muted', textStyle: 'sm', lineHeight: 'relaxed' });
+
 export function Steps({ children }: Steps.Props) {
-  return <ol className="my-6 flex list-none flex-col gap-4 pl-0">{children}</ol>;
+  return <ol className={list}>{children}</ol>;
 }
 
-export function Step({ index, title, children }: Step.Props) {
+export function Step({ index, title: heading, children }: Step.Props) {
   return (
-    <li className="flex gap-3 [&_p]:my-0 [&_p+p]:mt-2">
-      <span className="border-border text-muted-foreground mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full border text-xs tabular-nums">
-        {index}
-      </span>
+    <li className={step}>
+      <span className={marker}>{index}</span>
 
-      <div className="flex min-w-0 flex-col gap-1">
-        <p className="text-foreground text-sm font-medium">{title}</p>
-        <div className="text-muted-foreground text-sm leading-relaxed">{children}</div>
+      <div className={content}>
+        <p className={title}>{heading}</p>
+        <div className={body}>{children}</div>
       </div>
     </li>
   );

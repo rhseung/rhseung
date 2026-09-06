@@ -1,4 +1,23 @@
 import { LinkIcon } from '@heroicons/react/24/outline';
+import { css, cx } from 'styled-system/css';
+
+const heading = css({ position: 'relative' });
+const anchor = css({
+  position: 'absolute',
+  left: '-7',
+  display: 'none',
+  h: '[1lh]',
+  alignItems: 'center',
+  textDecoration: 'none',
+  opacity: 0,
+  transition: 'opacity',
+  color: 'text.muted/60',
+  _hover: { color: 'text.muted' },
+  _focusVisible: { opacity: 1 },
+  _groupHover: { opacity: 1 },
+  lg: { display: 'flex' },
+});
+const icon = css({ boxSize: '[0.8em]' });
 
 /**
  * `@astrojs/mdx` 가 사용자 rehype 플러그인을 `rehypeHeadingIds` 앞에 밀어넣어서
@@ -13,13 +32,9 @@ export function MdxHeading({ level, id, permalinkLabel, children }: MdxHeading.P
   if (id === undefined) return <Tag>{children}</Tag>;
 
   return (
-    <Tag id={id} className="group relative">
-      <a
-        href={`#${id}`}
-        aria-label={permalinkLabel}
-        className="text-muted-foreground/60! hover:text-muted-foreground! absolute -left-7 hidden h-[1lh] items-center no-underline opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100 lg:flex"
-      >
-        <LinkIcon aria-hidden className="size-[0.8em]" />
+    <Tag id={id} className={cx('group', heading)}>
+      <a href={`#${id}`} aria-label={permalinkLabel} className={anchor}>
+        <LinkIcon aria-hidden className={icon} />
       </a>
       {children}
     </Tag>

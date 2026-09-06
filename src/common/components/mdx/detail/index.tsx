@@ -1,14 +1,42 @@
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
+import { css } from 'styled-system/css';
 
-export function Detail({ summary, children }: Detail.Props) {
+const details = css({
+  my: '6',
+  rounded: 'md',
+  border: 'line',
+  px: '4',
+  py: '3',
+  '& p': { my: '0' },
+  '& p + p': { mt: '2' },
+});
+const summary = css({
+  display: 'flex',
+  cursor: 'pointer',
+  listStyle: 'none',
+  alignItems: 'center',
+  gap: '2',
+  color: 'text',
+  textStyle: 'sm',
+  fontWeight: 'medium',
+});
+const chevron = css({
+  boxSize: '3.5',
+  flexShrink: 0,
+  transition: 'transform',
+  'details[open] > summary > &': { rotate: '[90deg]' },
+});
+const body = css({ mt: '3', color: 'text.muted', textStyle: 'sm', lineHeight: 'relaxed' });
+
+export function Detail({ summary: label, children }: Detail.Props) {
   return (
-    <details className="border-border group my-6 rounded-md border px-4 py-3 [&_p]:my-0 [&_p+p]:mt-2">
-      <summary className="text-foreground flex cursor-pointer list-none items-center gap-2 text-sm font-medium">
-        <ChevronRightIcon className="size-3.5 shrink-0 transition-transform group-open:rotate-90" />
-        {summary}
+    <details className={details}>
+      <summary className={summary}>
+        <ChevronRightIcon className={chevron} />
+        {label}
       </summary>
 
-      <div className="text-muted-foreground mt-3 text-sm leading-relaxed">{children}</div>
+      <div className={body}>{children}</div>
     </details>
   );
 }

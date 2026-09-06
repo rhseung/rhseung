@@ -1,7 +1,11 @@
-/** 표는 제 폭 아래로 못 줄어든다. 스크롤 상자가 없으면 넘친 폭이 페이지로 샌다. */
+import { css } from 'styled-system/css';
+
+// 표는 제 폭 아래로 못 줄어든다. 스크롤 상자가 없으면 넘친 폭이 페이지로 샌다.
+const scroller = css({ my: '6', overflowX: 'auto' });
+
 export function MdxTable({ children }: MdxTable.Props) {
   return (
-    <div className="my-6 overflow-x-auto">
+    <div className={scroller}>
       <table>{children}</table>
     </div>
   );
