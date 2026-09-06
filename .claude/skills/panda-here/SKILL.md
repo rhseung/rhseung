@@ -14,6 +14,9 @@ description: 이 프로젝트에서 스타일을 쓰거나 컴포넌트를 만�
 | 슬롯이 여럿이다 (root, item, label)               | `sva` 레시피 (`page`, `prose` 가 예)                                                                                            |
 | 텍스트 한 줄 (크기, 굵기, 행간)                   | `textStyle: 'body' \| 'caption' \| 'micro' \| 'heading.page' \| 'heading.section' \| 'heading.sub' \| 'heading.card' \| 'stat'` |
 
+한 번 쓰는 `css()` 는 변수로 빼지 않고 `className={css({...})}` 로 그 자리에 쓴다. 같은 파일에서
+두 번 이상일 때만 상수, 파일 둘 이상이면 `src/common/styles/` 의 레시피다.
+
 값은 전부 토큰이다. `px: '13px'` 같은 임의값은 `strictTokens` 가 컴파일 에러로 막는다.
 정말 토큰이 될 수 없는 값(`calc`, `1px`, `50%`)만 대괄호 탈출구 `'[1px]'` 로 적는다.
 
