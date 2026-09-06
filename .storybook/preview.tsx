@@ -9,6 +9,7 @@ import { handlers } from '../src/mocks/handlers';
 import type { Preview } from '@storybook/react-vite';
 
 import '../src/styles.css';
+import '../src/panda.css';
 
 const preview: Preview = {
   globalTypes: {

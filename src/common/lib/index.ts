@@ -27,6 +27,7 @@ export {
   type YearOrMonth,
 } from './year-month';
 export {
+  DEFAULT_THEME,
   SYSTEM_DARK_QUERY,
   THEME_MODES,
   applyTheme,
