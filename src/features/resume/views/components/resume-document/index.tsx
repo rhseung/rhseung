@@ -20,10 +20,6 @@ import type { Project } from '@/features/projects';
 const section = stack({ gap: '3' });
 const article = stack({ gap: '8' });
 const header = stack({ gap: '3' });
-const name = css({ textStyle: 'heading.page' });
-const period = css({ ml: 'auto' });
-const summary = css({ color: 'text.muted', textStyle: 'body' });
-const highlight = css({ textStyle: 'sm' });
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -56,7 +52,9 @@ export function ResumeDocument({
   return (
     <article className={article}>
       <header className={header}>
-        <h1 className={name}>{t(($) => $.site.name, { ns: 'common' })}</h1>
+        <h1 className={css({ textStyle: 'heading.page' })}>
+          {t(($) => $.site.name, { ns: 'common' })}
+        </h1>
 
         <ul
           className={css({
@@ -109,13 +107,13 @@ export function ResumeDocument({
                   })}
                 >
                   <span className={css({ fontWeight: 'medium' })}>{item.title}</span>
-                  <span className={cx(metaText, period)}>
+                  <span className={cx(metaText, css({ ml: 'auto' }))}>
                     {formatYearMonth(item.start)}
                     {item.end ? ` – ${formatYearMonth(item.end)}` : ''}
                   </span>
                 </div>
-                <p className={summary}>{item.summary}</p>
-                {item.highlight && <p className={highlight}>{item.highlight}</p>}
+                <p className={css({ color: 'text.muted', textStyle: 'body' })}>{item.summary}</p>
+                {item.highlight && <p className={css({ textStyle: 'sm' })}>{item.highlight}</p>}
               </li>
             ))}
           </ul>

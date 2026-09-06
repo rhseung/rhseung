@@ -6,11 +6,6 @@ import { metaText } from '@/common/styles';
 
 import type { Award } from '../../../viewmodels';
 
-const title = css({ fontWeight: 'medium' });
-const date = css({ ml: 'auto' });
-const issuer = css({ color: 'accent', textStyle: 'sm' });
-const summary = css({ color: 'text.muted', textStyle: 'sm' });
-
 export function AwardList({ awards, headingLevel = 3, showDate = true }: AwardList.Props) {
   const Heading = `h${headingLevel}` as const;
   return (
@@ -33,12 +28,20 @@ export function AwardList({ awards, headingLevel = 3, showDate = true }: AwardLi
               columnGap: '2',
             })}
           >
-            <Heading className={title}>{award.title}</Heading>
-            {showDate && <span className={cx(metaText, date)}>{formatYearMonth(award.date)}</span>}
+            <Heading className={css({ fontWeight: 'medium' })}>{award.title}</Heading>
+            {showDate && (
+              <span className={cx(metaText, css({ ml: 'auto' }))}>
+                {formatYearMonth(award.date)}
+              </span>
+            )}
           </div>
 
-          {award.issuer && <p className={issuer}>{award.issuer}</p>}
-          {award.summary && <p className={summary}>{award.summary}</p>}
+          {award.issuer && (
+            <p className={css({ color: 'accent', textStyle: 'sm' })}>{award.issuer}</p>
+          )}
+          {award.summary && (
+            <p className={css({ color: 'text.muted', textStyle: 'sm' })}>{award.summary}</p>
+          )}
         </li>
       ))}
     </ul>

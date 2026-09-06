@@ -14,18 +14,24 @@ const list = cva({
     },
   },
 });
-const group = css({ display: 'flex', breakInside: 'avoid', flexDirection: 'column', gap: '1.5' });
-const items = css({ display: 'flex', flexWrap: 'wrap', gap: '1' });
 // `flex` 를 빼면 `inline-flex` baseline 이 첫 자식에서 나와 뱃지끼리 어긋난다.
 
 export function SkillGroups({ groups, layout = 'list' }: SkillGroups.Props) {
   return (
     <dl className={list({ layout })}>
       {groups.map((skillGroup) => (
-        <div key={skillGroup.group} className={group}>
+        <div
+          key={skillGroup.group}
+          className={css({
+            display: 'flex',
+            breakInside: 'avoid',
+            flexDirection: 'column',
+            gap: '1.5',
+          })}
+        >
           <dt className={css({ color: 'text.muted', textStyle: 'caption' })}>{skillGroup.group}</dt>
           <dd>
-            <ul className={items}>
+            <ul className={css({ display: 'flex', flexWrap: 'wrap', gap: '1' })}>
               {skillGroup.items.map((tech) => (
                 <li key={tech.name} className={css({ display: 'flex' })}>
                   <Badge variant="secondary" tone="brand" style={brand(tech.hex)}>

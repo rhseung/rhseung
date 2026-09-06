@@ -22,8 +22,6 @@ const LEVEL_COLORS = [
 
 const TOOLTIP_DELAY = 200;
 
-const less = css({ ml: 'auto' });
-
 type MonthCol = { month: Dayjs; span: number };
 
 function getMonthCols(weeks: ContributionDay[][]): MonthCol[] {
@@ -104,7 +102,7 @@ export function GithubContributionCalendar({ total, days }: GithubContributionCa
       >
         <span>{t(($) => $.contributions.total, { value: total })}</span>
 
-        <span className={less}>{t(($) => $.contributions.less)}</span>
+        <span className={css({ ml: 'auto' })}>{t(($) => $.contributions.less)}</span>
         {LEVEL_COLORS.map((color) => (
           <span
             key={color}

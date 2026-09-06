@@ -27,9 +27,6 @@ const title = css({
   fontWeight: 'semibold',
   '& a:hover': { textDecoration: 'underline' },
 });
-const period = css({ ml: 'auto' });
-const org = css({ color: 'text.muted', textStyle: 'caption' });
-const summary = css({ color: 'text.muted', textStyle: 'body' });
 
 export function ResearchCard({ item, detailHref }: ResearchCard.Props) {
   const { t } = useTranslation('research');
@@ -57,15 +54,15 @@ export function ResearchCard({ item, detailHref }: ResearchCard.Props) {
         <Badge variant="secondary" tone={RESEARCH_KIND_TONE[item.kind]}>
           {label.kind[item.kind]}
         </Badge>
-        <span className={cx(metaText, period)}>{periodText}</span>
+        <span className={cx(metaText, css({ ml: 'auto' }))}>{periodText}</span>
       </div>
 
-      <p className={org}>
+      <p className={css({ color: 'text.muted', textStyle: 'caption' })}>
         {item.org}
         {item.role && ` · ${item.role}`}
       </p>
 
-      <p className={summary}>{item.summary}</p>
+      <p className={css({ color: 'text.muted', textStyle: 'body' })}>{item.summary}</p>
 
       <LinkRow links={links} />
     </article>

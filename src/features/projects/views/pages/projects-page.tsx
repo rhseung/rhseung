@@ -35,7 +35,6 @@ import {
 } from '../../viewmodels';
 import { ProjectCard } from '../components';
 
-const title = css({ textStyle: 'heading.page' });
 const search = css({ '&::-webkit-search-cancel-button': { appearance: 'none' } });
 const wrap = css({ flexWrap: 'wrap' });
 const count = css({ fontVariantNumeric: 'tabular-nums' });
@@ -62,7 +61,7 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
   return (
     <div className={shell.root}>
       <main className={shell.main}>
-        <h1 className={title}>{t(($) => $.page.title)}</h1>
+        <h1 className={css({ textStyle: 'heading.page' })}>{t(($) => $.page.title)}</h1>
 
         <div
           className={css({

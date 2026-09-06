@@ -21,17 +21,8 @@ const main = css({
   px: '4',
   py: '16',
 });
-const name = css({ textStyle: 'heading.page' });
-const muted = css({ color: 'text.muted' });
 const section = stack({ gap: '4' });
 const heading = css({ textStyle: 'heading.sub' });
-const bio = css({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '3',
-  color: 'text.muted',
-  textStyle: 'body',
-});
 const entries = stack({ gap: '3' });
 const contact = css({
   display: 'inline-flex',
@@ -46,14 +37,6 @@ const contact = css({
   transition: 'colors',
   _hover: { bg: 'surface.muted' },
   '& > svg:first-child': { color: 'text.muted', boxSize: '4' },
-});
-const footer = css({
-  mt: '4',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  color: 'text.muted',
-  textStyle: 'caption',
 });
 const signature = css({
   mx: 'auto',
@@ -82,8 +65,10 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
             <AvatarFallback>{SITE.handle}</AvatarFallback>
           </Avatar>
           <div className={stack({ gap: '1' })}>
-            <h1 className={name}>{t(($) => $.site.name, { ns: 'common' })}</h1>
-            <div className={muted}>
+            <h1 className={css({ textStyle: 'heading.page' })}>
+              {t(($) => $.site.name, { ns: 'common' })}
+            </h1>
+            <div className={css({ color: 'text.muted' })}>
               <RoleRotator roles={roles} />
             </div>
           </div>
@@ -91,7 +76,15 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
 
         <section className={section}>
           <h2 className={heading}>{t(($) => $.sections.about)}</h2>
-          <div className={bio}>
+          <div
+            className={css({
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '3',
+              color: 'text.muted',
+              textStyle: 'body',
+            })}
+          >
             {t(($) => $.site.bio, { ns: 'common', returnObjects: true }).map((paragraph, i) => (
               <p key={i}>{paragraph}</p>
             ))}
@@ -161,7 +154,16 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
           </nav>
         </section>
 
-        <div className={footer}>
+        <div
+          className={css({
+            mt: '4',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            color: 'text.muted',
+            textStyle: 'caption',
+          })}
+        >
           <p>
             {t(($) => $.site.location, { ns: 'common' })}
             {kstTime && ` · ${kstTime}`}

@@ -8,8 +8,6 @@ import { LANGUAGE_NAMES, type Language } from '@/common/lib';
 import { Button, buttonVariants } from '../../ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
 
-const actions = css({ display: 'flex', alignItems: 'center', gap: '1' });
-
 export function LanguageSuggestionPopover({
   suggested,
   href,
@@ -39,7 +37,7 @@ export function LanguageSuggestionPopover({
         >
           <p>{t(($) => $.language.available, { name })}</p>
 
-          <div className={actions}>
+          <div className={css({ display: 'flex', alignItems: 'center', gap: '1' })}>
             <a
               href={href}
               hrefLang={suggested}

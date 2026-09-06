@@ -13,7 +13,6 @@ const title = css({
   textStyle: 'heading.card',
   '& a': { _hover: { textDecoration: 'underline' } },
 });
-const summary = css({ color: 'text.muted', textStyle: 'body' });
 
 export function PostListItem({ post, href, showLanguage }: PostListItem.Props) {
   const { t } = useTranslation('blog');
@@ -36,7 +35,7 @@ export function PostListItem({ post, href, showLanguage }: PostListItem.Props) {
         <a href={href}>{post.title}</a>
       </h2>
 
-      <p lang={post.bodyLang} className={summary}>
+      <p lang={post.bodyLang} className={css({ color: 'text.muted', textStyle: 'body' })}>
         {post.summary}
       </p>
     </article>
