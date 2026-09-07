@@ -767,34 +767,9 @@ cswap auto --threshold 80
 
 ### [CLAUDE.md](https://docs.claude.com/ko/docs/claude-code/memory)
 
-전역 CLAUDE.md는 모든 프로젝트와 모든 세션에 영향을 주기 때문에, 글로벌하게 적용될 룰을 적어두면 좋다.
+전역 CLAUDE.md는 모든 프로젝트와 모든 세션에 영향을 주기 때문에, 글로벌하게 적용될 룰을 적어두면 좋다. 경로는 `~/.claude/CLAUDE.md`이고, 지금 쓰는 건 [dot_claude/CLAUDE.md](https://github.com/rhseung/dotfiles/blob/main/dot_claude/CLAUDE.md)다.
 
-보통 경로는 `~/.claude/CLAUDE.md`이다.
-
-```md
-## CLI Tool Preferences
-
-- 파일 목록: `ls` 대신 `eza`
-- 파일 검색: `find` 대신 `fd`
-- 텍스트 검색: `grep` 대신 `rg`
-- 파일 내용 확인: `bat` 대신 `cat` - bat의 꾸밈은 사람 눈을 위한 것이라 순수 데이터가 아니게 된다
-- JSON 파싱: grep/sed로 억지로 자르지 말고 `jq`, YAML/TOML은 `yq`
-- 브라우저 조작: Playwright MCP 대신 `agent-browser`
-
-## Commits
-
-**커밋 하나에 변경 하나.** 스테이지한 변경이 서로 독립적으로 되돌려질 수 있으면 커밋을 나눈다.
-**이미 만든 커밋은 건드리지 않는다.** 리뷰 지적이든 추가 수정이든 새 커밋으로 쌓는다.
-**제목은 영어, 본문은 한국어.**
-`<type>: <title>`, 명령형으로 쓴다.
-
-## Comments
-
-**주석은 코드가 말할 수 없는 것만 적는다.** 무엇을 하는지는 코드가 이미 말한다 -
-적을 값어치가 있는 건 _왜 이 방식이어야 하는지_, 특히 다르게 짜면 깨지는 이유다.
-TODO, FIXME 같은 태그형 주석 말고는 설명형 주석을 최소화한다 - 주석이 필요 없을 만큼
-가독성 좋고 간결하게 짜는 게 우선이다. 주석은 많을수록 좋은 게 아니다.
-```
+CLI 도구 선호, 커밋 규칙, 주석 규칙 세 가지를 적어뒀다. 셋 다 어겼을 때 되돌리기 비싼 것들이라 프로젝트마다 다시 쓰지 않게 전역으로 올렸다.
 
 ### [Skills](https://docs.claude.com/ko/docs/claude-code/skills)
 
