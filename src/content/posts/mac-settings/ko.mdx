@@ -49,45 +49,16 @@ sudo scutil --set HostName "rhseung-macbook"
 
 ### 한/영 키 변경
 
-Launch Agent와 Daemon은 macOS가 스스로 백그라운드 스크립트를 돌리는 방식이다. `~/Library/LaunchAgents`(로그인한 나만, GUI 접근 가능)와 `/Library/LaunchDaemons`(로그인 전부터, 시스템 전체) 둘로 나뉜다.
+오른쪽 <Shortcut keys={['cmd']} /> (HID 0x7000000E7)를 <Shortcut keys={['F18']} /> (0x70000006D)로 보낸다. `hidutil`로 바로 리매핑하면 재부팅에 풀려서, [LaunchAgent](https://github.com/rhseung/dotfiles/blob/main/private_Library/LaunchAgents/local.hidutil.rcmd-to-f18.plist)에 `RunAtLoad`로 걸어 로그인할 때마다 다시 잡는다.
 
-오른쪽 <Shortcut keys={['cmd']} /> (HID 0x7000000E7)를 <Shortcut keys={['F18']} /> (0x70000006D)로 보낸다.
-
-아래 LaunchAgent부터 등록해서 매핑을 먼저 켜야 한다. 노트북 키보드엔 <Shortcut keys={['F18']} />이 물리 키로 없어서, 오른쪽 <Shortcut keys={['cmd']} />가 그 신호를 실제로 보내고 있어야만 다음 단계에서 단축키 녹화기가 F18을 잡을 수 있다.
-
-```xml
-<!-- ~/Library/LaunchAgents/local.hidutil.rcmd-to-f18.plist -->
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>Label</key>
-  <string>local.hidutil.rcmd-to-f18</string>
-  <key>ProgramArguments</key>
-  <array>
-    <string>/usr/bin/hidutil</string>
-    <string>property</string>
-    <string>--set</string>
-    <string>{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x7000000E7,"HIDKeyboardModifierMappingDst":0x70000006D}]}</string>
-  </array>
-  <key>RunAtLoad</key>
-  <true/>
-</dict>
-</plist>
-```
-
-`hidutil`로 키를 바로 리매핑할 수는 있지만 재부팅하면 풀린다. LaunchAgent에 `RunAtLoad`로 걸어두면 로그인할 때마다 다시 걸린다.
-
-이후 아래 스크립트를 실행한다.
+매핑부터 켜야 한다. 노트북 키보드엔 <Shortcut keys={['F18']} />이 물리 키로 없어서, 오른쪽 <Shortcut keys={['cmd']} />가 그 신호를 실제로 보내고 있어야 다음 단계의 단축키 녹화기가 F18을 잡는다.
 
 ```zsh
-launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/local.hidutil.rcmd-to-f18.plist
-
 # check
 hidutil property --get UserKeyMapping
 ```
 
-매핑이 걸렸으면 **시스템 설정 > 키보드 > 키보드 단축키 > 입력 소스**로 들어가서 "이전 입력 소스 선택" 체크박스를 켜고 단축키를 Right <Shortcut keys={['cmd']} />로 바꾸면 된다.
+**시스템 설정 > 키보드 > 키보드 단축키 > 입력 소스**에서 "이전 입력 소스 선택"을 켜고 단축키를 Right <Shortcut keys={['cmd']} />로 바꾼다.
 
 ## 개발 환경 준비
 
