@@ -103,7 +103,7 @@ jobs:
             Verdict:
             - New findings: `event: COMMENT`. If your latest review on this PR is
               APPROVED, dismiss it first:
-              `gh api -X PUT repos/OWNER/REPO/pulls/NUMBER/reviews/REVIEW_ID/dismissals -f message='새 지적이 생겨 승인을 내립니다'`
+              `gh api -X PUT repos/OWNER/REPO/pulls/NUMBER/reviews/REVIEW_ID/dismissals -f message='새 코멘트가 생겨 승인을 내립니다'`
             - No new findings and none of your threads open: `event: APPROVE` with a
               one-line body, unless your latest review is already APPROVED.
             - No new findings but your threads still open: submit nothing.
@@ -112,7 +112,7 @@ jobs:
 
             Update your tracking comment with a short summary: threads closed, new
             findings, threads still open, verdict. Write every comment, reply and
-            summary in Korean.
+            summary in Korean, in a neutral tone: say 코멘트 or 피드백, never 지적.
           claude_args: |
             --model claude-opus-5
             --max-turns 40
