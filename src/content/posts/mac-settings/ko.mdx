@@ -16,10 +16,12 @@ chezmoi init --apply https://github.com/rhseung/dotfiles.git
 brew bundle --file ~/.local/share/chezmoi/Brewfile
 ```
 
+앱과 CLI 도구 목록은 [Brewfile](https://github.com/rhseung/dotfiles/blob/main/Brewfile), 셸 설정은 [dot_zshrc](https://github.com/rhseung/dotfiles/blob/main/dot_zshrc)에 있다. 아래에서도 각 항목마다 해당 파일을 걸어뒀다.
+
 자동화 되지 않은 것들은 다음과 같다.
 
 - **[Mise](#mise), [uv](#uv), [Bun](#bun)은 각자 설치 스크립트로 깐다.** Homebrew로 깔면 `mise self-update`, `uv self update`, `bun upgrade`가 막혀서 Brewfile에 안 넣었다.
-- **직접 받는 것들**: [Raycast](#raycast-v2), 교내 배포처의 오피스류, 유료 폰트 [MonoLisa](#monolisa), [Setapp](#setapp) 안에서 받는 앱들, 한국 서버 [League of Legends](#league-of-legends).
+- **직접 받는 것들**: [Raycast](#raycast-v2), 교내 배포처의 오피스류, 유료 폰트 [MonoLisa](#monolisa), [Setapp](#setapp) 안에서 받는 앱들, 한국 서버 [League of Legends](#게임).
 - **GUI로만 되는 macOS 설정**
 
 ## 시스템 설정
@@ -146,13 +148,6 @@ clang --version
 Mac App Store CLI. App Store 앱을 GUI 대신 CLI로 사용할 수 있어, [Homebrew](#homebrew)에 없는 앱들은 `mas`로 설치해주면 된다.
 
 ```zsh
-brew install mas
-
-# check
-mas version
-```
-
-```zsh
 mas search klack
 mas install 6446206067
 ```
@@ -164,10 +159,6 @@ mas install 6446206067
 ### [1Password](https://1password.com/)
 
 비밀번호와 패스키, 2단계 인증 코드를 한 금고에 모아 기기 사이로 동기화해주는 관리 앱이다. SSH 키와 API 토큰까지 같은 금고에 넣어 Touch ID로 꺼내 쓸 수 있다.
-
-```zsh
-brew install --cask 1password 1password-cli
-```
 
 [1Password CLI](https://developer.1password.com/docs/cli/)까지 같이 깔면 [셸 플러그인](https://developer.1password.com/docs/cli/shell-plugins/)이 붙는다. `gh`나 `aws`처럼 토큰이 필요한 CLI를 Touch ID로 대신 인증해주고, [git 커밋 서명](https://developer.1password.com/docs/ssh/git-commit-signing/)은 SSH 에이전트가 금고의 키로 처리한다.
 
@@ -187,10 +178,6 @@ brew install --cask 1password 1password-cli
 
 로컬 프록시로 트래픽을 거쳐 보내며 브라우저 밖 앱 안의 광고까지 걸러주는 차단기이다.
 
-```zsh
-brew install --cask adguard
-```
-
 AdGuard는 다양한 옵션을 지원하는데, 한국의 웹사이트들에서도 잘 작동하게 하려면 커스텀 필터, 유저스크립트를 추가해야한다.
 
 - [filterslists-KO](https://github.com/FilteringDev/filterslists-KO): AdGuard와 애드블록 커뮤니티에서 관리하는 한국어 광고 차단 필터 리스트
@@ -201,10 +188,6 @@ AdGuard는 다양한 옵션을 지원하는데, 한국의 웹사이트들에서�
 ### [Google Chrome](https://www.google.com/intl/ko_kr/chrome/)
 
 점유율이 가장 높은 브라우저이다. 여러 플랫폼에서 지원하며 구글 계정 연동이 강력하여 사용한다. 또한, 프론트엔드 개발자는 대다수가 쓰는 환경에서 테스트를 해야 하기에 쓸 수 밖에 없다...
-
-```zsh
-brew install --cask google-chrome
-```
 
 #### 확장 프로그램
 
@@ -569,52 +552,9 @@ brew install --cask league-of-legends # 북미 서버라 비추천
 
 GPU 가속을 쓰는 네이티브 터미널 에뮬레이터이다. 플랫폼 UI를 그대로 쓰면서도 렌더링이 빠르고, 설정이 텍스트 파일 하나라 dotfiles로 관리하기 좋다.
 
-```zsh
-brew install --cask ghostty
-
-# check
-ghostty --version
-```
-
 #### Ghostty 설정
 
-`~/.config/ghostty/config`에 해주면 된다. 또는 앱에서 <Shortcut keys={['cmd', ',']} /> 로 열 수 있다.
-
-```
-# Font
-font-family = "MonoLisaCode"
-font-family = "Symbols Nerd Font Mono"
-font-family = "Pretendard GOV Variable"
-font-size = 11
-font-thicken = true
-adjust-box-thickness = 1
-adjust-cursor-thickness = 1
-font-feature = calt, liga, cv01, cv02, cv03, cv04, cv05, cv07, cv08, cv09, cv11, cv12, dlig, ss01, ss13
-
-# Theme
-theme = light:sherbet-light,dark:sherbet
-
-# Layout
-adjust-cell-height = 15%
-window-padding-x = 8
-
-# Cursor
-cursor-style = bar
-mouse-hide-while-typing = true
-
-# UX
-confirm-close-surface = false
-
-# Keybinds
-keybind = super+left=previous_tab
-keybind = super+right=next_tab
-
-# background
-macos-titlebar-style = tabs
-
-background-opacity = 0.85
-background-blur = true
-```
+[`~/.config/ghostty/config`](https://github.com/rhseung/dotfiles/blob/main/dot_config/ghostty/config)에 쓴다. 앱에서 <Shortcut keys={['cmd', ',']} /> 로도 열린다.
 
 흔한 `font-family`에 콤마로 폴백을 넣어주는 문법이 아니라 ghostty 설정은 아래로 쭉 써야 한다.
 
@@ -628,27 +568,15 @@ Pretendard는 San Francisco와 Apple SD 산돌고딕 Neo가 없는 다른 환경
 
 [Pretendard GOV](https://github.com/orioncactus/pretendard/tree/main/packages/pretendard-gov)는 개중에서도, 범정부 디자인시스템(KRDS)의 표준 글꼴에 사용되는 것을 목적으로 다듬어진 글꼴이다. 정부의 웹사이트와 앱, 각종 증명서에 쓰이는 만큼 한 글자도 잘못 읽히면 안 되므로, 헷갈리는 글자들을 서로 다르게 그렸다. 대문자 I, 소문자 l, 숫자 1과 구분되고, O와 0, w와 vv도 모양이 갈린다. 이 블로그에서도 쓰고 있다.
 
-```zsh
-brew install --cask font-pretendard-gov
-```
-
 ### [IBM Plex Sans KR](https://fonts.google.com/specimen/IBM+Plex+Sans+KR)
 
 IBM이 만든 오픈소스 산세리프 [Plex Sans](https://fonts.google.com/specimen/IBM+Plex+Sans)의 한글 지원 버전이다. Pretendard보다 개성이 있어서, 같은 글이라도 분위기를 바꾸고 싶을 때 문서용으로 쓴다.
-
-```zsh
-brew install --cask font-ibm-plex-sans-kr
-```
 
 ### [Monaspace](https://monaspace.githubnext.com/)
 
 GitHub가 만든 코딩용 폰트로, 네오그로테스크 산세리프 Neon, 휴머니스트 산세리프 Argon, 슬래브 세리프 Xenon, 손글씨 Radon, 기계식 산세리프 Krypton의 다섯 variant가 있다.
 
 다섯 배리언트가 폭이 같아서, 코드 안에서 서체를 섞어도 격자가 안 어긋난다. 여기에 좁은 글자 옆의 여백을 넓은 글자로 빌려줘서, 고정폭 특유의 듬성듬성한 느낌 없이 균일하게 보이게 하는 Texture Healing이 구현되어있다.
-
-```zsh
-brew install --cask font-monaspace font-monaspace-nf
-```
 
 ### [MonoLisa](https://www.monolisa.dev/)
 
@@ -659,10 +587,6 @@ MonoLisa는 유료 코딩 폰트로, 위의 Monaspace 같은 네오그로테스�
 MonoLisa는 Nerd Font 글리프를 담고 있지 않다. [MonoLisa FAQ](https://www.monolisa.dev/faq#how-to-enable-nerd-fonts-with-monolisa)는 폰트를 직접 패치하기보다 폴백 폰트를 두는 쪽을 권한다. 패치본은 MonoLisa를 새로 받을 때마다 다시 구워야 한다.
 
 아이콘 글리프만 담은 Symbols Nerd Font가 그 폴백이다.
-
-```zsh
-brew install --cask font-symbols-only-nerd-font
-```
 
 [VS Code](#visual-studio-code)는 `fontFamily`에 콤마로 잇는다.
 
@@ -693,22 +617,11 @@ cd nerd-fonts
 
 코드 가독성에 초점을 맞춘 오픈소스 코딩 폰트다. `0`/`O`, `1`/`l`/`I`처럼 헷갈리는 글자를 확실히 구분하고, [Monaspace](#monaspace)와 같은 Texture Healing으로 좁은 글자 옆 넓은 글자를 미세하게 줄여 균일하게 보이게 한다. 또한 Ligature를 지원하되 형태를 완전히 변형하여 헷갈리게 만드는 방식을 지양하여 설계한 점이 개성있다.
 
-```zsh
-brew install --cask font-0xproto font-0xproto-nerd-font
-```
-
 ## 셸 환경
 
 ### [chezmoi](https://www.chezmoi.io/)
 
-`.zshrc`, `.gitconfig`, ghostty config, VS Code `settings.json`같은 dotfiles를 중앙화할 수 있다. 또한 git과 연동도 되어, 새 환경에서 `chezmoi init --apply <repo>` 로 설정을 가져올 수도 있다.
-
-```zsh
-brew install chezmoi
-
-# check
-chezmoi --version
-```
+[`.zshrc`](https://github.com/rhseung/dotfiles/blob/main/dot_zshrc), [`.gitconfig`](https://github.com/rhseung/dotfiles/blob/main/private_dot_gitconfig), ghostty config, VS Code `settings.json`같은 dotfiles를 중앙화할 수 있다. 아래 나오는 셸 초기화 줄과 플러그인 로드 순서는 전부 `dot_zshrc`에 들어 있다. 또한 git과 연동도 되어, 새 환경에서 `chezmoi init --apply <repo>` 로 설정을 가져올 수도 있다.
 
 ```zsh
 chezmoi init
@@ -720,30 +633,12 @@ chezmoi apply
 
 fzf는 범용 fuzzy finder이자 대화형 CLI다.
 
-```zsh
-brew install fzf
-```
-
-```zsh
-# ~/.zshrc
-source <(fzf --zsh)
-```
-
 - `ctrl+r`: 히스토리 검색
 - `ctrl+t`: 파일 검색해서 커맨드에 끼워넣기
 
 ### [zoxide](https://github.com/ajeetdsouza/zoxide)
 
 `cd`를 대신한다. 한 번 가본 디렉터리를 기억해뒀다가, 이름 일부만 쳐도 그중 제일 자주 간 곳으로 바로 이동시켜주는 편리한 도구이다.
-
-```zsh
-brew install zoxide
-```
-
-```zsh
-# ~/.zshrc
-eval "$(zoxide init zsh)"
-```
 
 ```zsh
 z proj   # ~/dev/my-project 같은 곳으로 바로 이동
@@ -753,16 +648,7 @@ z proj   # ~/dev/my-project 같은 곳으로 바로 이동
 
 어떤 셸에서든 쓰는 프롬프트다. 가볍고 빠르면서 원하는 대로 커스터마이징할 수 있다. 지금 디렉터리가 git 저장소면 브랜치와 변경 상태를, 언어별 프로젝트면 그 언어 버전을 바로 띄운다.
 
-가장 많이 쓰이는 [Powerlevel10k](https://github.com/romkatv/powerlevel10k)도 있지만 무겁기도 하고 Starship의 기본값이 워낙 예뻐서 쓴다. Starship은 TOML 설정 파일을 쓰기에 [chezmoi](#chezmoi)로도 유용하다.
-
-```zsh
-brew install starship
-```
-
-```zsh
-# ~/.zshrc
-eval "$(starship init zsh)"
-```
+가장 많이 쓰이는 [Powerlevel10k](https://github.com/romkatv/powerlevel10k)도 있지만 무겁기도 하고 Starship의 기본값이 워낙 예뻐서 쓴다. Starship은 TOML 설정 파일을 쓰기에 [chezmoi](#chezmoi)로도 유용하다. 설정은 [starship.toml](https://github.com/rhseung/dotfiles/blob/main/dot_config/starship.toml)이다.
 
 ### Zsh
 
@@ -774,31 +660,7 @@ eval "$(starship init zsh)"
 - `fzf-tab`은 `compinit` 뒤이면서, 위젯을 감싸는 `zsh-autosuggestions`·`zsh-syntax-highlighting`보다 앞
 - `zsh-syntax-highlighting`은 `zsh-history-substring-search`보다 먼저
 
-```zsh
-brew install zsh-completions zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search zsh-you-should-use fzf-tab
-```
-
-`~/.zshrc`에 이 순서로 넣는다. 경로의 `$HOMEBREW_PREFIX`는 [Homebrew](#homebrew) 설정 때 넣은 `brew shellenv`가 채워주므로 Intel/ARM을 안 가린다.
-
-```zsh
-# zsh-completions 는 FPATH 방식이라 compinit 보다 앞
-FPATH="$HOMEBREW_PREFIX/share/zsh-completions:$FPATH"
-autoload -Uz compinit && compinit
-
-# fzf-tab 은 compinit 뒤, 위젯을 래핑하는 autosuggestions/syntax-highlighting 보다 앞
-source "$HOMEBREW_PREFIX/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh"
-
-source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-
-# syntax-highlighting 은 history-substring-search 보다 먼저
-source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-
-source "$HOMEBREW_PREFIX/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
-bindkey '^[[A' history-substring-search-up # 위 화살표
-bindkey '^[[B' history-substring-search-down # 아래 화살표
-
-source "$HOMEBREW_PREFIX/share/zsh-you-should-use/you-should-use.plugin.zsh"
-```
+경로에 쓰는 `$HOMEBREW_PREFIX`는 [Homebrew](#homebrew) 설정 때 넣은 `brew shellenv`가 채워주므로 Intel/ARM을 안 가린다. `zsh-history-substring-search`는 위/아래 화살표에 `bindkey`를 따로 걸어야 동작한다.
 
 - [zsh-completions](https://github.com/zsh-users/zsh-completions): 기본 zsh에 없는 커맨드용 자동완성 정의 모음
 - [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions): 히스토리 기반으로 입력 중인 줄 뒤에 회색 제안을 띄운다.
@@ -813,89 +675,33 @@ source "$HOMEBREW_PREFIX/share/zsh-you-should-use/you-should-use.plugin.zsh"
 
 `grep`의 개선판이다. `.gitignore`를 자동으로 인식하여 안 봐도 되는 파일은 알아서 건너뛰며 성능도 개선되어 훨씬 빠르게 훑는다.
 
-```zsh
-brew install ripgrep
-
-# check
-rg --version
-```
-
 ### [fd](https://github.com/sharkdp/fd)
 
 `find`의 개선판이다. 옵션 없이 이름 일부만 쳐도 찾아주고 `.gitignore`도 알아서 존중한다.
-
-```zsh
-brew install fd
-
-# check
-fd --version
-```
 
 ### [bat](https://github.com/sharkdp/bat)
 
 `cat`의 개선판이다. syntax highlighting와 line number, layout등을 통해 예쁘게 그려준다. git 저장소 안에서는 변경된 줄까지 표시해준다.
 
-```zsh
-brew install bat
-
-# check
-bat --version
-```
-
 ### [eza](https://eza.rocks/)
 
 `ls`의 개선판이다. 아이콘, 트리 보기, git 상태 표시가 기본으로 붙는다.
-
-```zsh
-brew install eza
-
-# check
-eza --version
-```
 
 ### [micro](https://micro-editor.github.io/)
 
 `nano`의 개선판이다. 마우스로 커서 이동, 드래그 선택, 스크롤이 되고 `ctrl+c`/`ctrl+v`/`ctrl+x` 같은 익숙한 키바인딩과 syntax highlighting까지 지원한다.
 
-```zsh
-brew install micro
-
-# check
-micro --version
-```
-
 ### [jq](https://jqlang.org/)
 
 가볍고 유연한 JSON 프로세서이다. API 응답이나 설정 파일을 셸에서 바로 뒤진다.
-
-```zsh
-brew install jq
-
-# check
-jq --version
-```
 
 ### [yq](https://mikefarah.github.io/yq/)
 
 `jq`와 같은 문법을 쓰는 YAML 프로세서이다. `jq`가 다루지 못하는 YAML, TOML, XML 설정 파일을 셸에서 바로 뒤진다.
 
-```zsh
-brew install yq
-
-# check
-yq --version
-```
-
 ### [tldr](https://tldr.sh/)
 
 man 명령어 대신 쓰는 CLI 도구. 길게 옵션 전체를 나열하는 대신 예시 위주로 보여주는 방식으로 쉽게 이해할 수 있다.
-
-```zsh
-brew install tldr
-
-# check
-tldr --version
-```
 
 ```zsh
 tldr tar
@@ -906,8 +712,6 @@ tldr tar
 AI 에이전트를 위한 브라우저 자동화 CLI이다. 출력이 짧아 컨텍스트를 덜 먹고 빠르다.
 
 ```zsh
-brew install agent-browser
-
 # 첫 실행 전에 Chrome을 따로 받는다
 agent-browser install
 ```
@@ -921,8 +725,6 @@ agent-browser install
 `/opt/homebrew/bin`이 `/usr/bin`보다 PATH 앞에 있으면 정상적으로 잡을 수 있다.
 
 ```zsh
-brew install git
-
 # PATH order
 which -a git
 
@@ -932,45 +734,15 @@ git --version
 
 #### Git 설정
 
-`git config --global`을 한 번에 모았다. 이름과 이메일은 [커밋 서명](#커밋-서명)까지 했다면 서명 키의 이메일과 맞춰야 한다.
+[`.gitconfig`](https://github.com/rhseung/dotfiles/blob/main/private_dot_gitconfig)에 모았다. 이름과 이메일은 [커밋 서명](#커밋-서명)까지 했다면 서명 키의 이메일과 맞춰야 한다. 서명은 1Password의 `op-ssh-sign`이 맡아서 `gpg.format`이 `ssh`다.
 
-```zsh
-git config --global user.name "Hyunseung Ryu"
-git config --global user.email "ryu@rhseung.me"
-git config --global init.defaultBranch main
-```
+diff 페이저는 [delta](#delta)로 두고, 머지 충돌은 `zdiff3`로 바꾼다. `zdiff3`은 conflict 전 원본 내용까지 같이 보여줘서 가늠하기가 더 쉽다. git에 내장된 옵션이라 따로 설치할 건 없다.
 
-diff는 [delta](#delta)로 페이저를 설정하면 된다.
-
-```zsh
-git config --global core.pager delta
-git config --global interactive.diffFilter "delta --color-only"
-git config --global delta.navigate true
-git config --global delta.dark true
-```
-
-머지 충돌은 `zdiff3`로 바꾼다. `zdiff3`은 conflict 전 원본 내용까지 같이 보여줘서 가늠하기가 더 쉽다. git에 내장된 옵션이라 따로 설치할 건 없다.
-
-```zsh
-git config --global merge.conflictStyle zdiff3
-```
-
-macOS가 폴더마다 생성하는 `.DS_Store`는 글로벌 `.gitignore`에 적는 것이 낫다. `~/.config/git/ignore`가 기본 전역 gitignore이므로, 그 파일을 수정한다:
-
-```zsh
-echo ".DS_Store" >> ~/.config/git/ignore
-```
+macOS가 폴더마다 생성하는 `.DS_Store`는 글로벌 `.gitignore`에 적는 것이 낫다. [`~/.config/git/ignore`](https://github.com/rhseung/dotfiles/blob/main/dot_config/git/ignore)가 기본 전역 gitignore이다.
 
 ### [GitHub CLI](https://cli.github.com/)
 
 CLI로 깃허브의 PR, 이슈, 릴리스 등의 기능들을 사용할 수 있게 하는 툴이다. 브라우저를 안 열어도 되고, 사람이 사용하기 쉽고 AI Agent가 쓰기도 쉽다.
-
-```zsh
-brew install gh
-
-# check
-gh --version
-```
 
 `gh auth login`으로 한 번 로그인해두면 git push/pull에도 인증을 쓸 수 있다.
 
@@ -978,23 +750,9 @@ gh --version
 
 git 커밋 그래프를 터미널에서 보여주는 TUI다. `git log --graph`보다 훨씬 보기 편하다.
 
-```zsh
-brew install serie
-
-# check
-serie --version
-```
-
 ### [delta](https://dandavison.github.io/delta/)
 
 `git diff`를 더 개선해서 그려주는 페이저다. 나란히 보여주고 문법 강조까지 되어 훨씬 읽기 편해진다.
-
-```zsh
-brew install git-delta
-
-# check
-delta --version
-```
 
 ## 언어 환경
 
@@ -1009,12 +767,11 @@ Homebrew로 설치할 수도 있지만, `mise self-update` 커맨드가 작동�
 ```zsh
 curl https://mise.run | sh
 
-echo 'eval "$(~/.local/bin/mise activate zsh)"' >> ~/.zshrc
-echo 'eval "$(~/.local/bin/mise activate zsh --shims)"' >> ~/.zprofile
-
 # check
 mise --version
 ```
+
+activate 줄은 [dot_zshrc](https://github.com/rhseung/dotfiles/blob/main/dot_zshrc)에, shims 방식은 [dot_zprofile](https://github.com/rhseung/dotfiles/blob/main/dot_zprofile)에 따로 있다. 인터랙티브 셸은 `activate`가 잡고, GUI 앱이나 비인터랙티브 셸은 shims 라야 잡는다.
 
 [셸 자동완성](https://mise.jdx.dev/cli/completion.html)도 같이 건다. `--install`이 그 셸이 찾는 자리에 완성 스크립트를 써주고, zsh의 `fpath+=`처럼 한 번 더 필요한 줄이 있으면 그건 따로 출력해준다.
 
@@ -1146,15 +903,7 @@ curl -fsSL https://bun.com/install | bash
 bun --version
 ```
 
-스크립트가 `~/.zshrc`에 아래를 붙인다. 안 붙었으면 직접 넣는다.
-
-```zsh
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-```
+설치 스크립트가 [`~/.zshrc`](https://github.com/rhseung/dotfiles/blob/main/dot_zshrc)에 `BUN_INSTALL` PATH와 자동완성 소스 줄을 붙인다.
 
 ### [uv](https://docs.astral.sh/uv/)
 
@@ -1176,13 +925,6 @@ uv --version
 Python 린터 겸 포매터이다. flake8, isort, black이 나눠 하던 일을 하나로 합쳤고,
 위의 uv와 같은 Astral이 만들어 Rust로 짜여 있다.
 
-```zsh
-brew install ruff
-
-# check
-ruff --version
-```
-
 ### [Pyrefly](https://pyrefly.org/)
 
 Meta에서 만든 빠른 Python 타입 체커기이자 언어 서버로, Mypy를 대체한다.
@@ -1190,13 +932,6 @@ Meta에서 만든 빠른 Python 타입 체커기이자 언어 서버로, Mypy를
 
 - [설치](https://pyrefly.org/en/docs/installation/)
 - [VS Code용 Extension](https://marketplace.visualstudio.com/items?itemName=meta.pyrefly)
-
-```zsh
-brew install pyrefly
-
-# check
-pyrefly --version
-```
 
 ### [fnox](https://github.com/jdx/fnox)
 
@@ -1213,11 +948,6 @@ type = "1password"
 
 [secrets]
 DATABASE_URL = { provider = "onepassword", value = "op://vault/item/field" }
-```
-
-```zsh
-# ~/.zshrc
-eval "$(fnox activate zsh)"
 ```
 
 ## [Claude](https://claude.com/product/overview)
@@ -1242,7 +972,7 @@ claude mcp add-from-claude-desktop
 
 Claude Code 계정을 여러 개 쓸 경우 쉽게 swap할 수 있는 CLI다. 계정마다 OAuth 토큰을 macOS Keychain에 따로 보관해두고, 전환할 때는 그 계정의 로그인 정보만 바꿔치기한다. MCP 서버 같은 공유 설정은 그대로 남는다.
 
-[Ruff](#ruff), [Pyrefly](#pyrefly)와 달리 Homebrew에 formula가 없어서 uv로 깐다. dotfiles의 `uv-tools.txt`에 이름을 적어두면 `chezmoi apply`가 이 명령을 대신 돌린다.
+[Ruff](#ruff), [Pyrefly](#pyrefly)와 달리 Homebrew에 formula가 없어서 uv로 깐다. dotfiles의 [`uv-tools.txt`](https://github.com/rhseung/dotfiles/blob/main/uv-tools.txt)에 이름을 적어두면 `chezmoi apply`가 이 명령을 대신 돌린다.
 
 ```zsh
 uv tool install claude-swap
