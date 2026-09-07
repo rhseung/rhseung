@@ -125,7 +125,8 @@ jobs:
           vars.ENABLE_CLAUDE_REVIEW == 'true' &&
           github.event.pull_request.head.repo.full_name == github.repository &&
           github.event.comment.user.login != 'claude[bot]' &&
-          github.event.comment.in_reply_to_id != null }}
+          github.event.comment.in_reply_to_id != null &&
+          contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -174,9 +175,17 @@ jobs:
           vars.ENABLE_CLAUDE_REVIEW == 'true' &&
           github.event.issue.pull_request &&
           github.event.comment.user.login != 'claude[bot]' &&
-          contains(github.event.comment.body, '@claude') }}
+          contains(github.event.comment.body, '@claude') &&
+          contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association) }}
     runs-on: ubuntu-latest
     steps:
+      # issue_comment 페이로드엔 head repo 가 없다. 포크 코드를 시크릿 옆에서 열지 않는다
+      - run: test "$(gh pr view "$PR" --json isCrossRepository --jq .isCrossRepository)" = false
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR: ${{ github.event.issue.number }}
+
       - uses: actions/checkout@v6
         with:
           ref: refs/pull/${{ github.event.issue.number }}/head
