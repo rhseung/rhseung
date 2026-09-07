@@ -8,9 +8,10 @@ on:
   issue_comment:
     types: [created]
 
+# 내가 단 코멘트가 issue_comment 로 돌아와 같은 그룹에 들어온다. push 만 진행 중인 리뷰를 밀어낸다
 concurrency:
   group: review-${{ github.event.pull_request.number || github.event.issue.number }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions:
   contents: read
