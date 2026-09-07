@@ -8,11 +8,6 @@ on:
   issue_comment:
     types: [created]
 
-# 내가 단 코멘트가 issue_comment 로 돌아와 같은 그룹에 들어온다. push 만 진행 중인 리뷰를 밀어낸다
-concurrency:
-  group: review-${{ github.event.pull_request.number || github.event.issue.number }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 permissions:
   contents: read
   pull-requests: write
@@ -28,6 +23,10 @@ jobs:
           github.event.pull_request.draft == false }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    # push 는 진행 중인 리뷰를 밀어낸다. 코멘트 잡은 다른 그룹이라 안 죽는다
+    concurrency:
+      group: review-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v6
         with:
@@ -130,6 +129,8 @@ jobs:
           contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association) }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    concurrency:
+      group: review-comment-${{ github.event.pull_request.number || github.event.issue.number }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -185,6 +186,8 @@ jobs:
           contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association) }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    concurrency:
+      group: review-comment-${{ github.event.pull_request.number || github.event.issue.number }}
     steps:
       # issue_comment 페이로드엔 head repo 가 없다. 포크 코드를 시크릿 옆에서 열지 않는다
       - run: test "$(gh pr view "$PR" --json isCrossRepository --jq .isCrossRepository)" = false
