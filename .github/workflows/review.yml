@@ -1,25 +1,3 @@
-# AGENTS.md 기준의 아키텍처·의도 리뷰. 결정론적 React 결함을 보는 react-doctor.yml과
-# 짝을 이룬다 — 이쪽은 규칙을 읽는다.
-#
-# CodeRabbit 처럼 돈다. PR 이 열리거나 push 될 때마다
-#   1. 내가 전에 단 스레드 중 고쳐진 것을 닫고
-#   2. 새 변경만 다시 봐서 지적을 리뷰 한 건(인라인 코멘트 묶음)으로 올리고
-#   3. 남은 스레드도 새 지적도 없으면 approve 한다.
-# 스레드 답글에 @claude 를 붙이면 그 스레드 안에서 답하고, 납득하면 닫는다.
-#
-# 기본은 비활성. 새로 클론한 사람이 시크릿이 없다고 첫 PR부터 빨간 X를 보지 않게 하려는 것.
-# 켜려면:
-#   open https://github.com/apps/claude/installations/new   # Claude GitHub App. 레포 선택. 한 번만
-#   claude setup-token                                      # 구독 OAuth 토큰(1년). Pro/Max/Team
-#   gh secret set CLAUDE_CODE_OAUTH_TOKEN                   # 위 토큰 붙여넣기
-#   gh variable set ENABLE_CLAUDE_REVIEW --body true
-#
-# 인라인 코멘트를 action 의 MCP 도구가 아니라 `gh api .../reviews` 로 올리는 이유: MCP 도구는
-# 코멘트마다 리뷰 하나를 만들어 메일이 N 통 오고, approve 는 의도적으로 못 하게 막혀 있다.
-# 리뷰 API 는 코멘트 N 개와 판정을 한 호출에 담는다. 스레드 resolve 는 GraphQL 뿐이라
-# `gh api graphql` 도 같은 허용 목록에 있다.
-#
-# 포크 PR 은 시크릿이 없어 건너뛴다. 포크까지 봐야 하면 CodeRabbit GitHub App 쪽이다.
 name: review
 
 on:
@@ -39,7 +17,7 @@ permissions:
 
 jobs:
   review:
-    # 1) 옵트인 게이트  2) 포크 PR엔 시크릿이 없으므로 빨갛게 실패시키지 말고 건너뛴다  3) 드래프트 제외
+    # 포크 PR 은 시크릿이 없어 실패 대신 건너뛴다
     if: >-
       ${{ github.event_name == 'pull_request' &&
           vars.ENABLE_CLAUDE_REVIEW == 'true' &&
@@ -139,7 +117,7 @@ jobs:
             --allowedTools "Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh api:*)"
 
   reply:
-    # App 토큰으로 단 내 답글도 이 이벤트를 다시 쏜다. 내 것과 @claude 없는 답글은 거른다
+    # App 토큰으로 단 내 답글도 이 이벤트를 다시 쏜다
     if: >-
       ${{ github.event_name == 'pull_request_review_comment' &&
           vars.ENABLE_CLAUDE_REVIEW == 'true' &&
