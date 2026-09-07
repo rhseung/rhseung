@@ -468,8 +468,8 @@ CI는 `bun run gen:i18n` 후 `git diff --exit-code`로 JSON이 최신인지 검�
 `prepare: husky`가 `bun install` 때 걸린다 - Bun 1.3 은 루트 패키지의 `prepare` 를 실행한다.
 
 **PR 리뷰는 `.github/workflows/review.yml` 의 Claude 가 한다.** push 마다 고친 스레드를 닫고
-새 변경만 다시 보고, 남은 게 없으면 approve 한다. 반박은 그 스레드에 답글로 한다 - 멘션 없이
-응답한다. 최상위 코멘트로 시킬 때만 `@claude` 를 붙인다 (`@claude review`).
+새 변경만 다시 보고 남은 게 없으면 approve 한다. 지적에는 스레드 답글로 답하고, 시킬 일은
+PR 코멘트에 `@claude` 를 붙인다 (`@claude review`).
 
 **커밋 하나에 변경 하나.** 판정은 `git diff --staged` 로 한다 - 스테이지한 변경이 서로
 독립적으로 되돌려질 수 있으면 커밋 두 개다. 리팩터와 기능, 서식과 로직을 같이 담지 않는다.
