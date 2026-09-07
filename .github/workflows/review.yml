@@ -1,31 +1,51 @@
 # AGENTS.md 기준의 아키텍처·의도 리뷰. 결정론적 React 결함을 보는 react-doctor.yml과
 # 짝을 이룬다 — 이쪽은 규칙을 읽는다.
 #
+# CodeRabbit 처럼 돈다. PR 이 열리거나 push 될 때마다
+#   1. 내가 전에 단 스레드 중 고쳐진 것을 닫고
+#   2. 새 변경만 다시 봐서 지적을 리뷰 한 건(인라인 코멘트 묶음)으로 올리고
+#   3. 남은 스레드도 새 지적도 없으면 approve 한다.
+# 스레드 답글에 @claude 를 붙이면 그 스레드 안에서 답하고, 납득하면 닫는다.
+#
 # 기본은 비활성. 새로 클론한 사람이 시크릿이 없다고 첫 PR부터 빨간 X를 보지 않게 하려는 것.
 # 켜려면:
-#   1. `claude setup-token`  (Claude Pro/Max면 추가 과금 0)
-#   2. 레포 시크릿  CLAUDE_CODE_OAUTH_TOKEN = <토큰>
-#   3. 레포 변수    ENABLE_CLAUDE_REVIEW    = true
+#   open https://github.com/apps/claude/installations/new   # Claude GitHub App. 레포 선택. 한 번만
+#   claude setup-token                                      # 구독 OAuth 토큰(1년). Pro/Max/Team
+#   gh secret set CLAUDE_CODE_OAUTH_TOKEN                   # 위 토큰 붙여넣기
+#   gh variable set ENABLE_CLAUDE_REVIEW --body true
 #
-# 설정이 아예 싫으면 CodeRabbit GitHub App을 깐다 — 공개 레포 영구 무료, 워크플로 파일 0개,
-# 그리고 이 워크플로가 못 하는 포크 PR 리뷰까지 된다.
+# 인라인 코멘트를 action 의 MCP 도구가 아니라 `gh api .../reviews` 로 올리는 이유: MCP 도구는
+# 코멘트마다 리뷰 하나를 만들어 메일이 N 통 오고, approve 는 의도적으로 못 하게 막혀 있다.
+# 리뷰 API 는 코멘트 N 개와 판정을 한 호출에 담는다. 스레드 resolve 는 GraphQL 뿐이라
+# `gh api graphql` 도 같은 허용 목록에 있다.
+#
+# 포크 PR 은 시크릿이 없어 건너뛴다. 포크까지 봐야 하면 CodeRabbit GitHub App 쪽이다.
 name: review
 
 on:
   pull_request:
     types: [opened, synchronize, ready_for_review, reopened]
+  pull_request_review_comment:
+    types: [created]
+
+concurrency:
+  group: review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
 
 jobs:
-  claude:
-    # 1) 옵트인 게이트  2) 포크 PR엔 시크릿이 없으므로 빨갛게 실패시키지 말고 건너뛴다
+  review:
+    # 1) 옵트인 게이트  2) 포크 PR엔 시크릿이 없으므로 빨갛게 실패시키지 말고 건너뛴다  3) 드래프트 제외
     if: >-
-      ${{ vars.ENABLE_CLAUDE_REVIEW == 'true' &&
-          github.event.pull_request.head.repo.full_name == github.repository }}
+      ${{ github.event_name == 'pull_request' &&
+          vars.ENABLE_CLAUDE_REVIEW == 'true' &&
+          github.event.pull_request.head.repo.full_name == github.repository &&
+          github.event.pull_request.draft == false }}
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-      id-token: write
     steps:
       - uses: actions/checkout@v6
         with:
@@ -37,9 +57,45 @@ jobs:
           track_progress: true
           use_sticky_comment: true
           prompt: |
-            Review this PR against AGENTS.md in the repo root.
+            You are the reviewer bot for this repository. Your GitHub identity is the
+            `claude` app (login `claude[bot]` in REST, `claude` in GraphQL).
 
-            Look for what a linter cannot see:
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+            HEAD SHA: ${{ github.event.pull_request.head.sha }}
+            EVENT: ${{ github.event.action }}
+
+            The PR head is checked out in the working directory. Read files there to see
+            the current code. Use `gh pr diff` for the change set and `gh api` for every
+            GitHub write. You are explicitly authorized to submit reviews, reply to review
+            threads, resolve threads, dismiss your own reviews and approve this PR. Do it
+            without asking.
+
+            ## Step 1 - close threads that were fixed
+
+            List review threads with GraphQL:
+
+              gh api graphql -f query='query($o:String!,$r:String!,$n:Int!){
+                repository(owner:$o,name:$r){ pullRequest(number:$n){
+                  reviews(first:50){ nodes{ databaseId state author{login} } }
+                  reviewThreads(first:100){ nodes{ id isResolved isOutdated path line
+                    comments(first:20){ nodes{ databaseId body author{login} } } } } } } }' \
+                -f o=OWNER -f r=REPO -F n=NUMBER
+
+            Only threads whose FIRST comment author is `claude` are yours. For each of
+            yours that is still unresolved, read the file at HEAD and decide whether the
+            issue is fixed.
+            - Fixed (or the code it pointed at is gone and the issue with it): reply one
+              short line via
+              `gh api repos/OWNER/REPO/pulls/NUMBER/comments/COMMENT_ID/replies -f body=...`
+              then resolve it:
+              `gh api graphql -f query='mutation($t:ID!){resolveReviewThread(input:{threadId:$t}){thread{isResolved}}}' -f t=THREAD_ID`
+            - Not fixed: leave it open. Do NOT post the same finding again.
+
+            ## Step 2 - review what is new
+
+            Review the PR against AGENTS.md in the repo root. Look for what a linter
+            cannot see:
             - MVVM layer violations that slipped past eslint-plugin-boundaries
             - a View importing `@/api` or a ViewModel reaching into UI
             - a new component shipped without `index.stories.tsx`
@@ -49,9 +105,85 @@ jobs:
               value that never changes, a wrapper that only forwards
 
             Do NOT mention anything ESLint, Prettier or TypeScript already catch.
-            Inline comments for specific lines, one short top-level summary.
-            Respond in Korean.
+            Skip anything already covered by one of your open threads.
+
+            ## Step 3 - submit ONE review
+
+            Findings go up as a single review so the author gets one notification:
+
+              gh api repos/OWNER/REPO/pulls/NUMBER/reviews --input - <<'JSON'
+              {"event":"COMMENT","body":"...",
+               "comments":[{"path":"src/x.ts","line":42,"side":"RIGHT","body":"..."}]}
+              JSON
+
+            `line` must be a line of the NEW file that appears in the PR diff. Check the
+            hunk before submitting. If GitHub answers 422, drop the offending comment
+            and resubmit the rest.
+
+            Verdict:
+            - New findings: `event: COMMENT`. If your latest review on this PR is
+              APPROVED, dismiss it first:
+              `gh api -X PUT repos/OWNER/REPO/pulls/NUMBER/reviews/REVIEW_ID/dismissals -f message='새 지적이 생겨 승인을 내립니다'`
+            - No new findings and none of your threads open: `event: APPROVE` with a
+              one-line body, unless your latest review is already APPROVED.
+            - No new findings but your threads still open: submit nothing.
+
+            ## Step 4 - update the tracking comment
+
+            Update your tracking comment with a short summary: threads closed, new
+            findings, threads still open, verdict. Write every comment, reply and
+            summary in Korean.
           claude_args: |
-            --model claude-sonnet-5
+            --model claude-opus-5
+            --max-turns 40
+            --allowedTools "Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh api:*)"
+
+  reply:
+    # App 토큰으로 단 내 답글도 이 이벤트를 다시 쏜다. 내 것과 @claude 없는 답글은 거른다
+    if: >-
+      ${{ github.event_name == 'pull_request_review_comment' &&
+          vars.ENABLE_CLAUDE_REVIEW == 'true' &&
+          github.event.pull_request.head.repo.full_name == github.repository &&
+          github.event.comment.user.login != 'claude[bot]' &&
+          contains(github.event.comment.body, '@claude') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            You are the reviewer bot for this repository. Your GitHub identity is the
+            `claude` app (login `claude[bot]` in REST, `claude` in GraphQL). The PR
+            author replied to a review thread and mentioned you.
+
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+            COMMENT ID: ${{ github.event.comment.id }}
+            PATH: ${{ github.event.comment.path }}
+
+            The PR head is checked out in the working directory. You are explicitly
+            authorized to reply in the thread, resolve it and approve the PR. Do it
+            without asking.
+
+            1. Find the thread that contains COMMENT ID (GraphQL `reviewThreads` with
+               `comments{ nodes{ databaseId body author{login} } }`). If its first
+               comment is not yours, stop.
+            2. Read the whole thread and the file at HEAD. Decide: is the author's
+               objection valid, or is the fix they describe actually there?
+               - Yes: reply one short line via
+                 `gh api repos/OWNER/REPO/pulls/NUMBER/comments/COMMENT_ID/replies -f body=...`
+                 and resolve the thread with the `resolveReviewThread` GraphQL mutation.
+               - No: reply with the reason and leave the thread open.
+            3. If no thread of yours is open any more and your latest review on this PR
+               is not APPROVED, approve:
+               `gh api repos/OWNER/REPO/pulls/NUMBER/reviews -f event=APPROVE -f body=...`
+
+            Reply in Korean.
+          claude_args: |
+            --model claude-opus-5
             --max-turns 15
-            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr diff:*),Bash(gh pr view:*)"
+            --allowedTools "Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh api:*)"
