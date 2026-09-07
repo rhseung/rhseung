@@ -36,8 +36,6 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          track_progress: true
-          use_sticky_comment: true
           prompt: |
             You are the reviewer bot for this repository. Your GitHub identity is the
             `claude` app (login `claude[bot]` in REST, `claude` in GraphQL).
@@ -110,11 +108,9 @@ jobs:
               one-line body, unless your latest review is already APPROVED.
             - No new findings but your threads still open: submit nothing.
 
-            ## Step 4 - update the tracking comment
-
-            Update your tracking comment with a short summary: threads closed, new
-            findings, threads still open, verdict. Write every comment, reply and
-            summary in Korean, in a neutral tone: say 코멘트 or 피드백, never 지적.
+            The review body is the summary: threads closed, new findings, threads
+            still open, verdict. Write every comment, reply and body in Korean, in a
+            neutral tone: say 코멘트 or 피드백, never 지적.
           claude_args: |
             --model claude-opus-5
             --max-turns 40
