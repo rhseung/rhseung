@@ -51,20 +51,17 @@ jobs:
             threads, resolve threads, dismiss your own reviews and approve this PR. Do it
             without asking.
 
-            Every request body goes through a file: write the JSON with the Write tool
-            under /tmp/claude-review/ and pass it with `--input`. Never put a backtick
-            or a `$(` inside a shell command - the permission check rejects it.
+            Every request body, GraphQL queries included, goes through a file: write the
+            JSON with the Write tool under .claude-review/ in the repo root and pass it
+            with `--input`. Keep every shell command on one line. Do not use mkdir, cat,
+            printf or heredocs - only the Write tool creates files.
 
             ## Step 1 - close threads that were fixed
 
-            List review threads with GraphQL:
-
-              gh api graphql -f query='query($o:String!,$r:String!,$n:Int!){
-                repository(owner:$o,name:$r){ pullRequest(number:$n){
-                  reviews(first:50){ nodes{ databaseId state author{login} } }
-                  reviewThreads(first:100){ nodes{ id isResolved isOutdated path line
-                    comments(first:20){ nodes{ databaseId body author{login} } } } } } } }' \
-                -f o=OWNER -f r=REPO -F n=NUMBER
+            List review threads with `gh api graphql --input .claude-review/threads.json`
+            where the file holds {"query": "...", "variables": {...}} and the query asks
+            for reviews{databaseId state author{login}} and reviewThreads{id isResolved
+            isOutdated path line comments{databaseId body author{login}}}.
 
             Only threads whose FIRST comment author is `claude` are yours. For each of
             yours that is still unresolved, read the file at HEAD and decide whether the
@@ -72,8 +69,8 @@ jobs:
             - Fixed (or the code it pointed at is gone and the issue with it): reply one
               short line via
               `gh api repos/OWNER/REPO/pulls/NUMBER/comments/COMMENT_ID/replies --input FILE`
-              then resolve it:
-              `gh api graphql -f query='mutation($t:ID!){resolveReviewThread(input:{threadId:$t}){thread{isResolved}}}' -f t=THREAD_ID`
+              then resolve it with the resolveReviewThread mutation, also via
+              `gh api graphql --input FILE`.
             - Not fixed: leave it open. Do NOT post the same finding again.
 
             ## Step 2 - review what is new
@@ -95,7 +92,7 @@ jobs:
 
             Findings go up as a single review so the author gets one notification:
 
-              gh api repos/OWNER/REPO/pulls/NUMBER/reviews --input /tmp/claude-review/review.json
+              gh api repos/OWNER/REPO/pulls/NUMBER/reviews --input .claude-review/review.json
               {"event":"COMMENT","body":"...",
                "comments":[{"path":"src/x.ts","line":42,"side":"RIGHT","body":"..."}]}
 
@@ -117,7 +114,7 @@ jobs:
           claude_args: |
             --model claude-opus-5
             --max-turns 40
-            --allowedTools "Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh api:*),Write(//tmp/claude-review/**)"
+            --allowedTools "Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh api:*),Edit(/.claude-review/**)"
 
   reply:
     # App 토큰으로 단 내 답글도 이 이벤트를 다시 쏜다
@@ -155,9 +152,10 @@ jobs:
             authorized to reply in the thread, resolve it and approve the PR. Do it
             without asking.
 
-            Every request body goes through a file: write the JSON with the Write tool
-            under /tmp/claude-review/ and pass it with `--input`. Never put a backtick
-            or a `$(` inside a shell command - the permission check rejects it.
+            Every request body, GraphQL queries included, goes through a file: write the
+            JSON with the Write tool under .claude-review/ in the repo root and pass it
+            with `--input`. Keep every shell command on one line. Do not use mkdir, cat,
+            printf or heredocs - only the Write tool creates files.
 
             1. Find the thread that contains COMMENT ID (GraphQL `reviewThreads` with
                `comments{ nodes{ databaseId body author{login} } }`). If its first
@@ -175,8 +173,8 @@ jobs:
             Reply in Korean.
           claude_args: |
             --model claude-sonnet-5
-            --max-turns 15
-            --allowedTools "Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh api:*),Write(//tmp/claude-review/**)"
+            --max-turns 20
+            --allowedTools "Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh api:*),Edit(/.claude-review/**)"
 
   mention:
     if: >-
@@ -223,9 +221,10 @@ jobs:
             explicitly authorized to do all of that without asking. Anything outside
             that role (editing code, pushing commits): say so and stop.
 
-            Every request body goes through a file: write the JSON with the Write tool
-            under /tmp/claude-review/ and pass it with `--input`. Never put a backtick
-            or a `$(` inside a shell command - the permission check rejects it.
+            Every request body, GraphQL queries included, goes through a file: write the
+            JSON with the Write tool under .claude-review/ in the repo root and pass it
+            with `--input`. Keep every shell command on one line. Do not use mkdir, cat,
+            printf or heredocs - only the Write tool creates files.
 
             Re-reviewing means the same loop as a push: close your threads that are
             fixed, submit new findings as ONE review via
@@ -237,4 +236,4 @@ jobs:
           claude_args: |
             --model claude-sonnet-5
             --max-turns 40
-            --allowedTools "Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr comment:*),Bash(gh api:*),Write(//tmp/claude-review/**)"
+            --allowedTools "Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr comment:*),Bash(gh api:*),Edit(/.claude-review/**)"
