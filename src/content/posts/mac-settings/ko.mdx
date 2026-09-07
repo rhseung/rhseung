@@ -752,3 +752,37 @@ CLI 도구 선호, 커밋 규칙, 주석 규칙 세 가지를 적어뒀다. 셋 
 - [Humanize KR](https://github.com/epoko77-ai/im-not-ai): AI가 쓴 한글을 사람 글처럼 윤문하는 Claude 스킬
 - [Humanizer](https://github.com/blader/humanizer): 위와 동일하나 영어에 해당하는 스킬
 - [ponytail](https://github.com/dietrichgebert/ponytail): 베테랑 개발자처럼 코드 과잉 구현을 막고 간결하게 짜는 스킬
+- [Todoist](https://www.todoist.com/ko/cli): [아래의 CLI](#cli)가 붙이는 스킬, 할 일 목록을 읽고 쓴다
+
+## [Todoist](https://todoist.com/)
+
+할 일 관리 앱이다. 자연어 처리 성능이 뛰어나고 편의 기능이 많아서 쓴다. 크로스 플랫폼, 동기화도 잘 지원한다.
+
+### [CLI](https://www.todoist.com/ko/cli)
+
+Doist가 만든 공식 CLI이다. 터미널에서 AI Agent가 Todoist를 사용할 수 있게 하기 위해 개발되었다.
+
+```zsh
+td auth login
+
+# check
+td auth status
+td today
+```
+
+셸 자동 완성도 같이 붙인다.
+
+```zsh
+td completion install
+```
+
+### 스킬
+
+스킬을 설치하면 [Claude Code](#claude)가 같은 목록을 읽고 쓴다. 에이전트가 만든 할 일이 도구별로 흩어지지 않는다.
+
+```zsh
+td skill install claude-code
+
+# check
+td skill list
+```
