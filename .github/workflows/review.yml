@@ -35,7 +35,6 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          show_full_output: true
           prompt: |
             You are the reviewer bot for this repository. Your GitHub identity is the
             `claude` app (login `claude[bot]` in REST, `claude` in GraphQL).
@@ -137,7 +136,6 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          show_full_output: true
           prompt: |
             You are the reviewer bot for this repository. Your GitHub identity is the
             `claude` app (login `claude[bot]` in REST, `claude` in GraphQL). Someone
@@ -204,7 +202,6 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          show_full_output: true
           prompt: |
             You are the reviewer bot for this repository. Your GitHub identity is the
             `claude` app (login `claude[bot]` in REST, `claude` in GraphQL). Someone
