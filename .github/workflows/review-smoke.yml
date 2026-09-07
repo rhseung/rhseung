@@ -5,6 +5,10 @@ on:
     inputs:
       model:
         default: claude-sonnet-5
+      prompt:
+        default: Reply with the single word pong. Do not use any tool.
+      claude_args:
+        default: ''
 
 permissions:
   contents: read
@@ -22,7 +26,8 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           show_full_output: true
-          prompt: Reply with the single word pong. Do not use any tool.
+          prompt: ${{ inputs.prompt }}
           claude_args: |
             --model ${{ inputs.model }}
-            --max-turns 1
+            --max-turns 6
+            ${{ inputs.claude_args }}
