@@ -14,6 +14,8 @@
  * MonoLisa Code 3.000 (유료, EULA) — 웹폰트 패키지의 woff2 를 이름만 바꾼 것.
  *   파일은 커밋하지 않는다. `bun run gen:fonts` 가 private repo 에서 받아온다.
  *   토큰이 없으면 아래 두 `@font-face` 가 실패하고 Monaspace 로 떨어진다.
+ *   `size-adjust` 는 그 Monaspace 와 x-height 를 맞춘 값이다(51.37/55.0). MonoLisa 는
+ *   x-height 가 7% 큰 대신 cap 이 4% 작아서, 같은 `font-size` 에 더 크게 읽힌다.
  * */
 
 @font-face {
@@ -21,6 +23,7 @@
   font-style: normal;
   font-weight: 1 900;
   font-display: swap;
+  size-adjust: 93.4%;
   src: url(/fonts/monolisa-normal.woff2) format('woff2');
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
@@ -32,6 +35,7 @@
   font-style: italic;
   font-weight: 1 900;
   font-display: swap;
+  size-adjust: 93.4%;
   src: url(/fonts/monolisa-italic.woff2) format('woff2');
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
