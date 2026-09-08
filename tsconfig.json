@@ -6,6 +6,7 @@
     ".astro/types.d.ts",
     "src",
     "e2e",
+    "scripts",
     ".storybook/**/*.ts",
     ".storybook/**/*.tsx",
     "*.ts",
