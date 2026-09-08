@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs';
 import { copyFile, mkdir, readdir, readFile, unlink, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
+import { Glob } from 'bun';
 import { chunk } from 'es-toolkit';
 
 /**
@@ -28,21 +29,11 @@ const source = (host: string) => `https://www.google.com/s2/favicons?domain=${ho
 /** 마크다운 링크만 본다. 코드 블록 안의 벌거벗은 URL 은 링크가 아니다. */
 const MARKDOWN_LINK = /\]\((https?:\/\/[^)\s]+)\)/g;
 
-async function mdxFiles(dir: string): Promise<string[]> {
-  const entries = await readdir(dir, { withFileTypes: true, recursive: true });
-
-  return entries
-    .filter((entry) => entry.isFile() && entry.name.endsWith('.mdx'))
-    .map((entry) => join(entry.parentPath, entry.name));
-}
-
 export async function collectHosts(): Promise<string[]> {
-  const files = await mdxFiles(CONTENT);
-  const sources = await Promise.all(files.map((file) => readFile(file, 'utf8')));
   const hosts = new Set<string>();
 
-  for (const source of sources) {
-    for (const [, url] of source.matchAll(MARKDOWN_LINK)) {
+  for await (const file of new Glob('**/*.mdx').scan({ cwd: CONTENT, absolute: true })) {
+    for (const [, url] of (await readFile(file, 'utf8')).matchAll(MARKDOWN_LINK)) {
       hosts.add(new URL(url).host);
     }
   }
