@@ -1,7 +1,7 @@
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
 import { mswLoader } from 'msw-storybook-addon/csf3';
 
-import { withLocale, withQueryClient } from './decorators';
+import { withLocale, withQueryClient, withUrlState } from './decorators';
 import { DEFAULT_LANGUAGE, LANGUAGE_NAMES, LANGUAGES } from '../src/common/lib/languages';
 import { LANGUAGE_SUGGESTION_DISMISSED_KEY } from '../src/common/viewmodels';
 import { handlers } from '../src/mocks/handlers';
@@ -48,6 +48,7 @@ const preview: Preview = {
     }),
     withLocale,
     withQueryClient,
+    withUrlState,
   ],
 };
 

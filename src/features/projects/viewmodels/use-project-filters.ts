@@ -1,97 +1,48 @@
-import { useCallback, useSyncExternalStore } from 'react';
+import { useCallback } from 'react';
 
-const CHANGE_EVENT = 'projects:filterchange';
+import { parseAsArrayOf, parseAsString, useQueryStates } from 'nuqs';
 
 export type ProjectFilters = {
   stack: readonly string[];
   query: string;
 };
 
-const EMPTY: ProjectFilters = { stack: [], query: '' };
+const PARSERS = {
+  stack: parseAsArrayOf(parseAsString).withDefault([]),
+  q: parseAsString.withDefault(''),
+};
 
-function readFilters(): ProjectFilters {
-  const params = new URLSearchParams(window.location.search);
-  const stack = params.get('stack');
-
-  return {
-    stack: stack ? stack.split(',').filter(Boolean) : [],
-    query: params.get('q') ?? '',
-  };
-}
-
-/** 스냅숏이 매번 새 객체면 `useSyncExternalStore` 가 무한 렌더한다. URL 을 키로 캐시한다. */
-let snapshot: ProjectFilters = EMPTY;
-let snapshotKey = '';
-
-function getSnapshot(): ProjectFilters {
-  const key = window.location.search;
-  if (key !== snapshotKey) {
-    snapshotKey = key;
-    snapshot = readFilters();
-  }
-  return snapshot;
-}
-
-function subscribe(onChange: () => void) {
-  window.addEventListener('popstate', onChange);
-  window.addEventListener(CHANGE_EVENT, onChange);
-  return () => {
-    window.removeEventListener('popstate', onChange);
-    window.removeEventListener(CHANGE_EVENT, onChange);
-  };
-}
-
-/** 빌드타임 렌더에는 URL이 없다 — 정적 HTML은 항상 "전체" 상태로 굳는다. */
-function getServerSnapshot(): ProjectFilters {
-  return EMPTY;
-}
-
-function commit(next: ProjectFilters) {
-  const url = new URL(window.location.href);
-  const { searchParams } = url;
-
-  if (next.stack.length === 0) searchParams.delete('stack');
-  else searchParams.set('stack', next.stack.join(','));
-
-  if (next.query === '') searchParams.delete('q');
-  else searchParams.set('q', next.query);
-
-  window.history.replaceState(null, '', url);
-  window.dispatchEvent(new Event(CHANGE_EVENT));
-}
+/** 기본값이면 쿼리에서 아예 뺀다 - `?stack=&q=` 같은 빈 파라미터가 링크에 남지 않게. */
+const OPTIONS = { history: 'replace', clearOnDefault: true } as const;
 
 export function useProjectFilters() {
-  const filters = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const [{ stack, q }, setParams] = useQueryStates(PARSERS, OPTIONS);
 
   const setStack = useCallback(
-    (stack: readonly string[]) => {
-      commit({ ...filters, stack });
-    },
-    [filters],
+    (next: readonly string[]) => void setParams({ stack: [...next] }),
+    [setParams],
   );
 
   const toggleStack = useCallback(
-    (item: string) => {
-      const stack = filters.stack.includes(item)
-        ? filters.stack.filter((value) => value !== item)
-        : [...filters.stack, item];
-      commit({ ...filters, stack });
-    },
-    [filters],
+    (item: string) =>
+      void setParams((previous) => ({
+        stack: previous.stack.includes(item)
+          ? previous.stack.filter((value) => value !== item)
+          : [...previous.stack, item],
+      })),
+    [setParams],
   );
 
-  const setQuery = useCallback(
-    (query: string) => {
-      commit({ ...filters, query });
-    },
-    [filters],
-  );
+  const setQuery = useCallback((query: string) => void setParams({ q: query }), [setParams]);
 
-  const reset = useCallback(() => {
-    commit(EMPTY);
-  }, []);
+  const reset = useCallback(() => void setParams(null), [setParams]);
 
-  const active = filters.stack.length > 0 || filters.query !== '';
-
-  return { filters, setStack, toggleStack, setQuery, reset, active };
+  return {
+    filters: { stack, query: q } satisfies ProjectFilters,
+    setStack,
+    toggleStack,
+    setQuery,
+    reset,
+    active: stack.length > 0 || q !== '',
+  };
 }

@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+import { NuqsTestingAdapter } from 'nuqs/adapters/testing';
 import { I18nextProvider } from 'react-i18next';
 
 import { DEFAULT_LANGUAGE, i18n } from '@/common/lib';
@@ -39,4 +40,11 @@ export const withLocale: Decorator = (Story, context) => (
   <WithLocale locale={(context.globals.locale as string) ?? DEFAULT_LANGUAGE}>
     <Story />
   </WithLocale>
+);
+
+/** 진짜 어댑터는 iframe 의 쿼리를 고쳐서 스토리 사이에 상태가 샌다. */
+export const withUrlState: Decorator = (Story) => (
+  <NuqsTestingAdapter>
+    <Story />
+  </NuqsTestingAdapter>
 );
