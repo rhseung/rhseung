@@ -16,6 +16,9 @@ src/common/lib/favicon-hosts.gen.ts
 public/favicons
 public/resume-*.pdf
 
+# 유료 폰트. EULA 가 재배포를 막아 커밋하지 않는다 - `bun run gen:fonts` 가 받아온다.
+public/fonts/monolisa-*.woff2
+
 # env
 .env
 .env.*

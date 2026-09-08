@@ -227,8 +227,13 @@ Vite + React + Panda(PostCSS)만으로 그대로 돌아간다(루트 `vite.confi
 ### 폰트
 
 - 본문·제목 전부 **Pretendard 단독**이다. 라틴까지 Pretendard 가 덮는다.
-- 코드는 **Monaspace Neon Var**. texture healing(`calt`)이 켜져 있어 코드 덩어리가 고르게
-  보인다 - `src/common/styles/global.ts` 의 `code, kbd, pre, samp` 블록.
+- 코드는 **MonoLisa Code**, 폴백이 **Monaspace Neon Var**. 두 폰트 다 리가처를 `calt` 로
+  켠다 - `src/common/styles/global.ts` 의 `code, kbd, pre, samp` 블록 하나가 둘을 덮는다.
+  이탤릭 페이스도 받는 이유는 다크 테마 `tokyo-night` 이 주석을 기울여 내기 때문이다.
+- **MonoLisa 는 유료라 커밋하지 않는다.** `bun run gen:fonts` 가 `FONTS_TOKEN` 으로
+  `rhseung/rhseung-assets` 에서 받아 `public/fonts/` 에 굽는다. 토큰이 없으면 받지 않고,
+  `@font-face` 가 실패해 폰트 스택 다음인 Monaspace 로 떨어진다 - 포크와 라이선스 없는
+  클론이 폴백 코드 없이 그냥 돈다.
 - 토큰은 `fontFamily: 'body' | 'display' | 'mono' | 'serif'`. `display` 는 지금 `body` 와 같은
   값이지만 슬롯을 열어둔다 - 제목 서체를 바꿀 때 값만 바꾸면 되게. `serif` 는 논문 전용이다.
 - `src/fonts.css` 는 **생성물**이다. 손으로 고치지 않고 파일 헤더의 출처에서 다시 받는다.
