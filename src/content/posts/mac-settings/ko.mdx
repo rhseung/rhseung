@@ -786,3 +786,37 @@ td skill install claude-code
 # check
 td skill list
 ```
+
+## [Vercel](https://vercel.com/)
+
+이 블로그를 배포하는 곳이다. GitHub 저장소를 물려두면 push마다 프리뷰가 서고, 기본 브랜치는 프로덕션으로 나간다.
+
+### [CLI](https://vercel.com/docs/cli)
+
+대시보드에서 하던 일을 터미널에서 한다. AI Agent가 쓰기도 쉽다.
+
+```zsh
+vercel login
+
+# check
+vercel whoami
+```
+
+프로젝트 폴더에서 한 번 이어둔다. `.vercel/`이 생기고 이후 명령이 그 프로젝트를 가리킨다.
+
+```zsh
+vercel link
+```
+
+대시보드에 넣어둔 환경 변수는 손으로 옮기지 않고 받아온다. 파일명을 안 주면 `.env.local`로 떨어진다.
+
+```zsh
+vercel env pull
+```
+
+배포 목록과 로그도 브라우저 없이 본다.
+
+```zsh
+vercel ls
+vercel logs <deployment-url>
+```
