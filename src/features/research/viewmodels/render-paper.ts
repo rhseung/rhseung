@@ -34,10 +34,6 @@ function keysOf(raw: string): string[] {
   return raw.split(',').map((key) => key.trim());
 }
 
-/**
- * KaTeX 를 MathML 전용으로 돌리지 않는 이유: MathML Core 가 `mathvariant` 를 `normal`
- * 빼고 다 뺐고 크롬이 그 속성을 버린다. `\mathbf` 이 조용히 이탤릭으로 나온다.
- */
 export function renderPaper(tex: string, bib?: string): Paper {
   const tree = parse(tex);
 
@@ -61,8 +57,6 @@ export function renderPaper(tex: string, bib?: string): Paper {
   const source = bib === undefined ? undefined : new Cite(bib);
   const known = new Set<string>(source?.data.map((entry: { id: string }) => entry.id) ?? []);
 
-  // `convertToHtml` 대신 hast 를 거치는 이유: 수식과 인용을 트리에서 갈아끼워야 한다.
-  // 캐스팅은 unified-latex 의 플러그인 타입이 unified 의 `Root` 와 안 맞아서다.
   const hast = unified()
     .use(unifiedLatexToHast as never)
     .runSync(tree as never) as never;
@@ -71,8 +65,6 @@ export function renderPaper(tex: string, bib?: string): Paper {
     hast,
     'element',
     (node: { tagName: string; properties?: Record<string, unknown>; children: unknown[] }) => {
-      // unified-latex 는 `\section` 을 h3 으로 낸다. 페이지 제목이 h1 이라 h2 가 비어
-      // 레벨을 건너뛴다.
       const heading = /^h([3-5])$/.exec(node.tagName);
       if (heading) node.tagName = `h${Number(heading[1]) - 1}`;
 
@@ -92,7 +84,6 @@ export function renderPaper(tex: string, bib?: string): Paper {
       const keys = keysOf(textOf(node)).filter((key) => known.has(key));
       if (keys.length === 0) return;
 
-      // CSL 이 여러 키를 한 문장으로 조판하므로 마크를 쪼갤 수 없다.
       node.tagName = 'a';
       node.properties = { className: ['citation'], href: `#ref-${keys[0]}` };
       node.children = [
@@ -108,7 +99,6 @@ export function renderPaper(tex: string, bib?: string): Paper {
   if (source !== undefined && entries.length > 0) {
     const html: string = source
       .format('bibliography', { format: 'html', template: STYLE, entry: entries })
-      // citation-js 는 앵커로 쓸 `id` 를 안 붙인다. 인용 마크가 걸 자리를 만든다.
       .replace(/data-csl-entry-id="([^"]+)"/g, 'id="ref-$1" data-csl-entry-id="$1"');
 
     paper.bibliography = fromHtml(html, { fragment: true });

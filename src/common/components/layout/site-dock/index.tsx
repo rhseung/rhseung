@@ -263,7 +263,6 @@ const themeIcon = css({
   _motionReduce: { transitionProperty: '[none]' },
 });
 
-// 두 아이콘을 겹쳐 CSS 로 굴린다. 마운트를 안 태워야 하이드레이션 전에도 맞는 그림이 나온다.
 function ThemeIcons() {
   return (
     <span className={css({ display: 'grid', boxSize: '5', placeItems: 'center' })}>

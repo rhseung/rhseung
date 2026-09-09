@@ -36,7 +36,6 @@ describe('languagePaths', () => {
     ]);
   });
 
-  // Astro 가 이 객체에 라우트별 내부 상태를 붙인다. 공유하면 빌드가 깨진다.
   it('호출마다 새 객체를 준다', () => {
     const [first] = languagePaths();
     const [second] = languagePaths();

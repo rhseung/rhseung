@@ -10,7 +10,6 @@ import { PostToc, TocDock } from '../components';
 
 import type { PostHeading, PostSummary } from '../../viewmodels';
 
-// 셋 다 행·열을 명시해야 한다. 하나라도 자동 배치면 암시적 행·열이 생겨 칸이 어긋난다.
 const header = css({ lg: { gridColumn: '[1 / 3]', gridRow: '[1]' } });
 const main = css({
   display: 'flex',

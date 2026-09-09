@@ -10,7 +10,6 @@ import type { SemanticTokens } from '@pandacss/dev';
 
 const otherThemes = THEME_MODES.filter((mode) => mode !== DEFAULT_THEME);
 
-// `surface.raised` 같은 점 경로를 Panda 의 중첩 객체로 편다. 값이 자기 자신인 노드는 `DEFAULT` 다.
 type ColorTree = NonNullable<SemanticTokens['colors']>;
 
 function colorTokens(): ColorTree {
@@ -66,7 +65,6 @@ export default defineConfig({
           display: { value: "'Pretendard GOV Variable', sans-serif" },
           body: { value: "'Pretendard GOV Variable', sans-serif" },
           mono: { value: "MonoLisaCode, 'Monaspace Neon Var', ui-monospace, monospace" },
-          // 한글은 CM 에 없어 시스템 명조로 떨어진다.
           serif: { value: 'KaTeX_Main, serif' },
         },
         zIndex: {

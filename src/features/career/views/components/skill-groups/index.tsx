@@ -14,7 +14,6 @@ const list = cva({
     },
   },
 });
-// `flex` 를 빼면 `inline-flex` baseline 이 첫 자식에서 나와 뱃지끼리 어긋난다.
 
 export function SkillGroups({ groups, layout = 'list' }: SkillGroups.Props) {
   return (

@@ -31,7 +31,6 @@ export function LanguageSuggestionPopover({
         <PopoverContent
           side="top"
           align="center"
-          // `document.body` 로 포탈돼 독의 print 숨김 밖으로 빠져나간다.
           css={{ w: 'auto', maxW: '72', p: '3', _print: { display: 'none' } }}
           aria-label={t(($) => $.actions.switchLanguage)}
         >

@@ -38,7 +38,6 @@ export function DetailHeader({ lang, backHref, backLabel, className }: DetailHea
         aria-label={t(($) => $.nav.home)}
         className={css({ flexShrink: 0 })}
       >
-        {/* 파일 이름은 테마가 아니라 글자 색이다. `-light` 가 흰 글자라 어두운 배경에 쓴다. */}
         {/* eslint-disable-next-line no-restricted-syntax */}
         <img
           src="/logos/wordmark-dark.svg"

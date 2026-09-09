@@ -6,7 +6,6 @@ export const DEFAULT_THEME = 'light' satisfies ThemeMode;
 
 export const SYSTEM_DARK_QUERY = '(prefers-color-scheme: dark)';
 
-// 첫 페인트 전 스크립트가 번들 밖이라 모듈 스코프로는 못 닿는다. undefined 는 "시스템을 따른다".
 declare global {
   var __theme: ThemeMode | undefined;
 }

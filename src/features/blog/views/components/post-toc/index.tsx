@@ -12,7 +12,6 @@ export function PostToc({ headings, className }: PostToc.Props) {
   const active = useActiveHeading(headings.map(({ slug }) => slug));
   const activeRef = useRef<HTMLAnchorElement>(null);
 
-  // `nearest` 라야 페이지 스크롤까지 같이 끌고 가지 않는다.
   useEffect(() => {
     activeRef.current?.scrollIntoView({ block: 'nearest' });
   }, [active]);

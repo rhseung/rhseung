@@ -121,7 +121,6 @@ const schema =
     {published && <meta property="article:published_time" content={published} />}
     <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
 
-    {/* `set:html` 은 이스케이프를 안 해서, 제목에 `</script>` 가 들어오면 블록이 끊긴다. */}
     <script
       type="application/ld+json"
       is:inline

@@ -12,7 +12,6 @@ const PARSERS = {
   q: parseAsString.withDefault(''),
 };
 
-/** 기본값이면 쿼리에서 아예 뺀다 - `?stack=&q=` 같은 빈 파라미터가 링크에 남지 않게. */
 const OPTIONS = { history: 'replace', clearOnDefault: true } as const;
 
 export function useProjectFilters() {

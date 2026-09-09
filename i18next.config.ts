@@ -17,8 +17,6 @@ export default defineConfig({
     secondaryLanguages: otherLanguages(DEFAULT_LANGUAGE),
 
     removeUnusedKeys: true,
-
-    // `input` 에 `.astro` 를 넣어도 파서가 조용히 건너뛴다. 거기서만 쓰는 키를 지킨다.
     preservePatterns: ['common:nav.*', 'common:site.description'],
     sort: true,
     indentation: 2,

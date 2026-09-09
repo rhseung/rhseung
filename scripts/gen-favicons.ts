@@ -5,14 +5,6 @@ import { join } from 'node:path';
 import { Glob } from 'bun';
 import { chunk } from 'es-toolkit';
 
-/**
- * MDX 의 외부 링크 도메인마다 파비콘을 받아 `public/favicons/` 에 굽고, 어떤 도메인이
- * 있는지를 `src/common/lib/favicon-hosts.gen.ts` 로 내보낸다.
- *
- * 독자 브라우저가 남의 서버를 치지 않게 빌드 타임에 한 번만 받는다 - 폰트를 자체
- * 호스팅하는 것과 같은 이유다. 받은 파일은 `node_modules/.cache` 에 남겨 Vercel 이 빌드
- * 사이에 캐시하는 디렉터리를 타게 한다 - 웜 빌드는 네트워크를 안 탄다.
- */
 const CONTENT = 'src/content';
 const OUT_DIR = 'public/favicons';
 const CACHE_DIR = 'node_modules/.cache/favicons';
@@ -20,13 +12,8 @@ const MANIFEST = 'src/common/lib/favicon-hosts.gen.ts';
 const CONCURRENCY = 10;
 const TIMEOUT_MS = 10_000;
 
-/**
- * 사이트마다 `.ico`·`.svg`·여러 크기로 흩어져 있고 HTML 을 파싱해야 찾을 수 있다.
- * s2 는 어느 도메인이든 같은 크기의 PNG 하나로 정규화해준다.
- */
 const source = (host: string) => `https://www.google.com/s2/favicons?domain=${host}&sz=64`;
 
-/** 마크다운 링크만 본다. 코드 블록 안의 벌거벗은 URL 은 링크가 아니다. */
 const MARKDOWN_LINK = /\]\((https?:\/\/[^)\s]+)\)/g;
 
 export async function collectHosts(): Promise<string[]> {
@@ -46,7 +33,6 @@ async function fetchFavicon(host: string): Promise<boolean> {
   const cached = join(CACHE_DIR, file);
 
   if (!existsSync(cached)) {
-    // 한 도메인이 안 받아진다고 `postinstall` 이 죽으면 `bun install` 이 통째로 실패한다.
     try {
       const response = await fetch(source(host), { signal: AbortSignal.timeout(TIMEOUT_MS) });
 

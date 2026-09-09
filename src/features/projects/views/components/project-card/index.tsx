@@ -29,7 +29,6 @@ const article = css({
   transition: 'colors',
   _hover: { bg: 'surface.muted/40' },
 });
-// `flex` 를 빼면 아이콘 유무로 baseline 이 어긋난다.
 const micro = css.raw({ textStyle: 'micro' });
 
 export function ProjectCard({

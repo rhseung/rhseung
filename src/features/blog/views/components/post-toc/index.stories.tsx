@@ -18,7 +18,6 @@ const headings: PostHeading[] = [
 const meta = {
   title: 'Blog/PostToc',
   component: PostToc,
-  // 비활성 항목을 일부러 대비 하한 아래로 내렸다.
   parameters: {
     a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
   },

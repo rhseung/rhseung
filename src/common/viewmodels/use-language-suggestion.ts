@@ -28,7 +28,6 @@ function dismiss() {
   for (const notify of listeners) notify();
 }
 
-// `navigator` 가 서버에 없다. 그 차이를 하이드레이션 불일치가 아니라 갱신으로 처리해야 한다.
 export function useLanguageSuggestion(current: Language) {
   const suggested = useSyncExternalStore(
     subscribe,

@@ -16,7 +16,6 @@ const meta = {
   component: TocDock,
   parameters: {
     layout: 'fullscreen',
-    // 비활성 목차 항목을 일부러 대비 하한 아래로 내렸다.
     a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
   },
   globals: { viewport: { value: 'mobile1' } },

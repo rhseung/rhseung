@@ -50,7 +50,6 @@ import type { SimpleIcon } from 'simple-icons';
 export type TechSpec = {
   name: string;
   hex: string;
-  /** [simple-icons](https://simpleicons.org). Slack·Playwright 는 거기서 빠져 아이콘이 없다. */
   icon?: SimpleIcon;
 };
 

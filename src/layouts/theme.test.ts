@@ -4,8 +4,6 @@ import { applyTheme, type ThemeMode } from '@/common/lib';
 
 import source from './theme.js?raw';
 
-/* `theme.js` 는 번들을 안 타서 타입도 린트도 두 구현을 못 묶는다. 돌려서 맞대보는 수밖에 없다. */
-
 const CASES: { override?: ThemeMode; systemDark: boolean; dark: boolean }[] = [
   { systemDark: true, dark: true },
   { systemDark: false, dark: false },
@@ -59,7 +57,6 @@ describe('페인트 전 테마 스크립트', () => {
     prepare({ override: 'dark', systemDark: false });
     new Function(source)();
 
-    // 스왑이 <html> 의 속성을 전부 지운다. 그래서 다시 붙이는 리스너가 필요하다.
     delete document.documentElement.dataset.theme;
     document.dispatchEvent(new Event('astro:after-swap'));
 

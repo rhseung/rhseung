@@ -37,7 +37,6 @@ export const prose = cva({
     '& li > :is(ul, ol):not([class*="_"])': { mt: '1' },
     '& ::marker': { color: 'text.muted' },
     '& li:has(> input[type=checkbox])': { position: 'relative', listStyleType: 'none' },
-    // 체크는 mask 라야 색이 토큰을 따라간다. GFM 은 체크박스를 항상 `disabled` 로 낸다.
     '& input[type=checkbox]': {
       position: 'absolute',
       top: '[0.3em]',
@@ -82,7 +81,6 @@ export const prose = cva({
       fontSize: '[0.85em]',
       fontWeight: 'normal',
     },
-    // shiki 가 `defaultColor: false` 로 두 테마 색을 CSS 변수로 낸다. `pre` 에 배경, `span` 에 글자색.
     '& pre:not([class*="_"])': {
       overflowX: 'auto',
       rounded: 'lg',
@@ -120,7 +118,6 @@ export const prose = cva({
 
     '& sup a': { color: 'accent', fontWeight: 'medium', textDecoration: 'none' },
     '& .footnotes': { mt: '12', borderTop: 'line', pt: '6', color: 'text.muted', textStyle: 'sm' },
-    // remark-gfm 은 라벨 h2 에 `sr-only` 를 붙이지만 Astro 의 MDX 는 컴포넌트에 class 를 안 넘긴다.
     '& .footnotes > h2': { srOnly: true },
     '& .footnotes li::marker': { color: 'text.muted', textStyle: 'caption' },
     '& .footnotes p': { my: '0' },
@@ -135,7 +132,6 @@ export const prose = cva({
       color: 'text.muted',
       textStyle: 'sm',
     },
-    // `.tag` 가 `absolute` 라 자리를 안 차지한다. 패딩으로 레인을 비워야 안 겹친다.
     '& .display-math': { position: 'relative', my: '6', pr: '10', textAlign: 'center' },
     '& .citation': {
       fontWeight: 'normal',
@@ -159,13 +155,10 @@ export const prose = cva({
         '& h3': { counterIncrement: 'subsection' },
         '& h2::before': { content: 'counter(section)', mr: '[0.75em]' },
         '& h3::before': { content: "counter(section) '.' counter(subsection)", mr: '[0.75em]' },
-        // unified-latex 는 이어지는 텍스트를 같은 `<p>` 에 넣는다. 새 `<p>` 는 곧 새 문단이다.
         '& > p + p, & > astro-slot > p + p': { mt: '0' },
         '& p': { textIndent: '[1.5em]' },
         '& :is(h2, h3, h4) + p': { textIndent: '0' },
         '& .katex': { fontSize: '[1em]' },
-        // KaTeX 의 세로 마진을 안쪽 패딩으로 옮긴다. 글리프가 줄상자를 몇 px 넘겨서, 여유가
-        // 없으면 세로 스크롤바가 서고 위쪽은 스크롤로 닿지도 못해 잘린다.
         '& .display-math .katex-display': {
           display: 'flex',
           justifyContent: '[safe center]',
@@ -173,8 +166,6 @@ export const prose = cva({
           my: '0',
           py: '[1em]',
         },
-        // `.tag` 의 컨테이닝 블록을 스크롤러 바깥으로 올린다. `.katex` 까지 같이 풀어야 번호가
-        // 수식 꼬리 위에 안 얹힌다.
         '& .display-math :is(.katex, .katex-html)': { position: 'static' },
       },
     },

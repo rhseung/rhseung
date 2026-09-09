@@ -20,10 +20,6 @@ export function toContributions(response: ContributionsResponse): Contributions 
   return { total: response.total.lastYear, days: response.contributions };
 }
 
-/**
- * 빌드(Node)와 브라우저 양쪽이 이 함수를 부른다. 스냅숏을 굽는 쪽과 갱신하는 쪽이 갈라지면
- * 한쪽만 고쳤을 때 모양이 어긋나는데, 어긋난 걸 잡아주는 게 아무것도 없다.
- */
 export async function fetchContributions(): Promise<Contributions> {
   const response = await fetch(`${CONTRIBUTIONS_API}/${SITE.handle}?y=last`);
   if (!response.ok) throw new Error(`잔디 응답이 ${response.status}다`);
@@ -55,10 +51,8 @@ export function useContributions({
     queryKey: ['contributions', SITE.handle],
     queryFn: fetchContributions,
 
-    // `placeholderData` 와 달리 캐시에 들어가서 갱신이 실패해도 스냅숏이 남는다.
     initialData,
 
-    // 안 주면 react-query 가 "방금 받은 데이터"로 쳐서 배포 직후 한 시간을 통째로 넘긴다.
     initialDataUpdatedAt: fetchedAt,
 
     staleTime: ONE_HOUR,

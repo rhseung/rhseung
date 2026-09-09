@@ -6,10 +6,8 @@ import { GithubContributionCalendar } from '.';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-// 시드를 안 박으면 실행마다 잔디가 달라져 a11y 실패를 재현할 수 없다.
 faker.seed(20260821);
 
-// GitHub 창은 일요일에 시작한다. 임의 날짜로 시작하면 첫 열이 잘린다.
 const START = '2025-08-17';
 
 const days = Array.from({ length: 53 * 7 }, (_, index) => ({

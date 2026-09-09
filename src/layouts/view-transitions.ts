@@ -28,10 +28,6 @@ function pair(slug: string | undefined) {
       : `html:not([data-theme-transition]) [data-vt-title="${CSS.escape(slug)}"]{view-transition-name:entry-title}`;
 }
 
-/*
- * 옛 문서는 `astro:before-preparation`, 새 문서는 `astro:after-swap` 이라야 한다. 전자는 옛
- * 스냅숏이 찍히기 전이고, 후자보다 먼저 넣은 `<style>` 은 헤드 스왑이 걷어간다.
- */
 export function initViewTransitions() {
   let pairing: string | undefined;
   let relation: Relation | undefined;
