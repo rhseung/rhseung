@@ -1,4 +1,5 @@
 export { Callout } from './callout';
+export { CodeBlock } from './code-block';
 export { mdxComponents } from './components';
 export { Detail } from './detail';
 export { Figure } from './figure';

@@ -1,5 +1,7 @@
 {
   "actions": {
+    "copied": "복사함",
+    "copyCode": "코드 복사",
     "permalink": "이 절 링크",
     "switchLanguage": "언어 변경"
   },

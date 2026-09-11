@@ -81,17 +81,6 @@ export const prose = cva({
       fontSize: '[0.85em]',
       fontWeight: 'normal',
     },
-    '& pre:not([class*="_"])': {
-      overflowX: 'auto',
-      rounded: 'lg',
-      p: '4',
-      fontFamily: 'mono',
-      textStyle: 'sm',
-      lineHeight: '[1.7]',
-      color: 'var(--shiki-light)',
-      bg: 'var(--shiki-light-bg)',
-      _dark: { color: 'var(--shiki-dark)', bg: 'var(--shiki-dark-bg)' },
-    },
     '& pre span': {
       color: 'var(--shiki-light)',
       fontStyle: 'var(--shiki-light-font-style)',

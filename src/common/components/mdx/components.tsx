@@ -1,6 +1,7 @@
 import { i18n, type Language } from '@/common/lib';
 
 import { Callout } from './callout';
+import { CodeBlock } from './code-block';
 import { Detail } from './detail';
 import { Figure } from './figure';
 import { MdxHeading } from './heading';
@@ -13,6 +14,8 @@ import { MdxTable } from './table';
 export function mdxComponents(lang: Language) {
   const t = i18n.getFixedT(lang, 'common');
   const permalinkLabel = t(($) => $.actions.permalink);
+  const copyLabel = t(($) => $.actions.copyCode);
+  const copiedLabel = t(($) => $.actions.copied);
 
   const heading = (level: MdxHeading.Level) => (props: MdxHeading.SlotProps) => (
     <MdxHeading level={level} permalinkLabel={permalinkLabel} {...props} />
@@ -26,6 +29,9 @@ export function mdxComponents(lang: Language) {
     h4: heading(4),
     h5: heading(5),
     h6: heading(6),
+    pre: (props: CodeBlock.SlotProps) => (
+      <CodeBlock copyLabel={copyLabel} copiedLabel={copiedLabel} {...props} />
+    ),
     table: MdxTable,
     Callout,
     Detail,

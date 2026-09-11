@@ -1,5 +1,7 @@
 {
   "actions": {
+    "copied": "Copied",
+    "copyCode": "Copy code",
     "permalink": "Link to this section",
     "switchLanguage": "Switch language"
   },

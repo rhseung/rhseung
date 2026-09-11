@@ -5,7 +5,7 @@ import { Prose } from '.';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-const { h2: H2, h3: H3, a: A, table: Table } = mdxComponents('ko');
+const { h2: H2, h3: H3, a: A, pre: Pre, table: Table } = mdxComponents('ko');
 
 const meta = {
   title: 'Common/MDX/Prose',
@@ -55,9 +55,9 @@ const meta = {
             </tr>
           </tbody>
         </Table>
-        <pre>
+        <Pre data-language="ts">
           <code>{'const answer = 42;\nconsole.log(answer);'}</code>
-        </pre>
+        </Pre>
         <Callout tone="tip" title="팁">
           <p>콜아웃도 리듬을 따른다.</p>
         </Callout>
