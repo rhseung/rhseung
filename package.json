@@ -50,7 +50,7 @@
     "@unified-latex/unified-latex-util-visit": "^1.8.4",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
-    "astro": "7.2.0",
+    "astro": "7.3.2",
     "astro-typesafe-routes": "5.2.2",
     "dayjs": "1.11.21",
     "es-toolkit": "1.50.0",
@@ -66,7 +66,7 @@
     "remark-math": "^6.0.0",
     "simple-icons": "^16.29.0",
     "unist-util-visit": "^5.1.0",
-    "zod": "4.4.3"
+    "zod": "4.6.2"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
