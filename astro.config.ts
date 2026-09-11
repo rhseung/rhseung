@@ -7,6 +7,7 @@ import astroTypesafeRoutes from 'astro-typesafe-routes';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 
+import { shikiConfig } from './src/common/components/mdx/code-block/shiki';
 import { DEFAULT_LANGUAGE, LANGUAGE_TAGS, LANGUAGES } from './src/common/lib/languages';
 import { isNoindex, SITE } from './src/common/lib/site';
 
@@ -24,7 +25,7 @@ export default defineConfig({
   image: { layout: 'constrained' },
 
   markdown: {
-    shikiConfig: { themes: { light: 'snazzy-light', dark: 'tokyo-night' }, defaultColor: false },
+    shikiConfig,
     processor: unified({
       remarkPlugins: [remarkMath],
       rehypePlugins: [rehypeKatex],
