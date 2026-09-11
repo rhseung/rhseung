@@ -1,6 +1,8 @@
 import { LinkIcon } from '@heroicons/react/24/outline';
 import { css, cva, cx } from 'styled-system/css';
 
+import type { RecipeVariantProps } from 'styled-system/types';
+
 const heading = cva({
   base: {
     position: 'relative',
@@ -33,6 +35,8 @@ const heading = cva({
     },
   },
 });
+
+type HeadingVariants = NonNullable<RecipeVariantProps<typeof heading>>;
 
 export function MdxHeading({ level, id, permalinkLabel, children }: MdxHeading.Props) {
   const Tag = `h${level}` as const;
@@ -69,7 +73,7 @@ export function MdxHeading({ level, id, permalinkLabel, children }: MdxHeading.P
 }
 
 export declare namespace MdxHeading {
-  export type Level = 1 | 2 | 3 | 4 | 5 | 6;
+  export type Level = NonNullable<HeadingVariants['level']>;
 
   export type SlotProps = {
     id?: string;

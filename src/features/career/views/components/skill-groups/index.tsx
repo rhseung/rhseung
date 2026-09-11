@@ -4,6 +4,7 @@ import { Badge, TechIcon } from '@/common/components';
 import { brand } from '@/common/styles';
 
 import type { SkillGroup } from '../../../viewmodels';
+import type { RecipeVariantProps } from 'styled-system/types';
 
 const list = cva({
   base: { gap: '4' },
@@ -14,6 +15,8 @@ const list = cva({
     },
   },
 });
+
+type SkillGroupsVariants = NonNullable<RecipeVariantProps<typeof list>>;
 
 export function SkillGroups({ groups, layout = 'list' }: SkillGroups.Props) {
   return (
@@ -50,6 +53,6 @@ export function SkillGroups({ groups, layout = 'list' }: SkillGroups.Props) {
 export declare namespace SkillGroups {
   export type Props = {
     groups: SkillGroup[];
-    layout?: 'list' | 'grid';
+    layout?: SkillGroupsVariants['layout'];
   };
 }

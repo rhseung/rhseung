@@ -7,13 +7,17 @@ import {
 } from '@heroicons/react/24/solid';
 import { sva } from 'styled-system/css';
 
-const CALLOUT_KINDS = {
+import type { IconComponent } from '@/common/lib';
+
+import type { RecipeVariantProps } from 'styled-system/types';
+
+const CALLOUT_ICONS: Record<Callout.Tone, IconComponent> = {
   note: InformationCircleIcon,
   tip: LightBulbIcon,
   important: MegaphoneIcon,
   warning: ExclamationTriangleIcon,
   caution: NoSymbolIcon,
-} as const;
+};
 
 const callout = sva({
   slots: ['root', 'icon', 'title', 'body'],
@@ -71,8 +75,10 @@ const callout = sva({
   defaultVariants: { tone: 'note' },
 });
 
+type CalloutVariants = NonNullable<RecipeVariantProps<typeof callout>>;
+
 export function Callout({ tone = 'note', title, children }: Callout.Props) {
-  const Icon = CALLOUT_KINDS[tone];
+  const Icon = CALLOUT_ICONS[tone];
   const styles = callout({ tone });
 
   return (
@@ -86,7 +92,7 @@ export function Callout({ tone = 'note', title, children }: Callout.Props) {
 }
 
 export declare namespace Callout {
-  export type Tone = keyof typeof CALLOUT_KINDS;
+  export type Tone = NonNullable<CalloutVariants['tone']>;
 
   export type Props = {
     tone?: Tone;

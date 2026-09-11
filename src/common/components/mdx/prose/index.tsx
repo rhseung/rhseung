@@ -4,6 +4,9 @@ import type { Language } from '@/common/lib';
 
 import { useCodeCopy } from '../code-block/use-code-copy';
 
+import type { RecipeVariantProps } from 'styled-system/types';
+
+
 const prose = cva({
   base: {
     color: 'text.body',
@@ -70,6 +73,8 @@ const prose = cva({
   defaultVariants: { layout: 'article' },
 });
 
+type ProseVariants = NonNullable<RecipeVariantProps<typeof prose>>;
+
 export function Prose({ lang, layout = 'article', className, children }: Prose.Props) {
   const ref = useCodeCopy<HTMLDivElement>();
 
@@ -83,7 +88,7 @@ export function Prose({ lang, layout = 'article', className, children }: Prose.P
 export declare namespace Prose {
   export type Props = {
     lang?: Language;
-    layout?: 'article' | 'paper';
+    layout?: ProseVariants['layout'];
     className?: string;
     children: React.ReactNode;
   };
