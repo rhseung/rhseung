@@ -5,13 +5,16 @@ export function MdxCode({ children }: MdxCode.Props) {
     <code
       className={css({
         ':not(pre) > &': {
-          rounded: 'md',
+          rounded: '[0.35em]',
+          border: 'line',
           bg: 'surface.muted',
-          px: '1.5',
-          py: '0.5',
+          px: '[0.35em]',
+          py: '[0.12em]',
+          color: 'text',
           fontFamily: 'mono',
           fontSize: '[0.85em]',
           fontWeight: 'normal',
+          boxDecorationBreak: 'clone',
         },
       })}
     >
