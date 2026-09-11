@@ -29,7 +29,7 @@ const meta = {
     copyLabel: '코드 복사',
     copiedLabel: '복사함',
     style: shikiTheme,
-    'data-language': 'zsh',
+    'data-label': 'Shell',
     children: <code>bun run dev</code>,
   },
 } satisfies Meta<typeof CodeBlock>;
@@ -48,7 +48,9 @@ export const Multiline: Story = {
   },
 };
 
-export const WithoutLanguage: Story = { args: { 'data-language': 'plaintext' } };
+export const WithoutLabel: Story = { args: { 'data-label': undefined } };
+
+export const FromFenceMeta: Story = { args: { 'data-label': 'src/index.ts' } };
 
 export const Copied: Story = {
   beforeEach: () => {

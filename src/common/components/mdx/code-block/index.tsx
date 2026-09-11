@@ -54,7 +54,7 @@ export function CodeBlock({
   copiedLabel,
   tabindex,
   children,
-  'data-language': language,
+  'data-label': label,
   ...props
 }: CodeBlock.Props) {
   const classes = codeBlock();
@@ -63,7 +63,7 @@ export function CodeBlock({
   return (
     <div data-code-block="" className={classes.root}>
       <div className={classes.header}>
-        <span className={classes.language}>{language}</span>
+        <span className={classes.language}>{label}</span>
         <Button
           type="button"
           variant="outline"
@@ -96,7 +96,7 @@ export declare namespace CodeBlock {
   export type SlotProps = {
     style?: React.CSSProperties;
     tabindex?: number | string;
-    'data-language'?: string;
+    'data-label'?: string;
     children: React.ReactNode;
   };
 
