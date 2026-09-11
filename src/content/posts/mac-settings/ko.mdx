@@ -30,21 +30,25 @@ brew bundle --file ~/.local/share/chezmoi/Brewfile
 
 터미널 프롬프트에서 `@` 뒤에 붙는 그 이름입니다. 시스템 설정 > 일반 > 정보에서 바꿔도 프롬프트는 그대로인 경우가 많은데, macOS가 이름을 세 가지로 나누어 관리하기 때문입니다.
 
-| 이름            | 용도                                                 | GUI 변경 위치                         |
-| --------------- | ---------------------------------------------------- | ------------------------------------- |
-| `ComputerName`  | Finder 공유 목록, 시스템 설정에 보이는 이름          | 일반 > 정보 > 이름                    |
-| `LocalHostName` | Bonjour 이름. 같은 네트워크에서 `.local`로 접근할 때 | 일반 > 공유 > 로컬 호스트 이름 > 편집 |
-| `HostName`      | 셸 프롬프트의 `@` 뒤                                 | 없음                                  |
+| 이름            | 용도                                                 |
+| --------------- | ---------------------------------------------------- |
+| `ComputerName`  | Finder 공유 목록, 시스템 설정에 보이는 이름          |
+| `LocalHostName` | Bonjour 이름. 같은 네트워크에서 `.local`로 접근할 때 |
+| `HostName`      | 셸 프롬프트의 `@` 뒤                                 |
 
-앞의 둘은 GUI로 바꿀 수 있습니다. 다만 서로 다른 화면에 나뉘어 있어서, `정보`만 보면 `LocalHostName`은 안 바뀐 것처럼 보일 뿐입니다.
+`ComputerName`과 `LocalHostName`은 GUI에도 있지만 서로 다른 화면에 나뉘어 있고, `HostName`은 GUI 자체가 없습니다. 그래서 셋을 한 번에 같은 값으로 맞추려면 `scutil`로 설정합니다.
 
-1. **시스템 설정 > 일반 > 정보 > 이름**에서 `ComputerName`을 바꿉니다.
-2. **시스템 설정 > 일반 > 공유**로 들어가서, 하단 `로컬 호스트 이름` 옆의 **편집**을 눌러 `LocalHostName`을 바꿉니다. 공백도 한글도 못 받으니 영문 소문자와 하이픈으로 짓습니다.
-
-`HostName`은 GUI 자체가 없습니다. 비워 두면 프롬프트에 `LocalHostName`이 `.local`을 달고 나오는데, 그 표기가 싫다면 터미널에서 직접 설정합니다.
+`LocalHostName`은 공백도 한글도 받지 않으므로 영문 소문자와 하이픈으로 짓고, 나머지 둘도 같은 값으로 통일합니다.
 
 ```zsh
+sudo scutil --set ComputerName "rhseung-macbook"
+sudo scutil --set LocalHostName "rhseung-macbook"
 sudo scutil --set HostName "rhseung-macbook"
+
+# check
+scutil --get ComputerName
+scutil --get LocalHostName
+scutil --get HostName
 ```
 
 ### 한/영 키 변경
