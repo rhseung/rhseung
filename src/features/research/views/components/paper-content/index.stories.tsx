@@ -1,6 +1,6 @@
 import { fromHtml } from 'hast-util-from-html';
 
-import { Prose } from '@/common/components';
+import { Paper } from '@/common/components';
 
 import { PaperContent } from '.';
 
@@ -24,9 +24,9 @@ const meta = {
   args: { hast, lang: 'ko' },
   decorators: [
     (Story) => (
-      <Prose layout="paper">
+      <Paper>
         <Story />
-      </Prose>
+      </Paper>
     ),
   ],
 } satisfies Meta<typeof PaperContent>;

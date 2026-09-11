@@ -5,7 +5,15 @@ import { useTranslation } from 'react-i18next';
 import { css, cx } from 'styled-system/css';
 import { stack } from 'styled-system/patterns';
 
-import { Badge, Button, DetailHeader, LinkRow, Prose, SiteDock } from '@/common/components';
+import {
+  Badge,
+  Button,
+  DetailHeader,
+  LinkRow,
+  Paper,
+  PaperBibliography,
+  SiteDock,
+} from '@/common/components';
 import { formatPeriod, localeHref, type Language } from '@/common/lib';
 import { metaText, page } from '@/common/styles';
 
@@ -22,7 +30,6 @@ const COPIED_MS = 1600;
 const main = css({ display: 'flex', minW: '0', flexDirection: 'column', gap: '8' });
 const header = stack({ gap: '3' });
 const authors = css({ color: 'text.muted', textStyle: 'sm' });
-const paper = stack({ gap: '8' });
 
 export function PaperPage({
   lang,
@@ -101,29 +108,15 @@ export function PaperPage({
             </LinkRow>
           </header>
 
-          <div className={paper}>
-            <Prose layout="paper">{children}</Prose>
+          <div className={stack({ gap: '8' })}>
+            <Paper>{children}</Paper>
 
             {bibliography !== undefined && (
               <section className={stack({ gap: '3' })}>
                 <h2 className={css({ textStyle: 'heading.sub' })}>
                   {t(($) => $.detail.references)}
                 </h2>
-                <div
-                  className={css({
-                    fontFamily: 'serif',
-                    '& .csl-entry': {
-                      mb: '2',
-                      pl: '6',
-                      textIndent: '[-1.5rem]',
-                      color: 'text.muted',
-                      textStyle: 'sm',
-                      lineHeight: 'relaxed',
-                    },
-                  })}
-                >
-                  {bibliography}
-                </div>
+                <PaperBibliography>{bibliography}</PaperBibliography>
               </section>
             )}
           </div>
