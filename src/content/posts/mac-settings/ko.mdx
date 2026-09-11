@@ -168,6 +168,10 @@ AdGuard는 다양한 옵션을 지원하는데, 한국 웹사이트에서도 잘
 - [Refined GitHub](https://chromewebstore.google.com/detail/refined-github/hlepfoohegkhhmjieoechaddaejaokhf): GitHub에 다양한 Tweaks 기능을 추가하는 확장 프로그램
 - [CSMS+](https://chromewebstore.google.com/detail/csms+/oekalaanipfieieiibilhfjcoebfaabc): GIST LMS에 기능을 추가하는 확장 프로그램
 
+### [Dia](https://www.diabrowser.com/)
+
+Arc를 만든 The Browser Company의 AI 브라우저입니다. Chromium 기반이라 [Chrome](#google-chrome)의 확장 프로그램을 그대로 쓰면서, 사이드바의 AI가 열어 둔 탭 내용을 읽고 답합니다. Apple Silicon 전용입니다.
+
 ### [Raycast V2](https://www.raycast.com/new)
 
 Spotlight를 대체하는 런처로, 클립보드 히스토리와 창 관리, 확장 플러그인까지 하나로 묶은 앱입니다.
@@ -450,6 +454,15 @@ AI 에이전트를 위한 브라우저 자동화 CLI입니다. 출력이 짧아 
 ```zsh
 # 첫 실행 전에 Chrome을 따로 받습니다
 agent-browser install
+```
+
+### [CleanMyMac CLI](https://github.com/MacPaw/cleanmymac-cli)
+
+[CleanMyMac](#setapp)을 만든 MacPaw가 배포하는 디스크 정리 CLI입니다. `clean`은 Homebrew, npm, uv, Xcode가 남긴 공용 캐시를 지우고, `purge`는 프로젝트 폴더 안에 쌓인 `node_modules`, `.next`, `target` 같은 빌드 산출물을 지웁니다. 두 명령 모두 삭제하기 전에 대상 목록을 보여주고 사용자의 확인을 받습니다.
+
+```zsh
+# check
+cleanmymac --version
 ```
 
 ## 버전 관리
