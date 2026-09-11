@@ -6,7 +6,7 @@ import { Button } from '../../ui';
 const codeBlock = sva({
   slots: ['root', 'header', 'language', 'copy', 'pre'],
   base: {
-    root: { rounded: 'lg', border: 'line', overflow: 'hidden' },
+    root: { mt: '5', rounded: 'lg', border: 'line', overflow: 'hidden' },
     header: {
       display: 'flex',
       alignItems: 'center',
@@ -33,6 +33,18 @@ const codeBlock = sva({
       color: 'var(--shiki-light)',
       bg: 'var(--shiki-light-bg)',
       _dark: { color: 'var(--shiki-dark)', bg: 'var(--shiki-dark-bg)' },
+      '& span': {
+        color: 'var(--shiki-light)',
+        fontStyle: 'var(--shiki-light-font-style)',
+        fontWeight: 'var(--shiki-light-font-weight)',
+        textDecoration: 'var(--shiki-light-text-decoration)',
+        _dark: {
+          color: 'var(--shiki-dark)',
+          fontStyle: 'var(--shiki-dark-font-style)',
+          fontWeight: 'var(--shiki-dark-font-weight)',
+          textDecoration: 'var(--shiki-dark-text-decoration)',
+        },
+      },
     },
   },
 });

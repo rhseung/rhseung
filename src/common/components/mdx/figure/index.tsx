@@ -5,7 +5,8 @@ const figure = css({
   display: 'flex',
   flexDirection: 'column',
   gap: '2',
-  '& > *': { my: '0' },
+  '& > :first-child': { my: '0' },
+  '& > *:not(:first-child)': { my: '0' },
 });
 
 export function Figure({ caption: text, children }: Figure.Props) {

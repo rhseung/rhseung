@@ -7,7 +7,7 @@ import { stack } from 'styled-system/patterns';
 
 import { Badge, Button, DetailHeader, LinkRow, Prose, SiteDock } from '@/common/components';
 import { formatPeriod, localeHref, type Language } from '@/common/lib';
-import { bibliography as bibliographyStyle, metaText, page } from '@/common/styles';
+import { metaText, page } from '@/common/styles';
 
 import {
   RESEARCH_KIND_TONE,
@@ -109,7 +109,21 @@ export function PaperPage({
                 <h2 className={css({ textStyle: 'heading.sub' })}>
                   {t(($) => $.detail.references)}
                 </h2>
-                <div className={bibliographyStyle}>{bibliography}</div>
+                <div
+                  className={css({
+                    fontFamily: 'serif',
+                    '& .csl-entry': {
+                      mb: '2',
+                      pl: '6',
+                      textIndent: '[-1.5rem]',
+                      color: 'text.muted',
+                      textStyle: 'sm',
+                      lineHeight: 'relaxed',
+                    },
+                  })}
+                >
+                  {bibliography}
+                </div>
               </section>
             )}
           </div>

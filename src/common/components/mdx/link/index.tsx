@@ -1,20 +1,30 @@
-import { cx } from 'styled-system/css';
-
-import { proseLink } from '@/common/styles';
+import { css, cx } from 'styled-system/css';
 
 import { ExternalLink } from '../../layout/external-link';
 
 export function MdxLink({ href, className, children }: MdxLink.Props) {
   if (href !== undefined && /^https?:\/\//.test(href)) {
     return (
-      <ExternalLink href={href} showFavicon className={className}>
+      <ExternalLink href={href} showFavicon className={cx(css({ color: 'text' }), className)}>
         {children}
       </ExternalLink>
     );
   }
 
   return (
-    <a href={href} className={cx(proseLink, className)}>
+    <a
+      href={href}
+      className={cx(
+        css({
+          color: 'text',
+          textDecoration: 'underline',
+          textDecorationColor: 'current/40',
+          textDecorationThickness: '[0.0625em]',
+          textUnderlineOffset: '2px',
+        }),
+        className,
+      )}
+    >
       {children}
     </a>
   );
