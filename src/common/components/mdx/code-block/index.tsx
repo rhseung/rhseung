@@ -26,6 +26,8 @@ const codeBlock = sva({
     },
     pre: {
       overflowX: 'auto',
+      scrollbarWidth: '[none]',
+      '&::-webkit-scrollbar': { display: 'none' },
       p: '4',
       fontFamily: 'mono',
       textStyle: 'sm',
