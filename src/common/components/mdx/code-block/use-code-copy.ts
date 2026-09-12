@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 
+import { delay } from 'es-toolkit';
+
 const COPIED_DURATION = 2000;
 
 export function useCodeCopy<T extends HTMLElement>() {
@@ -10,6 +12,9 @@ export function useCodeCopy<T extends HTMLElement>() {
 
     if (!root) return;
 
+    const controller = new AbortController();
+    const { signal } = controller;
+
     const copy = async (event: MouseEvent) => {
       const button = (event.target as HTMLElement).closest<HTMLElement>('[data-copy-code]');
       const code = button?.closest('[data-code-block]')?.querySelector('pre')?.textContent;
@@ -18,17 +23,18 @@ export function useCodeCopy<T extends HTMLElement>() {
 
       try {
         await navigator.clipboard.writeText(code);
+        button.dataset.copied = '';
+        await delay(COPIED_DURATION, { signal });
       } catch {
         return;
       }
 
-      button.dataset.copied = '';
-      setTimeout(() => delete button.dataset.copied, COPIED_DURATION);
+      delete button.dataset.copied;
     };
 
-    root.addEventListener('click', copy);
+    root.addEventListener('click', copy, { signal });
 
-    return () => root.removeEventListener('click', copy);
+    return () => controller.abort();
   }, []);
 
   return ref;
