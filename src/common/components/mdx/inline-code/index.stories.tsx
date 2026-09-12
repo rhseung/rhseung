@@ -11,6 +11,14 @@ const meta = {
   title: 'Common/MDX/MdxCode',
   component: MdxCode,
   parameters: { layout: 'padded' },
+  args: { children: 'panda.config.ts' },
+} satisfies Meta<typeof MdxCode>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
   decorators: [
     (Story) => (
       <Prose>
@@ -20,14 +28,7 @@ const meta = {
       </Prose>
     ),
   ],
-  args: { children: 'panda.config.ts' },
-} satisfies Meta<typeof MdxCode>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
-
-export const Default: Story = {};
+};
 
 export const InHeading: Story = {
   decorators: [
@@ -61,4 +62,13 @@ export const Wrapping: Story = {
   args: {
     children: 'astro dev stop && rm -rf .astro node_modules/.astro dist && bun run dev',
   },
+  decorators: [
+    (Story) => (
+      <Prose>
+        <P>
+          <Story />
+        </P>
+      </Prose>
+    ),
+  ],
 };
