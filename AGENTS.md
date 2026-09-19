@@ -531,6 +531,10 @@ Vercel 의 `Development` 는 배포 환경이 **아니다** - `vercel dev` 와 `
 화면에는 "개발 중" 이 뜨지만, 코드에서 `development` 를 쓰면 `IS_PRODUCTION` 과 Vercel 의
 Development 환경까지 세 가지가 한 파일에서 겹친다.
 
+**프로덕션으로 가는 길은 `main` push 하나다.** `vercel deploy --prod` 를 부르는 `deploy`
+스크립트가 있었는데 지웠다 - 커밋 없이 로컬 파일을 프로덕션에 올리는 뒷문이라, 배포된 것과
+`git log` 가 어긋날 수 있었다.
+
 ### WIP 게이트
 
 아직 만드는 중인 구역은 **프로덕션에서만** 가려진다. **선언은 라우트 자신이 한다** - `.astro`

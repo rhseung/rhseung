@@ -4,7 +4,6 @@
     "build": "bun run gen && astro check && astro build && bun scripts/gen-resume.ts && bun scripts/gen-readme.ts",
     "build-storybook": "storybook build",
     "check": "prettier --write . && eslint . --fix",
-    "deploy": "vercel deploy --prod",
     "dev": "astro dev stop >/dev/null 2>&1; astro dev",
     "dev:prod": "astro dev stop >/dev/null 2>&1; VERCEL_ENV=production astro dev",
     "doctor": "react-doctor --yes --no-telemetry",
