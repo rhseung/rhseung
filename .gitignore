@@ -19,10 +19,9 @@ public/resume-*.pdf
 # 유료 폰트. EULA 가 재배포를 막아 커밋하지 않는다 - `bun run gen:fonts` 가 받아온다.
 public/fonts/monolisa-*.woff2
 
-# env
+# env. 시크릿은 fnox 가 1Password 에서 꺼내온다 - .env 는 실수로 생겼을 때의 그물이다.
 .env
 .env.*
-!.env.example
 
 # 테스트 / storybook
 storybook-static

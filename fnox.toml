@@ -1,0 +1,8 @@
+default_provider = "1password"
+
+[providers.1password]
+type = "1password"
+account = "https://my.1password.com/"
+
+[secrets]
+FONTS_TOKEN = { value = "op://Private/Fonts Token/token", description = "fine-grained PAT for reading MonoLisa font from private repository 'rhseung/rhseung-assets'", provider = "1password" }

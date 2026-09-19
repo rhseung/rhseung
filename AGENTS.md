@@ -13,6 +13,11 @@
 - **TypeScript는 6.x에 고정**되어 있다. 7은 `typescript-eslint`가 아직 지원하지 않아
   type-aware 린팅이 통째로 깨진다. 올리지 말 것.
 - `es-toolkit`이 있다. 유틸을 직접 만들기 전에 먼저 찾아본다.
+- **시크릿은 `fnox` 가 준다. `.env` 파일은 없다.** `fnox.toml` 이 1Password 참조만 담아
+  커밋돼 있고, `fnox activate zsh` 훅이 이 디렉터리에 들어올 때 값을 export 한다. 그래서
+  인터랙티브 셸에서는 그냥 `bun run ...` 이면 되고, CI·GUI 앱처럼 훅이 없는 곳에서만
+  `fnox exec -- <cmd>` 를 앞에 붙인다. 새 시크릿은 `fnox.toml` 의 `[secrets]` 에
+  `value = "op://<vault>/<item>/<field>"` 로 적는다 - 필드 이름이 `key` 가 아니라 `value` 다.
 
 | 명령                | 언제                                                       |
 | ------------------- | ---------------------------------------------------------- |
@@ -350,7 +355,7 @@ Tailwind 에서 옮긴 이유는 하나다. 토큰 밖 값을 **컴파일러가*
 
 - `@tanstack/react-query`는 남아 있지만 **소비자가 아직 없다.** GitHub API(star 수,
   기여 그래프)를 붙일 때 첫 소비자가 생긴다.
-- MSW도 같은 이유로 배선만 있다. `.env`의 `PUBLIC_ENABLE_MSW`는 기본 `false`다 —
+- MSW도 같은 이유로 배선만 있다. `PUBLIC_ENABLE_MSW`는 기본 `false`다 —
   목킹할 게 없는데 켜두면 서비스워커가 모든 요청을 경유시키다 `passthrough` 실패를 던진다.
 - **렌더를 막는 게이트를 만들지 않는다.** `if (!ready) return null`은 클라이언트에선 한
   프레임이지만 빌드 타임에는 영원이다 — 아일랜드가 SSR을 통째로 건너뛰고 본문이
