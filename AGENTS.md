@@ -13,6 +13,14 @@
 - **TypeScript는 6.x에 고정**되어 있다. 7은 `typescript-eslint`가 아직 지원하지 않아
   type-aware 린팅이 통째로 깨진다. 올리지 말 것.
 - `es-toolkit`이 있다. 유틸을 직접 만들기 전에 먼저 찾아본다.
+- **툴 버전은 `mise.toml` 이 고정한다.** `bun` 과 `fnox` 를 정확한 버전으로 박고
+  `mise.lock` 이 플랫폼별 체크섬까지 잠근다. 전에는 로컬이 전역 mise 의 `latest` 를, CI 가
+  `setup-bun` 의 `bun-version: latest` 를 각자 탔다 - `engines.bun` 의 `>=1.3.0` 은
+  하한선이라 둘이 갈리는 걸 못 막는다. CI 는 `jdx/mise-action@v4` 가 `--locked` 로 깐다.
+  `mise.toml` 에 `[settings]` 를 넣지 않는다 - `locked` 는 전역 설정까지 잠그고
+  `locked_scopes` 로 범위를 좁히려 해도 비전역 config 에서는 보안상 무시된다.
+- **`PUBLIC_*` 토글은 `mise.toml` 의 `[env]` 에 있다.** 비밀이 아니라 fnox 가 아니다.
+  한 번 켜볼 땐 `PUBLIC_DEVTOOLS=1 bun run dev` 로 그 자리에서 덮는다.
 - **시크릿은 `fnox` 가 준다. `.env` 파일은 없다.** `fnox.toml` 이 1Password 참조만 담아
   커밋돼 있고, `fnox activate zsh` 훅이 이 디렉터리에 들어올 때 값을 export 한다. 그래서
   인터랙티브 셸에서는 그냥 `bun run ...` 이면 되고, CI·GUI 앱처럼 훅이 없는 곳에서만
@@ -55,7 +63,8 @@ astro dev stop && rm -rf .astro node_modules/.astro dist && bun run dev
 는 생성물이고 **gitignore 다.** `bun install` 의 `postinstall` 이 `bun run gen` 으로 타입과
 파비콘을 만들고(Bun 1.3 은 루트 패키지의 `prepare`·`postinstall` 을 실행한다), `bun run build`
 가 앞에서 한 번 더 돌린 뒤 끝에 이력서 PDF 와 README 배지를 굽는다. 프레시 클론은
-`bun install && bun run dev` 로 끝난다. 손으로 고치면 다음 `bun run gen` 에 사라진다.
+`mise trust && mise install && bun install && bun run dev` 다 - `mise.toml` 이 `[env]` 를
+가져서 trust 전에는 mise 가 읽기를 거부한다. 손으로 고치면 다음 `bun run gen` 에 사라진다.
 이력서 PDF 만 예외다 - `dist/` 를 구워야 나오므로 `bun run build` 전에는 `/resume/` 의
 다운로드 링크가 dev 에서 404 다. 배포본에는 항상 있다.
 
@@ -357,6 +366,11 @@ Tailwind 에서 옮긴 이유는 하나다. 토큰 밖 값을 **컴파일러가*
   기여 그래프)를 붙일 때 첫 소비자가 생긴다.
 - MSW도 같은 이유로 배선만 있다. `PUBLIC_ENABLE_MSW`는 기본 `false`다 —
   목킹할 게 없는데 켜두면 서비스워커가 모든 요청을 경유시키다 `passthrough` 실패를 던진다.
+  `PUBLIC_DEVTOOLS=1` 은 dev 에서 React Query devtools 오버레이를 띄운다.
+- **`PUBLIC_*` 둘의 집은 `mise.toml` 의 `[env]` 다** (§1). 정의가 없어도 꺼진 상태라
+  동작상 없어도 되지만, 없으면 존재 자체를 코드 grep 으로만 알 수 있다.
+  Vercel 빌드에는 mise 가 없고, 대시보드 환경변수에 둘 다 빈 값으로 등록돼 있다 -
+  결과는 정의가 없는 것과 같다. 꺼짐.
 - **렌더를 막는 게이트를 만들지 않는다.** `if (!ready) return null`은 클라이언트에선 한
   프레임이지만 빌드 타임에는 영원이다 — 아일랜드가 SSR을 통째로 건너뛰고 본문이
   하이드레이션 `<template>`에 갇힌다. 로딩이 필요하면 그 쿼리에 `enabled`를 건다.
