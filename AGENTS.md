@@ -19,6 +19,14 @@
   하한선이라 둘이 갈리는 걸 못 막는다. CI 는 `jdx/mise-action@v4` 가 `--locked` 로 깐다.
   `mise.toml` 에 `[settings]` 를 넣지 않는다 - `locked` 는 전역 설정까지 잠그고
   `locked_scopes` 로 범위를 좁히려 해도 비전역 config 에서는 보안상 무시된다.
+- **Vercel 은 mise 를 안 읽는다.** 빌드 이미지가 주는 bun 을 쓰고(`bun.lock` 이 있으면
+  "Bun >=1.2" 가 전부다), `.bun-version` 같은 파일도 안 본다. 그래서 `vercel.json` 이
+  Vercel 공식 방법인 `bunx bun@<version>` 으로 install 과 build 를 둘 다 감싼다. Bun 이
+  스크립트 PATH 에 자기 자신을 올려서 `bun run gen` 이나 `bun scripts/gen-resume.ts` 같은
+  중첩 호출까지 같은 버전으로 끌려온다.
+- **bun 버전을 올릴 땐 세 곳이 같이 움직인다** - `mise.toml`, `mise lock` 재실행,
+  `vercel.json` 의 `bunx bun@...` 둘. 마지막 게 어긋나면 `scripts/lint-vercel-bun.ts` 가
+  `bun run lint` 에서 잡는다.
 - **`PUBLIC_*` 토글은 `mise.toml` 의 `[env]` 에 있다.** 비밀이 아니라 fnox 가 아니다.
   한 번 켜볼 땐 `PUBLIC_DEVTOOLS=1 bun run dev` 로 그 자리에서 덮는다.
 - **시크릿은 `fnox` 가 준다. `.env` 파일은 없다.** `fnox.toml` 이 1Password 참조만 담아
