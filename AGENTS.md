@@ -38,6 +38,7 @@
 | 명령                | 언제                                                       |
 | ------------------- | ---------------------------------------------------------- |
 | `bun run dev`       | 개발 (:4321)                                               |
+| `bun run dev:prod`  | 프로덕션처럼 (WIP 게이트 켜고) 개발                        |
 | `bun run storybook` | 컴포넌트 작업 (:6006)                                      |
 | `bun run check`     | **커밋 전** — prettier --write + eslint --fix              |
 | `bun run verify`    | **PR 전** — format+lint+typecheck(astro check)+doctor+test |
@@ -515,6 +516,53 @@ CI는 `bun run gen:i18n` 후 `git diff --exit-code`로 JSON이 최신인지 검�
 
 `feat` 새 기능 · `fix` 버그 · `docs` 문서 · `style` 서식 · `refactor` 구조 ·
 `test` 테스트 · `chore` 잡무 · `ci` CI 설정
+
+### 환경 - 프로덕션과 스테이징
+
+| 환경               | 브랜치          | 주소           | WIP 게이트 |
+| ------------------ | --------------- | -------------- | ---------- |
+| Production         | `main`          | www.rhseung.me | 켜짐       |
+| Preview (스테이징) | `staging`       | stg.rhseung.me | 꺼짐       |
+| Preview            | 그 외 브랜치·PR | 자동 생성 URL  | 꺼짐       |
+
+Vercel 의 `Development` 는 배포 환경이 **아니다** - `vercel dev` 와 `vercel env pull` 이 쓰는
+로컬 환경변수 스코프라 URL 도 배포본도 없다. 그래서 스테이징 브랜치를 `development` 로
+부르지 않는다. 이름이 겹치면 계속 헷갈린다. 같은 이유로 게이트의 코드 이름도 `wip` 이다 -
+화면에는 "개발 중" 이 뜨지만, 코드에서 `development` 를 쓰면 `IS_PRODUCTION` 과 Vercel 의
+Development 환경까지 세 가지가 한 파일에서 겹친다.
+
+### WIP 게이트
+
+아직 만드는 중인 구역은 **프로덕션에서만** 가려진다. **선언은 라우트 자신이 한다** - `.astro`
+가 `Layout` 에 `wip` 을 넘기면 끝이다.
+
+```
+<Layout lang={lang} title={...} route={{ to: '/[lang]/research' }} wip>
+```
+
+`layout.astro` 가 `IS_PRODUCTION && wip` 일 때 본문 위에 `WipNotice` 를 덮고, 덮인 본문에
+`inert` 를 건다. 불투명 화면은 눈만 가려서, `inert` 가 없으면 스크린리더와 키보드 탭이
+밑의 본문을 그대로 훑는다. 래퍼는 `display: contents` 라 레이아웃에 끼어들지 않는다.
+
+**본문을 치우지 않고 덮는 이유**: `scripts/gen-resume.ts` 가 빌드된 `/{lang}/resume/` 를 열어
+그 화면을 그대로 PDF 로 굽는다. 본문을 치우면 PDF 가 안내문 그림이 되고, 이미 공유된
+`/resume-{lang}.pdf` 링크가 그걸 받는다. `WipNotice` 에 `_print` 가 걸려 있어 인쇄 때 덮개만
+빠지고 PDF 에는 진짜 이력서가 찍힌다.
+
+숨김 효과를 기대하면 안 된다. 스테이징이 공개 URL 이라 미완성 콘텐츠는 어차피 밖에서 읽힌다.
+게이트는 **프로덕션 방문자에게 안 보이게** 하는 것이지 비공개로 만드는 게 아니다.
+
+라우트 목록을 딴 데 모아두지 않는다. 그렇게 했다가 되돌렸는데, `stage.ts` 에
+`'/[lang]/research'` 같은 문자열을 베껴 두면 라우트를 옮길 때 조용히 어긋난다 -
+`skills` 가 이름·그룹·색을 세 파일에 나눠 뒀다가 겪은 것과 같은 문제다.
+`stage.ts` 에는 `IS_PRODUCTION` 한 줄만 남는다.
+
+게이트가 걸린 라우트에는 `noindex` 가 같이 붙는다. 네비게이션은 5개 구역을 그대로 보여준다 -
+눌러서 안내문을 만나는 게 메뉴가 사라지는 것보다 덜 혼란스럽다.
+
+**로컬에서 프로덕션처럼 보려면 `bun run dev:prod`.** Astro 7 이 dev 를 데몬으로 띄워서
+`VERCEL_ENV=production bun run dev` 만으로는 부족하다 - 이미 뜬 데몬이 재사용되면서 옛
+환경변수가 그대로 남는다. 그래서 `dev` 와 `dev:prod` 둘 다 `astro dev stop` 을 앞에 붙인다.
 
 ## 10. LLM 지침
 

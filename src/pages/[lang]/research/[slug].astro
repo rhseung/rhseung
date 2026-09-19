@@ -41,6 +41,7 @@ const paper = renderPaper(source, bib);
   description={item.summary}
   type="article"
   route={{ to: '/[lang]/research/[slug]', params: { slug } }}
+  wip
 >
   <PaperIsland lang={lang} item={item} authors={paper.authors} bibtex={bib} client:idle>
     <PaperContent hast={paper.body} lang={lang} />

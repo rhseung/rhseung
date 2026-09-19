@@ -72,6 +72,7 @@ export default defineConfig({
           dock: { value: 20 },
           fab: { value: 30 },
           popover: { value: 50 },
+          cover: { value: 60 },
         },
         animations: {
           popIn: { value: 'popIn {durations.faster} {easings.out}' },

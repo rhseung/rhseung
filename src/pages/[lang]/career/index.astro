@@ -12,7 +12,7 @@ const { lang } = Astro.props;
 const t = i18n.getFixedT(lang, 'common');
 ---
 
-<Layout lang={lang} title={t(($) => $.nav.career)} route={{ to: '/[lang]/career' }}>
+<Layout lang={lang} title={t(($) => $.nav.career)} route={{ to: '/[lang]/career' }} wip>
   <CareerIsland
     lang={lang}
     experience={experienceOf(lang)}

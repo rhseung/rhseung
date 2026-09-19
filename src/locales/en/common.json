@@ -53,5 +53,9 @@
     "label": "Theme: {{mode}}",
     "light": "Light",
     "toggle": "Toggle theme"
+  },
+  "wip": {
+    "action": "Back to home",
+    "title": "In development"
   }
 }

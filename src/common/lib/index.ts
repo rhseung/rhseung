@@ -17,6 +17,7 @@ export { defineItem } from './define';
 export { localize } from './localize';
 export { localeHref, localeHrefOf, type LocaleRoute, type LocaleRouteRef } from './href';
 export { isNoindex, languagePaths, SITE } from './site';
+export { IS_PRODUCTION } from './stage';
 export type { Url } from './scalars';
 export {
   byStartDesc,

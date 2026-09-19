@@ -7,3 +7,4 @@ export * from './not-found';
 export * from './site-dock';
 export * from './tech-icon';
 export * from './translation-notice';
+export * from './wip-notice';

@@ -48,5 +48,9 @@
     "label": "테마: {{mode}}",
     "light": "밝게",
     "toggle": "테마 바꾸기"
+  },
+  "wip": {
+    "action": "홈으로",
+    "title": "개발 중입니다"
   }
 }

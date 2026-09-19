@@ -15,6 +15,7 @@ const { lang } = Astro.props;
   lang={lang}
   title={i18n.getFixedT(lang, 'common')(($) => $.nav.research)}
   route={{ to: '/[lang]/research' }}
+  wip
 >
   <ResearchIsland lang={lang} items={researchOf(lang)} papers={[...PAPER_SLUGS]} client:load />
 </Layout>
