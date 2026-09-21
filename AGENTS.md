@@ -19,14 +19,9 @@
   하한선이라 둘이 갈리는 걸 못 막는다. CI 는 `jdx/mise-action@v4` 가 `--locked` 로 깐다.
   `mise.toml` 에 `[settings]` 를 넣지 않는다 - `locked` 는 전역 설정까지 잠그고
   `locked_scopes` 로 범위를 좁히려 해도 비전역 config 에서는 보안상 무시된다.
-- **Vercel 은 mise 를 안 읽는다.** 빌드 이미지가 주는 bun 을 쓰고(`bun.lock` 이 있으면
-  "Bun >=1.2" 가 전부다), `.bun-version` 같은 파일도 안 본다. 그래서 `vercel.json` 이
-  Vercel 공식 방법인 `bunx bun@<version>` 으로 install 과 build 를 둘 다 감싼다. Bun 이
-  스크립트 PATH 에 자기 자신을 올려서 `bun run gen` 이나 `bun scripts/gen-resume.ts` 같은
-  중첩 호출까지 같은 버전으로 끌려온다.
-- **bun 버전을 올릴 땐 세 곳이 같이 움직인다** - `mise.toml`, `mise lock` 재실행,
-  `vercel.json` 의 `bunx bun@...` 둘. 마지막 게 어긋나면 `scripts/lint-vercel-bun.ts` 가
-  `bun run lint` 에서 잡는다.
+- **배포 빌드도 CI 가 돌린다.** `.github/workflows/deploy.yml` 이 `mise-action` 으로 bun 을
+  깔고 빌드한 뒤 `wrangler` 로 Cloudflare Workers 에 올린다. 그래서 bun 버전을 올릴 땐
+  `mise.toml` 과 `mise lock` 둘만 움직이면 된다 - 빌드 환경이 CI 하나라 갈릴 곳이 없다.
 - **`PUBLIC_*` 토글은 `mise.toml` 의 `[env]` 에 있다.** 비밀이 아니라 fnox 가 아니다.
   한 번 켜볼 땐 `PUBLIC_DEVTOOLS=1 bun run dev` 로 그 자리에서 덮는다.
 - **시크릿은 `fnox` 가 준다. `.env` 파일은 없다.** `fnox.toml` 이 1Password 참조만 담아
@@ -85,8 +80,8 @@ README 의 `<!-- tech:start -->`~`<!-- tech:end -->` 구간도 생성물이지�
 파일이라 커밋한다. 마커 밖(로고·GitHub 위젯·푸터)은 손으로 고친다.
 
 이력서 PDF 는 **빌드가 반드시 만든다.** Chromium 을 못 띄우면 빌드가 실패한다 - 조용히
-이전 파일로 폴백하면 배포본이 로컬과 달라진다. Vercel 빌드 이미지(Amazon Linux 2023)에는
-Playwright 브라우저도 공유 라이브러리도 없어서 `@sparticuz/chromium` 으로 폴백한다.
+이전 파일로 폴백하면 배포본이 로컬과 달라진다. CI 는 `playwright install --with-deps chromium`
+으로 브라우저를 먼저 깐다. `@sparticuz/chromium` 폴백은 그게 없는 환경을 위한 안전망이다.
 파비콘은 `node_modules/.cache/favicons/` 에 남겨 웜 빌드가 네트워크를 안 타게 한다.
 
 (폰트를 자체 호스팅하기 전에는 CI에서 못 돌렸다. 우분투 이미지에 한글 폰트가 없어
@@ -378,8 +373,7 @@ Tailwind 에서 옮긴 이유는 하나다. 토큰 밖 값을 **컴파일러가*
   `PUBLIC_DEVTOOLS=1` 은 dev 에서 React Query devtools 오버레이를 띄운다.
 - **`PUBLIC_*` 둘의 집은 `mise.toml` 의 `[env]` 다** (§1). 정의가 없어도 꺼진 상태라
   동작상 없어도 되지만, 없으면 존재 자체를 코드 grep 으로만 알 수 있다.
-  Vercel 빌드에는 mise 가 없고, 대시보드 환경변수에 둘 다 빈 값으로 등록돼 있다 -
-  결과는 정의가 없는 것과 같다. 꺼짐.
+  배포 빌드는 CI 가 `mise-action` 으로 `mise.toml` 을 읽어서 `[env]` 가 그대로 간다.
 - **렌더를 막는 게이트를 만들지 않는다.** `if (!ready) return null`은 클라이언트에선 한
   프레임이지만 빌드 타임에는 영원이다 — 아일랜드가 SSR을 통째로 건너뛰고 본문이
   하이드레이션 `<template>`에 갇힌다. 로딩이 필요하면 그 쿼리에 `enabled`를 건다.
@@ -519,21 +513,27 @@ CI는 `bun run gen:i18n` 후 `git diff --exit-code`로 JSON이 최신인지 검�
 
 ### 환경 - 프로덕션과 스테이징
 
-| 환경               | 브랜치          | 주소           | WIP 게이트 |
-| ------------------ | --------------- | -------------- | ---------- |
-| Production         | `main`          | www.rhseung.me | 켜짐       |
-| Preview (스테이징) | `staging`       | stg.rhseung.me | 꺼짐       |
-| Preview            | 그 외 브랜치·PR | 자동 생성 URL  | 꺼짐       |
+| 환경       | 브랜치    | 주소           | WIP 게이트 |
+| ---------- | --------- | -------------- | ---------- |
+| Production | `main`    | www.rhseung.me | 켜짐       |
+| Staging    | `staging` | stg.rhseung.me | 꺼짐       |
 
-Vercel 의 `Development` 는 배포 환경이 **아니다** - `vercel dev` 와 `vercel env pull` 이 쓰는
-로컬 환경변수 스코프라 URL 도 배포본도 없다. 그래서 스테이징 브랜치를 `development` 로
-부르지 않는다. 이름이 겹치면 계속 헷갈린다. 같은 이유로 게이트의 코드 이름도 `wip` 이다 -
-화면에는 "개발 중" 이 뜨지만, 코드에서 `development` 를 쓰면 `IS_PRODUCTION` 과 Vercel 의
-Development 환경까지 세 가지가 한 파일에서 겹친다.
+그 외 브랜치와 PR 은 자동 배포되지 않는다. 확인이 필요하면 `staging` 에 올린다.
 
-**프로덕션으로 가는 길은 `main` push 하나다.** `vercel deploy --prod` 를 부르는 `deploy`
-스크립트가 있었는데 지웠다 - 커밋 없이 로컬 파일을 프로덕션에 올리는 뒷문이라, 배포된 것과
-`git log` 가 어긋날 수 있었다.
+환경을 가르는 건 둘이다. `wrangler.jsonc` 의 `env.staging` 이 어느 Worker 와 도메인에
+올릴지를, 빌드 때 들어가는 `SITE_ENV` 가 WIP 게이트를 켤지를 정한다. `deploy.yml` 이
+브랜치 이름으로 둘을 같이 고르므로 손으로 맞출 일은 없다.
+
+게이트의 코드 이름이 `wip` 인 이유: 화면에는 "개발 중" 이 뜨지만, 코드에서 `development` 를
+쓰면 `IS_PRODUCTION` 과 한 파일에서 겹쳐 읽힌다.
+
+**프로덕션으로 가는 길은 `main` push 하나다.** 로컬에서 바로 올리는 경로를 두지 않는다 -
+커밋 없이 파일을 프로덕션에 올리면 배포된 것과 `git log` 가 어긋난다.
+
+배포에 필요한 GitHub 시크릿은 셋이다 - `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`,
+`FONTS_TOKEN`. **마지막 게 빠지면 빌드는 그냥 통과하는데 MonoLisa 만 조용히 빠진다**
+(`gen:fonts` 가 토큰이 없으면 안 받고 넘어간다). `ci.yml` 에는 일부러 안 넣는다 - 검증에는
+폰트가 필요 없다.
 
 ### WIP 게이트
 
@@ -565,7 +565,7 @@ Development 환경까지 세 가지가 한 파일에서 겹친다.
 눌러서 안내문을 만나는 게 메뉴가 사라지는 것보다 덜 혼란스럽다.
 
 **로컬에서 프로덕션처럼 보려면 `bun run dev:prod`.** Astro 7 이 dev 를 데몬으로 띄워서
-`VERCEL_ENV=production bun run dev` 만으로는 부족하다 - 이미 뜬 데몬이 재사용되면서 옛
+`SITE_ENV=production bun run dev` 만으로는 부족하다 - 이미 뜬 데몬이 재사용되면서 옛
 환경변수가 그대로 남는다. 그래서 `dev` 와 `dev:prod` 둘 다 `astro dev stop` 을 앞에 붙인다.
 
 ## 10. LLM 지침
