@@ -5,14 +5,12 @@
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always",
-    // import 순서는 eslint `import/order`가 소유한다. 둘 다 켜면 저장할 때마다 싸운다.
     "source.organizeImports": "never"
   },
 
   "js/ts.tsdk.path": "node_modules/typescript/lib",
   "js/ts.tsdk.promptToUseWorkspaceVersion": true,
 
-  // 생성물은 읽기 전용. 손으로 고치면 다음 `bun run gen`에 사라진다.
   "files.readonlyInclude": {
     "**/routeTree.gen.ts": true,
     "src/api/**": true,
@@ -28,7 +26,6 @@
     "**/bun.lock": true
   },
 
-  // flow-icons 가 이름으로 못 알아보는 feature 폴더만 짚어준다.
   "flow-icons.folders.associations": {
     "career": "job",
     "research": "molecule",
