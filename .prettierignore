@@ -6,6 +6,8 @@ test-results
 coverage
 
 # 생성물 — 생성기의 포맷을 그대로 둔다
+# .mise 는 mise.lock 이 digest 로 참조한다 - 포맷하면 무결성이 깨진다
+.mise
 src/api
 src/@types
 styled-system

@@ -8,6 +8,7 @@ dist
 styled-system
 .wrangler
 .vercel
+.mise
 
 # 생성물. `bun install` 의 postinstall 과 `bun run build` 가 `bun run gen` 으로 다시 만든다.
 # `src/locales` 는 여기 없다 - 키는 추출기가 만들지만 값(번역문)은 사람이 채운다.
