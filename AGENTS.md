@@ -29,18 +29,13 @@
   저장소가 연결돼 있고(`rhseung` 은 `main`, `rhseung-staging` 은 `staging`), 대시보드의
   빌드·배포 명령이 `mise` 를 그 자리에 설치해 `mise.toml` 버전으로 빌드한다. CF 빌드
   이미지가 주는 bun 은 1.2.15 라 그냥 두면 우리 1.4.2 와 갈린다.
-- **빌드·배포 명령은 `scripts/cf-build.sh` 와 `scripts/cf-deploy.sh` 에 있다.** 대시보드에는
-  그걸 부르는 한 줄만 넣는다 - 워커가 둘이라 명령을 대시보드에 두면 복붙본이 갈리고,
-  `git blame` 으로 왜 그렇게 썼는지 닿을 수도 없다. 부트스트랩이라 `sh` 여야 한다.
-  mise 와 bun 을 PATH 에 올리는 일 자체가 목적이므로 mise task 나 `package.json` 스크립트로
-  옮길 수 없다.
-- **그 스크립트가 `mise exec` 를 안 쓰는 이유.** CF 빌드 이미지는 자기 mise config 에
-  `hugo`·`go`·`ruby`·`python` 을 들고 있고, 그게 우리 것과 합쳐진다. 그중
-  `hugo@extended_0.147.7` 은 mise 가 `vextended_...` 로 조회하는 버그 때문에 **설치가
-  영영 안 된다**(이미지에는 이미 깔려 있는데도). `mise exec` 나 `mise install` 이 그때마다
-  비영 종료해서 체인이 끊기므로, `mise install || true` 로 받아넘기고 `mise which` 로 얻은
-  경로를 PATH 에 넣는다. 그래도 bun 이 진짜 실패하면 뒤의 `bun install` 에서 바로 죽으니
-  조용히 잘못된 버전으로 빌드되지는 않는다.
+- **`MISE_DISABLE_TOOLS` 를 빼먹으면 빌드가 깨진다.** CF 빌드 이미지는 자기 mise config 에
+  `hugo`·`go`·`ruby`·`python`·`nub` 을 들고 있고 그게 우리 `mise.toml` 과 합쳐진다. 그중
+  `hugo@extended_0.147.7` 은 mise 가 `vextended_...` 로 조회하는 버그 때문에 **설치가 영영
+  안 된다**(이미지에는 이미 깔려 있는데도). `mise install` 이 거기서 비영 종료해 빌드가
+  통째로 실패하므로, 워커 환경변수에 쉼표로 끊어 넣어 건너뛴다. 덤으로 ruby 92MB, go 78MB
+  같은 걸 안 받아서 빌드도 빨라진다. `fnox` 도 넣는다 - CI 에는 1Password 가 없고
+  `FONTS_TOKEN` 은 워커 환경변수로 직접 준다.
 - **`PUBLIC_*` 토글은 `mise.toml` 의 `[env]` 에 있다.** 비밀이 아니라 fnox 가 아니다.
   한 번 켜볼 땐 `PUBLIC_DEVTOOLS=1 bun run dev` 로 그 자리에서 덮는다.
 - **시크릿은 `fnox` 가 준다. `.env` 파일은 없다.** `fnox.toml` 이 1Password 참조만 담아
