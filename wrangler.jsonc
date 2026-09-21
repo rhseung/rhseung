@@ -1,5 +1,4 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
   "name": "rhseung",
   "compatibility_date": "2026-09-21",
   "assets": {
@@ -9,10 +8,8 @@
   "observability": {
     "enabled": true,
   },
-  "routes": [
-    { "pattern": "www.rhseung.me", "custom_domain": true },
-    { "pattern": "rhseung.me", "custom_domain": true },
-  ],
+  // routes 는 상속되는 키다. env 에서 비우면 top-level 의 프로덕션 도메인을 물려받는다.
+  "routes": [{ "pattern": "www.rhseung.me", "custom_domain": true }],
   "env": {
     "staging": {
       "routes": [{ "pattern": "stg.rhseung.me", "custom_domain": true }],
