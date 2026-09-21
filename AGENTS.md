@@ -532,6 +532,19 @@ CI는 `bun run gen:i18n` 후 `git diff --exit-code`로 JSON이 최신인지 검�
 올릴지를, 빌드 때 들어가는 `SITE_ENV` 가 WIP 게이트를 켤지를 정한다. `deploy.yml` 이
 브랜치 이름으로 둘을 같이 고르므로 손으로 맞출 일은 없다.
 
+**`env` 의 `routes` 를 비우지 않는다.** `routes` 는 상속되는 키라서 `"staging": {}` 로 두면
+top-level 의 `www.rhseung.me` 를 물려받는다 - 스테이징 배포가 프로덕션 도메인을 가져간다.
+실제로 그렇게 해봤는데, 그 호스트에 다른 DNS 레코드가 물려 있어서 API 가 거부해준 덕에 막혔다.
+
+**apex 는 Worker 에 붙이지 않는다.** `rhseung.me` -> `www` 리다이렉트는 Cloudflare 의
+Redirect Rules 가 맡는다. `_redirects` 파일로 하려다 거부당했는데(`code: 100324`), Workers 의
+`_redirects` 는 Pages 와 달리 **도메인 레벨 소스 패턴을 안 받는다** - 목적지로는 외부 URL 을
+써도 되지만 출발지는 상대 경로여야 한다.
+
+**커스텀 도메인을 새로 붙일 땐 그 호스트의 기존 DNS 레코드를 먼저 지운다.** 남아 있으면
+`already has externally managed DNS records [code: 100117]` 로 거부되고, 그 실패가 배포
+전체를 막는다. 지우고 나면 `wrangler deploy` 가 레코드를 알아서 만든다.
+
 게이트의 코드 이름이 `wip` 인 이유: 화면에는 "개발 중" 이 뜨지만, 코드에서 `development` 를
 쓰면 `IS_PRODUCTION` 과 한 파일에서 겹쳐 읽힌다.
 
