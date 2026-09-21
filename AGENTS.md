@@ -23,13 +23,19 @@
   `bun`(package.json 을 읽는 주체라 거기 못 들어간다), `fnox`(셸 훅), `wrangler`(배포 CLI),
   그리고 wrangler 가 타는 `node`. 나머지 npm 패키지는 전부 `package.json` 이고
   `bun.lock` 이 잠근다 - prettier·eslint·playwright·panda·astro 가 다 거기 있다.
-  **`node` 를 빼면 안 된다** - `wrangler` 는 `#!/usr/bin/env node` 라, 안 박아두면 로컬은
-  전역 mise 를 CI 는 러너 이미지를 각자 타서 버전이 갈린다.
-- **배포 빌드도 CI 가 돌린다.** `.github/workflows/deploy.yml` 이 `mise-action` 으로 도구를
-  깔고 빌드한 뒤 `wrangler deploy` 로 Cloudflare Workers 에 올린다. 그래서 버전을 올릴 땐
-  `mise.toml` 과 `mise lock` 둘만 움직이면 된다 - 빌드 환경이 CI 하나라 갈릴 곳이 없다.
-  `cloudflare/wrangler-action` 을 쓰지 않는다 - 그 액션이 wrangler 를 npm 으로 또 깔아서
-  `mise.toml` 로 고정한 버전이 무시된다.
+  **`node` 를 빼면 안 된다** - `wrangler` 는 `#!/usr/bin/env node` 라, 안 박아두면 로컬과
+  빌드 환경이 각자 다른 node 를 타서 버전이 갈린다.
+- **배포는 Cloudflare Workers Builds 가 한다.** GitHub Actions 가 아니다 - 워커마다
+  저장소가 연결돼 있고(`rhseung` 은 `main`, `rhseung-staging` 은 `staging`), 대시보드의
+  빌드·배포 명령이 `mise` 를 그 자리에 설치해 `mise.toml` 버전으로 빌드한다. CF 빌드
+  이미지가 주는 bun 은 1.2.15 라 그냥 두면 우리 1.4.2 와 갈린다.
+- **빌드 명령이 `mise exec` 를 안 쓰는 이유.** CF 빌드 이미지는 자기 mise config 에
+  `hugo`·`go`·`ruby`·`python` 을 들고 있고, 그게 우리 것과 합쳐진다. 그중
+  `hugo@extended_0.147.7` 은 mise 가 `vextended_...` 로 조회하는 버그 때문에 **설치가
+  영영 안 된다**(이미지에는 이미 깔려 있는데도). `mise exec` 나 `mise install` 이 그때마다
+  비영 종료해서 `&&` 체인이 끊기므로, `(mise install || true)` 로 받아넘기고
+  `mise which` 로 얻은 경로를 PATH 에 넣는다. 그래도 bun 이 진짜 실패하면 뒤의
+  `bun install` 에서 바로 죽으니 조용히 잘못된 버전으로 빌드되지는 않는다.
 - **`PUBLIC_*` 토글은 `mise.toml` 의 `[env]` 에 있다.** 비밀이 아니라 fnox 가 아니다.
   한 번 켜볼 땐 `PUBLIC_DEVTOOLS=1 bun run dev` 로 그 자리에서 덮는다.
 - **시크릿은 `fnox` 가 준다. `.env` 파일은 없다.** `fnox.toml` 이 1Password 참조만 담아
@@ -529,8 +535,8 @@ CI는 `bun run gen:i18n` 후 `git diff --exit-code`로 JSON이 최신인지 검�
 그 외 브랜치와 PR 은 자동 배포되지 않는다. 확인이 필요하면 `staging` 에 올린다.
 
 환경을 가르는 건 둘이다. `wrangler.jsonc` 의 `env.staging` 이 어느 Worker 와 도메인에
-올릴지를, 빌드 때 들어가는 `SITE_ENV` 가 WIP 게이트를 켤지를 정한다. `deploy.yml` 이
-브랜치 이름으로 둘을 같이 고르므로 손으로 맞출 일은 없다.
+올릴지를, 빌드 때 들어가는 `SITE_ENV` 가 WIP 게이트를 켤지를 정한다. 워커가
+추적하는 브랜치로 둘이 같이 정해지므로 손으로 맞출 일은 없다.
 
 **`env` 의 `routes` 를 비우지 않는다.** `routes` 는 상속되는 키라서 `"staging": {}` 로 두면
 top-level 의 `www.rhseung.me` 를 물려받는다 - 스테이징 배포가 프로덕션 도메인을 가져간다.
@@ -551,10 +557,13 @@ Redirect Rules 가 맡는다. `_redirects` 파일로 하려다 거부당했는�
 **프로덕션으로 가는 길은 `main` push 하나다.** 로컬에서 바로 올리는 경로를 두지 않는다 -
 커밋 없이 파일을 프로덕션에 올리면 배포된 것과 `git log` 가 어긋난다.
 
-배포에 필요한 GitHub 시크릿은 셋이다 - `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`,
-`FONTS_TOKEN`. **마지막 게 빠지면 빌드는 그냥 통과하는데 MonoLisa 만 조용히 빠진다**
-(`gen:fonts` 가 토큰이 없으면 안 받고 넘어간다). `ci.yml` 에는 일부러 안 넣는다 - 검증에는
-폰트가 필요 없다.
+배포에 필요한 건 **워커 환경변수 `FONTS_TOKEN` 하나다.** Cloudflare API 토큰은 저장소를
+연결할 때 CF 가 자동으로 만들어 갖고 있어서 우리가 넣을 게 없다. **`FONTS_TOKEN` 이 빠지면
+빌드는 그냥 통과하는데 MonoLisa 만 조용히 빠진다** (`gen:fonts` 가 토큰이 없으면 안 받고
+넘어간다). `ci.yml` 에는 일부러 안 넣는다 - 검증에는 폰트가 필요 없다.
+
+`SITE_ENV` 는 production 워커에만 `production` 으로 준다. staging 은 값이 없으면 게이트가
+꺼진 상태라 그게 원하는 동작이다.
 
 ### WIP 게이트
 
