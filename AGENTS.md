@@ -17,8 +17,8 @@
   박고 `mise.lock` 이 플랫폼별 체크섬까지 잠근다. 전에는 로컬이 전역 mise 의 `latest` 를, CI 가
   `setup-bun` 의 `bun-version: latest` 를 각자 탔다 - `engines.bun` 의 `>=1.3.0` 은
   하한선이라 둘이 갈리는 걸 못 막는다. CI 는 `jdx/mise-action@v4` 가 `--locked` 로 깐다.
-  `mise.toml` 에 `[settings]` 를 넣지 않는다 - `locked` 는 전역 설정까지 잠그고
-  `locked_scopes` 로 범위를 좁히려 해도 비전역 config 에서는 보안상 무시된다.
+  `[settings]` 에 `locked` 는 넣지 않는다 - 전역 설정까지 잠그고, `locked_scopes` 로 범위를
+  좁히려 해도 비전역 config 에서는 보안상 무시된다. `disable_tools` 처럼 잘 먹는 설정은 있다.
 - **`mise.toml` 과 `package.json` 의 경계.** mise 는 **레포 바깥에서 와야 하는 것**을 맡는다 -
   `bun`(package.json 을 읽는 주체라 거기 못 들어간다), `fnox`(셸 훅), `wrangler`(배포 CLI),
   그리고 wrangler 가 타는 `node`. 나머지 npm 패키지는 전부 `package.json` 이고
@@ -35,13 +35,15 @@
   실행할 때 PATH 에 올려줘서, `mise install` 과 `mise exec --` 가 둘 다 필요 없다.
   앞의 `curl | sh` 와 `export PATH` 만 대시보드에 남는데, mise 자체를 올리는 부트스트랩이라
   그건 task 로 옮길 수 없다.
-- **`MISE_DISABLE_TOOLS` 를 빼먹으면 빌드가 깨진다.** CF 빌드 이미지는 자기 mise config 에
-  `hugo`·`go`·`ruby`·`python`·`nub` 을 들고 있고 그게 우리 `mise.toml` 과 합쳐진다. 그중
-  `hugo@extended_0.147.7` 은 mise 가 `vextended_...` 로 조회하는 버그 때문에 **설치가 영영
-  안 된다**(이미지에는 이미 깔려 있는데도). `mise install` 이 거기서 비영 종료해 빌드가
-  통째로 실패하므로, 워커 환경변수에 쉼표로 끊어 넣어 건너뛴다. 덤으로 ruby 92MB, go 78MB
-  같은 걸 안 받아서 빌드도 빨라진다. `fnox` 도 넣는다 - CI 에는 1Password 가 없고
-  `FONTS_TOKEN` 은 워커 환경변수로 직접 준다.
+- **`[settings]` 의 `disable_tools` 를 지우면 빌드가 깨진다.** CF 빌드 이미지는 자기 mise
+  config 에 `hugo`·`go`·`ruby`·`python`·`nub` 을 들고 있고 그게 우리 `mise.toml` 과 합쳐진다.
+  그중 `hugo@extended_0.147.7` 은 mise 가 `vextended_...` 로 조회하는 버그 때문에 **설치가
+  영영 안 된다**(이미지에는 이미 깔려 있는데도). 거기서 비영 종료해 빌드가 통째로 실패한다.
+  덤으로 ruby 92MB, go 78MB 를 안 받아서 빌드도 빨라진다. 로컬에는 그 도구들이 없어서
+  껐을 때 잃는 게 없다.
+  **`fnox` 는 여기 넣으면 안 된다** - `mise.toml` 은 로컬과 CI 가 같이 읽어서, 끄면 로컬에서
+  시크릿이 안 나온다. CI 에서 fnox 를 깔긴 하지만 쓰지는 않는다(`FONTS_TOKEN` 은 워커
+  환경변수로 직접 준다).
 - **`PUBLIC_*` 토글은 `mise.toml` 의 `[env]` 에 있다.** 비밀이 아니라 fnox 가 아니다.
   한 번 켜볼 땐 `PUBLIC_DEVTOOLS=1 bun run dev` 로 그 자리에서 덮는다.
 - **시크릿은 `fnox` 가 준다. `.env` 파일은 없다.** `fnox.toml` 이 1Password 참조만 담아

@@ -4,6 +4,9 @@ fnox = "1.35.2"
 node = "24.21.0"
 "npm:wrangler" = "4.135.0"
 
+[settings]
+disable_tools = ["hugo", "go", "ruby", "python", "nub"]
+
 [env]
 PUBLIC_ENABLE_MSW = "false"
 PUBLIC_DEVTOOLS = ""
