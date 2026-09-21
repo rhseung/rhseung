@@ -13,15 +13,23 @@
 - **TypeScript는 6.x에 고정**되어 있다. 7은 `typescript-eslint`가 아직 지원하지 않아
   type-aware 린팅이 통째로 깨진다. 올리지 말 것.
 - `es-toolkit`이 있다. 유틸을 직접 만들기 전에 먼저 찾아본다.
-- **툴 버전은 `mise.toml` 이 고정한다.** `bun` 과 `fnox` 를 정확한 버전으로 박고
-  `mise.lock` 이 플랫폼별 체크섬까지 잠근다. 전에는 로컬이 전역 mise 의 `latest` 를, CI 가
+- **툴 버전은 `mise.toml` 이 고정한다.** `bun`·`fnox`·`node`·`wrangler` 를 정확한 버전으로
+  박고 `mise.lock` 이 플랫폼별 체크섬까지 잠근다. 전에는 로컬이 전역 mise 의 `latest` 를, CI 가
   `setup-bun` 의 `bun-version: latest` 를 각자 탔다 - `engines.bun` 의 `>=1.3.0` 은
   하한선이라 둘이 갈리는 걸 못 막는다. CI 는 `jdx/mise-action@v4` 가 `--locked` 로 깐다.
   `mise.toml` 에 `[settings]` 를 넣지 않는다 - `locked` 는 전역 설정까지 잠그고
   `locked_scopes` 로 범위를 좁히려 해도 비전역 config 에서는 보안상 무시된다.
-- **배포 빌드도 CI 가 돌린다.** `.github/workflows/deploy.yml` 이 `mise-action` 으로 bun 을
-  깔고 빌드한 뒤 `wrangler` 로 Cloudflare Workers 에 올린다. 그래서 bun 버전을 올릴 땐
+- **`mise.toml` 과 `package.json` 의 경계.** mise 는 **레포 바깥에서 와야 하는 것**을 맡는다 -
+  `bun`(package.json 을 읽는 주체라 거기 못 들어간다), `fnox`(셸 훅), `wrangler`(배포 CLI),
+  그리고 wrangler 가 타는 `node`. 나머지 npm 패키지는 전부 `package.json` 이고
+  `bun.lock` 이 잠근다 - prettier·eslint·playwright·panda·astro 가 다 거기 있다.
+  **`node` 를 빼면 안 된다** - `wrangler` 는 `#!/usr/bin/env node` 라, 안 박아두면 로컬은
+  전역 mise 를 CI 는 러너 이미지를 각자 타서 버전이 갈린다.
+- **배포 빌드도 CI 가 돌린다.** `.github/workflows/deploy.yml` 이 `mise-action` 으로 도구를
+  깔고 빌드한 뒤 `wrangler deploy` 로 Cloudflare Workers 에 올린다. 그래서 버전을 올릴 땐
   `mise.toml` 과 `mise lock` 둘만 움직이면 된다 - 빌드 환경이 CI 하나라 갈릴 곳이 없다.
+  `cloudflare/wrangler-action` 을 쓰지 않는다 - 그 액션이 wrangler 를 npm 으로 또 깔아서
+  `mise.toml` 로 고정한 버전이 무시된다.
 - **`PUBLIC_*` 토글은 `mise.toml` 의 `[env]` 에 있다.** 비밀이 아니라 fnox 가 아니다.
   한 번 켜볼 땐 `PUBLIC_DEVTOOLS=1 bun run dev` 로 그 자리에서 덮는다.
 - **시크릿은 `fnox` 가 준다. `.env` 파일은 없다.** `fnox.toml` 이 1Password 참조만 담아
