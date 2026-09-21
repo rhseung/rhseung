@@ -9,7 +9,12 @@
     "enabled": true,
   },
   // routes 는 상속되는 키다. env 에서 비우면 top-level 의 프로덕션 도메인을 물려받는다.
-  "routes": [{ "pattern": "www.rhseung.me", "custom_domain": true }],
+  // apex 는 리다이렉트하지 않고 같이 서빙한다 - canonical 이 www 를 가리켜서 정본이 갈리지 않고,
+  // Workers 의 _redirects 는 도메인 레벨 출발지를 못 받아 리다이렉트는 대시보드에만 남는다.
+  "routes": [
+    { "pattern": "www.rhseung.me", "custom_domain": true },
+    { "pattern": "rhseung.me", "custom_domain": true },
+  ],
   "env": {
     "staging": {
       "routes": [{ "pattern": "stg.rhseung.me", "custom_domain": true }],
