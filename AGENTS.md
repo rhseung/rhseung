@@ -29,7 +29,7 @@
   저장소가 연결돼 있고(`rhseung` 은 `main`, `rhseung-staging` 은 `staging`), 대시보드의
   빌드·배포 명령이 `mise` 를 그 자리에 설치해 `mise.toml` 버전으로 빌드한다. CF 빌드
   이미지가 주는 bun 은 1.2.15 라 그냥 두면 우리 1.4.2 와 갈린다.
-- **빌드·배포 명령은 `mise.toml` 의 `[tasks]` 에 있다.** 대시보드에는 `mise run cf:build`
+- **빌드·배포 명령은 `mise.toml` 의 `[tasks]` 에 있다.** 대시보드에는 `mise run cloudflare:build`
   처럼 부르는 줄만 넣는다 - 워커가 둘이라 명령을 대시보드에만 두면 복붙본이 갈리고
   `git blame` 으로 닿을 수도 없다. `mise run` 은 **누락된 도구를 알아서 깔고** task 를
   실행할 때 PATH 에 올려줘서, `mise install` 과 `mise exec --` 가 둘 다 필요 없다.

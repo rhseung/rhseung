@@ -8,12 +8,12 @@ node = "24.21.0"
 PUBLIC_ENABLE_MSW = "false"
 PUBLIC_DEVTOOLS = ""
 
-# Cloudflare Workers Builds 가 부르는 것. 대시보드에는 `mise run cf:build` 만 넣는다.
-[tasks."cf:build"]
+# Cloudflare Workers Builds 가 부르는 것. 대시보드에는 `mise run cloudflare:build` 만 넣는다.
+[tasks."cloudflare:build"]
 run = "bun install --frozen-lockfile && bun run build"
 
-[tasks."cf:deploy"]
+[tasks."cloudflare:deploy"]
 run = 'wrangler deploy --env=""'
 
-[tasks."cf:deploy-staging"]
+[tasks."cloudflare:deploy-staging"]
 run = "wrangler deploy --env staging"
