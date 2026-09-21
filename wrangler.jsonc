@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rhseung",
+  "compatibility_date": "2026-09-21",
+  "assets": {
+    "directory": "./dist/",
+    "not_found_handling": "404-page",
+  },
+  "observability": {
+    "enabled": true,
+  },
+  "routes": [
+    { "pattern": "www.rhseung.me", "custom_domain": true },
+    { "pattern": "rhseung.me", "custom_domain": true },
+  ],
+  "env": {
+    "staging": {
+      "routes": [{ "pattern": "stg.rhseung.me", "custom_domain": true }],
+    },
+  },
+}
