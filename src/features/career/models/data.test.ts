@@ -2,14 +2,14 @@ import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
 import {
-  endsAfterStart,
   filled,
   slug,
   SUMMARY_MAX,
   url,
   validDate,
   yearOrMonth,
-} from '@/common/lib/content-schema';
+} from '@/common/lib/content/content-schema';
+import { endsAfterStart } from '@/common/lib/content/year-month';
 
 import { CAREER_ITEMS } from './index';
 

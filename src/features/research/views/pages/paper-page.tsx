@@ -23,7 +23,7 @@ import {
   useResearchLabels,
   type Research,
 } from '../../viewmodels';
-import { RESEARCH_LINK_ICON } from '../components';
+import { RESEARCH_LINK_ICON } from '../../viewmodels';
 
 const COPIED_MS = 1600;
 

@@ -4,7 +4,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { ProjectsIsland } from '@/pages/_islands/projects-island';
 import { i18n, languagePaths } from '@/common/lib';
 import { awardsOf } from '@/features/career';
-import { projectsOf } from '@/features/projects';
+import { detailSlugs, projectsOf } from '@/features/projects';
 import Layout from '@/layouts/layout.astro';
 
 export function getStaticPaths() {
@@ -14,9 +14,7 @@ export function getStaticPaths() {
 const { lang } = Astro.props;
 
 const details: CollectionEntry<'projects'>[] = await getCollection('projects');
-const detailSlugs = new Set(
-  details.filter((entry) => entry.id.endsWith(`/${lang}`)).map((entry) => entry.id.split('/')[0]),
-);
+const slugsWithDetail = detailSlugs(details, lang);
 ---
 
 <Layout
@@ -27,7 +25,7 @@ const detailSlugs = new Set(
 >
   <ProjectsIsland
     lang={lang}
-    projects={projectsOf(lang, detailSlugs)}
+    projects={projectsOf(lang, slugsWithDetail)}
     awards={awardsOf(lang)}
     client:load
   />

@@ -11,7 +11,7 @@ import {
   useResearchLabels,
   type Research,
 } from '../../../viewmodels';
-import { RESEARCH_LINK_ICON } from '../link-icon';
+import { RESEARCH_LINK_ICON } from '../../../viewmodels';
 
 const article = css({
   display: 'flex',

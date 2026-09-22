@@ -1,2 +1,2 @@
-export { ResumeDocument } from './components/resume-document';
-export { ResumePage } from './pages/resume-page';
+export { ResumeDocument } from './components';
+export { ResumePage } from './pages';

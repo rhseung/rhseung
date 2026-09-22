@@ -1,10 +1,5 @@
 export { NO_CONTRIBUTIONS, type ContributionDay, type Contributions } from '../models';
 
-export {
-  fetchContributions,
-  loadContributionsSnapshot,
-  toContributions,
-  useContributions,
-  type ContributionsSnapshot,
-} from './use-contributions';
+export { contributionWindow } from './contribution-window';
+export { fetchContributions, useContributions } from './use-contributions';
 export { useKstTime } from './use-kst-time';

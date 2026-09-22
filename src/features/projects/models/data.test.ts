@@ -1,14 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import {
-  endsAfterStart,
-  filled,
-  slug,
-  SUMMARY_MAX,
-  url,
-  validDate,
-} from '@/common/lib/content-schema';
+import { filled, slug, SUMMARY_MAX, url, validDate } from '@/common/lib/content/content-schema';
+import { endsAfterStart } from '@/common/lib/content/year-month';
 import { TECH_BY_NAME, type Tech } from '@/content/skills';
 import { CAREER_ITEMS } from '@/features/career/models';
 

@@ -1,7 +1,20 @@
+import { DocumentArrowDownIcon, DocumentTextIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
+import { GithubLogoIcon } from '@phosphor-icons/react';
 import { zipObject } from 'es-toolkit';
 import { useTranslation } from 'react-i18next';
 
+import type { IconComponent } from '@/common/lib';
+
 import { RESEARCH_KINDS, RESEARCH_LINK_KINDS } from '../models';
+
+import type { ResearchLinkKind } from '../models';
+
+export const RESEARCH_LINK_ICON: Record<ResearchLinkKind, IconComponent> = {
+  paper: DocumentTextIcon,
+  poster: DocumentArrowDownIcon,
+  repo: GithubLogoIcon,
+  site: GlobeAltIcon,
+};
 
 export function useResearchLabels() {
   const { t } = useTranslation('research');

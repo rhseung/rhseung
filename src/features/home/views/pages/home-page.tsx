@@ -9,7 +9,7 @@ import { dayjs, SITE, type Language } from '@/common/lib';
 import { page } from '@/common/styles';
 import { useExternalLinks, useSiteSections } from '@/common/viewmodels';
 
-import { useContributions, useKstTime, type Contributions } from '../../viewmodels';
+import { useContributions, useKstTime } from '../../viewmodels';
 import { GithubContributionCalendar, RoleRotator } from '../components';
 
 const main = css({
@@ -46,9 +46,9 @@ const signature = css({
   bg: 'text.muted',
 });
 
-export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage.Props) {
+export function HomePage({ lang, updatedAt }: HomePage.Props) {
   const { t } = useTranslation('home');
-  const { total, days } = useContributions({ initialData: contributions, fetchedAt });
+  const { total, days } = useContributions();
   const shell = page();
 
   const sections = useSiteSections(lang);
@@ -90,12 +90,10 @@ export function HomePage({ lang, updatedAt, contributions, fetchedAt }: HomePage
             ))}
           </div>
         </section>
-        {days.length > 0 && (
-          <section className={section}>
-            <h2 className={heading}>{t(($) => $.sections.contributions)}</h2>
-            <GithubContributionCalendar total={total} days={days} />
-          </section>
-        )}
+        <section className={section}>
+          <h2 className={heading}>{t(($) => $.sections.contributions)}</h2>
+          <GithubContributionCalendar total={total} days={days} />
+        </section>
 
         <section className={section}>
           <h2 id="entries-heading" className={heading}>
@@ -190,7 +188,5 @@ export declare namespace HomePage {
   export type Props = {
     lang: Language;
     updatedAt: string;
-    contributions: Contributions;
-    fetchedAt: number;
   };
 }
