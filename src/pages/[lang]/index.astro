@@ -3,7 +3,6 @@ import { execSync } from 'node:child_process';
 
 import { HomeIsland } from '@/pages/_islands/home-island';
 import { languagePaths, SITE } from '@/common/lib';
-import { loadContributionsSnapshot } from '@/features/home';
 
 import Layout from '@/layouts/layout.astro';
 
@@ -20,16 +19,8 @@ export function getStaticPaths() {
 }
 
 const { lang, updatedAt } = Astro.props;
-
-const snapshot = await loadContributionsSnapshot();
 ---
 
 <Layout lang={lang} title={SITE.title} route={{ to: '/[lang]' }}>
-  <HomeIsland
-    lang={lang}
-    updatedAt={updatedAt}
-    contributions={snapshot.contributions}
-    fetchedAt={snapshot.fetchedAt}
-    client:load
-  />
+  <HomeIsland lang={lang} updatedAt={updatedAt} client:load />
 </Layout>
