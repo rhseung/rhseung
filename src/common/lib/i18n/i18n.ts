@@ -14,7 +14,7 @@ for (const [path, json] of Object.entries(modules)) {
   const match = /\/locales\/([^/]+)\/([^/]+)\.json$/.exec(path);
   if (match === null) throw new Error(`로케일 경로가 아닙니다: ${path}`);
 
-  const [, lang, namespace] = match as unknown as [string, string, string];
+  const [, lang, namespace] = match;
   (resources[lang] ??= {})[namespace] = json;
 }
 

@@ -1,10 +1,6 @@
-export const THEME_MODES = ['light', 'dark'] as const;
+import { THEME_MODES, type ThemeMode } from '../styles/config/theme';
 
-export type ThemeMode = (typeof THEME_MODES)[number];
-
-export const DEFAULT_THEME = 'light' satisfies ThemeMode;
-
-export const SYSTEM_DARK_QUERY = '(prefers-color-scheme: dark)';
+const SYSTEM_DARK_QUERY = '(prefers-color-scheme: dark)';
 
 declare global {
   var __theme: ThemeMode | undefined;

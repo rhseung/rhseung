@@ -1,4 +1,4 @@
-import type { ThemeMode } from '../lib/theme';
+import type { ThemeMode } from './theme';
 
 const light = {
   surface: 'oklch(1 0 0)',

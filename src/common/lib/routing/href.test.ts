@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
 import { localeHref } from './href';
-import { isNoindex, languagePaths } from './site';
 
 describe('localeHref', () => {
   it('언어를 [lang] 자리에 넣는다', () => {
@@ -25,34 +24,5 @@ describe('localeHref', () => {
     expect(() => localeHref('ko', '/[lang]/blogg')).not.toThrow();
     // @ts-expect-error [slug] 가 있는 라우트는 params 가 필수다
     expect(() => localeHref('ko', '/[lang]/blog/[slug]')).not.toThrow();
-  });
-});
-
-describe('languagePaths', () => {
-  it('언어마다 라우트 하나', () => {
-    expect(languagePaths()).toEqual([
-      { params: { lang: 'ko' }, props: { lang: 'ko' } },
-      { params: { lang: 'en' }, props: { lang: 'en' } },
-    ]);
-  });
-
-  it('호출마다 새 객체를 준다', () => {
-    const [first] = languagePaths();
-    const [second] = languagePaths();
-
-    expect(first).not.toBe(second);
-    expect(first?.params).not.toBe(second?.params);
-  });
-});
-
-describe('isNoindex', () => {
-  it('pathname 과 절대 URL 을 같이 받는다', () => {
-    expect(isNoindex('/ko/resume/')).toBe(true);
-    expect(isNoindex('https://www.rhseung.me/en/resume/')).toBe(true);
-  });
-
-  it('색인 대상 라우트는 그대로 둔다', () => {
-    expect(isNoindex('/ko/')).toBe(false);
-    expect(isNoindex('/en/blog/hello-world/')).toBe(false);
   });
 });

@@ -1,4 +1,4 @@
-import type { Language } from './languages';
+import type { Language } from '../i18n/languages';
 import type { RouteId, Routes } from 'astro-typesafe-routes/path';
 
 export type LocaleRoute = Extract<RouteId, `/[lang]${string}`>;

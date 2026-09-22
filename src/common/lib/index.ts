@@ -1,6 +1,5 @@
-export { dayjs } from './dayjs';
-export { FAVICON_HOSTS } from './favicon-hosts.gen';
-export { I18N_NAMESPACES, i18n } from './i18n';
+export { dayjs } from './i18n/dayjs';
+export { i18n } from './i18n/i18n';
 export type { IconComponent } from './icons';
 export {
   DEFAULT_LANGUAGE,
@@ -11,14 +10,17 @@ export {
   otherLanguages,
   type Language,
   type Localized,
-} from './languages';
-export { collectModules } from './collect-modules';
-export { defineItem } from './define';
-export { localize } from './localize';
-export { localeHref, localeHrefOf, type LocaleRoute, type LocaleRouteRef } from './href';
-export { isNoindex, languagePaths, SITE } from './site';
-export { IS_PRODUCTION } from './stage';
-export type { Url } from './scalars';
+} from './i18n/languages';
+export { collectModules } from './content/collect-modules';
+export { defineItem } from './content/define';
+export { localize } from './i18n/localize';
+export { localeHref, localeHrefOf, type LocaleRoute, type LocaleRouteRef } from './routing/href';
+export { languagePaths } from './routing/language-paths';
+export { isNoindex } from './routing/noindex';
+export { robotsTxt } from './routing/robots';
+export { SITE } from './routing/site';
+export { IS_PRODUCTION, SHOW_DEVTOOLS } from './env';
+export type { Url } from './url';
 export {
   byStartDesc,
   formatPeriod,
@@ -26,15 +28,4 @@ export {
   yearMonthKey,
   type YearMonth,
   type YearOrMonth,
-} from './year-month';
-export {
-  DEFAULT_THEME,
-  SYSTEM_DARK_QUERY,
-  THEME_MODES,
-  applyTheme,
-  nextTheme,
-  resolveTheme,
-  setTheme,
-  subscribeTheme,
-  type ThemeMode,
-} from './theme';
+} from './content/year-month';

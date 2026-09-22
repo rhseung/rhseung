@@ -23,3 +23,7 @@ export function yearMonthKey(value: YearOrMonth): number {
 export function byStartDesc(a: { start: YearOrMonth }, b: { start: YearOrMonth }): number {
   return yearMonthKey(b.start) - yearMonthKey(a.start);
 }
+
+export function endsAfterStart(entry: { start: YearOrMonth; end?: YearOrMonth }): boolean {
+  return entry.end === undefined || yearMonthKey(entry.end) >= yearMonthKey(entry.start);
+}

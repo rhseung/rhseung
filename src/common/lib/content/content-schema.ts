@@ -1,8 +1,6 @@
 import { z } from 'zod';
 
-import { yearMonthKey, type YearOrMonth } from './year-month';
-
-import type { Url } from './scalars';
+import type { Url } from '../url';
 
 export const SUMMARY_MAX = 200;
 
@@ -23,7 +21,3 @@ export const yearOrMonth = z.strictObject({
   year,
   month: z.number().int().min(1).max(12).optional(),
 });
-
-export function endsAfterStart(entry: { start: YearOrMonth; end?: YearOrMonth }): boolean {
-  return entry.end === undefined || yearMonthKey(entry.end) >= yearMonthKey(entry.start);
-}
