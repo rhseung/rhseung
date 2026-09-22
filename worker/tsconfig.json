@@ -1,6 +1,4 @@
 {
-  // 워커는 DOM 이 아니라 workerd 위에서 돈다. 루트 tsconfig 의 `lib: DOM` 과 같은 프로그램에
-  // 두면 Request·Response 정의가 충돌해서, 여기만 따로 본다.
   "include": ["**/*.ts"],
   "compilerOptions": {
     "target": "ES2022",

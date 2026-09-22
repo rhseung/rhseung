@@ -1,6 +1,4 @@
 {
-  // `.storybook`은 명시적 glob이 필요하다 - 아니면 tsc가 점 디렉토리를 건너뛴다.
-  // `.astro` 파일은 tsc가 아니라 `astro check`가 본다 (astro/tsconfigs가 그 통합을 담당).
   "include": [
     ".astro/types.d.ts",
     "src",
@@ -17,7 +15,6 @@
     "module": "ESNext",
     "jsx": "react-jsx",
 
-    /* 번들러 모드 */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
@@ -25,7 +22,6 @@
     "isolatedModules": true,
     "noEmit": true,
 
-    /* 린팅 */
     "skipLibCheck": true,
     "strict": true,
     "noUnusedLocals": true,
@@ -33,10 +29,8 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    // `astro/client`는 `.astro`가 아닌 `.ts`/`.tsx`에서 에셋 import 등을 타입으로 알게 한다.
     "types": ["astro/client", "vite/client", "node"],
 
-    // `baseUrl` 없음 - TS 6에서 deprecate됐다. `paths`는 이 파일 기준으로 해석된다.
     "paths": {
       "@/*": ["./src/*"],
       "styled-system/*": ["./styled-system/*"]

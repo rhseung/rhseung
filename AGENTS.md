@@ -122,6 +122,11 @@ id 모양은 `<slug>/<lang>`이고, 그 파싱은 `.astro` frontmatter가 아니
 돌아서 그것을 못 잡고 배포 빌드만 깨진다. 로직을 라우트 밖으로 옮기고 거기서 테스트한다.
 lint가 막는다.
 
+**dev와 preview에는 worker가 없다.** `astro.config.ts`가 `faviconResponse`를 middleware로
+물려 로컬에서도 같은 화면이 나오게 한다. 그 hook은 **값을 돌려주면 안 된다.** Vite가 반환값을
+post hook으로 보는데 connect app은 그 자체가 함수라, `use()`의 반환을 그대로 돌려주면 Vite가
+인자 없이 호출해서 터진다.
+
 `_islands/`가 `pages/` 바깥이 아니라 안에 있는 이유: 아일랜드는 항상 페이지 하나에 딸린
 라우팅 글루라서, `common/`, `features/`처럼 독립된 도메인 코드와 나란히 두면 오히려
 관계가 안 보인다. `_` 접두사가 없으면 Astro가 "Unsupported file type in pages directory"
@@ -448,6 +453,12 @@ locale JSON은 손으로 만들지 않는다. `t()`를 쓰고 `bun run gen:i18n`
   으로 돌고(`@vitest/browser-playwright`), `play()`가 있으면 interaction test가 된다. a11y
   위반은 실패다.
 - 순수 로직만 `*.test.ts`로 쓴다(jsdom project).
+- **`.storybook/decorators.tsx`의 함정 둘.** decorator 함수 안에서 hook을 직접 부르면 안 된다.
+  render 중에 호출된다는 보장이 없어서 컴포넌트로 한 겹 감싼다. 그리고 URL 상태는 진짜
+  adapter가 아니라 `NuqsTestingAdapter`를 쓴다. 진짜 adapter는 iframe의 query를 고쳐서 story
+  사이에 상태가 샌다.
+- `preview.tsx`가 `localStorage`에 언어 제안 dismiss를 심는다. 안 심으면 돌리는 기계의 브라우저
+  언어에 따라 제안이 떴다 말았다 해서 시각 회귀를 볼 수 없다.
 - **e2e는 dev가 아니라 빌드 결과물(`astro preview`)을 상대로 돈다.** RSS와 sitemap과 PDF 같은
   빌드 산출물을 검사하고, dev daemon과 port를 다투지 않기 위해서다. `test:e2e`가 먼저 빌드한다.
 - e2e를 vitest browser mode로 옮길 수 없다. `javaScriptEnabled: false` context와

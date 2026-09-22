@@ -23,13 +23,11 @@ const preview: Preview = {
 
   parameters: {
     layout: 'centered',
-    // 위반이 있으면 vitest 실행이 실패한다.
     a11y: { test: 'error' },
     controls: { matchers: { color: /(background|color)$/i, date: /Date$/i } },
   },
 
   loaders: [
-    // 안 심으면 언어 제안이 실행하는 기계의 브라우저 언어에 따라 떴다 말았다 한다.
     () => {
       localStorage.setItem(LANGUAGE_SUGGESTION_DISMISSED_KEY, 'true');
     },
