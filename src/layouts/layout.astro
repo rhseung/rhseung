@@ -50,7 +50,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 
 const hidden = IS_PRODUCTION && wip;
 
-const noindex = isNoindex(canonical.pathname) || hidden;
+// 스테이징은 공개 URL 이다. robots.txt 가 크롤러를 막지만, 이미 알려진 URL 이 색인되는 건
+// 페이지 메타로만 막힌다.
+const noindex = !IS_PRODUCTION || isNoindex(canonical.pathname) || hidden;
 const ogImage = image ? new URL(image, Astro.site) : undefined;
 
 const summary = description ?? t(($) => $.site.description);
