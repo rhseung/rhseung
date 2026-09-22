@@ -4,5 +4,8 @@ default_provider = "1password"
 type = "1password"
 account = "https://my.1password.com/"
 
+# 항목 하나에 필드로 모은다. 회전할 때는 항목을 지우지 말고 그 필드만 갈아끼운다.
 [secrets]
-FONTS_TOKEN = { value = "op://Private/Fonts Token/token", description = "fine-grained PAT for reading MonoLisa font from private repository 'rhseung/rhseung-assets'", provider = "1password" }
+RENDER_TOKEN = { value = "op://Private/rhseung.me env/render_token", description = "shared secret for the Worker's /api/render-resume endpoint. the deploy task sends it as x-render-token", provider = "1password" }
+ACCESS_CLIENT_ID = { value = "op://Private/rhseung.me env/access_client_id", description = "Cloudflare Access service token for stg.rhseung.me. the renderer and the deploy smoke send it as CF-Access-Client-Id", provider = "1password" }
+ACCESS_CLIENT_SECRET = { value = "op://Private/rhseung.me env/access_client_secret", description = "secret paired with ACCESS_CLIENT_ID", provider = "1password" }

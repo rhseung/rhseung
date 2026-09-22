@@ -8,14 +8,66 @@ node = "24.21.0"
 disable_tools = ["hugo", "go", "ruby", "python", "nub"]
 
 [env]
-PUBLIC_ENABLE_MSW = "false"
 PUBLIC_DEVTOOLS = ""
 
 [tasks."cloudflare:build"]
 run = "bun install --frozen-lockfile && bun run build"
 
+# 배포 뒤에 PDF 를 굽는다. 빌드가 아니라 배포된 페이지를 찍어야 화면과 PDF 가 같은
+# 컴포넌트에서 나온다. 렌더가 실패하면 비영 종료해서 배포가 조용히 지나가지 않게 한다.
 [tasks."cloudflare:deploy"]
-run = 'wrangler deploy --env=""'
+env = { RESUME_ORIGIN = "https://www.rhseung.me" }
+run = """
+wrangler deploy --env=""
+mise run cloudflare:resume
+"""
 
 [tasks."cloudflare:deploy-staging"]
-run = "wrangler deploy --env staging"
+env = { RESUME_ORIGIN = "https://stg.rhseung.me" }
+run = """
+wrangler deploy --env staging
+mise run cloudflare:resume
+"""
+
+# mise 는 task 를 sh 로 돌린다. bash 전용인 `pipefail` 과 배열을 쓰지 않는다.
+[tasks."cloudflare:resume"]
+description = "배포된 사이트의 이력서를 PDF 로 굽고 실제로 나오는지 확인한다"
+run = """
+set -eu
+
+# staging 은 Cloudflare Access 뒤에 있고, 그 정책이 worker 자체에 붙어 있어서 경로로 우회할
+# 수 없다. 그래서 이 curl 들도 service token 을 지고 간다. production 에는 Access 가 없어서
+# 변수가 비고, 그때는 헤더 없이 그냥 간다.
+auth=""
+if [ -n "${ACCESS_CLIENT_ID:-}" ] && [ -n "${ACCESS_CLIENT_SECRET:-}" ]; then
+  auth="-H CF-Access-Client-Id:$ACCESS_CLIENT_ID -H CF-Access-Client-Secret:$ACCESS_CLIENT_SECRET"
+fi
+
+# 배포 직후에는 자산 전파가 덜 끝나 렌더가 실패할 수 있다. Browser Rendering 의
+# "새 브라우저 20초당 1개" 제한도 같은 창에 걸린다. 둘 다 기다리면 풀리므로 재시도한다.
+# `curl -f` 는 3xx 를 실패로 보지 않는다. Access 가 로그인으로 보내는 302 를 성공으로 읽으면
+# 렌더가 안 돌았는데도 통과한다. 그래서 상태 코드를 직접 본다.
+attempt=1
+while [ "$attempt" -le 3 ]; do
+  code=$(curl -sS -o /dev/null -w '%{http_code}' -X POST $auth -H "x-render-token: $RENDER_TOKEN" "$RESUME_ORIGIN/api/render-resume" || echo 000)
+  if [ "$code" = "200" ]; then
+    echo "렌더 완료"
+    break
+  fi
+  if [ "$attempt" -eq 3 ]; then
+    echo "렌더가 3번 다 실패했습니다 (마지막 응답 $code)" >&2
+    exit 1
+  fi
+  echo "렌더 실패($code), 25초 뒤 다시 시도합니다 ($attempt/3)" >&2
+  sleep 25
+  attempt=$((attempt + 1))
+done
+
+for lang in ko en; do
+  got=$(curl -sS $auth -o /dev/null -w '%{http_code} %{content_type}' "$RESUME_ORIGIN/resume-$lang.pdf")
+  case "$got" in
+    "200 application/pdf"*) echo "ok $RESUME_ORIGIN/resume-$lang.pdf" ;;
+    *) echo "$RESUME_ORIGIN/resume-$lang.pdf 가 [$got] 입니다" >&2; exit 1 ;;
+  esac
+done
+"""
