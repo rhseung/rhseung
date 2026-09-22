@@ -4,14 +4,12 @@ storybook-static
 playwright-report
 test-results
 coverage
+.wrangler
 
 # 생성물 — 생성기의 포맷을 그대로 둔다
 # .mise 는 mise.lock 이 digest 로 참조한다 - 포맷하면 무결성이 깨진다
 .mise
-src/api
-src/@types
+src/types/i18next.d.ts
+src/types/resources.d.ts
 styled-system
 **/*.gen.ts
-public/mockServiceWorker.js
-# Next.js가 `next dev`/`next build`마다 다시 쓴다(템플릿에 없으면 매칭 안 될 뿐이다)
-next-env.d.ts

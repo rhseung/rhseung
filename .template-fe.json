@@ -1,6 +1,6 @@
 {
   "template": "ssg",
-  "target": "vercel",
+  "target": "cloudflare",
   "name": "rhseung",
   "createdAt": "2026-08-17"
 }
