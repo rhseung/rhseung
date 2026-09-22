@@ -1,8 +1,9 @@
 ---
 import { NotFoundIsland } from '@/pages/_islands/not-found-island';
+import { DEFAULT_LANGUAGE } from '@/common/lib';
 import Layout from '@/layouts/layout.astro';
 ---
 
-<Layout lang="ko" title="404">
-  <NotFoundIsland client:load />
+<Layout lang={DEFAULT_LANGUAGE} title="404">
+  <NotFoundIsland lang={DEFAULT_LANGUAGE} client:load />
 </Layout>
