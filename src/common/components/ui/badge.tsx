@@ -6,7 +6,7 @@ import { techTone, type Tone } from '@/common/styles';
 
 import type { RecipeVariantProps, SystemStyleObject } from 'styled-system/types';
 
-export const badgeVariants = cva({
+const badgeVariants = cva({
   base: {
     display: 'inline-flex',
     h: '5',
