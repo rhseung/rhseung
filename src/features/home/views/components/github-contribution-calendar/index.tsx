@@ -42,12 +42,12 @@ function getMonthCols(weeks: ContributionDay[][]): MonthCol[] {
 export function GithubContributionCalendar({
   total,
   days,
-  builtAt,
+  builtOn,
 }: GithubContributionCalendar.Props) {
   const { t } = useTranslation('home');
 
   const pending = days.length === 0;
-  const cells = pending ? contributionWindow(new Date(builtAt)) : days;
+  const cells = pending ? contributionWindow(builtOn) : days;
 
   const weeks = chunk(cells, DAYS_IN_WEEK);
   const columns = { gridTemplateColumns: `repeat(${weeks.length}, minmax(${MIN_CELL}px, 1fr))` };
@@ -125,5 +125,5 @@ export function GithubContributionCalendar({
 }
 
 export declare namespace GithubContributionCalendar {
-  export type Props = Contributions & { builtAt: string };
+  export type Props = Contributions & { builtOn: string };
 }

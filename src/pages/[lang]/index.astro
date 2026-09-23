@@ -9,9 +9,9 @@ import Layout from '@/layouts/layout.astro';
 export function getStaticPaths() {
   const updatedAt = (() => {
     try {
-      return execSync('git log -1 --format=%cI').toString().trim();
+      return execSync('git log -1 --format=%cs').toString().trim();
     } catch {
-      return new Date().toISOString();
+      return new Date().toISOString().slice(0, 10);
     }
   })();
 

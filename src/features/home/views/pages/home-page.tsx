@@ -92,7 +92,7 @@ export function HomePage({ lang, updatedAt }: HomePage.Props) {
         </section>
         <section className={section}>
           <h2 className={heading}>{t(($) => $.sections.contributions)}</h2>
-          <GithubContributionCalendar total={total} days={days} builtAt={updatedAt} />
+          <GithubContributionCalendar total={total} days={days} builtOn={updatedAt} />
         </section>
 
         <section className={section}>

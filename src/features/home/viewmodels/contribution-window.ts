@@ -4,8 +4,8 @@ import type { ContributionDay } from '../models';
 
 const DAYS_IN_WEEK = 7;
 
-export function contributionWindow(today: Date = new Date()): ContributionDay[] {
-  const end = dayjs(today).startOf('day');
+export function contributionWindow(endDate: string): ContributionDay[] {
+  const end = dayjs(endDate);
   const start = end.subtract(1, 'year').subtract(dayjs(end).subtract(1, 'year').day(), 'day');
   const length = end.diff(start, 'day') + 1;
 
