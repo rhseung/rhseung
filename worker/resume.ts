@@ -3,11 +3,6 @@ import puppeteer from '@cloudflare/puppeteer';
 import { cacheControl, empty, MINUTE } from './http';
 import { LANGUAGES, type Language } from '../src/common/lib/i18n/languages';
 
-const TITLE: Record<Language, string> = {
-  ko: '류현승 - 이력서',
-  en: 'Hyunseung Ryu - Resume',
-};
-
 const key = (environment: string, lang: Language) => `resume/${environment}/${lang}.pdf`;
 
 export async function renderResumePdfs(
@@ -39,8 +34,6 @@ export async function renderResumePdfs(
       }
 
       await page.emulateMediaType('print');
-
-      await page.evaluate(`document.title = ${JSON.stringify(TITLE[lang])}`);
 
       const pdf = await page.pdf({
         format: 'A4',

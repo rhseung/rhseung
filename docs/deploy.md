@@ -146,10 +146,14 @@ secret은 `wrangler.jsonc`에 없어서 생성물에 들어가지 않는다. `wo
 
 ### worker는 DOM이 없다
 
-`tsc -p worker`가 루트와 따로 도는 이유이기도 하다(`AGENTS.md` §1). 그래서 Browser Rendering의
-`page.evaluate()`에 **함수가 아니라 문자열을 넘긴다.** 콜백은 브라우저 안에서 도는데 worker의
-`lib`에 DOM이 없어서 타입이 안 맞고, DOM을 넣으면 `Request`/`Response` 정의가
-`@cloudflare/workers-types`와 충돌한다.
+`tsc -p worker`가 루트와 따로 도는 이유다(`AGENTS.md` §1). DOM을 넣으면 `Request`/`Response`
+정의가 `@cloudflare/workers-types`와 충돌한다.
+
+그래서 Browser Rendering으로 연 페이지를 worker 쪽 코드로 고치려 들지 않는다. `page.evaluate()`
+콜백은 브라우저 안에서 도는데 worker의 `lib`에 DOM이 없어 타입이 안 맞고, 문자열로 넘기면
+타입 검사가 통째로 빠진다. **고칠 것이 있으면 페이지가 스스로 갖게 한다.** PDF의 document
+title을 worker에서 덮어쓰다가 locale JSON과 갈려서(`Resume` vs `Résumé`) 덮어쓰기를 지웠다.
+지금은 페이지의 `<title>`이 그대로 PDF metadata가 된다.
 
 ## 크롤러
 
