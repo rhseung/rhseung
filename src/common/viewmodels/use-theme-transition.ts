@@ -2,7 +2,7 @@ import { useCallback, useSyncExternalStore } from 'react';
 
 import { flushSync } from 'react-dom';
 
-import { nextTheme, resolveTheme, setTheme, subscribeTheme } from '@/common/lib';
+import { nextTheme, resolveTheme, setTheme, subscribeTheme } from './theme-store';
 
 const DURATION = 450;
 

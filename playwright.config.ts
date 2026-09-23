@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-import { DEFAULT_LANGUAGE, LANGUAGE_TAGS } from './src/common/lib/languages';
+import { DEFAULT_LANGUAGE, LANGUAGE_TAGS } from './src/common/lib/i18n/languages';
 
 const PORT = 4322;
 const baseURL = `http://localhost:${PORT}`;

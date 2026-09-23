@@ -8,14 +8,11 @@
  *   https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-gov-dynamic-subset.css
  *   폰트 파일: https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/packages/pretendard-gov/dist/web/variable/woff2-dynamic-subset/
  *
- * Monaspace Neon Var (OFL) v1.200 — MonoLisa 가 못 뜰 때의 코드 폴백. 가변축 wght/wdth/slnt:
- *   https://cdn.jsdelivr.net/gh/githubnext/monaspace@v1.200/fonts/webfonts/
- *
  * MonoLisa Code 3.000 (유료, EULA) — 웹폰트 패키지의 woff2 를 이름만 바꾼 것.
- *   파일은 커밋하지 않는다. `bun run gen:fonts` 가 private repo 에서 받아온다.
- *   토큰이 없으면 아래 두 `@font-face` 가 실패하고 Monaspace 로 떨어진다.
- *   `size-adjust` 는 그 Monaspace 와 x-height 를 맞춘 값이다(51.37/55.0). MonoLisa 는
- *   x-height 가 7% 큰 대신 cap 이 4% 작아서, 같은 `font-size` 에 더 크게 읽힌다.
+ *   파일은 커밋하지 않는다. `bun run gen:fonts` 가 R2 에서 받아온다. 못 받으면 아래 두
+ *   `@font-face` 가 실패하고 시스템 고정폭(`ui-monospace`)으로 떨어진다.
+ *   `size-adjust` 는 MonoLisa 의 x-height 가 커서 같은 `font-size` 에 크게 읽히는 것을
+ *   되돌린 값이다. 눈으로 맞춘 값이라 본문 크기를 바꾸면 다시 봐야 한다.
  * */
 
 @font-face {
@@ -40,14 +37,6 @@
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074,
     U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: 'Monaspace Neon Var';
-  font-style: normal;
-  font-weight: 200 800;
-  font-display: swap;
-  src: url(/fonts/monaspace-neon-var.woff2) format('woff2-variations');
 }
 /*
 Copyright (c) 2021 Kil Hyung-jin, with Reserved Font Name Pretendard.

@@ -7,14 +7,14 @@ dist
 .astro
 styled-system
 .wrangler
-.vercel
 
 # 생성물. `bun install` 의 postinstall 과 `bun run build` 가 `bun run gen` 으로 다시 만든다.
 # `src/locales` 는 여기 없다 - 키는 추출기가 만들지만 값(번역문)은 사람이 채운다.
-src/@types
-src/common/lib/favicon-hosts.gen.ts
-public/favicons
-public/resume-*.pdf
+# 폴더가 아니라 파일 이름으로 막는 이유: 같은 폴더에 손으로 쓴 선언이 같이 산다. 폴더를 막고
+# `!` 로 그것만 빼면, 손으로 쓴 파일 이름이 바뀔 때 조용히 추적에서 빠진다.
+src/types/i18next.d.ts
+src/types/resources.d.ts
+worker/env.d.ts
 
 # 유료 폰트. EULA 가 재배포를 막아 커밋하지 않는다 - `bun run gen:fonts` 가 받아온다.
 public/fonts/monolisa-*.woff2

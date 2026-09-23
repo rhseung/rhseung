@@ -9,6 +9,5 @@ export * from './kbd';
 export * from './popover';
 export * from './separator';
 export * from './sheet';
-export * from './toggle';
 export * from './toggle-group';
 export * from './tooltip';

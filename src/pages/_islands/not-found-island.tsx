@@ -1,10 +1,14 @@
 import { AppProviders, NotFound } from '@/common/components';
-import { DEFAULT_LANGUAGE } from '@/common/lib';
+import type { Language } from '@/common/lib';
 
-export function NotFoundIsland() {
+export function NotFoundIsland({ lang }: NotFoundIsland.Props) {
   return (
-    <AppProviders lang={DEFAULT_LANGUAGE}>
+    <AppProviders lang={lang}>
       <NotFound />
     </AppProviders>
   );
+}
+
+export declare namespace NotFoundIsland {
+  export type Props = { lang: Language };
 }

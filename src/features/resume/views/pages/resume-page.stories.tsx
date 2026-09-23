@@ -1,6 +1,6 @@
 import { awards, education, experience, skills } from '@/mocks/career';
+import { projects } from '@/mocks/projects';
 
-import { projects } from './fixtures';
 import { ResumePage } from './resume-page';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';

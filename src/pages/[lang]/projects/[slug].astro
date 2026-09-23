@@ -2,25 +2,18 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 
 import { ProjectDetailIsland } from '@/pages/_islands/project-detail-island';
-import { LANGUAGES } from '@/common/lib';
 import { awardsOf } from '@/features/career';
-import { projectsOf } from '@/features/projects';
+import { detailPaths, projectsOf } from '@/features/projects';
 import { mdxComponents } from '@/common/components';
 import Layout from '@/layouts/layout.astro';
 
 export async function getStaticPaths() {
   const entries: CollectionEntry<'projects'>[] = await getCollection('projects');
 
-  return entries.map((entry) => {
-    const [slug, lang] = entry.id.split('/') as [string, (typeof LANGUAGES)[number]];
-    const siblings = entries
-      .filter((other) => other.id.startsWith(`${slug}/`))
-      .map((other) => other.id.split('/')[1]);
-
-    const available = LANGUAGES.filter((other) => siblings.includes(other));
-
-    return { params: { lang, slug }, props: { lang, slug, entry, available } };
-  });
+  return detailPaths(entries).map(({ slug, lang, entry, available }) => ({
+    params: { lang, slug },
+    props: { lang, slug, entry, available },
+  }));
 }
 
 const { lang, slug, entry, available } = Astro.props;

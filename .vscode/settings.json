@@ -12,18 +12,14 @@
   "js/ts.tsdk.promptToUseWorkspaceVersion": true,
 
   "files.readonlyInclude": {
-    "**/routeTree.gen.ts": true,
-    "src/api/**": true,
-    "src/@types/**": true
-  },
-  "files.watcherExclude": {
-    "**/routeTree.gen.ts": true,
-    "**/src/api/**": true
+    "src/types/i18next.d.ts": true,
+    "src/types/resources.d.ts": true,
+    "worker/env.d.ts": true,
+    "styled-system/**": true
   },
   "search.exclude": {
-    "**/routeTree.gen.ts": true,
-    "**/src/api/**": true,
-    "**/bun.lock": true
+    "**/bun.lock": true,
+    "styled-system/**": true
   },
 
   "flow-icons.folders.associations": {
@@ -33,7 +29,11 @@
     "viewmodels": "hook",
     "views": "views",
     "models": "schema",
-    "_islands": "components"
+    "_islands": "components",
+    "routing": "routes",
+    "recipes": "theme",
+    "worker": "server",
+    "styled-system": "dist"
   },
 
   "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },

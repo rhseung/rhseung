@@ -1,26 +1,16 @@
-import { faker } from '@faker-js/faker';
-
-import { dayjs } from '@/common/lib';
+import { CONTRIBUTIONS } from '@/mocks/contributions';
 
 import { GithubContributionCalendar } from '.';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-faker.seed(20260821);
-
-const START = '2025-08-17';
-
-const days = Array.from({ length: 53 * 7 }, (_, index) => ({
-  date: dayjs(START).add(index, 'day').format('YYYY-MM-DD'),
-  count: faker.number.int({ min: 0, max: 40 }),
-  level: faker.number.int({ min: 0, max: 4 }),
-}));
+const BUILT_ON = '2026-09-22';
 
 const meta = {
   title: 'Home/GithubContributionCalendar',
   component: GithubContributionCalendar,
   parameters: { layout: 'padded' },
-  args: { total: 2980, days },
+  args: { total: CONTRIBUTIONS.total, days: CONTRIBUTIONS.days, builtOn: BUILT_ON },
 } satisfies Meta<typeof GithubContributionCalendar>;
 
 export default meta;

@@ -18,10 +18,6 @@ export function SheetTrigger({ ...props }: SheetPrimitive.Trigger.Props) {
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />;
 }
 
-export function SheetClose({ ...props }: SheetPrimitive.Close.Props) {
-  return <SheetPrimitive.Close data-slot="sheet-close" {...props} />;
-}
-
 const overlay = css({
   position: 'fixed',
   inset: '0',
@@ -146,12 +142,6 @@ const header = css({ display: 'flex', flexDirection: 'column', gap: '0.5', p: '4
 
 export function SheetHeader({ className, ...props }: React.ComponentProps<'div'>) {
   return <div data-slot="sheet-header" className={cx(header, className)} {...props} />;
-}
-
-const footer = css({ mt: 'auto', display: 'flex', flexDirection: 'column', gap: '2', p: '4' });
-
-export function SheetFooter({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div data-slot="sheet-footer" className={cx(footer, className)} {...props} />;
 }
 
 const title = css({ color: 'text', textStyle: 'md', fontWeight: 'medium' });

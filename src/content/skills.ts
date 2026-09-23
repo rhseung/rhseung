@@ -43,7 +43,7 @@ import {
   siVite,
 } from 'simple-icons';
 
-import type { Localized } from '@/common/lib/languages';
+import type { Localized } from '@/common/lib/i18n/languages';
 
 import type { SimpleIcon } from 'simple-icons';
 

@@ -1,10 +1,10 @@
 import { defineConfig, defineSemanticTokens } from '@pandacss/dev';
 import { preset } from '@pandacss/preset-panda';
 
-import { DEFAULT_THEME, THEME_MODES } from './src/common/lib/theme';
-import { globalCss } from './src/common/styles/global';
-import { PALETTES, type ColorRole } from './src/common/styles/palette';
-import { letterSpacings, textStyles } from './src/common/styles/text-styles';
+import { globalCss } from './src/common/styles/config/global';
+import { PALETTES, type ColorRole } from './src/common/styles/config/palette';
+import { letterSpacings, textStyles } from './src/common/styles/config/text-styles';
+import { DEFAULT_THEME, THEME_MODES } from './src/common/styles/config/theme';
 
 import type { SemanticTokens } from '@pandacss/dev';
 
@@ -64,7 +64,7 @@ export default defineConfig({
         fonts: {
           display: { value: "'Pretendard GOV Variable', sans-serif" },
           body: { value: "'Pretendard GOV Variable', sans-serif" },
-          mono: { value: "MonoLisaCode, 'Monaspace Neon Var', ui-monospace, monospace" },
+          mono: { value: 'MonoLisaCode, ui-monospace, monospace' },
           serif: { value: 'KaTeX_Main, serif' },
         },
         zIndex: {
