@@ -1,4 +1,5 @@
 /// <reference types="vitest/config" />
+import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -9,8 +10,46 @@ import { defineConfig } from 'vite';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
+const FAVICON = /^\/api\/favicon\/([^/?]+)/;
+const NO_FAVICON_HOST = 'example.com';
+
+const faviconStub = () => {
+  const middleware = (
+    request: { url?: string },
+    response: {
+      statusCode: number;
+      setHeader: (name: string, value: string) => void;
+      end: (chunk?: Buffer) => void;
+    },
+    next: () => void,
+  ) => {
+    const match = FAVICON.exec(request.url ?? '');
+
+    if (match === null) return next();
+
+    if (decodeURIComponent(match[1]) === NO_FAVICON_HOST) {
+      response.statusCode = 404;
+      response.end();
+      return;
+    }
+
+    response.statusCode = 200;
+    response.setHeader('content-type', 'image/png');
+    response.end(readFileSync(path.join(dirname, 'public/icons/favicon.png')));
+  };
+
+  type Server = { middlewares: { use: (fn: typeof middleware) => void } };
+
+  return {
+    name: 'favicon-stub',
+    configureServer(server: Server) {
+      server.middlewares.use(middleware);
+    },
+  };
+};
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), faviconStub()],
 
   resolve: {
     alias: {

@@ -19,7 +19,7 @@ const meta = {
   title: 'Home/Pages/HomePage',
   component: HomePage,
   parameters: { layout: 'fullscreen' },
-  args: { lang: 'ko', updatedAt: '2026-08-19T00:00:00.000Z' },
+  args: { lang: 'ko', updatedOn: '2026-08-19' },
   decorators: [
     (Story) => (
       <WithContributions>

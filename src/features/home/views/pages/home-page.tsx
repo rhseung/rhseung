@@ -46,7 +46,7 @@ const signature = css({
   bg: 'text.muted',
 });
 
-export function HomePage({ lang, updatedAt }: HomePage.Props) {
+export function HomePage({ lang, updatedOn }: HomePage.Props) {
   const { t } = useTranslation('home');
   const { total, days } = useContributions();
   const shell = page();
@@ -92,7 +92,7 @@ export function HomePage({ lang, updatedAt }: HomePage.Props) {
         </section>
         <section className={section}>
           <h2 className={heading}>{t(($) => $.sections.contributions)}</h2>
-          <GithubContributionCalendar total={total} days={days} builtOn={updatedAt} />
+          <GithubContributionCalendar total={total} days={days} builtOn={updatedOn} />
         </section>
 
         <section className={section}>
@@ -168,7 +168,7 @@ export function HomePage({ lang, updatedAt }: HomePage.Props) {
           </p>
           <p>
             {t(($) => $.footer.updated)}{' '}
-            <span className={css({ color: 'text' })}>{dayjs(updatedAt).format('ll')}</span>
+            <span className={css({ color: 'text' })}>{dayjs(updatedOn).format('ll')}</span>
           </p>
         </div>
 
@@ -187,6 +187,6 @@ export function HomePage({ lang, updatedAt }: HomePage.Props) {
 export declare namespace HomePage {
   export type Props = {
     lang: Language;
-    updatedAt: string;
+    updatedOn: string;
   };
 }

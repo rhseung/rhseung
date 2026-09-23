@@ -7,7 +7,7 @@ import { languagePaths, SITE } from '@/common/lib';
 import Layout from '@/layouts/layout.astro';
 
 export function getStaticPaths() {
-  const updatedAt = (() => {
+  const updatedOn = (() => {
     try {
       return execSync('git log -1 --format=%cs').toString().trim();
     } catch {
@@ -15,12 +15,12 @@ export function getStaticPaths() {
     }
   })();
 
-  return languagePaths().map((path) => ({ ...path, props: { ...path.props, updatedAt } }));
+  return languagePaths().map((path) => ({ ...path, props: { ...path.props, updatedOn } }));
 }
 
-const { lang, updatedAt } = Astro.props;
+const { lang, updatedOn } = Astro.props;
 ---
 
 <Layout lang={lang} title={SITE.title} route={{ to: '/[lang]' }}>
-  <HomeIsland lang={lang} updatedAt={updatedAt} client:load />
+  <HomeIsland lang={lang} updatedOn={updatedOn} client:load />
 </Layout>

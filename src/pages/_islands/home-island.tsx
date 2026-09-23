@@ -1,10 +1,10 @@
 import { AppProviders } from '@/common/components';
 import { HomePage } from '@/features/home';
 
-export function HomeIsland({ lang, updatedAt }: HomeIsland.Props) {
+export function HomeIsland({ lang, updatedOn }: HomeIsland.Props) {
   return (
     <AppProviders lang={lang}>
-      <HomePage lang={lang} updatedAt={updatedAt} />
+      <HomePage lang={lang} updatedOn={updatedOn} />
     </AppProviders>
   );
 }

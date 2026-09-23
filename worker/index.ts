@@ -24,7 +24,9 @@ export default {
 
       const response = await faviconResponse(decodeURIComponent(favicon[1]));
 
-      if (response.ok) ctx.waitUntil(cache.put(request, response.clone()));
+      if (response.ok || response.status === 404) {
+        ctx.waitUntil(cache.put(request, response.clone()));
+      }
 
       return response;
     }

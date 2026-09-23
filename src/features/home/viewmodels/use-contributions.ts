@@ -6,7 +6,7 @@ import { CONTRIBUTIONS_API, NO_CONTRIBUTIONS, type Contributions } from '../mode
 
 const ONE_HOUR = 60 * 60 * 1000;
 
-export async function fetchContributions(): Promise<Contributions> {
+async function fetchContributions(): Promise<Contributions> {
   const response = await fetch(CONTRIBUTIONS_API);
   if (!response.ok) throw new Error(`잔디 응답이 ${response.status}다`);
 

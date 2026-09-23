@@ -1,3 +1,5 @@
+import { expect } from 'storybook/test';
+
 import { buttonVariants } from '@/common/components';
 
 import { ExternalLink } from '.';
@@ -23,8 +25,20 @@ export const AsButton: Story = {
 
 export const WithFavicon: Story = {
   args: { href: 'https://nodejs.org/', children: 'nodejs.org', showFavicon: true },
+  play: async () => {
+    const response = await fetch('/api/favicon/nodejs.org');
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get('content-type')).toBe('image/png');
+  },
 };
 
 export const FaviconMissing: Story = {
   args: { href: 'https://example.com/', children: 'example.com', showFavicon: true },
+  play: async () => {
+    const response = await fetch('/api/favicon/example.com');
+
+    expect(response.status).toBe(404);
+    expect(await response.text()).toBe('');
+  },
 };
