@@ -30,7 +30,6 @@ export default defineConfig({
     stdout: 'ignore',
     stderr: 'pipe',
     env: {
-      PUBLIC_ENABLE_MSW: 'false',
       ASTRO_DEV_BACKGROUND: '0',
       ASTRO_PREVIEW_BACKGROUND: '0',
     },

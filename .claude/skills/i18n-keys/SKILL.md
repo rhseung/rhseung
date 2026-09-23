@@ -71,9 +71,9 @@ bun run i18n:lint                                              # 하드코딩 �
 
 ## `enableSelector`를 끄고 싶으면
 
-`src/@types/i18next.d.ts`를 열어서 고치지 않는다 — 이미 존재하는 파일은 i18next-cli가
+`src/types/i18next.d.ts`를 열어서 고치지 않는다 — 이미 존재하는 파일은 i18next-cli가
 다시 쓰지 않는다(최초 생성 시에만 `i18next.config.ts`의 `types.enableSelector`를 반영한다).
-`i18next.config.ts`를 고치고 `rm src/@types/i18next.d.ts && bun run gen:i18n`.
+`i18next.config.ts`를 고치고 `rm src/types/i18next.d.ts && bun run gen:i18n`.
 
 ## 날짜
 

@@ -198,7 +198,7 @@ feature 안에 두면 그 폴더의 계층 규칙(`models`/`viewmodels`/`views`)
   `localeHref(lang, '/[lang]/<route>')`의 오타는 컴파일 에러.
 - 독(하단 내비)에 넣으려면 `src/common/viewmodels/use-site-sections.ts`의 `SECTIONS`에 한
   줄 - `key`는 라우트 유니온으로 좁혀져 있고 라벨은 `common:nav.<key>` 다.
-- 색인에서 뺄 라우트는 `src/common/lib/routing/site.ts`의 `NOINDEX_ROUTES`.
+- 색인에서 뺄 라우트는 `src/common/lib/routing/noindex.ts`의 `NOINDEX_ROUTES`.
 
 ## MDX 컴포넌트
 

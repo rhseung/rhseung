@@ -6,7 +6,8 @@ const DAYS_IN_WEEK = 7;
 
 export function contributionWindow(endDate: string): ContributionDay[] {
   const end = dayjs(endDate);
-  const start = end.subtract(1, 'year').subtract(dayjs(end).subtract(1, 'year').day(), 'day');
+  const yearAgo = end.subtract(1, 'year');
+  const start = yearAgo.subtract(yearAgo.day(), 'day');
   const length = end.diff(start, 'day') + 1;
 
   return Array.from({ length }, (_, index) => ({
