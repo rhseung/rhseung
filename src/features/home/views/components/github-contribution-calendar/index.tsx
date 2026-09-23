@@ -6,12 +6,11 @@ import { token } from 'styled-system/tokens';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/common/components';
 import { dayjs } from '@/common/lib';
 
-import { contributionWindow } from '../../../viewmodels';
+import { contributionWindow, DAYS_IN_WEEK } from '../../../viewmodels';
 
 import type { ContributionDay, Contributions } from '../../../viewmodels';
 import type { Dayjs } from 'dayjs';
 
-const DAYS_IN_WEEK = 7;
 const MIN_CELL = 10;
 const MIN_LABEL_WEEKS = 3;
 const LEVEL_COLORS = [
@@ -40,11 +39,15 @@ function getMonthCols(weeks: ContributionDay[][]): MonthCol[] {
   return cols;
 }
 
-export function GithubContributionCalendar({ total, days }: GithubContributionCalendar.Props) {
+export function GithubContributionCalendar({
+  total,
+  days,
+  builtAt,
+}: GithubContributionCalendar.Props) {
   const { t } = useTranslation('home');
 
   const pending = days.length === 0;
-  const cells = pending ? contributionWindow() : days;
+  const cells = pending ? contributionWindow(new Date(builtAt)) : days;
 
   const weeks = chunk(cells, DAYS_IN_WEEK);
   const columns = { gridTemplateColumns: `repeat(${weeks.length}, minmax(${MIN_CELL}px, 1fr))` };
@@ -122,5 +125,5 @@ export function GithubContributionCalendar({ total, days }: GithubContributionCa
 }
 
 export declare namespace GithubContributionCalendar {
-  export type Props = Contributions;
+  export type Props = Contributions & { builtAt: string };
 }

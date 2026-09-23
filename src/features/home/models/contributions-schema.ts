@@ -16,4 +16,5 @@ export const upstreamSchema = z
     total: z.object({ lastYear: z.number() }),
     contributions: z.array(day),
   })
-  .transform((response) => ({ total: response.total.lastYear, days: response.contributions }));
+  .transform((response) => ({ total: response.total.lastYear, days: response.contributions }))
+  .pipe(contributionsSchema);

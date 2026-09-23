@@ -8,10 +8,13 @@ const TITLE: Record<Language, string> = {
   en: 'Hyunseung Ryu - Resume',
 };
 
-const key = (lang: Language) => `resume/${lang}.pdf`;
+const key = (environment: string, lang: Language) => `resume/${environment}/${lang}.pdf`;
 
 export async function renderResumePdfs(
-  env: Pick<Env, 'BROWSER' | 'ASSET_STORE' | 'ACCESS_CLIENT_ID' | 'ACCESS_CLIENT_SECRET'>,
+  env: Pick<
+    Env,
+    'BROWSER' | 'ASSET_STORE' | 'ENVIRONMENT' | 'ACCESS_CLIENT_ID' | 'ACCESS_CLIENT_SECRET'
+  >,
   origin: string,
 ): Promise<string[]> {
   const browser = await puppeteer.launch(env.BROWSER);
@@ -46,11 +49,11 @@ export async function renderResumePdfs(
         margin: { top: '16mm', right: '16mm', bottom: '16mm', left: '16mm' },
       });
 
-      await env.ASSET_STORE.put(key(lang), pdf, {
+      await env.ASSET_STORE.put(key(env.ENVIRONMENT, lang), pdf, {
         httpMetadata: { contentType: 'application/pdf' },
       });
 
-      written.push(key(lang));
+      written.push(key(env.ENVIRONMENT, lang));
       await page.close();
     }
 
@@ -60,8 +63,11 @@ export async function renderResumePdfs(
   }
 }
 
-export async function resumeResponse(bucket: R2Bucket, lang: Language): Promise<Response> {
-  const object = await bucket.get(key(lang));
+export async function resumeResponse(
+  env: Pick<Env, 'ASSET_STORE' | 'ENVIRONMENT'>,
+  lang: Language,
+): Promise<Response> {
+  const object = await env.ASSET_STORE.get(key(env.ENVIRONMENT, lang));
 
   if (object === null) return empty(404);
 

@@ -5,6 +5,7 @@
   // Browser Rendering 이 node 내장 모듈을 쓴다.
   "compatibility_flags": ["nodejs_compat"],
   "browser": { "binding": "BROWSER" },
+  "vars": { "ENVIRONMENT": "production" },
   "r2_buckets": [{ "binding": "ASSET_STORE", "bucket_name": "rhseung-assets" }],
   "kv_namespaces": [{ "binding": "CONTRIBUTIONS", "id": "7637c9df043c46cbb73be39db42b52a3" }],
   "triggers": { "crons": ["17 * * * *"] },
@@ -31,6 +32,7 @@
     "staging": {
       "routes": [{ "pattern": "stg.rhseung.me", "custom_domain": true }],
       "browser": { "binding": "BROWSER" },
+      "vars": { "ENVIRONMENT": "staging" },
       "r2_buckets": [{ "binding": "ASSET_STORE", "bucket_name": "rhseung-assets" }],
       // KV 는 프로덕션과 같은 것을 읽는다. 데이터가 같아서 나눌 이유가 없다.
       "kv_namespaces": [{ "binding": "CONTRIBUTIONS", "id": "7637c9df043c46cbb73be39db42b52a3" }],

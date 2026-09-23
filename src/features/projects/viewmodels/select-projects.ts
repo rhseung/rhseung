@@ -58,12 +58,6 @@ export function projectLinks(project: Project): { kind: ProjectLinkKind; href: s
   });
 }
 
-export function detailSlugs(entries: readonly { id: string }[], lang: Language): Set<string> {
-  return new Set(
-    entries.filter((entry) => entry.id.endsWith(`/${lang}`)).map((entry) => entry.id.split('/')[0]),
-  );
-}
-
 export function detailPaths<E extends { id: string }>(
   entries: readonly E[],
 ): { slug: string; lang: Language; entry: E; available: Language[] }[] {
@@ -79,4 +73,12 @@ export function detailPaths<E extends { id: string }>(
 
     return { slug, lang, entry, available };
   });
+}
+
+export function detailSlugs(entries: readonly { id: string }[], lang: Language): Set<string> {
+  return new Set(
+    detailPaths(entries)
+      .filter((entry) => entry.lang === lang)
+      .map((entry) => entry.slug),
+  );
 }

@@ -184,6 +184,10 @@ Crawlers")이 맡는다. 무료 플랜에 들어 있고 코드가 필요 없다.
 
 staging은 Cloudflare Access 뒤라 크롤러가 애초에 닿지 못한다. robots.txt는 이중 방어다.
 
+**production이 아닌 배포는 페이지마다 `noindex`도 단다.** robots.txt는 크롤링을 막지만, 이미
+알려진 URL이 색인되는 것은 페이지 meta로만 막힌다. `layout.astro`가 `!IS_PRODUCTION`일 때
+전부 붙인다.
+
 ### 쓰지 않기로 한 제품
 
 Cloudflare로 올인원하면서 한 번씩 후보에 올렸다가 뺀 것들이다. 다시 올라올 때 처음부터

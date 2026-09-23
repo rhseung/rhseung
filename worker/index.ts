@@ -38,7 +38,7 @@ export default {
     const resume = RESUME.exec(pathname);
 
     if (resume !== null && isLanguage(resume[1])) {
-      return resumeResponse(env.ASSET_STORE, resume[1]);
+      return resumeResponse(env, resume[1]);
     }
 
     if (pathname === '/api/render-resume') {
