@@ -1,4 +1,4 @@
-import { expect } from 'storybook/test';
+import { expect, waitFor, within } from 'storybook/test';
 
 import { buttonVariants } from '@/common/components';
 
@@ -25,20 +25,26 @@ export const AsButton: Story = {
 
 export const WithFavicon: Story = {
   args: { href: 'https://nodejs.org/', children: 'nodejs.org', showFavicon: true },
-  play: async () => {
-    const response = await fetch('/api/favicon/nodejs.org');
+  play: async ({ canvasElement }) => {
+    const object = within(canvasElement).getByText('nodejs.org').querySelector('object');
 
-    expect(response.status).toBe(200);
-    expect(response.headers.get('content-type')).toBe('image/png');
+    expect(object).toHaveAttribute('data', '/api/favicon/nodejs.org');
+
+    const fallback = () => object?.querySelector('svg')?.getBoundingClientRect().width;
+    await waitFor(() => expect(fallback()).toBe(0));
+
+    expect((await fetch('/api/favicon/nodejs.org')).headers.get('content-type')).toBe('image/png');
   },
 };
 
 export const FaviconMissing: Story = {
   args: { href: 'https://example.com/', children: 'example.com', showFavicon: true },
-  play: async () => {
-    const response = await fetch('/api/favicon/example.com');
+  play: async ({ canvasElement }) => {
+    const object = within(canvasElement).getByText('example.com').querySelector('object');
 
-    expect(response.status).toBe(404);
-    expect(await response.text()).toBe('');
+    expect(object).toHaveAttribute('data', '/api/favicon/example.com');
+
+    const fallback = () => object?.querySelector('svg')?.getBoundingClientRect().width;
+    await waitFor(() => expect(fallback()).toBeGreaterThan(0));
   },
 };
