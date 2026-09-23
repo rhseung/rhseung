@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -6,25 +6,9 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { NuqsAdapter } from 'nuqs/adapters/react';
 import { I18nextProvider } from 'react-i18next';
 
-import { i18n, type Language } from '@/common/lib';
+import { i18n, SHOW_DEVTOOLS, type Language } from '@/common/lib';
 
-import '@/common/lib/dayjs';
-
-const showDevtools = import.meta.env.PUBLIC_DEVTOOLS === '1';
-
-let mockingReady: Promise<void> | null = null;
-
-function ensureMocking(): Promise<void> {
-  if (import.meta.env.PUBLIC_ENABLE_MSW !== 'true') {
-    mockingReady ??= import('@/mocks/unregister').then(({ unregisterStaleWorker }) =>
-      unregisterStaleWorker(),
-    );
-    return mockingReady;
-  }
-
-  mockingReady ??= import('@/mocks/browser').then(({ startMocks }) => startMocks());
-  return mockingReady;
-}
+import '@/common/lib/i18n/dayjs';
 
 export function AppProviders({ lang, children }: AppProviders.Props) {
   const [queryClient] = useState(
@@ -33,16 +17,12 @@ export function AppProviders({ lang, children }: AppProviders.Props) {
 
   if (i18n.language !== lang) void i18n.changeLanguage(lang);
 
-  useEffect(() => {
-    void ensureMocking();
-  }, []);
-
   return (
     <QueryClientProvider client={queryClient}>
       <I18nextProvider i18n={i18n}>
         <NuqsAdapter>{children}</NuqsAdapter>
       </I18nextProvider>
-      {showDevtools && <ReactQueryDevtools buttonPosition="bottom-left" />}
+      {SHOW_DEVTOOLS && <ReactQueryDevtools buttonPosition="bottom-left" />}
     </QueryClientProvider>
   );
 }

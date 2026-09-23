@@ -1,27 +1,32 @@
-import { faker } from '@faker-js/faker';
+import type { ReactNode } from 'react';
 
-import { dayjs } from '@/common/lib';
+import { useQueryClient } from '@tanstack/react-query';
+
+import { SITE } from '@/common/lib';
+import { CONTRIBUTIONS } from '@/mocks/contributions';
 
 import { HomePage } from '.';
 
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-faker.seed(20260821);
+function WithContributions({ children }: { children: ReactNode }) {
+  useQueryClient().setQueryData(['contributions', SITE.handle], CONTRIBUTIONS);
 
-const contributions = {
-  total: 2980,
-  days: Array.from({ length: 53 * 7 }, (_, index) => ({
-    date: dayjs('2025-08-17').add(index, 'day').format('YYYY-MM-DD'),
-    count: faker.number.int({ min: 0, max: 40 }),
-    level: faker.number.int({ min: 0, max: 4 }),
-  })),
-};
+  return children;
+}
 
 const meta = {
   title: 'Home/Pages/HomePage',
   component: HomePage,
   parameters: { layout: 'fullscreen' },
-  args: { lang: 'ko', updatedAt: '2026-08-19T00:00:00.000Z', contributions, fetchedAt: 0 },
+  args: { lang: 'ko', updatedOn: '2026-08-19' },
+  decorators: [
+    (Story) => (
+      <WithContributions>
+        <Story />
+      </WithContributions>
+    ),
+  ],
 } satisfies Meta<typeof HomePage>;
 
 export default meta;

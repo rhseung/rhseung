@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import { filled, slug } from '@/common/lib/content-schema';
+import { filled, slug } from '@/common/lib/content/content-schema';
 
 import { POST_ITEMS } from './index';
 

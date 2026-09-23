@@ -9,8 +9,6 @@ import { DEFAULT_LANGUAGE, i18n } from '@/common/lib';
 
 import type { Decorator } from '@storybook/react-vite';
 
-/** 데코레이터 안에서 훅을 직접 부르면 안 된다. 렌더 중에 호출된다는 보장이 없다. */
-
 function WithQueryClient({ children }: { children: ReactNode }) {
   const [client] = useState(
     () =>
@@ -42,7 +40,6 @@ export const withLocale: Decorator = (Story, context) => (
   </WithLocale>
 );
 
-/** 진짜 어댑터는 iframe 의 쿼리를 고쳐서 스토리 사이에 상태가 샌다. */
 export const withUrlState: Decorator = (Story) => (
   <NuqsTestingAdapter>
     <Story />

@@ -1,6 +1,6 @@
 import { countBy } from 'es-toolkit';
 
-import { byStartDesc } from '@/common/lib';
+import { byStartDesc, isLanguage, LANGUAGES, type Language } from '@/common/lib';
 
 import { PROJECT_LINK_KINDS, type Project, type ProjectLinkKind } from '../models';
 
@@ -56,4 +56,29 @@ export function projectLinks(project: Project): { kind: ProjectLinkKind; href: s
     const href = project.links?.[kind];
     return href ? [{ kind, href }] : [];
   });
+}
+
+export function detailPaths<E extends { id: string }>(
+  entries: readonly E[],
+): { slug: string; lang: Language; entry: E; available: Language[] }[] {
+  return entries.map((entry) => {
+    const separator = entry.id.lastIndexOf('/');
+    const slug = entry.id.slice(0, separator);
+    const lang = entry.id.slice(separator + 1);
+    if (!isLanguage(lang)) throw new Error(`${entry.id} 가 <slug>/<lang> 모양이 아닙니다`);
+
+    const available = LANGUAGES.filter((candidate) =>
+      entries.some((other) => other.id === `${slug}/${candidate}`),
+    );
+
+    return { slug, lang, entry, available };
+  });
+}
+
+export function detailSlugs(entries: readonly { id: string }[], lang: Language): Set<string> {
+  return new Set(
+    detailPaths(entries)
+      .filter((entry) => entry.lang === lang)
+      .map((entry) => entry.slug),
+  );
 }

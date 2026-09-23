@@ -1,6 +1,6 @@
 import { defineConfig } from 'i18next-cli';
 
-import { DEFAULT_LANGUAGE, LANGUAGES, otherLanguages } from './src/common/lib/languages';
+import { DEFAULT_LANGUAGE, LANGUAGES, otherLanguages } from './src/common/lib/i18n/languages';
 
 export default defineConfig({
   locales: [...LANGUAGES],
@@ -36,8 +36,8 @@ export default defineConfig({
 
   types: {
     input: [`src/locales/${DEFAULT_LANGUAGE}/*.json`],
-    output: 'src/@types/i18next.d.ts',
-    resourcesFile: 'src/@types/resources.d.ts',
+    output: 'src/types/i18next.d.ts',
+    resourcesFile: 'src/types/resources.d.ts',
     enableSelector: true,
   },
 });

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { projectHref, sortProjects } from './select-projects';
+import { detailPaths, detailSlugs, projectHref, sortProjects } from './select-projects';
 
 import type { Project } from '../models';
 
@@ -63,5 +63,49 @@ describe('projectHref', () => {
 
   it('갈 데가 없으면 null — 제목이 링크가 아니게 된다', () => {
     expect(projectHref(project({ slug: 'a' }), '/ko/projects/a/')).toBeNull();
+  });
+});
+
+describe('detailSlugs', () => {
+  const entries = [{ id: 'campass/ko' }, { id: 'campass/en' }, { id: 'rhseung-me/ko' }];
+
+  it('그 언어로 본문이 있는 슬러그만 고른다', () => {
+    expect(detailSlugs(entries, 'ko')).toEqual(new Set(['campass', 'rhseung-me']));
+    expect(detailSlugs(entries, 'en')).toEqual(new Set(['campass']));
+  });
+
+  it('본문이 하나도 없으면 빈 집합이다', () => {
+    expect(detailSlugs([], 'ko')).toEqual(new Set());
+  });
+});
+
+describe('detailPaths', () => {
+  const entries = [{ id: 'campass/ko' }, { id: 'campass/en' }, { id: 'rhseung-me/ko' }];
+
+  it('id 를 슬러그와 언어로 가른다', () => {
+    expect(detailPaths(entries).map(({ slug, lang }) => [slug, lang])).toEqual([
+      ['campass', 'ko'],
+      ['campass', 'en'],
+      ['rhseung-me', 'ko'],
+    ]);
+  });
+
+  it('같은 슬러그의 형제 언어를 LANGUAGES 순서로 모은다', () => {
+    const [campass, , alone] = detailPaths(entries);
+
+    expect(campass?.available).toEqual(['ko', 'en']);
+    expect(alone?.available).toEqual(['ko']);
+  });
+
+  it('엔트리를 그대로 들려 보낸다', () => {
+    expect(detailPaths(entries)[0]?.entry).toBe(entries[0]);
+  });
+
+  it('슬러그에 슬래시가 있어도 마지막 칸만 언어로 읽는다', () => {
+    expect(detailPaths([{ id: 'a/b/ko' }])[0]?.slug).toBe('a/b');
+  });
+
+  it('언어 칸이 아니면 던진다', () => {
+    expect(() => detailPaths([{ id: 'campass/fr' }])).toThrow('campass/fr');
   });
 });

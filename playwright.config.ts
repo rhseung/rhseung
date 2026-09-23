@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-import { DEFAULT_LANGUAGE, LANGUAGE_TAGS } from './src/common/lib/languages';
+import { DEFAULT_LANGUAGE, LANGUAGE_TAGS } from './src/common/lib/i18n/languages';
 
 const PORT = 4322;
 const baseURL = `http://localhost:${PORT}`;
@@ -30,7 +30,6 @@ export default defineConfig({
     stdout: 'ignore',
     stderr: 'pipe',
     env: {
-      PUBLIC_ENABLE_MSW: 'false',
       ASTRO_DEV_BACKGROUND: '0',
       ASTRO_PREVIEW_BACKGROUND: '0',
     },

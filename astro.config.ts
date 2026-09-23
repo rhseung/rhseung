@@ -8,8 +8,46 @@ import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 
 import { shikiConfig } from './src/common/components/mdx/code-block/shiki';
-import { DEFAULT_LANGUAGE, LANGUAGE_TAGS, LANGUAGES } from './src/common/lib/languages';
-import { isNoindex, SITE } from './src/common/lib/site';
+import { DEFAULT_LANGUAGE, LANGUAGE_TAGS, LANGUAGES } from './src/common/lib/i18n/languages';
+import { isNoindex } from './src/common/lib/routing/noindex';
+import { SITE } from './src/common/lib/routing/site';
+import { faviconResponse } from './worker/favicon';
+
+const FAVICON = /^\/api\/favicon\/([^/?]+)/;
+
+const faviconDevServer = () => {
+  const middleware = async (
+    request: { url?: string },
+    response: {
+      statusCode: number;
+      setHeader: (name: string, value: string) => void;
+      end: (chunk?: Buffer) => void;
+    },
+    next: () => void,
+  ) => {
+    const match = FAVICON.exec(request.url ?? '');
+
+    if (match === null) return next();
+
+    const result = await faviconResponse(decodeURIComponent(match[1]));
+
+    response.statusCode = result.status;
+    result.headers.forEach((value, name) => response.setHeader(name, value));
+    response.end(result.body === null ? undefined : Buffer.from(await result.arrayBuffer()));
+  };
+
+  type Server = { middlewares: { use: (fn: typeof middleware) => void } };
+
+  return {
+    name: 'favicon-dev-server',
+    configureServer(server: Server) {
+      server.middlewares.use(middleware);
+    },
+    configurePreviewServer(server: Server) {
+      server.middlewares.use(middleware);
+    },
+  };
+};
 
 export default defineConfig({
   site: SITE.url,
@@ -43,6 +81,7 @@ export default defineConfig({
   ],
 
   vite: {
+    plugins: [faviconDevServer()],
     resolve: {
       alias: {
         '@': new URL('./src', import.meta.url).pathname,

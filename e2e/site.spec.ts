@@ -39,15 +39,6 @@ test('번역이 없는 글은 영어 UI 에서 원문과 노티스를 보여준�
   await expect(page.getByRole('link', { name: 'All posts' })).toBeVisible();
 });
 
-test('이력서 PDF가 실제로 있다', async ({ request }) => {
-  for (const lang of ['ko', 'en']) {
-    const response = await request.get(`/resume-${lang}.pdf`);
-
-    expect(response.status()).toBe(200);
-    expect(response.headers()['content-type']).toContain('pdf');
-  }
-});
-
 // 이력서의 프로젝트 섹션은 projects 컬렉션에서 채워진다. 끊기면 통째로 사라진다.
 test('이력서가 각 컬렉션에서 채워진다', async ({ page }) => {
   await page.goto('/ko/resume/');

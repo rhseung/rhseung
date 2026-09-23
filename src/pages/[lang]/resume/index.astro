@@ -1,9 +1,9 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
 
-import { ResumeIsland } from '@/pages/_islands/resume-islands';
+import { ResumeIsland } from '@/pages/_islands/resume-island';
 import { i18n, languagePaths } from '@/common/lib';
-import { projectsOf, sortProjects } from '@/features/projects';
+import { detailSlugs, projectsOf, sortProjects } from '@/features/projects';
 import { awardsOf, educationOf, experienceOf, skillGroupsOf } from '@/features/career';
 import Layout from '@/layouts/layout.astro';
 
@@ -14,9 +14,7 @@ export function getStaticPaths() {
 const { lang } = Astro.props;
 
 const details: CollectionEntry<'projects'>[] = await getCollection('projects');
-const detailSlugs = new Set(
-  details.filter((entry) => entry.id.endsWith(`/${lang}`)).map((entry) => entry.id.split('/')[0]),
-);
+const slugsWithDetail = detailSlugs(details, lang);
 
 const t = i18n.getFixedT(lang, 'resume');
 ---
@@ -32,7 +30,7 @@ const t = i18n.getFixedT(lang, 'resume');
     lang={lang}
     experience={experienceOf(lang)}
     education={educationOf(lang)}
-    projects={sortProjects(projectsOf(lang, detailSlugs))}
+    projects={sortProjects(projectsOf(lang, slugsWithDetail))}
     awards={awardsOf(lang)}
     skills={skillGroupsOf(lang)}
     resumeHref={`/resume-${lang}.pdf`}

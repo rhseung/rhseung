@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 
-import { applyTheme, type ThemeMode } from '@/common/lib';
+import type { ThemeMode } from '@/common/styles/config/theme';
+import { applyTheme } from '@/common/viewmodels/theme-store';
 
 import source from './theme.js?raw';
 

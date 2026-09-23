@@ -1,8 +1,19 @@
 {
   "name": "rhseung",
+  "main": "worker/index.ts",
   "compatibility_date": "2026-09-21",
+  // Browser Rendering 이 node 내장 모듈을 쓴다.
+  "compatibility_flags": ["nodejs_compat"],
+  "browser": { "binding": "BROWSER" },
+  "vars": { "ENVIRONMENT": "production" },
+  "r2_buckets": [{ "binding": "ASSET_STORE", "bucket_name": "rhseung-assets" }],
+  "kv_namespaces": [{ "binding": "CONTRIBUTIONS", "id": "7637c9df043c46cbb73be39db42b52a3" }],
+  "triggers": { "crons": ["17 * * * *"] },
+  // `main` 이 있으면 자산에 없는 경로가 404 페이지 대신 워커로 온다.
+  // 워커가 `ASSETS.fetch` 로 넘겨야 `not_found_handling` 이 그대로 산다.
   "assets": {
     "directory": "./dist/",
+    "binding": "ASSETS",
     "not_found_handling": "404-page",
   },
   "observability": {
@@ -16,8 +27,18 @@
     { "pattern": "rhseung.me", "custom_domain": true },
   ],
   "env": {
+    // `routes` 와 달리 바인딩은 환경에 상속되지 않는다. 여기 다시 적지 않으면 staging 워커가
+    // `env.ASSETS` 만 갖고 뜨고, R2 를 만지는 순간 1101 로 죽는다.
     "staging": {
       "routes": [{ "pattern": "stg.rhseung.me", "custom_domain": true }],
+      "browser": { "binding": "BROWSER" },
+      "vars": { "ENVIRONMENT": "staging" },
+      "r2_buckets": [{ "binding": "ASSET_STORE", "bucket_name": "rhseung-assets" }],
+      // KV 는 프로덕션과 같은 것을 읽는다. 데이터가 같아서 나눌 이유가 없다.
+      "kv_namespaces": [{ "binding": "CONTRIBUTIONS", "id": "7637c9df043c46cbb73be39db42b52a3" }],
+      // `triggers` 는 바인딩과 달리 상속된다. 비워 두지 않으면 staging 도 같은 cron 을 받아
+      // 두 워커가 같은 KV key 를 번갈아 쓴다.
+      "triggers": { "crons": [] },
     },
   },
 }

@@ -6,10 +6,11 @@ import { token } from 'styled-system/tokens';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/common/components';
 import { dayjs } from '@/common/lib';
 
+import { contributionWindow, DAYS_IN_WEEK } from '../../../viewmodels';
+
 import type { ContributionDay, Contributions } from '../../../viewmodels';
 import type { Dayjs } from 'dayjs';
 
-const DAYS_IN_WEEK = 7;
 const MIN_CELL = 10;
 const MIN_LABEL_WEEKS = 3;
 const LEVEL_COLORS = [
@@ -38,12 +39,17 @@ function getMonthCols(weeks: ContributionDay[][]): MonthCol[] {
   return cols;
 }
 
-export function GithubContributionCalendar({ total, days }: GithubContributionCalendar.Props) {
+export function GithubContributionCalendar({
+  total,
+  days,
+  builtOn,
+}: GithubContributionCalendar.Props) {
   const { t } = useTranslation('home');
 
-  if (days.length === 0) return null;
+  const pending = days.length === 0;
+  const cells = pending ? contributionWindow(builtOn) : days;
 
-  const weeks = chunk(days, DAYS_IN_WEEK);
+  const weeks = chunk(cells, DAYS_IN_WEEK);
   const columns = { gridTemplateColumns: `repeat(${weeks.length}, minmax(${MIN_CELL}px, 1fr))` };
 
   return (
@@ -72,8 +78,8 @@ export function GithubContributionCalendar({ total, days }: GithubContributionCa
             className={css({ display: 'grid', gridAutoFlow: 'column', gap: '[3px]' })}
             style={{ ...columns, gridTemplateRows: `repeat(${DAYS_IN_WEEK}, auto)` }}
           >
-            {days.map(({ date, count, level }) => (
-              <Tooltip key={date}>
+            {cells.map(({ date, count, level }) => (
+              <Tooltip key={date} disabled={pending}>
                 <TooltipTrigger
                   render={
                     <div
@@ -100,7 +106,9 @@ export function GithubContributionCalendar({ total, days }: GithubContributionCa
           textStyle: 'caption',
         })}
       >
-        <span>{t(($) => $.contributions.total, { value: total })}</span>
+        <span style={pending ? { visibility: 'hidden' } : undefined}>
+          {t(($) => $.contributions.total, { value: total })}
+        </span>
 
         <span className={css({ ml: 'auto' })}>{t(($) => $.contributions.less)}</span>
         {LEVEL_COLORS.map((color) => (
@@ -117,5 +125,5 @@ export function GithubContributionCalendar({ total, days }: GithubContributionCa
 }
 
 export declare namespace GithubContributionCalendar {
-  export type Props = Contributions;
+  export type Props = Contributions & { builtOn: string };
 }

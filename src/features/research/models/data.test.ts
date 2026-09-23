@@ -1,14 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
 
-import {
-  endsAfterStart,
-  filled,
-  slug,
-  SUMMARY_MAX,
-  url,
-  validDate,
-} from '@/common/lib/content-schema';
+import { filled, slug, SUMMARY_MAX, url, validDate } from '@/common/lib/content/content-schema';
+import { endsAfterStart } from '@/common/lib/content/year-month';
 
 import { RESEARCH_KINDS, type ResearchItem } from './types';
 

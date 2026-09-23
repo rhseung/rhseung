@@ -10,8 +10,8 @@ import {
   researchLinks,
   useResearchLabels,
   type Research,
+  RESEARCH_LINK_ICON,
 } from '../../../viewmodels';
-import { RESEARCH_LINK_ICON } from '../link-icon';
 
 const article = css({
   display: 'flex',
