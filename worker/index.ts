@@ -12,7 +12,7 @@ async function cachedFaviconResponse(
   ctx: ExecutionContext,
   host: string,
 ): Promise<Response> {
-  const cache = caches.default;
+  const cache = await caches.open('favicon');
   const hit = await cache.match(request);
 
   if (hit !== undefined) return hit;

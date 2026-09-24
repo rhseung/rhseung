@@ -37,6 +37,12 @@
 이름을 바꾸면 쓰는 자리가 전부 compile error가 된다. secret은 설정 파일에 없으므로
 `worker/secrets.d.ts`가 같은 `Env` interface에 선언 병합으로 얹는다.
 
+**`caches.default`를 쓰지 않는다.** workers-types의 `CacheStorage`(`open`, `default`)와 DOM의
+`CacheStorage`(`match`, `has`, `open`, `delete`, `keys`)가 같은 이름이라, DOM이 섞인 program에서는
+`skipLibCheck`가 중복 선언 에러를 삼키고 **DOM 쪽이 이겨서 `default`만 사라진다.** `bunx tsc -p worker`는
+통과하는데 에디터에만 빨간 줄이 뜨는 모양으로 나온다. `caches.open(name)`은 양쪽에 같은 시그니처로
+있어서 어느 program에서 컴파일하든 산다.
+
 **생성물은 손대지 않고, 커밋하지도 않는다.** `src/types/i18next.d.ts`와 `resources.d.ts`,
 `worker/env.d.ts`, `public/resume-*.pdf`, `styled-system/`이 그렇다. 손으로 고치면 다음 `bun run gen`에 사라진다.
 `src/types/`는 폴더가 아니라 **파일 이름으로** ignore한다. 같은 폴더에 손으로 쓴 ambient
