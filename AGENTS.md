@@ -445,6 +445,10 @@ locale JSON은 손으로 만들지 않는다. `t()`를 쓰고 `bun run gen:i18n`
   화면을 못 읽는 사람에게 뜨므로 `영어`가 아니라 `English`여야 한다. 읽는 언어로 부르고
   싶으면 두 번째 인자를 준다(`languageName('en', 'ko')` -> `영어`). 값은
   `languages.test.ts`가 박아 둔다. ICU 데이터가 바뀌면 거기서 깨진다.
+- **hreflang은 지역 없이 `ko`, `en`이다.** `<head>`의 alternate와 sitemap이 같은 값을 쓴다.
+  `ko-KR`처럼 지역을 붙이면 "한국에 있는 한국어 사용자"로 좁아져서 그 바깥 사용자에게는 이
+  주석이 안 걸린다. 지역을 가려 내보내는 사이트가 아니다. `og:locale`만 `ko_KR` 꼴을 요구해서
+  거기에만 `languageTag`가 남는다.
 - **언어는 URL이 정한다.** 모든 route가 `/ko/` 또는 `/en/` 아래에 있고, `[lang]` parameter
   하나가 둘을 같이 낸다. 콘텐츠 route는 언어별로 굳어 있어서 crawler가 두 벌을 다 보고
   hreflang이 선다. 런타임 감지를 콘텐츠 route로 내리면 그게 무너진다.
