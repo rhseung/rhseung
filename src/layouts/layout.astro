@@ -14,6 +14,7 @@ import {
   languageTag,
   LANGUAGES,
   localeHrefOf,
+  pageSchema,
   SITE,
   type Language,
   type LocaleRouteRef,
@@ -61,31 +62,18 @@ const alternates =
     ? langs.map((other) => [other, localeHrefOf(other, route)] as const)
     : [];
 
-const author = { '@type': 'Person', name: t(($) => $.site.name), url: SITE.url };
-
 const documentTitle = title === SITE.title ? title : `${title} — ${SITE.title}`;
 
-const schema =
-  type === 'article'
-    ? {
-        '@context': 'https://schema.org',
-        '@type': 'BlogPosting',
-        headline: title,
-        description: summary,
-        datePublished: published,
-        inLanguage: lang,
-        mainEntityOfPage: canonical.href,
-        image: ogImage?.href,
-        author,
-      }
-    : {
-        '@context': 'https://schema.org',
-        '@type': 'WebSite',
-        name: SITE.title,
-        url: SITE.url,
-        inLanguage: lang,
-        author,
-      };
+const schema = pageSchema({
+  type,
+  lang,
+  title,
+  description: summary,
+  author: t(($) => $.site.name),
+  canonical: canonical.href,
+  published,
+  image: ogImage?.href,
+});
 ---
 
 <!doctype html>

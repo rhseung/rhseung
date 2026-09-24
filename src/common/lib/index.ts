@@ -19,6 +19,7 @@ export { localeHref, localeHrefOf, type LocaleRoute, type LocaleRouteRef } from 
 export { languagePaths } from './routing/language-paths';
 export { isNoindex } from './routing/noindex';
 export { robotsTxt } from './routing/robots';
+export { pageSchema, type PageSchema } from './routing/schema';
 export { SITE } from './routing/site';
 export { IS_PRODUCTION, SHOW_DEVTOOLS } from './env';
 export type { Url } from './url';
