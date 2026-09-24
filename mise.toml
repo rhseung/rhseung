@@ -29,35 +29,4 @@ mise run cloudflare:resume
 
 [tasks."cloudflare:resume"]
 description = "배포된 사이트의 이력서를 PDF 로 굽고 실제로 나오는지 확인한다"
-run = """
-set -eu
-
-auth=""
-if [ -n "${ACCESS_CLIENT_ID:-}" ] && [ -n "${ACCESS_CLIENT_SECRET:-}" ]; then
-  auth="-H CF-Access-Client-Id:$ACCESS_CLIENT_ID -H CF-Access-Client-Secret:$ACCESS_CLIENT_SECRET"
-fi
-
-attempt=1
-while [ "$attempt" -le 3 ]; do
-  code=$(curl -sS -o /dev/null -w '%{http_code}' -X POST $auth -H "x-render-token: $RENDER_TOKEN" "$RESUME_ORIGIN/api/render-resume" || echo 000)
-  if [ "$code" = "200" ]; then
-    echo "렌더 완료"
-    break
-  fi
-  if [ "$attempt" -eq 3 ]; then
-    echo "렌더가 3번 다 실패했습니다 (마지막 응답 $code)" >&2
-    exit 1
-  fi
-  echo "렌더 실패($code), 25초 뒤 다시 시도합니다 ($attempt/3)" >&2
-  sleep 25
-  attempt=$((attempt + 1))
-done
-
-for lang in ko en; do
-  got=$(curl -sS $auth -o /dev/null -w '%{http_code} %{content_type}' "$RESUME_ORIGIN/resume-$lang.pdf")
-  case "$got" in
-    "200 application/pdf"*) echo "ok $RESUME_ORIGIN/resume-$lang.pdf" ;;
-    *) echo "$RESUME_ORIGIN/resume-$lang.pdf 가 [$got] 입니다" >&2; exit 1 ;;
-  esac
-done
-"""
+run = "bun scripts/render-resume.ts"

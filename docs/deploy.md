@@ -32,6 +32,11 @@ Cloudflare 빌드 이미지는 자기 mise config에 `hugo`, `go`, `ruby`, `pyth
 있는데도 그렇다. 거기서 비정상 종료해 빌드가 통째로 실패한다. 덤으로 ruby 92MB, go 78MB를
 내려받지 않아서 빌드도 빨라진다. 로컬에는 그 도구들이 없으므로 껐을 때 잃는 것이 없다.
 
+**secret 은 1Password 항목 하나에 필드로 모은다.** `Private/rhseung.me env` 에
+`render_token`, `access_client_id`, `access_client_secret` 이 필드로 들어 있고 `fnox.toml` 이
+`op://` 참조로 가리킨다. **회전할 때는 항목을 지우지 말고 그 필드만 갈아끼운다** - 항목을
+새로 만들면 `fnox.toml` 의 참조 셋이 한꺼번에 끊긴다.
+
 **`fnox`는 여기 넣으면 안 된다.** `mise.toml`은 로컬과 CI가 같이 읽어서, 끄면 로컬에서
 secret이 나오지 않는다. CI에서 fnox를 설치하기는 하지만 쓰지는 않는다. R2 자격증명은
 worker 환경변수로 직접 준다.
