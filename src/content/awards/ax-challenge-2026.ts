@@ -1,4 +1,4 @@
-import { defineAward } from '@/features/career/models/define';
+import { defineAward } from '@/features/career/model/define';
 
 export default defineAward({
   slug: 'ax-challenge-2026',

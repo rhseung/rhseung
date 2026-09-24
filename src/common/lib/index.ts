@@ -18,6 +18,8 @@ export { acceptedLanguages, preferredLanguage } from './i18n/preferred-language'
 export { localeHref, localeHrefOf, type LocaleRoute, type LocaleRouteRef } from './routing/href';
 export { languagePaths } from './routing/language-paths';
 export { isNoindex } from './routing/noindex';
+export { pageHead, type PageHeadInput } from './routing/page-head';
+export { sectionOf, SITE_SECTIONS, type SiteSection } from './routing/sections';
 export { robotsTxt } from './routing/robots';
 export { pageSchema, type PageSchema } from './routing/schema';
 export { SITE } from './routing/site';

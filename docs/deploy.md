@@ -1,8 +1,7 @@
 # 배포와 도구 버전
 
 빌드와 배포가 어떻게 돌아가는지, 그리고 한 번씩 발을 헛디뎠던 자리를 적어 둔다.
-코드를 쓸 때 지켜야 하는 규칙은 `AGENTS.md`, 그 이유는 `docs/rationale.md`에 있다.
-여기는 사람이 배포를 만질 때 읽는다.
+코드를 쓸 때 지켜야 하는 규칙은 `AGENTS.md`에 있다. 여기는 사람이 배포를 만질 때 읽는다.
 
 ## 도구 버전 고정
 
@@ -147,7 +146,7 @@ secret은 `wrangler.jsonc`에 없어서 생성물에 들어가지 않는다. `wo
 
 ### worker는 DOM이 없다
 
-`tsc -p worker`가 루트와 따로 도는 이유다(`docs/rationale.md` §1). DOM을 넣으면 `Request`/`Response`
+`tsc -p worker`가 루트와 따로 도는 이유다(`AGENTS.md` §1). DOM을 넣으면 `Request`/`Response`
 정의가 `@cloudflare/workers-types`와 충돌한다.
 
 그래서 Browser Rendering으로 연 페이지를 worker 쪽 코드로 고치려 들지 않는다. `page.evaluate()`

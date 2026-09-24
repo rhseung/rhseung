@@ -1,4 +1,4 @@
-import { defineCareer } from '@/features/career/models/define';
+import { defineCareer } from '@/features/career/model/define';
 
 import logo from './logo.png?url';
 

@@ -1,8 +1,7 @@
 # 파일 기반 등록 구조
 
 이 저장소는 등록 목록 없이 **지정된 경로의 파일을 glob으로 수집하는** 구조다. 이 문서는 각
-등록 지점의 경로, 파일 형식, 수집 주체, 검증 수단을 정리한다. 규칙은 `AGENTS.md`, 그 근거는
-`docs/rationale.md`에 있다.
+등록 지점의 경로, 파일 형식, 수집 주체, 검증 수단을 정리한다. 규칙은 `AGENTS.md`에 있다.
 
 README는 GitHub 프로필 페이지이므로 이 문서를 별도로 둔다.
 
@@ -147,7 +146,7 @@ static import 인 이유는 `Tech` 리터럴 유니온을 유지하기 위해서
 
 ### 검증
 
-`bun run test`의 `models/data.test.ts` 들이 항목마다 본다 - 스키마가 모르는 필드(strict),
+`bun run test`의 `model/data.test.ts` 들이 항목마다 본다 - 스키마가 모르는 필드(strict),
 슬러그 중복, 끝 날짜가 시작보다 이른 것, 프로젝트가 가리키는 수상 슬러그, `stack` 이름,
 같은 기술이 두 그룹에 있는 것. 나오는 곳은 `/career`, `/resume`(경력, 학력, 수상, 기술),
 `/projects`, `/research`, `/blog` 다.
@@ -172,8 +171,8 @@ static import 인 이유는 `Tech` 리터럴 유니온을 유지하기 위해서
 
 `src/types/`는 ambient 선언이 모이는 자리다. 손으로 쓴 것(타입을 싣지 않는 의존성)과 생성된
 것(`gen:i18n`의 i18next 타입)이 같이 살고, gitignore가 **생성물 두 개를 이름으로** 막는다.
-feature 안에 두면 그 폴더의 계층 규칙(`models`/`viewmodels`/`views`)을 어긴다.
-`@citation-js/*` 선언이 `research/viewmodels/`에 있었던 것이 그 경우다.
+feature 안에 두면 그 폴더의 계층 규칙(`model`/`lib`/`ui`)을 어긴다.
+`@citation-js/*` 선언이 `research/lib/`에 있었던 것이 그 경우다.
 
 ## 번역
 
@@ -197,7 +196,7 @@ feature 안에 두면 그 폴더의 계층 규칙(`models`/`viewmodels`/`views`)
 
 - `src/pages/[lang]/<route>/index.astro`를 만들면 라우트와 `RouteId` 타입이 생긴다.
   `localeHref(lang, '/[lang]/<route>')`의 오타는 컴파일 에러.
-- 독(하단 내비)에 넣으려면 `src/common/viewmodels/use-site-sections.ts`의 `SECTIONS`에 한
+- 독(하단 내비)에 넣으려면 `src/common/hooks/use-site-sections.ts`의 `SECTIONS`에 한
   줄 - `key`는 라우트 유니온으로 좁혀져 있고 라벨은 `common:nav.<key>` 다.
 - 색인에서 뺄 라우트는 `src/common/lib/routing/noindex.ts`의 `NOINDEX_ROUTES`.
 
@@ -237,5 +236,19 @@ feature 안에 두면 그 폴더의 계층 규칙(`models`/`viewmodels`/`views`)
 - `.claude/skills/<name>/SKILL.md` - frontmatter의 `description` 트리거로 자동 로드.
 - `.claude/commands/<name>.md` - `/<name>`. `new-feature`, `new-component`가 있다.
 - `.claude/agents/<name>.md` - 서브에이전트(`ui-reviewer`).
-- 규칙은 `AGENTS.md` 한 파일이고 `CLAUDE.md`가 import 한다. 세션마다 통째로 실리므로 짧게
-  유지한다. 규칙의 이유와 겪은 함정은 `docs/rationale.md`로 빼고 거기서 찾아 읽는다.
+- 규칙은 `AGENTS.md` 한 파일이고 `CLAUDE.md`가 import 한다. 세션마다 통째로 실리므로
+  짧게 유지한다. 규칙이 왜 그런지는 커밋 메시지와 테스트 이름이 갖는다.
+
+## `public/` 의 하위 폴더
+
+빌드가 그대로 내보내는 자리다. `src/` 안의 이미지만 `astro:assets` 최적화를 탄다.
+
+| 폴더      | 무엇                                                |
+| --------- | --------------------------------------------------- |
+| `icons/`  | 우리 favicon 류                                     |
+| `logos/`  | 경력·학력 기관 로고, 우리 wordmark                  |
+| `images/` | og, 아바타, 서명 등 로고가 아닌 이미지              |
+| `fonts/`  | `gen:fonts` 가 R2 에서 받아 굽는다. 커밋하지 않는다 |
+
+루트에 남는 것은 `resume-*.pdf` 뿐이다 - 생성물인데 이미 공유된 링크가 있어 경로를 안 바꾼다.
+`robots.txt` 는 환경마다 내용이 달라야 해서 `src/pages/robots.txt.ts` route 다.

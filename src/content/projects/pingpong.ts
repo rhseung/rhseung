@@ -1,5 +1,5 @@
 import axChallenge from '@/content/awards/ax-challenge-2026';
-import { defineProject } from '@/features/projects/models/define';
+import { defineProject } from '@/features/projects/model/define';
 
 export default defineProject({
   slug: 'pingpong',

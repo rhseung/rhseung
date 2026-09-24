@@ -1,0 +1,71 @@
+import { useTranslation } from 'react-i18next';
+import { css, cx } from 'styled-system/css';
+
+import { Badge, LinkRow } from '@/common/components';
+import { formatPeriod } from '@/common/lib';
+import { metaText } from '@/common/styles';
+
+import { useResearchLabels, RESEARCH_LINK_ICON } from '../../hooks';
+import { RESEARCH_KIND_TONE, researchLinks, type Research } from '../../lib';
+
+const article = css({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2',
+  rounded: 'xl',
+  border: 'line',
+  bg: 'surface.raised/40',
+  p: '4',
+});
+
+export function ResearchCard({ item, detailHref }: ResearchCard.Props) {
+  const { t } = useTranslation('research');
+  const label = useResearchLabels();
+
+  const periodText = formatPeriod(
+    item.start,
+    item.end,
+    t(($) => $.period.ongoing),
+  );
+
+  const links = researchLinks(item).map(({ kind, href }) => ({
+    key: kind,
+    href,
+    label: label.link[kind],
+    Icon: RESEARCH_LINK_ICON[kind],
+  }));
+
+  return (
+    <article className={article}>
+      <div className={css({ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '2' })}>
+        <h2
+          data-vt-title={item.slug}
+          className={css({
+            textStyle: 'sm',
+            fontWeight: 'semibold',
+            '& a:hover': { textDecoration: 'underline' },
+          })}
+        >
+          {detailHref === undefined ? item.title : <a href={detailHref}>{item.title}</a>}
+        </h2>
+        <Badge variant="secondary" tone={RESEARCH_KIND_TONE[item.kind]}>
+          {label.kind[item.kind]}
+        </Badge>
+        <span className={cx(metaText, css({ ml: 'auto' }))}>{periodText}</span>
+      </div>
+
+      <p className={css({ color: 'text.muted', textStyle: 'caption' })}>
+        {item.org}
+        {item.role && ` · ${item.role}`}
+      </p>
+
+      <p className={css({ color: 'text.muted', textStyle: 'body' })}>{item.summary}</p>
+
+      <LinkRow links={links} />
+    </article>
+  );
+}
+
+export declare namespace ResearchCard {
+  export type Props = { item: Research; detailHref?: string };
+}

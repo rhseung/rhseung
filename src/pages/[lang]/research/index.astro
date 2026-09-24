@@ -3,9 +3,7 @@ import { languagePaths } from '@/common/lib';
 import { ResearchView } from '@/features/research';
 import Layout from '@/layouts/layout.astro';
 
-export function getStaticPaths() {
-  return languagePaths();
-}
+export const getStaticPaths = languagePaths;
 
 const { lang } = Astro.props;
 ---

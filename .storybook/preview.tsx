@@ -1,8 +1,8 @@
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
 
 import { withLocale, withQueryClient, withUrlState } from './decorators';
+import { LANGUAGE_SUGGESTION_DISMISSED_KEY } from '../src/common/hooks';
 import { DEFAULT_LANGUAGE, languageName, LANGUAGES } from '../src/common/lib/i18n/languages';
-import { LANGUAGE_SUGGESTION_DISMISSED_KEY } from '../src/common/viewmodels';
 
 import type { Preview } from '@storybook/react-vite';
 

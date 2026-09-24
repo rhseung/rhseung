@@ -1,32 +1,13 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
-
-import { ProjectsIsland } from '@/pages/_islands/projects-island';
-import { i18n, languagePaths } from '@/common/lib';
-import { awardsOf } from '@/features/career';
-import { detailSlugs, projectsOf } from '@/features/projects';
+import { ProjectsView } from '@/features/projects';
+import { projectsPaths } from '@/features/projects/paths';
 import Layout from '@/layouts/layout.astro';
 
-export function getStaticPaths() {
-  return languagePaths();
-}
+export const getStaticPaths = projectsPaths;
 
-const { lang } = Astro.props;
-
-const details: CollectionEntry<'projects'>[] = await getCollection('projects');
-const slugsWithDetail = detailSlugs(details, lang);
+const { lang, projects, awards } = Astro.props;
 ---
 
-<Layout
-  lang={lang}
-  title={i18n.getFixedT(lang, 'common')(($) => $.nav.projects)}
-  route={{ to: '/[lang]/projects' }}
-  wip
->
-  <ProjectsIsland
-    lang={lang}
-    projects={projectsOf(lang, slugsWithDetail)}
-    awards={awardsOf(lang)}
-    client:load
-  />
+<Layout lang={lang} route={{ to: '/[lang]/projects' }} wip>
+  <ProjectsView lang={lang} projects={projects} awards={awards} client:load />
 </Layout>

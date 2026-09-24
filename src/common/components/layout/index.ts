@@ -9,3 +9,5 @@ export * from './site-dock-island';
 export * from './tech-icon';
 export * from './translation-notice';
 export * from './wip-notice';
+export * from './not-found-island';
+export * from './wip-notice-island';

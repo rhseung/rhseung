@@ -1,11 +1,9 @@
 ---
-import { languagePaths } from '@/common/lib';
 import { CareerView } from '@/features/career';
+import { languagePaths } from '@/common/lib';
 import Layout from '@/layouts/layout.astro';
 
-export function getStaticPaths() {
-  return languagePaths();
-}
+export const getStaticPaths = languagePaths;
 
 const { lang } = Astro.props;
 ---

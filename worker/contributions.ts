@@ -1,6 +1,6 @@
 import { cacheControl, HOUR } from './http';
 import { SITE } from '../src/common/lib/routing/site';
-import { upstreamSchema } from '../src/features/home/models/contributions-schema';
+import { upstreamSchema } from '../src/features/home/model/contributions-schema';
 
 const UPSTREAM = 'https://github-contributions-api.jogruber.de/v4';
 

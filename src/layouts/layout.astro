@@ -5,84 +5,17 @@ import { css } from 'styled-system/css';
 
 import themeScript from './theme.js?raw';
 
-import { SiteDockIsland } from '@/common/components';
-import { sectionOf } from '@/common/viewmodels';
-import { WipNoticeIsland } from '@/pages/_islands/wip-notice-island';
-import {
-  DEFAULT_LANGUAGE,
-  i18n,
-  IS_PRODUCTION,
-  isNoindex,
-  languageTag,
-  LANGUAGES,
-  localeHrefOf,
-  pageSchema,
-  SITE,
-  type Language,
-  type LocaleRouteRef,
-} from '@/common/lib';
+import { SiteDockIsland, WipNoticeIsland } from '@/common/components';
+import { pageHead, SITE, type PageHeadInput } from '@/common/lib';
 import '@/styles.css';
 
-interface Props {
-  lang: Language;
-  title?: string;
-  description?: string;
-  route?: LocaleRouteRef;
-  wip?: boolean;
-  available?: readonly Language[];
-  image?: string;
-  type?: 'website' | 'article';
-  published?: string;
-}
+type Props = PageHeadInput;
 
-const {
-  lang,
-  title: givenTitle,
-  description,
-  route,
-  wip = false,
-  available,
-  image = SITE.ogImage,
-  type = 'website',
-  published,
-} = Astro.props;
-
-const t = i18n.getFixedT(lang, 'common');
-
-const section = route === undefined ? undefined : sectionOf(route.to);
-const title = givenTitle ?? (section === undefined ? SITE.title : t(($) => $.nav[section]));
-
-const canonical = new URL(Astro.url.pathname, Astro.site);
-
-const hidden = IS_PRODUCTION && wip;
-
-const noindex = !IS_PRODUCTION || isNoindex(canonical.pathname) || hidden;
-const ogImage = image ? new URL(image, Astro.site) : undefined;
-
-const summary = description ?? t(($) => $.site.description);
-
-const langs = available ?? LANGUAGES;
-const alternates =
-  route !== undefined && langs.length > 1
-    ? langs.map((other) => [other, localeHrefOf(other, route)] as const)
-    : [];
-
-const documentTitle = title === SITE.title ? title : `${title} — ${SITE.title}`;
-
-const schema = pageSchema({
-  type,
-  lang,
-  title,
-  description: summary,
-  author: t(($) => $.site.name),
-  canonical: canonical.href,
-  published,
-  image: ogImage?.href,
-});
+const head = pageHead(Astro.props, Astro.url, Astro.site);
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={head.lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -90,40 +23,32 @@ const schema = pageSchema({
     <link rel="icon" href="/icons/favicon.png" type="image/png" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
 
-    <title>{documentTitle}</title>
-    <meta name="description" content={summary} />
-    <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
+    <title>{head.documentTitle}</title>
+    <meta name="description" content={head.summary} />
+    <link rel="canonical" href={head.canonical} />
+    {head.noindex && <meta name="robots" content="noindex" />}
 
     {
-      alternates.map(([hreflang, href]) => (
-        <link rel="alternate" hreflang={hreflang} href={new URL(href, Astro.site)} />
+      head.alternates.map(([hreflang, href]) => (
+        <link rel="alternate" hreflang={hreflang} href={href} />
       ))
     }
-    {
-      route !== undefined && alternates.length > 0 && langs.includes(DEFAULT_LANGUAGE) && (
-        <link
-          rel="alternate"
-          hreflang="x-default"
-          href={new URL(localeHrefOf(DEFAULT_LANGUAGE, route), Astro.site)}
-        />
-      )
-    }
+    {head.xDefault && <link rel="alternate" hreflang="x-default" href={head.xDefault} />}
 
-    <meta property="og:type" content={type} />
+    <meta property="og:type" content={head.type} />
     <meta property="og:site_name" content={SITE.title} />
-    <meta property="og:title" content={documentTitle} />
-    <meta property="og:description" content={summary} />
-    <meta property="og:url" content={canonical} />
-    <meta property="og:locale" content={languageTag(lang).replace('-', '_')} />
-    {ogImage && <meta property="og:image" content={ogImage} />}
-    {published && <meta property="article:published_time" content={published} />}
-    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta property="og:title" content={head.documentTitle} />
+    <meta property="og:description" content={head.summary} />
+    <meta property="og:url" content={head.canonical} />
+    <meta property="og:locale" content={head.ogLocale} />
+    {head.ogImage && <meta property="og:image" content={head.ogImage} />}
+    {head.published && <meta property="article:published_time" content={head.published} />}
+    <meta name="twitter:card" content={head.ogImage ? 'summary_large_image' : 'summary'} />
 
     <script
       type="application/ld+json"
       is:inline
-      set:html={JSON.stringify(schema).replaceAll('<', '\\u003c')}
+      set:html={JSON.stringify(head.schema).replaceAll('<', '\\u003c')}
     />
 
     <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
@@ -139,20 +64,20 @@ const schema = pageSchema({
     <ClientRouter />
   </head>
   <body>
-    <div class={css({ display: 'contents' })} inert={hidden}>
+    <div class={css({ display: 'contents' })} inert={head.hidden}>
       <slot />
       {
-        route !== undefined && (
+        head.route !== undefined && (
           <SiteDockIsland
-            lang={lang}
-            current={section}
-            route={route}
-            available={available}
+            lang={head.lang}
+            current={head.section}
+            route={head.route}
+            available={head.available}
             client:idle
           />
         )
       }
     </div>
-    {hidden && <WipNoticeIsland lang={lang} client:load />}
+    {head.hidden && <WipNoticeIsland lang={head.lang} client:load />}
   </body>
 </html>

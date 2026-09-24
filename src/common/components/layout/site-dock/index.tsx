@@ -6,6 +6,12 @@ import { useTranslation } from 'react-i18next';
 import { css, cx } from 'styled-system/css';
 
 import {
+  useExternalLinks,
+  useLanguageSuggestion,
+  useSiteSections,
+  useThemeTransition,
+} from '@/common/hooks';
+import {
   LANGUAGES,
   localeHref,
   localeHrefOf,
@@ -13,15 +19,9 @@ import {
   type IconComponent,
   type Language,
   type LocaleRouteRef,
+  type SiteSection,
 } from '@/common/lib';
 import { dockBar, dockItem } from '@/common/styles';
-import {
-  useExternalLinks,
-  useLanguageSuggestion,
-  useSiteSections,
-  useThemeTransition,
-  type SiteSection,
-} from '@/common/viewmodels';
 
 import {
   Sheet,

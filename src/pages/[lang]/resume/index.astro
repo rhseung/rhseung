@@ -1,18 +1,12 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
-
-import { i18n, languagePaths } from '@/common/lib';
-import { detailSlugs } from '@/features/projects';
+import { i18n } from '@/common/lib';
 import { ResumeView } from '@/features/resume';
+import { resumePaths } from '@/features/resume/paths';
 import Layout from '@/layouts/layout.astro';
 
-export function getStaticPaths() {
-  return languagePaths();
-}
+export const getStaticPaths = resumePaths;
 
-const { lang } = Astro.props;
-
-const details: CollectionEntry<'projects'>[] = await getCollection('projects');
+const { lang, detailSlugs } = Astro.props;
 ---
 
 <Layout
@@ -21,5 +15,5 @@ const details: CollectionEntry<'projects'>[] = await getCollection('projects');
   route={{ to: '/[lang]/resume' }}
   wip
 >
-  <ResumeView lang={lang} detailSlugs={detailSlugs(details, lang)} />
+  <ResumeView lang={lang} detailSlugs={detailSlugs} />
 </Layout>

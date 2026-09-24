@@ -1,26 +1,14 @@
 ---
-import { execSync } from 'node:child_process';
-
-import { HomeIsland } from '@/pages/_islands/home-island';
-import { languagePaths, SITE } from '@/common/lib';
-
+import { SITE } from '@/common/lib';
+import { HomeView } from '@/features/home';
+import { homePaths } from '@/features/home/paths';
 import Layout from '@/layouts/layout.astro';
 
-export function getStaticPaths() {
-  const updatedOn = (() => {
-    try {
-      return execSync('git log -1 --format=%cs').toString().trim();
-    } catch {
-      return new Date().toISOString().slice(0, 10);
-    }
-  })();
-
-  return languagePaths().map((path) => ({ ...path, props: { ...path.props, updatedOn } }));
-}
+export const getStaticPaths = homePaths;
 
 const { lang, updatedOn } = Astro.props;
 ---
 
 <Layout lang={lang} title={SITE.title} route={{ to: '/[lang]' }}>
-  <HomeIsland lang={lang} updatedOn={updatedOn} client:load />
+  <HomeView lang={lang} updatedOn={updatedOn} client:load />
 </Layout>

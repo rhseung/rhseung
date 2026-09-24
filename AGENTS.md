@@ -1,11 +1,11 @@
 # Agent Guide
 
-규칙만 적는다. **각 규칙의 이유는 `docs/rationale.md`에 있다.** 규칙이 불편하면 끄지 말고
-거기부터 읽고, 그래도 아니면 물어봐라. 대부분은 ESLint가 강제한다 - 애매하면 `bun run lint`가 정답.
+규칙만 적는다. **왜 그런지는 커밋 메시지와 테스트 이름에 있다** - 규칙이 붙은 커밋을
+`git log -S`로 찾으면 그때 무엇이 깨졌는지 나온다. 불편하면 끄지 말고 물어봐라.
+대부분은 ESLint가 강제한다 - 애매하면 `bun run lint`가 정답.
 
 | 찾는 것                  | 어디                 |
 | ------------------------ | -------------------- |
-| 규칙의 이유, 겪은 함정   | `docs/rationale.md`  |
 | 파일을 어디에 두나       | `docs/registries.md` |
 | 배포, Cloudflare, secret | `docs/deploy.md`     |
 | 전체 그림 (사람용)       | `OVERVIEW.md`        |
@@ -30,36 +30,53 @@
 - 사용자에게 보이는 문자열 -> `i18n-keys` skill
 - 새 기능 -> `/new-feature <name>` 커맨드
 
-## 3. 아키텍처 - MVVM + feature-first
+## 3. 아키텍처 - feature-first slice
 
 ```
 src/
 ├── common/           # 크로스 피처. components/{ui,layout,mdx}, lib/, styles/
 ├── content/          # MDX, TS 원본
-├── features/<name>/  # index.ts(배럴) + models/ viewmodels/ views/{components,pages}/
-├── layouts/          # <head> 셸과 셸이 붙이는 script
-├── pages/
-│   ├── _islands/     #   하이드레이션 경계. Provider + Page 합본
-│   └── [lang]/       #   모든 라우트가 /ko/ 또는 /en/ 아래
+├── features/<name>/
+│   ├── index.ts         #  배럴. 바깥에서 보이는 유일한 표면
+│   ├── paths.ts         #  라우트가 쓸 데이터. astro:content 는 여기서만
+│   ├── model/           #  스키마, 도메인 타입, 수집     [빌드 타임]
+│   ├── lib/             #  순수 로직 + .test.ts         [어디서나]
+│   ├── components/      #  표현 컴포넌트                [SSR]
+│   ├── view/            #  조립 지점. .astro 가 부르는 것
+│   └── hooks/           #  브라우저 상태               [브라우저]
+├── layouts/          # <head> 셸, 공통 크롬(dock 포함)
+├── pages/[lang]/     # 라우트만
 ├── locales/{ko,en}/  # 생성물
 └── mocks/            # story 가 props 로 쓰는 목 데이터
 ```
 
-| 계층         | 책임                            | 콘텐츠 접근              |
-| ------------ | ------------------------------- | ------------------------ |
-| Model        | zod 스키마, 도메인 타입         | **`astro:content` 금지** |
-| ViewModel    | 훅, 선택, 정렬, 클라이언트 상태 | 없음                     |
-| View         | UI. props 만 받는다             | 없음                     |
-| Page(.astro) | `getCollection` -> 아일랜드     | **여기서만**             |
+| 자리          | 책임                          | 콘텐츠 접근              |
+| ------------- | ----------------------------- | ------------------------ |
+| `model/`      | zod 스키마, 도메인 타입, 수집 | **`astro:content` 금지** |
+| `lib/`        | 순수 로직. React 없음         | 없음                     |
+| `components/` | UI. props 만 받는다           | 없음                     |
+| `hooks/`      | 브라우저 상태                 | 없음                     |
+| `view/`       | 위를 조립. 계층 밖이다        | 없음                     |
+| `paths.ts`    | 라우트가 쓸 데이터            | **여기와 `.astro` 만**   |
 
-의존은 한 방향이다. `eslint-plugin-boundaries`가 막는다.
-View가 Model 타입이 필요하면 ViewModel 배럴이 재export한다.
+의존은 한 방향이다(`model` -> `lib` -> `components`). `eslint-plugin-boundaries`가 막는다.
+`components` 가 `model` 타입이 필요하면 `lib` 배럴이 재export한다.
+
+**`.astro` 의 코드펜스에는 `getStaticPaths` 한 줄과 props 구조분해만 둔다.** 데이터는
+`paths.ts` 가 만들어 props 로 넘긴다. `getCollection` 과 `render()` 도 거기서 부른다.
+`paths.ts` 는 배럴에 올리지 않는다 - `astro:content` 가 딸려 오면 story 와 vitest 가 깨진다.
+
+**`api/` 가 없는 것이 요점이다.** 서버가 없어서 안 만든 게 아니라, 없다는 사실이 구조에
+드러나야 해서 비워 둔다.
+
+**`hooks/` 가 있으면 그 feature 는 하이드레이션을 강제한다.** 폴더 목록만 보고 안다.
+Astro 에서 제일 중요한 결정이 그거다.
 
 **import**
 
 - `@/common/<area>`만. `@/common` 루트 배럴은 없다.
 - 다른 feature는 `@/features/<name>` 배럴만. 내부 경로 금지.
-- 같은 feature 안에서는 `../models` 처럼 **디렉토리**를 가리킨다.
+- 같은 feature 안에서는 `../model` 처럼 **디렉토리**를 가리킨다. `paths.ts` 만 예외다.
 - 한 파일은 한 개념. export 가 많은 건 괜찮고 개념이 섞이는 게 문제다.
 
 **배럴**
@@ -74,14 +91,16 @@ View가 Model 타입이 필요하면 ViewModel 배럴이 재export한다.
 
 ## 4. 어기면 조용히 깨지는 것
 
-이유는 전부 `docs/rationale.md`에 있다. 겪고 나서 적은 것들이다.
+전부 겪고 나서 적은 것들이다. lint가 못 잡는 것만 모았다.
 
 - **생성물을 편집하지도 커밋하지도 않는다** - `src/types/i18next.d.ts`, `resources.d.ts`,
   `worker/env.d.ts`, `styled-system/`, `src/fonts.css`, `public/resume-*.pdf`.
   `src/locales/**`는 생성물이 아니다. key 는 추출기가, **값은 사람이** 채운다.
 - **`src/pages/`의 파일은 전부 라우트다.** 테스트도 story 도 두지 않는다.
-- **`.astro`가 프레임워크 컴포넌트를 중첩하지 않는다.** Provider 와 View 는
-  `pages/_islands/*.tsx` 에서 합치고 `.astro` 는 그 하나에만 `client:load`.
+- **`.astro`가 프레임워크 컴포넌트를 중첩하지 않는다.** Provider 와 화면은
+  `view/` 가 합치고 `.astro` 는 그 하나만 부른다.
+- **기본은 하이드레이션 없음이다.** `client:*` 는 브라우저 API 가 필요할 때만 붙인다.
+  view 를 지시어 없이 부르면 SSR 만 하고 JS 가 0이다.
 - **렌더를 막는 게이트를 만들지 않는다.** `if (!ready) return null` 은 빌드 타임에 영원이다.
   쿼리에 `enabled` 를 걸어라.
 - **`import.meta.env`는 `common/lib/env.ts`에서만 읽는다.** 완성된 member expression 으로.
