@@ -5,4 +5,5 @@ export default {
   trailingComma: 'all',
   printWidth: 100,
   plugins: ['prettier-plugin-astro'],
+  overrides: [{ files: '*.jsonc', options: { trailingComma: 'none' } }],
 };
