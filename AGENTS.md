@@ -106,6 +106,9 @@ Astro 에서 제일 중요한 결정이 그거다.
 - **`import.meta.env`는 `common/lib/env.ts`에서만 읽는다.** 완성된 member expression 으로.
 - **`astro:content`, `astro:assets`는 `.astro`에서만.**
 - **collection schema 를 바꿨으면 캐시를 지운다** - `rm -rf .astro node_modules/.astro dist`.
+- **worker 라우트를 추가하면 `wrangler.jsonc` 의 `run_worker_first` 에도 넣는다.**
+  거기 없는 경로는 자산 계층이 먼저 잡아 404(GET)나 405(POST)를 내고 worker 는 호출되지
+  않는다. 빌드도 `verify` 도 못 잡는다 - 배포해야 드러난다.
 - **worker 에서 `caches.default`를 쓰지 않는다.** `caches.open(name)` 을 쓴다.
 - **날 `<img>`와 손으로 쓴 `target="_blank"`는 lint error다.** `<Image />`, `<ExternalLink />`.
 - **story 없는 컴포넌트를 만들지 않는다** (`common/components/ui/` 만 예외).
