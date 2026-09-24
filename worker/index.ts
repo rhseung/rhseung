@@ -2,6 +2,7 @@ import { contributionsResponse, refreshContributions } from './contributions';
 import { faviconResponse } from './favicon';
 import { empty } from './http';
 import { renderResumePdfs, resumeResponse } from './resume';
+import { rootResponse } from './root';
 import { isLanguage, LANGUAGES } from '../src/common/lib/i18n/languages';
 
 const FAVICON = /^\/api\/favicon\/([^/]+)$/;
@@ -11,6 +12,8 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const { pathname } = url;
+
+    if (pathname === '/') return rootResponse(request.headers.get('accept-language'));
 
     const favicon = FAVICON.exec(pathname);
 

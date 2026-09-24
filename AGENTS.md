@@ -122,10 +122,12 @@ id 모양은 `<slug>/<lang>`이고, 그 파싱은 `.astro` frontmatter가 아니
 돌아서 그것을 못 잡고 배포 빌드만 깨진다. 로직을 라우트 밖으로 옮기고 거기서 테스트한다.
 lint가 막는다.
 
-**dev와 preview에는 worker가 없다.** `astro.config.ts`가 `faviconResponse`를 middleware로
-물려 로컬에서도 같은 화면이 나오게 한다. 그 hook은 **값을 돌려주면 안 된다.** Vite가 반환값을
-post hook으로 보는데 connect app은 그 자체가 함수라, `use()`의 반환을 그대로 돌려주면 Vite가
-인자 없이 호출해서 터진다.
+**dev에는 worker가 없다.** `astro.config.ts`의 `workerDevServer`가 worker의 응답 함수
+(`faviconResponse`, `rootResponse`)를 middleware로 물려 로컬에서도 같은 화면이 나오게 한다.
+그 hook은 **값을 돌려주면 안 된다.** Vite가 반환값을 post hook으로 보는데 connect app은 그
+자체가 함수라, `use()`의 반환을 그대로 돌려주면 Vite가 인자 없이 호출해서 터진다.
+`configurePreviewServer`도 같이 달려 있지만 **정적 `astro preview`에서는 호출되지 않는다** -
+preview는 `/api/favicon/*`이 404고 `/`는 빌드된 폴백을 탄다.
 
 `_islands/`가 `pages/` 바깥이 아니라 안에 있는 이유: 아일랜드는 항상 페이지 하나에 딸린
 라우팅 글루라서, `common/`, `features/`처럼 독립된 도메인 코드와 나란히 두면 오히려
@@ -436,9 +438,23 @@ locale JSON은 손으로 만들지 않는다. `t()`를 쓰고 `bun run gen:i18n`
   규약이 다른 것은 의도다. `A - B` 쌍이 카드와 이력서 폭에 걸리고, `tabular-nums` 정렬은
   숫자라야 산다.
 - **언어는 URL이 정한다.** 모든 route가 `/ko/` 또는 `/en/` 아래에 있고, `[lang]` parameter
-  하나가 둘을 같이 낸다. `/`는 `redirects`가 기본 언어로 보내는 redirect 한 장이다.
-  브라우저 언어는 보지 않는다. 정적 사이트에서 runtime 감지는 crawler에게 한 벌만 보여줘서
-  hreflang을 만들 수 없기 때문이다.
+  하나가 둘을 같이 낸다. 콘텐츠 route는 언어별로 굳어 있어서 crawler가 두 벌을 다 보고
+  hreflang이 선다. 런타임 감지를 콘텐츠 route로 내리면 그게 무너진다.
+- **`/`만 브라우저 언어를 본다.** worker가 `Accept-Language`를 읽어 `/ko/` 또는 `/en/`으로
+  302를 낸다(`worker/root.ts`). 판정은 `common/lib/i18n/preferred-language.ts` 하나가 갖고,
+  언어 제안 popover가 `navigator.languages`로 같은 함수를 부른다. 둘이 갈리면 리다이렉트로
+  도착한 자리에서 제안이 또 뜬다.
+  방문자마다 목적지가 달라서 **301이 아니라 302**이고 `Vary: accept-language`와 `no-store`가
+  붙는다. 301은 브라우저가 캐시해 버려서 언어를 한 번 정하면 다시 못 고른다.
+  `Accept-Language`를 안 보내는 crawler는 기본 언어로 간다 - 지금과 같다.
+- **`redirects: { '/': ... }`는 worker가 없는 자리를 위한 폴백이다.** 정적 빌드에서 이것은
+  HTTP 리다이렉트가 아니라 meta-refresh HTML 한 장으로 구워진다. 브라우저가 그 문서를 먼저
+  그리기 때문에 방문자가 빈 화면과 "Redirecting from / to /ko/" 링크를 한 번 본다. 템플릿은
+  Astro 안에 박혀 있어 못 고친다. 그래서 배포에서는 wrangler의 `run_worker_first: ["/"]`가
+  `/`를 worker로 먼저 보낸다. 자산이 있는 경로는 원래 worker를 안 거친다.
+  `astro dev`는 이 config 대신 `workerDevServer` 미들웨어가 받아 배포와 같은 협상을 한다.
+  `astro preview`는 그 미들웨어가 안 걸려(`configurePreviewServer`가 정적 preview에서는
+  호출되지 않는다) 폴백을 그대로 탄다. e2e가 preview를 상대로 도니 루트 spec은 폴백만 본다.
 - **기본 언어도 접두사를 생략하지 않는다.** 하나만 생략하면 규칙이 둘이 되고, 글처럼 한
   언어에만 존재하는 문서에서 route 모양이 어긋난다. 그렇게 만들었다가 되돌렸다.
 - `getStaticPaths`가 반환하는 객체는 **매번 새로 만든다**(`languagePaths()`가 함수인 이유).
