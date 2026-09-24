@@ -8,7 +8,7 @@ import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 
 import { shikiConfig } from './src/common/components/mdx/code-block/shiki';
-import { DEFAULT_LANGUAGE, LANGUAGE_TAGS, LANGUAGES } from './src/common/lib/i18n/languages';
+import { DEFAULT_LANGUAGE, languageTag, LANGUAGES } from './src/common/lib/i18n/languages';
 import { isNoindex } from './src/common/lib/routing/noindex';
 import { SITE } from './src/common/lib/routing/site';
 import { faviconResponse } from './worker/favicon';
@@ -91,7 +91,10 @@ export default defineConfig({
     astroTypesafeRoutes(),
     mdx(),
     sitemap({
-      i18n: { defaultLocale: DEFAULT_LANGUAGE, locales: LANGUAGE_TAGS },
+      i18n: {
+        defaultLocale: DEFAULT_LANGUAGE,
+        locales: Object.fromEntries(LANGUAGES.map((lang) => [lang, languageTag(lang)])),
+      },
       filter: (page) => !isNoindex(page),
     }),
   ],

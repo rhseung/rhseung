@@ -187,7 +187,8 @@ feature 안에 두면 그 폴더의 계층 규칙(`models`/`viewmodels`/`views`)
 ## 확장 축 - 언어, 테마
 
 - 언어: `src/common/lib/i18n/languages.ts`의 `LANGUAGES` 한 줄. `'ja'`를 넣으면 콘텐츠 파일
-  전부, `LANGUAGE_NAMES`/`LANGUAGE_TAGS`, 로케일 완전성 테스트가 고칠 곳을 가리킨다.
+  전부와 로케일 완전성 테스트가 고칠 곳을 가리킨다. 언어 이름(`languageName`)과 BCP 47
+  태그(`languageTag`)는 `Intl`이 CLDR에서 꺼내므로 손댈 것이 없다.
 - 테마: `src/common/styles/config/theme.ts`의 `THEME_MODES`. `'sepia'`를 넣으면
   `src/common/styles/config/palette.ts`(색 전체), `panda.config.ts`, 독의 `theme.<mode>` 로케일 키가
   에러를 낸다.

@@ -3,7 +3,7 @@ import type { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-system/css';
 
-import { LANGUAGE_NAMES, type Language } from '@/common/lib';
+import { languageName, type Language } from '@/common/lib';
 
 import { Button, buttonVariants } from '../../ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '../../ui/popover';
@@ -16,7 +16,7 @@ export function LanguageSuggestionPopover({
 }: LanguageSuggestionPopover.Props) {
   const { t } = useTranslation('common');
 
-  const name = suggested === null ? '' : LANGUAGE_NAMES[suggested];
+  const name = suggested === null ? '' : languageName(suggested);
 
   return (
     <Popover

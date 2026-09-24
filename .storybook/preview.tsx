@@ -1,7 +1,7 @@
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
 
 import { withLocale, withQueryClient, withUrlState } from './decorators';
-import { DEFAULT_LANGUAGE, LANGUAGE_NAMES, LANGUAGES } from '../src/common/lib/i18n/languages';
+import { DEFAULT_LANGUAGE, languageName, LANGUAGES } from '../src/common/lib/i18n/languages';
 import { LANGUAGE_SUGGESTION_DISMISSED_KEY } from '../src/common/viewmodels';
 
 import type { Preview } from '@storybook/react-vite';
@@ -14,7 +14,7 @@ const preview: Preview = {
       description: 'i18n locale',
       toolbar: {
         icon: 'globe',
-        items: LANGUAGES.map((value) => ({ value, title: LANGUAGE_NAMES[value] })),
+        items: LANGUAGES.map((value) => ({ value, title: languageName(value) })),
         dynamicTitle: true,
       },
     },

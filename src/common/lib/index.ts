@@ -4,8 +4,8 @@ export type { IconComponent } from './icons';
 export {
   DEFAULT_LANGUAGE,
   isLanguage,
-  LANGUAGE_NAMES,
-  LANGUAGE_TAGS,
+  languageName,
+  languageTag,
   LANGUAGES,
   otherLanguages,
   type Language,

@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-import { DEFAULT_LANGUAGE, LANGUAGE_TAGS } from './src/common/lib/i18n/languages';
+import { DEFAULT_LANGUAGE, languageTag } from './src/common/lib/i18n/languages';
 
 const PORT = 4322;
 const baseURL = `http://localhost:${PORT}`;
@@ -17,7 +17,7 @@ export default defineConfig({
     baseURL,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    locale: LANGUAGE_TAGS[DEFAULT_LANGUAGE],
+    locale: languageTag(DEFAULT_LANGUAGE),
   },
 
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],

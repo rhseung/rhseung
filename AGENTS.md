@@ -437,6 +437,14 @@ locale JSON은 손으로 만들지 않는다. `t()`를 쓰고 `bun run gen:i18n`
 - 기간(`YearMonth`)은 `2026.08` 숫자 표기이고 언어를 타지 않는다. 글 날짜(dayjs `LL`)와
   규약이 다른 것은 의도다. `A - B` 쌍이 카드와 이력서 폭에 걸리고, `tabular-nums` 정렬은
   숫자라야 산다.
+- **언어 이름과 BCP 47 태그는 적어 두지 않는다.** `languageName`은
+  `Intl.DisplayNames`가, `languageTag`(`ko` -> `ko-KR`)는 `Intl.Locale.maximize()`의 CLDR
+  likely subtags가 낸다. 표를 손으로 들면 언어를 추가할 때마다 언어 수의 제곱만큼 이름을
+  적어야 한다. bun, workerd, chromium 전부 full ICU라 세 런타임에서 같은 값이 나온다.
+  `languageName`의 기본값이 **그 언어 자신의 이름**인 것이 요점이다 - 언어 전환 UI는 지금
+  화면을 못 읽는 사람에게 뜨므로 `영어`가 아니라 `English`여야 한다. 읽는 언어로 부르고
+  싶으면 두 번째 인자를 준다(`languageName('en', 'ko')` -> `영어`). 값은
+  `languages.test.ts`가 박아 둔다. ICU 데이터가 바뀌면 거기서 깨진다.
 - **언어는 URL이 정한다.** 모든 route가 `/ko/` 또는 `/en/` 아래에 있고, `[lang]` parameter
   하나가 둘을 같이 낸다. 콘텐츠 route는 언어별로 굳어 있어서 crawler가 두 벌을 다 보고
   hreflang이 선다. 런타임 감지를 콘텐츠 route로 내리면 그게 무너진다.
