@@ -1,5 +1,5 @@
 export { dayjs } from './i18n/dayjs';
-export { i18n } from './i18n/i18n';
+export { i18n, i18nFor } from './i18n/i18n';
 export type { IconComponent } from './icons';
 export {
   DEFAULT_LANGUAGE,

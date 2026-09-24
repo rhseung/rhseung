@@ -1,6 +1,8 @@
 ---
-import { CareerIsland } from '@/pages/_islands/career-island';
+import { CareerView } from '@/pages/_islands/career-view';
+import { SiteDockIsland } from '@/pages/_islands/site-dock-island';
 import { i18n, languagePaths } from '@/common/lib';
+import { page } from '@/common/styles';
 import { awardsOf, educationOf, experienceOf, skillGroupsOf } from '@/features/career';
 import Layout from '@/layouts/layout.astro';
 
@@ -10,15 +12,18 @@ export function getStaticPaths() {
 
 const { lang } = Astro.props;
 const t = i18n.getFixedT(lang, 'common');
+const shell = page({ spacing: 'loose' });
 ---
 
 <Layout lang={lang} title={t(($) => $.nav.career)} route={{ to: '/[lang]/career' }} wip>
-  <CareerIsland
-    lang={lang}
-    experience={experienceOf(lang)}
-    education={educationOf(lang)}
-    awards={awardsOf(lang)}
-    skills={skillGroupsOf(lang)}
-    client:load
-  />
+  <div class={shell.root}>
+    <CareerView
+      lang={lang}
+      experience={experienceOf(lang)}
+      education={educationOf(lang)}
+      awards={awardsOf(lang)}
+      skills={skillGroupsOf(lang)}
+    />
+    <SiteDockIsland lang={lang} current="career" route={{ to: '/[lang]/career' }} client:load />
+  </div>
 </Layout>

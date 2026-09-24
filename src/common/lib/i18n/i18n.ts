@@ -1,7 +1,7 @@
 import i18next, { type Resource } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import { DEFAULT_LANGUAGE } from './languages';
+import { DEFAULT_LANGUAGE, type Language } from './languages';
 
 const modules = import.meta.glob<Record<string, unknown>>('@/locales/*/*.json', {
   eager: true,
@@ -34,3 +34,17 @@ void i18next.use(initReactI18next).init({
 });
 
 export const i18n = i18next;
+
+const instances = new Map<Language, typeof i18next>();
+
+export function i18nFor(lang: Language): typeof i18next {
+  const hit = instances.get(lang);
+
+  if (hit !== undefined) return hit;
+
+  const clone = i18next.cloneInstance({ lng: lang });
+
+  instances.set(lang, clone);
+
+  return clone;
+}
