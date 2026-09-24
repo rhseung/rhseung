@@ -3,8 +3,9 @@ import { css } from 'styled-system/css';
 import { stack } from 'styled-system/patterns';
 
 import { Badge, DetailHeader, Prose, SiteDock, TranslationNotice } from '@/common/components';
-import { dayjs, localeHref, type Language } from '@/common/lib';
+import { dayjs, localeHref } from '@/common/lib';
 import { metaText, page } from '@/common/styles';
+import { useLanguage } from '@/common/viewmodels';
 
 import { PostToc, TocDock } from '../components';
 
@@ -20,7 +21,8 @@ const main = css({
 });
 const aside = css({ display: 'none', lg: { display: 'block', gridColumn: '[2]', gridRow: '[1]' } });
 
-export function PostDetailPage({ lang, post, headings, children }: PostDetailPage.Props) {
+export function PostDetailPage({ post, headings, children }: PostDetailPage.Props) {
+  const lang = useLanguage();
   const { t } = useTranslation('blog');
   const shell = page();
 
@@ -103,7 +105,6 @@ export function PostDetailPage({ lang, post, headings, children }: PostDetailPag
 
 export declare namespace PostDetailPage {
   export type Props = {
-    lang: Language;
     post: PostSummary;
     headings: readonly PostHeading[];
     children: React.ReactNode;

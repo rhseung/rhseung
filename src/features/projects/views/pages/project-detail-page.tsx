@@ -6,6 +6,7 @@ import { stack } from 'styled-system/patterns';
 import { Badge, DetailHeader, LinkRow, Prose, SiteDock } from '@/common/components';
 import { formatPeriod, formatYearMonth, localeHref, type Language } from '@/common/lib';
 import { metaText, page } from '@/common/styles';
+import { useLanguage } from '@/common/viewmodels';
 import type { Award } from '@/features/career';
 
 import { PROJECT_LINK_ICON, projectLinks, useProjectLabels, type Project } from '../../viewmodels';
@@ -14,12 +15,12 @@ const main = css({ display: 'flex', minW: '0', flexDirection: 'column', gap: '8'
 const header = stack({ gap: '3' });
 
 export function ProjectDetailPage({
-  lang,
   project,
   awards = [],
   available,
   children,
 }: ProjectDetailPage.Props) {
+  const lang = useLanguage();
   const { t } = useTranslation('projects');
   const label = useProjectLabels();
   const shell = page();
@@ -125,7 +126,6 @@ export function ProjectDetailPage({
 
 export declare namespace ProjectDetailPage {
   export type Props = {
-    lang: Language;
     project: Project;
     awards?: Award[];
     available?: readonly Language[];

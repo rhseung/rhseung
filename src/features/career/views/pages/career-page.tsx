@@ -3,8 +3,8 @@ import { css, cx } from 'styled-system/css';
 import { stack } from 'styled-system/patterns';
 
 import { Empty, EmptyHeader, EmptyTitle, Separator, SiteDock } from '@/common/components';
-import { type Language } from '@/common/lib';
 import { metaText, page } from '@/common/styles';
+import { useLanguage } from '@/common/viewmodels';
 
 import {
   groupAwardsByYear,
@@ -30,7 +30,8 @@ function Section({ title: heading, children }: { title: string; children: React.
   );
 }
 
-export function CareerPage({ lang, experience, education, awards, skills }: CareerPage.Props) {
+export function CareerPage({ experience, education, awards, skills }: CareerPage.Props) {
+  const lang = useLanguage();
   const { t } = useTranslation('resume');
   const shell = page({ spacing: 'loose' });
 
@@ -101,7 +102,6 @@ export function CareerPage({ lang, experience, education, awards, skills }: Care
 
 export declare namespace CareerPage {
   export type Props = {
-    lang: Language;
     experience: CareerEntry[];
     education: CareerEntry[];
     awards: Award[];

@@ -1,22 +1,15 @@
 import { AppProviders } from '@/common/components';
+import type { Language } from '@/common/lib';
 import { ProjectDetailPage } from '@/features/projects';
 
-export function ProjectDetailIsland({
-  lang,
-  project,
-  awards,
-  available,
-  children,
-}: ProjectDetailIsland.Props) {
+export function ProjectDetailIsland({ lang, ...props }: ProjectDetailIsland.Props) {
   return (
     <AppProviders lang={lang}>
-      <ProjectDetailPage lang={lang} project={project} awards={awards} available={available}>
-        {children}
-      </ProjectDetailPage>
+      <ProjectDetailPage {...props} />
     </AppProviders>
   );
 }
 
 export declare namespace ProjectDetailIsland {
-  export type Props = ProjectDetailPage.Props;
+  export type Props = ProjectDetailPage.Props & { lang: Language };
 }

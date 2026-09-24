@@ -38,7 +38,7 @@ const meta = {
     layout: 'fullscreen',
     a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
   },
-  args: { lang: 'ko', post, headings, children: body },
+  args: { post, headings, children: body },
 } satisfies Meta<typeof PostDetailPage>;
 
 export default meta;
@@ -50,10 +50,10 @@ export const Default: Story = {};
 export const WithoutHeadings: Story = { args: { headings: [] } };
 
 export const English: Story = {
+  globals: { locale: 'en' },
   args: {
-    lang: 'en',
     post: { ...post, bodyLang: 'en', title: 'One provider blanked the whole page' },
   },
 };
 
-export const Untranslated: Story = { args: { lang: 'en' } };
+export const Untranslated: Story = { globals: { locale: 'en' } };

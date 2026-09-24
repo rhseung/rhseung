@@ -10,7 +10,6 @@ const meta = {
   component: ResumePage,
   parameters: { layout: 'fullscreen' },
   args: {
-    lang: 'ko',
     experience,
     education,
     projects,

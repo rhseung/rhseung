@@ -1,29 +1,15 @@
 import { AppProviders } from '@/common/components';
+import type { Language } from '@/common/lib';
 import { PaperPage } from '@/features/research';
 
-export function PaperIsland({
-  lang,
-  item,
-  authors,
-  bibtex,
-  children,
-  bibliography,
-}: PaperIsland.Props) {
+export function PaperIsland({ lang, ...props }: PaperIsland.Props) {
   return (
     <AppProviders lang={lang}>
-      <PaperPage
-        lang={lang}
-        item={item}
-        authors={authors}
-        bibtex={bibtex}
-        bibliography={bibliography}
-      >
-        {children}
-      </PaperPage>
+      <PaperPage {...props} />
     </AppProviders>
   );
 }
 
 export declare namespace PaperIsland {
-  export type Props = PaperPage.Props;
+  export type Props = PaperPage.Props & { lang: Language };
 }

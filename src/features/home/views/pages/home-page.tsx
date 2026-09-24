@@ -5,9 +5,9 @@ import { css } from 'styled-system/css';
 import { stack } from 'styled-system/patterns';
 
 import { Avatar, AvatarFallback, AvatarImage, ExternalLink, SiteDock } from '@/common/components';
-import { dayjs, SITE, type Language } from '@/common/lib';
+import { dayjs, SITE } from '@/common/lib';
 import { page } from '@/common/styles';
-import { useExternalLinks, useSiteSections } from '@/common/viewmodels';
+import { useExternalLinks, useSiteSections, useLanguage } from '@/common/viewmodels';
 
 import { useContributions, useKstTime } from '../../viewmodels';
 import { GithubContributionCalendar, RoleRotator } from '../components';
@@ -46,7 +46,8 @@ const signature = css({
   bg: 'text.muted',
 });
 
-export function HomePage({ lang, updatedOn }: HomePage.Props) {
+export function HomePage({ updatedOn }: HomePage.Props) {
+  const lang = useLanguage();
   const { t } = useTranslation('home');
   const { total, days } = useContributions();
   const shell = page();
@@ -186,7 +187,6 @@ export function HomePage({ lang, updatedOn }: HomePage.Props) {
 
 export declare namespace HomePage {
   export type Props = {
-    lang: Language;
     updatedOn: string;
   };
 }

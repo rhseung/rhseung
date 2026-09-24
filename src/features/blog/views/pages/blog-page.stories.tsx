@@ -26,7 +26,7 @@ const meta = {
   title: 'Blog/Pages/BlogPage',
   component: BlogPage,
   parameters: { layout: 'fullscreen' },
-  args: { lang: 'ko', posts },
+  args: { posts },
 } satisfies Meta<typeof BlogPage>;
 
 export default meta;

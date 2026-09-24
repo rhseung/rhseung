@@ -41,7 +41,7 @@ const meta = {
   title: 'Projects/Pages/ProjectsPage',
   component: ProjectsPage,
   parameters: { layout: 'fullscreen' },
-  args: { lang: 'ko', projects },
+  args: { projects },
 } satisfies Meta<typeof ProjectsPage>;
 
 export default meta;

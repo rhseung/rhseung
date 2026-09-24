@@ -1,20 +1,15 @@
 import { AppProviders } from '@/common/components';
+import type { Language } from '@/common/lib';
 import { CareerPage } from '@/features/career';
 
-export function CareerIsland({ lang, experience, education, awards, skills }: CareerIsland.Props) {
+export function CareerIsland({ lang, ...props }: CareerIsland.Props) {
   return (
     <AppProviders lang={lang}>
-      <CareerPage
-        lang={lang}
-        experience={experience}
-        education={education}
-        awards={awards}
-        skills={skills}
-      />
+      <CareerPage {...props} />
     </AppProviders>
   );
 }
 
 export declare namespace CareerIsland {
-  export type Props = CareerPage.Props;
+  export type Props = CareerPage.Props & { lang: Language };
 }

@@ -3,13 +3,15 @@ import { css } from 'styled-system/css';
 import { stack } from 'styled-system/patterns';
 
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle, SiteDock } from '@/common/components';
-import { localeHref, type Language } from '@/common/lib';
+import { localeHref } from '@/common/lib';
 import { page } from '@/common/styles';
+import { useLanguage } from '@/common/viewmodels';
 
 import { sortPosts, type PostSummary } from '../../viewmodels';
 import { PostListItem } from '../components';
 
-export function BlogPage({ lang, posts }: BlogPage.Props) {
+export function BlogPage({ posts }: BlogPage.Props) {
+  const lang = useLanguage();
   const { t } = useTranslation('blog');
   const shell = page();
 
@@ -49,7 +51,6 @@ export function BlogPage({ lang, posts }: BlogPage.Props) {
 
 export declare namespace BlogPage {
   export type Props = {
-    lang: Language;
     posts: PostSummary[];
   };
 }

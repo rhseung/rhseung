@@ -14,8 +14,9 @@ import {
   PaperBibliography,
   SiteDock,
 } from '@/common/components';
-import { formatPeriod, localeHref, type Language } from '@/common/lib';
+import { formatPeriod, localeHref } from '@/common/lib';
 import { metaText, page } from '@/common/styles';
+import { useLanguage } from '@/common/viewmodels';
 
 import {
   RESEARCH_KIND_TONE,
@@ -32,13 +33,13 @@ const header = stack({ gap: '3' });
 const authors = css({ color: 'text.muted', textStyle: 'sm' });
 
 export function PaperPage({
-  lang,
   item,
   authors: authorLine,
   bibtex,
   children,
   bibliography,
 }: PaperPage.Props) {
+  const lang = useLanguage();
   const { t } = useTranslation('research');
   const label = useResearchLabels();
   const shell = page({ width: 'lg' });
@@ -134,7 +135,6 @@ export function PaperPage({
 
 export declare namespace PaperPage {
   export type Props = {
-    lang: Language;
     item: Research;
     authors?: string;
     bibtex?: string;

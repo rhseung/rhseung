@@ -30,7 +30,7 @@ const meta = {
   title: 'Projects/Pages/ProjectDetailPage',
   component: ProjectDetailPage,
   parameters: { layout: 'fullscreen' },
-  args: { lang: 'ko', project, available: ['ko', 'en'], children: body },
+  args: { project, available: ['ko', 'en'], children: body },
 } satisfies Meta<typeof ProjectDetailPage>;
 
 export default meta;

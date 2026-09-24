@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { css } from 'styled-system/css';
 
 import { SiteDock, buttonVariants } from '@/common/components';
-import { type Language } from '@/common/lib';
 import { page } from '@/common/styles';
+import { useLanguage } from '@/common/viewmodels';
 import type { Award, CareerEntry, SkillGroup } from '@/features/career';
 import type { Project } from '@/features/projects';
 
@@ -13,7 +13,6 @@ import { ResumeDocument } from '../components/resume-document';
 const main = css(page.raw().main, { _print: { maxW: '[none]', gap: '0', p: '0' } });
 
 export function ResumePage({
-  lang,
   experience,
   education,
   projects,
@@ -21,6 +20,7 @@ export function ResumePage({
   skills,
   resumeHref,
 }: ResumePage.Props) {
+  const lang = useLanguage();
   const { t } = useTranslation('resume');
   const shell = page();
 
@@ -75,7 +75,6 @@ export function ResumePage({
 
 export declare namespace ResumePage {
   export type Props = {
-    lang: Language;
     experience: CareerEntry[];
     education: CareerEntry[];
     projects: Project[];

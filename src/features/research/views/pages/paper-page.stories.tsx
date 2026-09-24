@@ -52,7 +52,6 @@ const meta = {
   component: PaperPage,
   parameters: { layout: 'fullscreen' },
   args: {
-    lang: 'ko',
     item,
     authors: 'Hyunseung Ryu',
     bibtex: '@article{muller2007, title = {Position Based Dynamics}}',

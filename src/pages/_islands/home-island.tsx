@@ -1,14 +1,15 @@
 import { AppProviders } from '@/common/components';
+import type { Language } from '@/common/lib';
 import { HomePage } from '@/features/home';
 
-export function HomeIsland({ lang, updatedOn }: HomeIsland.Props) {
+export function HomeIsland({ lang, ...props }: HomeIsland.Props) {
   return (
     <AppProviders lang={lang}>
-      <HomePage lang={lang} updatedOn={updatedOn} />
+      <HomePage {...props} />
     </AppProviders>
   );
 }
 
 export declare namespace HomeIsland {
-  export type Props = HomePage.Props;
+  export type Props = HomePage.Props & { lang: Language };
 }

@@ -1,16 +1,15 @@
 import { AppProviders } from '@/common/components';
+import type { Language } from '@/common/lib';
 import { PostDetailPage } from '@/features/blog';
 
-export function PostDetailIsland({ lang, post, headings, children }: PostDetailIsland.Props) {
+export function PostDetailIsland({ lang, ...props }: PostDetailIsland.Props) {
   return (
     <AppProviders lang={lang}>
-      <PostDetailPage lang={lang} post={post} headings={headings}>
-        {children}
-      </PostDetailPage>
+      <PostDetailPage {...props} />
     </AppProviders>
   );
 }
 
 export declare namespace PostDetailIsland {
-  export type Props = PostDetailPage.Props;
+  export type Props = PostDetailPage.Props & { lang: Language };
 }

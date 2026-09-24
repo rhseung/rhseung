@@ -99,6 +99,17 @@ side-effect import로 런타임에 살아남아 실제로 터진다. 그래서 �
 한 방향이다. View는 Model을, ViewModel은 View를, Model은 상위 계층을 모른다.
 `eslint-plugin-boundaries`가 한국어 메시지로 막는다.
 
+**언어는 페이지가 훅으로 읽는다.** `useLanguage()`가 i18next에서 꺼내고, `AppProviders`가
+그것을 URL의 `lang`으로 맞춰 둔다. 페이지 props에 `lang`을 얹으면 **story 에서 갈린다** -
+툴바의 locale global 은 i18next 를 바꾸는데 props 의 `lang`은 그대로라, 영어를 골라도 문구만
+영어가 되고 href 와 언어 비교는 한국어 기준으로 남았다. 실제로 그랬다. story 는 이제
+`args` 가 아니라 `globals: { locale: 'en' }` 으로 언어를 바꾼다.
+`SiteDock`, `DetailHeader`, `WipNotice` 같은 리프는 계속 props 로 받는다. 그쪽은 story 가
+언어별 변형을 arg 하나로 찍는 게 낫다.
+
+**아일랜드는 props 를 다시 나열하지 않는다.** `({ lang, ...props })` 로 받아
+`<Page {...props} />` 로 넘긴다. 페이지에 prop 을 추가할 때 아일랜드를 같이 고칠 일이 없다.
+
 **View가 Model 타입이 필요하면** ViewModel 배럴이 재export한다 (`viewmodels/index.ts`).
 이게 정식 경로다. `views/`에서 `../models`를 직접 import하면 린트 에러다.
 

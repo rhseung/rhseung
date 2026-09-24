@@ -19,7 +19,7 @@ const meta = {
   title: 'Home/Pages/HomePage',
   component: HomePage,
   parameters: { layout: 'fullscreen' },
-  args: { lang: 'ko', updatedOn: '2026-08-19' },
+  args: { updatedOn: '2026-08-19' },
   decorators: [
     (Story) => (
       <WithContributions>
@@ -36,5 +36,5 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 export const English: Story = {
-  args: { lang: 'en' },
+  globals: { locale: 'en' },
 };

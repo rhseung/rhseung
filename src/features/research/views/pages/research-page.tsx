@@ -3,13 +3,15 @@ import { css } from 'styled-system/css';
 import { stack } from 'styled-system/patterns';
 
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle, SiteDock } from '@/common/components';
-import { localeHref, type Language } from '@/common/lib';
+import { localeHref } from '@/common/lib';
 import { page } from '@/common/styles';
+import { useLanguage } from '@/common/viewmodels';
 
 import { sortResearch, type Research } from '../../viewmodels';
 import { ResearchCard } from '../components';
 
-export function ResearchPage({ lang, items, papers = [] }: ResearchPage.Props) {
+export function ResearchPage({ items, papers = [] }: ResearchPage.Props) {
+  const lang = useLanguage();
   const { t } = useTranslation('research');
   const shell = page();
 
@@ -52,7 +54,6 @@ export function ResearchPage({ lang, items, papers = [] }: ResearchPage.Props) {
 
 export declare namespace ResearchPage {
   export type Props = {
-    lang: Language;
     items: Research[];
     papers?: string[];
   };

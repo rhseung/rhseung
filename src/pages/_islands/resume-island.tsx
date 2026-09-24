@@ -1,14 +1,15 @@
 import { AppProviders } from '@/common/components';
+import type { Language } from '@/common/lib';
 import { ResumePage } from '@/features/resume';
 
-export function ResumeIsland(props: ResumeIsland.Props) {
+export function ResumeIsland({ lang, ...props }: ResumeIsland.Props) {
   return (
-    <AppProviders lang={props.lang}>
+    <AppProviders lang={lang}>
       <ResumePage {...props} />
     </AppProviders>
   );
 }
 
 export declare namespace ResumeIsland {
-  export type Props = ResumePage.Props;
+  export type Props = ResumePage.Props & { lang: Language };
 }

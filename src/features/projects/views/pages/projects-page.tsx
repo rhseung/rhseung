@@ -20,8 +20,9 @@ import {
   ToggleGroupItem,
   TechIcon,
 } from '@/common/components';
-import { localeHref, type Language } from '@/common/lib';
+import { localeHref } from '@/common/lib';
 import { brand, page, techTone } from '@/common/styles';
+import { useLanguage } from '@/common/viewmodels';
 import { TECH_BY_NAME } from '@/content/skills';
 import type { Award } from '@/features/career';
 
@@ -38,7 +39,8 @@ import { ProjectCard } from '../components';
 const search = css({ '&::-webkit-search-cancel-button': { appearance: 'none' } });
 const wrap = css({ flexWrap: 'wrap' });
 
-export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props) {
+export function ProjectsPage({ projects, awards = [] }: ProjectsPage.Props) {
+  const lang = useLanguage();
   const { t } = useTranslation('projects');
   const {
     filters,
@@ -214,7 +216,6 @@ export function ProjectsPage({ lang, projects, awards = [] }: ProjectsPage.Props
 
 export declare namespace ProjectsPage {
   export type Props = {
-    lang: Language;
     projects: Project[];
     awards?: Award[];
   };

@@ -21,7 +21,7 @@ const meta = {
   title: 'Research/Pages/ResearchPage',
   component: ResearchPage,
   parameters: { layout: 'fullscreen' },
-  args: { lang: 'ko', items },
+  args: { items },
 } satisfies Meta<typeof ResearchPage>;
 
 export default meta;

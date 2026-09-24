@@ -8,7 +8,7 @@ const meta = {
   title: 'Resume/Pages/CareerPage',
   component: CareerPage,
   parameters: { layout: 'fullscreen' },
-  args: { lang: 'ko', experience, education, awards, skills },
+  args: { experience, education, awards, skills },
 } satisfies Meta<typeof CareerPage>;
 
 export default meta;
