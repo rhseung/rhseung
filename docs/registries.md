@@ -1,8 +1,8 @@
 # 파일 기반 등록 구조
 
 이 저장소는 등록 목록 없이 **지정된 경로의 파일을 glob으로 수집하는** 구조다. 이 문서는 각
-등록 지점의 경로, 파일 형식, 수집 주체, 검증 수단을 정리한다. 규칙의 근거는 `AGENTS.md`에
-있다.
+등록 지점의 경로, 파일 형식, 수집 주체, 검증 수단을 정리한다. 규칙은 `AGENTS.md`, 그 근거는
+`docs/rationale.md`에 있다.
 
 README는 GitHub 프로필 페이지이므로 이 문서를 별도로 둔다.
 
@@ -237,4 +237,5 @@ feature 안에 두면 그 폴더의 계층 규칙(`models`/`viewmodels`/`views`)
 - `.claude/skills/<name>/SKILL.md` - frontmatter의 `description` 트리거로 자동 로드.
 - `.claude/commands/<name>.md` - `/<name>`. `new-feature`, `new-component`가 있다.
 - `.claude/agents/<name>.md` - 서브에이전트(`ui-reviewer`).
-- 규칙 자체는 `AGENTS.md` 한 파일이고 `CLAUDE.md`가 import 한다.
+- 규칙은 `AGENTS.md` 한 파일이고 `CLAUDE.md`가 import 한다. 세션마다 통째로 실리므로 짧게
+  유지한다. 규칙의 이유와 겪은 함정은 `docs/rationale.md`로 빼고 거기서 찾아 읽는다.

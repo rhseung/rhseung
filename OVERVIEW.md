@@ -133,6 +133,7 @@ flowchart LR
 | 내용                       | 위치                 |
 | -------------------------- | -------------------- |
 | 코드 구조와 지켜야 할 규칙 | `AGENTS.md`          |
+| 그 규칙이 왜 그런지        | `docs/rationale.md`  |
 | 배포, 환경, secret, 함정   | `docs/deploy.md`     |
 | 파일을 두는 자리           | `docs/registries.md` |
 

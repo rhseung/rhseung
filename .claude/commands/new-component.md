@@ -3,7 +3,8 @@ description: namespace props 관례와 스토리를 갖춘 컴포넌트 폴더�
 argument-hint: <common|feature/<name>> <ComponentName>
 ---
 
-`AGENTS.md` §4를 따라 `$1` 아래에 컴포넌트 `$2`를 만든다.
+`AGENTS.md`와 `panda-here` skill을 따라 `$1` 아래에 컴포넌트 `$2`를 만든다.
+컴포넌트 규약의 이유는 `docs/rationale.md` §4에 있다.
 
 ## 위치
 

@@ -3,7 +3,7 @@ description: MVVM 전 계층·배럴·로케일 네임스페이스·라우트까
 argument-hint: <feature-name>
 ---
 
-`AGENTS.md` §2·§3을 그대로 따라 `$1` feature를 만든다.
+`AGENTS.md` §3(아키텍처)을 그대로 따라 `$1` feature를 만든다.
 
 `src/features/todos/`를 본으로 삼는다 — 베끼라고 있는 디렉토리다. 먼저 읽어라.
 
@@ -22,7 +22,7 @@ src/features/$1/
     └── pages/{index.ts,$1-page.tsx}
 ```
 
-여기에 라우트 파일 하나. 이 템플릿의 라우팅 관례는 `AGENTS.md` §2 참고.
+여기에 라우트 파일 하나. 이 템플릿의 라우팅 관례는 `AGENTS.md` §3 참고.
 
 ## 다들 까먹는 스텝
 
