@@ -11,7 +11,7 @@ disable_tools = ["hugo", "go", "ruby", "python", "nub"]
 PUBLIC_DEVTOOLS = ""
 
 [tasks."cloudflare:build"]
-run = "bun install --frozen-lockfile && bun run build"
+run = "bun run build"
 
 # 배포 뒤에 PDF 를 굽는다. 빌드가 아니라 배포된 페이지를 찍어야 화면과 PDF 가 같은
 # 컴포넌트에서 나온다. 렌더가 실패하면 비영 종료해서 배포가 조용히 지나가지 않게 한다.
