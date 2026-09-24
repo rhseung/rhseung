@@ -22,16 +22,14 @@ export default defineConfig({
 
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
 
+  // `astro preview` 가 아니라 worker 를 띄운다. preview 는 자산만 서빙해서
+  // `/api/*`, `/resume-*.pdf`, `/` 의 언어 협상을 하나도 검사하지 못한다.
   webServer: {
-    command: `bunx --bun astro preview --port ${PORT}`,
+    command: `wrangler dev --local --port ${PORT}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
     stdout: 'ignore',
     stderr: 'pipe',
-    env: {
-      ASTRO_DEV_BACKGROUND: '0',
-      ASTRO_PREVIEW_BACKGROUND: '0',
-    },
   },
 });

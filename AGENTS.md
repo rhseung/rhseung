@@ -120,7 +120,10 @@ Astro 에서 제일 중요한 결정이 그거다.
 
 - **story 가 곧 테스트다.** 실제 chromium 으로 돌고 a11y 위반은 실패다.
 - 순수 로직만 `*.test.ts` (jsdom).
-- e2e 는 dev 가 아니라 `astro preview` 를 상대로 돈다. 사용자 여정 하나에 spec 하나.
+- **e2e 는 `wrangler dev` 를 상대로 돈다.** `astro preview` 는 자산만 서빙해서 `/api/*` 와
+  `/` 의 언어 협상을 하나도 못 본다. 실제로 그 구멍으로 배포가 깨진 적이 있다.
+- e2e 는 사용자 여정 하나에 spec 하나. worker 라우트는 `e2e/worker.spec.ts` 가 따로 본다 -
+  네트워크를 타지 않는 분기(메서드 검사, 토큰 검사, host 검증)만 골라 쓴다.
 
 ## 6. 커밋
 

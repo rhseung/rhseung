@@ -7,7 +7,7 @@ test('홈이 뜬다', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('lang', 'ko');
 });
 
-test('워커 없이도 루트가 기본 언어로 보낸다', async ({ page }) => {
+test('루트로 들어가면 언어가 붙은 주소로 간다', async ({ page }) => {
   await page.goto('/');
 
   await expect(page).toHaveURL(/\/ko\/$/);
