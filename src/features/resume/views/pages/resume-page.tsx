@@ -2,9 +2,8 @@ import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-system/css';
 
-import { SiteDock, buttonVariants } from '@/common/components';
+import { buttonVariants } from '@/common/components';
 import { page } from '@/common/styles';
-import { useLanguage } from '@/common/viewmodels';
 import type { Award, CareerEntry, SkillGroup } from '@/features/career';
 import type { Project } from '@/features/projects';
 
@@ -20,7 +19,6 @@ export function ResumePage({
   skills,
   resumeHref,
 }: ResumePage.Props) {
-  const lang = useLanguage();
   const { t } = useTranslation('resume');
   const shell = page();
 
@@ -67,8 +65,6 @@ export function ResumePage({
           />
         </div>
       </main>
-
-      <SiteDock lang={lang} current="resume" route={{ to: '/[lang]/resume' }} />
     </div>
   );
 }

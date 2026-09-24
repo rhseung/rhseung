@@ -36,13 +36,7 @@ const { Content } = await render(entry);
   wip
   available={available}
 >
-  <ProjectDetailIsland
-    lang={lang}
-    project={project}
-    awards={awards}
-    available={available}
-    client:idle
-  >
+  <ProjectDetailIsland lang={lang} project={project} awards={awards} client:idle>
     <Content components={mdxComponents(lang)} />
   </ProjectDetailIsland>
 </Layout>

@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { css } from 'styled-system/css';
 import { stack } from 'styled-system/patterns';
 
-import { Badge, DetailHeader, Prose, SiteDock, TranslationNotice } from '@/common/components';
+import { Badge, DetailHeader, Prose, TranslationNotice } from '@/common/components';
 import { dayjs, localeHref } from '@/common/lib';
 import { metaText, page } from '@/common/styles';
 import { useLanguage } from '@/common/viewmodels';
@@ -93,12 +93,6 @@ export function PostDetailPage({ post, headings, children }: PostDetailPage.Prop
       </div>
 
       <TocDock headings={headings} />
-
-      <SiteDock
-        lang={lang}
-        current="blog"
-        route={{ to: '/[lang]/blog/[slug]', params: { slug: post.slug } }}
-      />
     </div>
   );
 }

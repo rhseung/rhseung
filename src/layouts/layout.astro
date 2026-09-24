@@ -5,6 +5,8 @@ import { css } from 'styled-system/css';
 
 import themeScript from './theme.js?raw';
 
+import { SiteDockIsland } from '@/common/components';
+import { sectionOf } from '@/common/viewmodels';
 import { WipNoticeIsland } from '@/pages/_islands/wip-notice-island';
 import {
   DEFAULT_LANGUAGE,
@@ -23,7 +25,7 @@ import '@/styles.css';
 
 interface Props {
   lang: Language;
-  title: string;
+  title?: string;
   description?: string;
   route?: LocaleRouteRef;
   wip?: boolean;
@@ -35,7 +37,7 @@ interface Props {
 
 const {
   lang,
-  title,
+  title: givenTitle,
   description,
   route,
   wip = false,
@@ -46,6 +48,9 @@ const {
 } = Astro.props;
 
 const t = i18n.getFixedT(lang, 'common');
+
+const section = route === undefined ? undefined : sectionOf(route.to);
+const title = givenTitle ?? (section === undefined ? SITE.title : t(($) => $.nav[section]));
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
 
@@ -136,6 +141,17 @@ const schema = pageSchema({
   <body>
     <div class={css({ display: 'contents' })} inert={hidden}>
       <slot />
+      {
+        route !== undefined && (
+          <SiteDockIsland
+            lang={lang}
+            current={section}
+            route={route}
+            available={available}
+            client:idle
+          />
+        )
+      }
     </div>
     {hidden && <WipNoticeIsland lang={lang} client:load />}
   </body>

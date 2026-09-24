@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { css } from 'styled-system/css';
 import { stack } from 'styled-system/patterns';
 
-import { Empty, EmptyDescription, EmptyHeader, EmptyTitle, SiteDock } from '@/common/components';
+import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from '@/common/components';
 import { localeHref } from '@/common/lib';
 import { page } from '@/common/styles';
 import { useLanguage } from '@/common/viewmodels';
@@ -43,8 +43,6 @@ export function BlogPage({ posts }: BlogPage.Props) {
           </ul>
         )}
       </main>
-
-      <SiteDock lang={lang} current="blog" route={{ to: '/[lang]/blog' }} />
     </div>
   );
 }

@@ -5,6 +5,7 @@ export * from './language-suggestion-popover';
 export * from './link-row';
 export * from './not-found';
 export * from './site-dock';
+export * from './site-dock-island';
 export * from './tech-icon';
 export * from './translation-notice';
 export * from './wip-notice';

@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { css, cx } from 'styled-system/css';
 import { stack } from 'styled-system/patterns';
 
-import { Badge, DetailHeader, LinkRow, Prose, SiteDock } from '@/common/components';
-import { formatPeriod, formatYearMonth, localeHref, type Language } from '@/common/lib';
+import { Badge, DetailHeader, LinkRow, Prose } from '@/common/components';
+import { formatPeriod, formatYearMonth, localeHref } from '@/common/lib';
 import { metaText, page } from '@/common/styles';
 import { useLanguage } from '@/common/viewmodels';
 import type { Award } from '@/features/career';
@@ -14,12 +14,7 @@ import { PROJECT_LINK_ICON, projectLinks, useProjectLabels, type Project } from 
 const main = css({ display: 'flex', minW: '0', flexDirection: 'column', gap: '8' });
 const header = stack({ gap: '3' });
 
-export function ProjectDetailPage({
-  project,
-  awards = [],
-  available,
-  children,
-}: ProjectDetailPage.Props) {
+export function ProjectDetailPage({ project, awards = [], children }: ProjectDetailPage.Props) {
   const lang = useLanguage();
   const { t } = useTranslation('projects');
   const label = useProjectLabels();
@@ -113,13 +108,6 @@ export function ProjectDetailPage({
           <Prose>{children}</Prose>
         </main>
       </div>
-
-      <SiteDock
-        lang={lang}
-        current="projects"
-        route={{ to: '/[lang]/projects/[slug]', params: { slug: project.slug } }}
-        available={available}
-      />
     </div>
   );
 }
@@ -128,7 +116,6 @@ export declare namespace ProjectDetailPage {
   export type Props = {
     project: Project;
     awards?: Award[];
-    available?: readonly Language[];
     children: React.ReactNode;
   };
 }

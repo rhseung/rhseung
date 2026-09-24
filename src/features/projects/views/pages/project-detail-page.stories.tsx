@@ -30,7 +30,7 @@ const meta = {
   title: 'Projects/Pages/ProjectDetailPage',
   component: ProjectDetailPage,
   parameters: { layout: 'fullscreen' },
-  args: { project, available: ['ko', 'en'], children: body },
+  args: { project, children: body },
 } satisfies Meta<typeof ProjectDetailPage>;
 
 export default meta;
@@ -41,8 +41,4 @@ export const Default: Story = {};
 
 export const WithHighlight: Story = {
   args: { project: { ...project, highlight: '파싱 3.2× 빠름 (12k LOC 기준)' } },
-};
-
-export const WithoutAlternate: Story = {
-  args: { available: ['ko'] },
 };

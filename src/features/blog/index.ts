@@ -4,3 +4,5 @@ export type { PostHeading, PostItem, PostSummary } from './models';
 export { pickBody, sortPosts, tocHeadings, toPostSummary } from './viewmodels';
 
 export { BlogPage, PostDetailPage, PostListItem, PostToc, TocDock } from './views';
+
+export { BlogView } from './blog-view';

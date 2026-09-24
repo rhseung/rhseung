@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { css } from 'styled-system/css';
 import { stack } from 'styled-system/patterns';
 
-import { Avatar, AvatarFallback, AvatarImage, ExternalLink, SiteDock } from '@/common/components';
+import { Avatar, AvatarFallback, AvatarImage, ExternalLink } from '@/common/components';
 import { dayjs, SITE } from '@/common/lib';
 import { page } from '@/common/styles';
 import { useExternalLinks, useSiteSections, useLanguage } from '@/common/viewmodels';
@@ -179,8 +179,6 @@ export function HomePage({ updatedOn }: HomePage.Props) {
           style={{ mask: "url('/images/signature.png') center / contain no-repeat" }}
         />
       </main>
-
-      <SiteDock lang={lang} route={{ to: '/[lang]' }} />
     </div>
   );
 }

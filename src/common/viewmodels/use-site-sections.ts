@@ -28,6 +28,12 @@ const SECTIONS = [
 
 export type SiteSection = (typeof SECTIONS)[number]['key'];
 
+export function sectionOf(route: LocaleRoute): SiteSection | undefined {
+  const key = route.slice('/[lang]/'.length).split('/')[0];
+
+  return SECTIONS.find((section) => section.key === key)?.key;
+}
+
 export function useSiteSections(lang: Language) {
   const { t } = useTranslation('common');
 

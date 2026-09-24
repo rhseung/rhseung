@@ -15,7 +15,6 @@ import {
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-  SiteDock,
   ToggleGroup,
   ToggleGroupItem,
   TechIcon,
@@ -208,8 +207,6 @@ export function ProjectsPage({ projects, awards = [] }: ProjectsPage.Props) {
           </ul>
         )}
       </main>
-
-      <SiteDock lang={lang} current="projects" route={{ to: '/[lang]/projects' }} />
     </div>
   );
 }

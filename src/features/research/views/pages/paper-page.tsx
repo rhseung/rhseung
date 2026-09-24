@@ -12,7 +12,6 @@ import {
   LinkRow,
   Paper,
   PaperBibliography,
-  SiteDock,
 } from '@/common/components';
 import { formatPeriod, localeHref } from '@/common/lib';
 import { metaText, page } from '@/common/styles';
@@ -123,12 +122,6 @@ export function PaperPage({
           </div>
         </main>
       </div>
-
-      <SiteDock
-        lang={lang}
-        current="research"
-        route={{ to: '/[lang]/research/[slug]', params: { slug: item.slug } }}
-      />
     </div>
   );
 }

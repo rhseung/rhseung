@@ -1,7 +1,8 @@
 import { I18nextProvider } from 'react-i18next';
 
-import { SiteDock } from '@/common/components';
 import { i18nFor, type Language } from '@/common/lib';
+
+import { SiteDock } from '../site-dock';
 
 export function SiteDockIsland({ lang, ...props }: SiteDockIsland.Props) {
   return (
