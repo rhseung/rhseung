@@ -321,8 +321,13 @@ README의 `<!-- tech:start -->`부터 `<!-- tech:end -->`까지도 생성물이�
 
 **배포 뒤에 Worker가 굽는다.** `mise run cloudflare:deploy`가 `wrangler deploy` 다음에
 `cloudflare:resume` task를 부르고, 그 task가 워커의 `/api/render-resume`를 친다. 워커는
-Browser Rendering 바인딩으로 방금 배포된 `/{lang}/resume/`를 열어 PDF로 굽고 R2에 넣는다.
-`/resume-{lang}.pdf` 요청은 워커가 R2에서 꺼내 준다.
+Browser Rendering 바인딩으로 방금 배포된 `/{lang}/resume/print/`를 열어 PDF로 굽고 R2에
+넣는다. `/resume-{lang}.pdf` 요청은 워커가 R2에서 꺼내 준다.
+
+**`/{lang}/resume/`가 아니라 `/{lang}/resume/print/`다.** 이력서 화면은 WIP gate가 걸려 있어
+production에서는 안내문만 렌더한다 - 본문이 아예 없으니 그걸 구우면 안내문 PDF가 나온다.
+print 라우트는 gate도 독도 없이 `ResumeView` 하나만 그린다. `isNoindex`가 `/[lang]/resume`
+접두사로 잡아서 noindex이고 sitemap에서도 빠진다.
 
 전에는 빌드가 `playwright` + `@sparticuz/chromium`으로 구웠다. 67MB 의존성을 배포 빌드마다
 설치했고, 빌드 중에 preview 서버를 띄워야 했다. 둘 다 사라졌다.

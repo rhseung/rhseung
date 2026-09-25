@@ -1,0 +1,14 @@
+---
+import { i18n } from '@/common/lib';
+import { ResumeView } from '@/features/resume';
+import { resumePaths } from '@/features/resume/paths';
+import Layout from '@/layouts/layout.astro';
+
+export const getStaticPaths = resumePaths;
+
+const { lang, detailSlugs } = Astro.props;
+---
+
+<Layout lang={lang} title={i18n.getFixedT(lang, 'resume')(($) => $.page.title)}>
+  <ResumeView lang={lang} detailSlugs={detailSlugs} />
+</Layout>
