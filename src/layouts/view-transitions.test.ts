@@ -39,6 +39,11 @@ describe('relate', () => {
     expect(relate('/ko/blog/hello/', '/ko/projects/', 3, 1)).toEqual(['back', undefined]);
   });
 
+  it('독에서 지금 있는 자리를 누르면 same 이라 슬라이드하지 않는다', () => {
+    expect(relate('/ko/blog/', '/ko/blog/', 3, 3)).toEqual(['same', undefined]);
+    expect(relate('/ko/', '/ko/', 0, 0)).toEqual(['same', undefined]);
+  });
+
   it('뒤로 가기나 독 밖 링크처럼 자리를 모르면 Astro 가 history 로 정한 방향을 그대로 둔다', () => {
     expect(relate('/ko/blog/', '/ko/projects/', 3, undefined)).toEqual([undefined, undefined]);
     expect(relate('/ko/blog/', '/ko/projects/', undefined, 1)).toEqual([undefined, undefined]);

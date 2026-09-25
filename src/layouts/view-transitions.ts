@@ -1,6 +1,6 @@
 const PAIR_STYLE_ID = 'vt-pair';
 
-export type Direction = 'forward' | 'back';
+export type Direction = 'forward' | 'back' | 'same';
 
 function segments(pathname: string) {
   return pathname.split('/').filter(Boolean);
@@ -36,6 +36,7 @@ export function relate(
   }
 
   if (origin === undefined || target === undefined) return [undefined, undefined];
+  if (origin === target) return ['same', undefined];
 
   return [target < origin ? 'back' : 'forward', undefined];
 }

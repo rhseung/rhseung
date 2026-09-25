@@ -115,6 +115,9 @@ export default defineConfig({
         vtEnterLeft: { from: { opacity: 0, transform: 'translateX(-3rem)' } },
         vtExitRight: { to: { opacity: 0, transform: 'translateX(1.5rem)' } },
         vtEnterRight: { from: { opacity: 0, transform: 'translateX(3rem)' } },
+        vtScaleOut: { to: { opacity: 0, transform: 'scale(1.02)' } },
+        vtScaleIn: { from: { opacity: 0, transform: 'scale(0.98)' } },
+        vtFadeIn: { from: { opacity: 0 } },
         popIn: {
           from: {
             opacity: 0,

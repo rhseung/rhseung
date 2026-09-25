@@ -2,6 +2,7 @@ import { defineGlobalStyles } from '@pandacss/dev';
 
 export const globalCss = defineGlobalStyles({
   html: {
+    animation: '260ms cubic-bezier(0.33, 1, 0.68, 1) both vtFadeIn',
     overscrollBehavior: 'none',
     '--global-font-body': '{fonts.body}',
     '--global-font-mono': '{fonts.mono}',
@@ -30,6 +31,8 @@ export const globalCss = defineGlobalStyles({
   },
   "html[data-astro-transition='back']::view-transition-old(root)": { animationName: 'vtExitRight' },
   "html[data-astro-transition='back']::view-transition-new(root)": { animationName: 'vtEnterLeft' },
+  "html[data-astro-transition='same']::view-transition-old(root)": { animationName: 'vtScaleOut' },
+  "html[data-astro-transition='same']::view-transition-new(root)": { animationName: 'vtScaleIn' },
   '::view-transition-group(dock), ::view-transition-old(dock), ::view-transition-new(dock)': {
     animationDuration: '360ms',
   },
@@ -54,6 +57,7 @@ export const globalCss = defineGlobalStyles({
     animationFillMode: 'both',
   },
   '@media (prefers-reduced-motion: reduce)': {
+    html: { animation: 'none' },
     '::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*)': {
       animationDuration: '1ms !important',
     },
