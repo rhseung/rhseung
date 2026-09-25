@@ -1,8 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 
-import { css } from 'styled-system/css';
-
 import themeScript from './theme.js?raw';
 
 import { SiteDockIsland, WipNoticeIsland } from '@/common/components';
@@ -64,20 +62,17 @@ const head = pageHead(Astro.props, Astro.url, Astro.site);
     <ClientRouter />
   </head>
   <body>
-    <div class={css({ display: 'contents' })} inert={head.hidden}>
-      <slot />
-      {
-        head.route !== undefined && (
-          <SiteDockIsland
-            lang={head.lang}
-            current={head.section}
-            route={head.route}
-            available={head.available}
-            client:idle
-          />
-        )
-      }
-    </div>
-    {head.hidden && <WipNoticeIsland lang={head.lang} client:load />}
+    {head.hidden ? <WipNoticeIsland lang={head.lang} /> : <slot />}
+    {
+      head.route !== undefined && (
+        <SiteDockIsland
+          lang={head.lang}
+          current={head.section}
+          route={head.route}
+          available={head.available}
+          client:idle
+        />
+      )
+    }
   </body>
 </html>

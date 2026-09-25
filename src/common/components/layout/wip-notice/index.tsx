@@ -2,7 +2,7 @@ import { WrenchScrewdriverIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 import { css, cx } from 'styled-system/css';
 
-import { Empty, EmptyHeader, EmptyTitle, SiteDock, buttonVariants } from '@/common/components';
+import { Empty, EmptyHeader, EmptyTitle, buttonVariants } from '@/common/components';
 import { localeHref, type Language } from '@/common/lib';
 import { page } from '@/common/styles';
 
@@ -25,20 +25,7 @@ export function WipNotice({ lang }: WipNotice.Props) {
   const shell = page();
 
   return (
-    <div
-      className={cx(
-        shell.root,
-        css({
-          position: 'fixed',
-          inset: '0',
-          zIndex: 'cover',
-          display: 'flex',
-          flexDirection: 'column',
-          bg: 'surface',
-          _print: { display: 'none' },
-        }),
-      )}
-    >
+    <div className={cx(shell.root, css({ display: 'flex', flexDirection: 'column' }))}>
       <main className={main}>
         <Empty>
           <EmptyHeader>
@@ -55,8 +42,6 @@ export function WipNotice({ lang }: WipNotice.Props) {
           </a>
         </Empty>
       </main>
-
-      <SiteDock lang={lang} />
     </div>
   );
 }
