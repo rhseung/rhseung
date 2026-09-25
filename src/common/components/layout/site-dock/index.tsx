@@ -91,6 +91,8 @@ export function SiteDock({
   const sections = useSiteSections(lang);
   const external = useExternalLinks();
 
+  const currentIndex = sections.findIndex(({ key }) => key === current) + 1;
+
   return (
     <TooltipProvider>
       {BLUR_LAYERS.map(({ height, blur }) => (
@@ -111,13 +113,14 @@ export function SiteDock({
       ))}
 
       <nav aria-label={t(($) => $.nav.label)} className={cx(nav, className)}>
-        <div data-vt-dock className={dockBar}>
+        <div data-vt-dock data-dock-current={currentIndex} className={dockBar}>
           <DockLink
             href={localeHref(lang, '/[lang]')}
             label={t(($) => $.nav.home)}
             Icon={HomeIcon}
             IconSolid={HomeSolidIcon}
             current={current === undefined}
+            index={0}
           />
 
           <div
@@ -128,7 +131,7 @@ export function SiteDock({
           >
             <DockDivider />
 
-            {sections.map(({ key, href, label, Icon, IconSolid }) => (
+            {sections.map(({ key, href, label, Icon, IconSolid }, position) => (
               <DockLink
                 key={key}
                 href={href}
@@ -136,6 +139,7 @@ export function SiteDock({
                 Icon={Icon}
                 IconSolid={IconSolid}
                 current={current === key}
+                index={position + 1}
               />
             ))}
 
@@ -286,7 +290,16 @@ function ThemeIcons() {
   );
 }
 
-function DockLink({ href, label, Icon, IconSolid, current, blank, hrefLang }: DockLink.Props) {
+function DockLink({
+  href,
+  label,
+  Icon,
+  IconSolid,
+  current,
+  blank,
+  hrefLang,
+  index,
+}: DockLink.Props) {
   const Rendered = current && IconSolid !== undefined ? IconSolid : Icon;
 
   return (
@@ -298,6 +311,7 @@ function DockLink({ href, label, Icon, IconSolid, current, blank, hrefLang }: Do
             aria-label={label}
             aria-current={current ? 'page' : undefined}
             hrefLang={hrefLang}
+            data-dock-index={index}
             {...(blank ? { target: '_blank', rel: 'noreferrer noopener' } : {})}
             className={dockItem}
           />
@@ -319,6 +333,7 @@ declare namespace DockLink {
     current?: boolean;
     blank?: boolean;
     hrefLang?: string;
+    index?: number;
   };
 }
 

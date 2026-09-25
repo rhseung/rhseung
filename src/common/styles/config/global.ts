@@ -28,8 +28,8 @@ export const globalCss = defineGlobalStyles({
   '::view-transition-new(root)': {
     animation: '260ms 100ms cubic-bezier(0.33, 1, 0.68, 1) both vtEnterRight',
   },
-  "html[data-vt='shallower']::view-transition-old(root)": { animationName: 'vtExitRight' },
-  "html[data-vt='shallower']::view-transition-new(root)": { animationName: 'vtEnterLeft' },
+  "html[data-astro-transition='back']::view-transition-old(root)": { animationName: 'vtExitRight' },
+  "html[data-astro-transition='back']::view-transition-new(root)": { animationName: 'vtEnterLeft' },
   '::view-transition-group(dock), ::view-transition-old(dock), ::view-transition-new(dock)': {
     animationDuration: '360ms',
   },

@@ -1,19 +1,43 @@
 const PAIR_STYLE_ID = 'vt-pair';
 
-type Relation = 'deeper' | 'shallower' | 'sibling';
+export type Direction = 'forward' | 'back';
 
 function segments(pathname: string) {
   return pathname.split('/').filter(Boolean);
 }
 
-function relate(from: string, to: string): [Relation, string | undefined] {
-  const a = segments(from);
-  const b = segments(to);
+export function dockCurrent(root: ParentNode): number | undefined {
+  const bar = root.querySelector<HTMLElement>('[data-vt-dock]');
 
-  if (b.length === a.length + 1 && a.every((s, i) => s === b[i])) return ['deeper', b.at(-1)];
-  if (a.length === b.length + 1 && b.every((s, i) => s === a[i])) return ['shallower', a.at(-1)];
+  return bar?.dataset.dockCurrent === undefined ? undefined : Number(bar.dataset.dockCurrent);
+}
 
-  return ['sibling', undefined];
+export function dockTarget(element: Element | undefined): number | undefined {
+  const index = element?.closest<HTMLElement>('[data-dock-index]')?.dataset.dockIndex;
+
+  return index === undefined ? undefined : Number(index);
+}
+
+export function relate(
+  from: string,
+  to: string,
+  origin?: number,
+  target?: number,
+): [Direction | undefined, string | undefined] {
+  const fromParts = segments(from);
+  const toParts = segments(to);
+
+  if (toParts.length === fromParts.length + 1 && fromParts.every((s, i) => s === toParts[i])) {
+    return ['forward', toParts.at(-1)];
+  }
+
+  if (fromParts.length === toParts.length + 1 && toParts.every((s, i) => s === fromParts[i])) {
+    return ['back', fromParts.at(-1)];
+  }
+
+  if (origin === undefined || target === undefined) return [undefined, undefined];
+
+  return [target < origin ? 'back' : 'forward', undefined];
 }
 
 function pair(slug: string | undefined) {
@@ -30,21 +54,24 @@ function pair(slug: string | undefined) {
 
 export function initViewTransitions() {
   let pairing: string | undefined;
-  let relation: Relation | undefined;
 
   document.addEventListener('astro:before-preparation', (event) => {
     pairing = undefined;
-    relation = undefined;
 
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      [relation, pairing] = relate(event.from.pathname, event.to.pathname);
+      const [direction, slug] = relate(
+        event.from.pathname,
+        event.to.pathname,
+        dockCurrent(document),
+        dockTarget(event.sourceElement),
+      );
+
+      if (direction !== undefined) event.direction = direction;
+      pairing = slug;
     }
 
     pair(pairing);
   });
 
-  document.addEventListener('astro:after-swap', () => {
-    if (relation !== undefined) document.documentElement.dataset.vt = relation;
-    pair(pairing);
-  });
+  document.addEventListener('astro:after-swap', () => pair(pairing));
 }
