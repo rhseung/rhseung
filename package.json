@@ -6,6 +6,7 @@
     "check": "prettier --write . && eslint . --fix",
     "dev": "astro dev stop >/dev/null 2>&1; astro dev",
     "dev:prod": "astro dev stop >/dev/null 2>&1; SITE_ENV=production astro dev",
+    "dev:stop": "astro dev stop",
     "doctor": "react-doctor --yes --no-telemetry",
     "format": "prettier --check .",
     "gen": "bun run gen:i18n && bun run gen:fonts && panda codegen --silent",

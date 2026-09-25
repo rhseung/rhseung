@@ -361,7 +361,7 @@ mise는 task를 `sh`로 돌린다. `set -o pipefail` 같은 bash 전용 문법�
 멀쩡해서 더 헷갈린다.
 
 ```sh
-astro dev stop && rm -rf .astro node_modules/.astro dist && bun run dev
+bun run dev:stop && rm -rf .astro node_modules/.astro dist && bun run dev
 ```
 
 **`node_modules/.astro`도 같이 지워야 한다.** `.astro`만 지우면 그대로 재현된다. 실제로

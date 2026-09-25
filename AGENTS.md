@@ -19,6 +19,7 @@
 | ------------------- | ------------------------------ |
 | `bun run dev`       | 개발 (:4321)                   |
 | `bun run dev:prod`  | production처럼 (WIP gate 켜고) |
+| `bun run dev:stop`  | 떠 있는 dev 서버 내리기        |
 | `bun run storybook` | 컴포넌트 작업 (:6006)          |
 | `bun run check`     | **커밋 전**                    |
 | `bun run verify`    | **PR 전**                      |
