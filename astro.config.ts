@@ -1,3 +1,5 @@
+import { copyFile } from 'node:fs/promises';
+
 import { unified } from '@astrojs/markdown-remark';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
@@ -7,12 +9,15 @@ import astroTypesafeRoutes from 'astro-typesafe-routes';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 
+
 import { shikiConfig } from './src/common/components/mdx/code-block/shiki';
 import { DEFAULT_LANGUAGE, LANGUAGES } from './src/common/lib/i18n/languages';
 import { isNoindex } from './src/common/lib/routing/noindex';
 import { SITE } from './src/common/lib/routing/site';
 import { faviconResponse } from './worker/favicon';
 import { rootResponse } from './worker/root';
+
+import type { AstroIntegration } from 'astro';
 
 const FAVICON = /^\/api\/favicon\/([^/?]+)/;
 const ROOT = /^\/(\?|$)/;
@@ -65,6 +70,21 @@ const workerDevServer = () => {
   };
 };
 
+function localizedNotFound(): AstroIntegration {
+  return {
+    name: 'localized-not-found',
+    hooks: {
+      'astro:build:done': async ({ dir }) => {
+        await Promise.all(
+          LANGUAGES.map((lang) =>
+            copyFile(new URL(`${lang}/404/index.html`, dir), new URL(`${lang}/404.html`, dir)),
+          ),
+        );
+      },
+    },
+  };
+}
+
 export default defineConfig({
   site: SITE.url,
 
@@ -90,6 +110,7 @@ export default defineConfig({
     react(),
     astroTypesafeRoutes(),
     mdx(),
+    localizedNotFound(),
     sitemap({
       i18n: {
         defaultLocale: DEFAULT_LANGUAGE,

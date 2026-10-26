@@ -45,8 +45,8 @@ test('이력서 PDF 경로가 worker 에 닿는다 - 본문 없는 404 여야 �
 });
 
 test('없는 경로는 그 언어의 404 를 준다', async ({ page }) => {
-  const response = await page.goto('/ko/nope/');
+  const response = await page.goto('/en/nope/');
 
   expect(response?.status()).toBe(404);
-  await expect(page.locator('html')).toHaveAttribute('lang', 'ko');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 });
