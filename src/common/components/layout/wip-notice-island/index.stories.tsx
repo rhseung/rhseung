@@ -17,13 +17,17 @@ type Story = StoryObj<typeof meta>;
 
 export const Korean: Story = {
   play: async ({ canvasElement }) => {
-    await expect(within(canvasElement).getByText('개발 중입니다')).toBeVisible();
+    await expect(
+      await within(canvasElement).findByRole('heading', { name: '개발 중입니다' }),
+    ).toBeVisible();
   },
 };
 
 export const English: Story = {
   args: { lang: 'en' },
   play: async ({ canvasElement }) => {
-    await expect(within(canvasElement).getByText('In development')).toBeVisible();
+    await expect(
+      await within(canvasElement).findByRole('heading', { name: 'In development' }),
+    ).toBeVisible();
   },
 };
