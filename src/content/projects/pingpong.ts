@@ -9,7 +9,7 @@ export default defineProject({
   awards: [axChallenge.slug],
   status: 'shipped',
   links: {
-    repo: 'https://github.com/studio-void/hinguri-pingpong',
+    repo: 'https://github.com/luv-all/pingpong-bot',
   },
   ko: {
     title: '탁구 로봇',
