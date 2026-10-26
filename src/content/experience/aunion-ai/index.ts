@@ -1,10 +1,16 @@
 import { defineCareer } from '@/features/career/model/define';
 
+import logo from './logo.png?url';
+
 export default defineCareer({
   slug: 'aunion-ai',
   start: { year: 2025, month: 11 },
+  logo,
+  links: {
+    site: 'https://aiter.gist.ac.kr/',
+  },
   ko: {
-    org: '오니온에이아이 (Aunion AI)',
+    org: '오니온에이아이 (GIST 오디오지능연구실 AiTeR)',
     role: '연구원 · 웹 프론트엔드 리드',
     summary: 'AI 영상 더빙 플랫폼과 실시간 번역 자막 서비스 RST의 웹 프론트엔드 개발을 총괄합니다.',
     achievements: [
@@ -13,7 +19,7 @@ export default defineCareer({
     ],
   },
   en: {
-    org: 'Aunion AI',
+    org: 'Aunion AI (Audio Intelligence Technology & Research Lab, GIST)',
     role: 'Researcher, web frontend lead',
     summary:
       'Leading web frontend development for an AI video-dubbing platform and RST, a real-time translated captioning service.',
