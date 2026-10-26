@@ -1,4 +1,4 @@
-import { defineProject } from '@/features/projects/models/define';
+import { defineProject } from '@/features/projects/model/define';
 
 export default defineProject({
   slug: 'siunits',

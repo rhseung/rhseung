@@ -1,39 +1,19 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
-
-import { ResumeIsland } from '@/pages/_islands/resume-island';
-import { i18n, languagePaths } from '@/common/lib';
-import { detailSlugs, projectsOf, sortProjects } from '@/features/projects';
-import { awardsOf, educationOf, experienceOf, skillGroupsOf } from '@/features/career';
+import { i18n } from '@/common/lib';
+import { ResumeView } from '@/features/resume';
+import { resumePaths } from '@/features/resume/paths';
 import Layout from '@/layouts/layout.astro';
 
-export function getStaticPaths() {
-  return languagePaths();
-}
+export const getStaticPaths = resumePaths;
 
-const { lang } = Astro.props;
-
-const details: CollectionEntry<'projects'>[] = await getCollection('projects');
-const slugsWithDetail = detailSlugs(details, lang);
-
-const t = i18n.getFixedT(lang, 'resume');
+const { lang, detailSlugs } = Astro.props;
 ---
 
 <Layout
   lang={lang}
-  title={t(($) => $.page.title)}
-  description={i18n.getFixedT(lang, 'common')(($) => $.site.description)}
+  title={i18n.getFixedT(lang, 'resume')(($) => $.page.title)}
   route={{ to: '/[lang]/resume' }}
   wip
 >
-  <ResumeIsland
-    lang={lang}
-    experience={experienceOf(lang)}
-    education={educationOf(lang)}
-    projects={sortProjects(projectsOf(lang, slugsWithDetail))}
-    awards={awardsOf(lang)}
-    skills={skillGroupsOf(lang)}
-    resumeHref={`/resume-${lang}.pdf`}
-    client:load
-  />
+  <ResumeView lang={lang} detailSlugs={detailSlugs} />
 </Layout>

@@ -1,30 +1,12 @@
 ---
-import { getCollection, render, type CollectionEntry } from 'astro:content';
-
-import { PostDetailIsland } from '@/pages/_islands/post-detail-island';
-import { LANGUAGES } from '@/common/lib';
-import { pickBody, publishedPosts, toPostSummary, tocHeadings } from '@/features/blog';
 import { mdxComponents } from '@/common/components';
+import { PostDetailView } from '@/features/blog';
+import { postPaths } from '@/features/blog/paths';
 import Layout from '@/layouts/layout.astro';
 
-export async function getStaticPaths() {
-  const entries: CollectionEntry<'posts'>[] = await getCollection('posts');
+export const getStaticPaths = postPaths;
 
-  return LANGUAGES.flatMap((lang) =>
-    publishedPosts().map((item) => {
-      const body = pickBody(entries, item.slug, lang);
-
-      return {
-        params: { lang, slug: item.slug },
-        props: { lang, post: toPostSummary(item, body), entry: body.entry },
-      };
-    }),
-  );
-}
-
-const { lang, post, entry } = Astro.props;
-
-const { Content, headings } = await render(entry);
+const { lang, post, headings, Content } = Astro.props;
 ---
 
 <Layout
@@ -35,7 +17,7 @@ const { Content, headings } = await render(entry);
   published={post.date}
   route={{ to: '/[lang]/blog/[slug]', params: { slug: post.slug } }}
 >
-  <PostDetailIsland lang={lang} post={post} headings={tocHeadings(headings)} client:idle>
+  <PostDetailView lang={lang} post={post} headings={headings} client:idle>
     <Content components={mdxComponents(lang)} />
-  </PostDetailIsland>
+  </PostDetailView>
 </Layout>

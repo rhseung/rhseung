@@ -1,1 +1,3 @@
-export { ResumeDocument, ResumePage } from './views';
+export { ResumeDocument, ResumePage } from './components';
+
+export { ResumeView } from './view';

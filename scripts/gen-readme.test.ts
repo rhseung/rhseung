@@ -30,6 +30,7 @@ describe('renderTech', () => {
       'Backend',
       'Tools',
       'MLDL',
+      'Graphics',
     ]);
   });
 });

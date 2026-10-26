@@ -1,0 +1,132 @@
+import { useState } from 'react';
+
+import { CheckIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from 'react-i18next';
+import { css, cx } from 'styled-system/css';
+import { stack } from 'styled-system/patterns';
+
+import {
+  Badge,
+  Button,
+  DetailHeader,
+  LinkRow,
+  Paper,
+  PaperBibliography,
+} from '@/common/components';
+import { useLanguage } from '@/common/hooks';
+import { formatPeriod, localeHref } from '@/common/lib';
+import { metaText, page } from '@/common/styles';
+
+import { useResearchLabels, RESEARCH_LINK_ICON } from '../hooks';
+import { RESEARCH_KIND_TONE, researchLinks, type Research } from '../lib';
+
+const COPIED_MS = 1600;
+
+const main = css({ display: 'flex', minW: '0', flexDirection: 'column', gap: '8' });
+const header = stack({ gap: '3' });
+const authors = css({ color: 'text.muted', textStyle: 'sm' });
+
+export function PaperPage({
+  item,
+  authors: authorLine,
+  bibtex,
+  children,
+  bibliography,
+}: PaperPage.Props) {
+  const lang = useLanguage();
+  const { t } = useTranslation('research');
+  const label = useResearchLabels();
+  const shell = page({ width: 'lg' });
+
+  const [copied, setCopied] = useState(false);
+
+  const periodText = formatPeriod(
+    item.start,
+    item.end,
+    t(($) => $.period.ongoing),
+  );
+
+  const links = researchLinks(item).map(({ kind, href }) => ({
+    key: kind,
+    href,
+    label: label.link[kind],
+    Icon: RESEARCH_LINK_ICON[kind],
+  }));
+
+  const copy = () => {
+    if (bibtex === undefined) return;
+
+    void navigator.clipboard.writeText(bibtex).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), COPIED_MS);
+    });
+  };
+
+  return (
+    <div className={shell.root}>
+      <div className={shell.frame}>
+        <DetailHeader
+          lang={lang}
+          backHref={localeHref(lang, '/[lang]/research')}
+          backLabel={t(($) => $.detail.back)}
+        />
+
+        <main className={main}>
+          <header className={header}>
+            <div className={css({ display: 'flex', alignItems: 'center', gap: '1.5' })}>
+              <Badge variant="secondary" tone={RESEARCH_KIND_TONE[item.kind]}>
+                {label.kind[item.kind]}
+              </Badge>
+              <span className={cx(metaText, css({ ml: 'auto' }))}>{periodText}</span>
+            </div>
+
+            <h1 data-vt-title={item.slug} className={css({ textStyle: 'heading.page' })}>
+              {item.title}
+            </h1>
+
+            <p className={authors}>
+              {authorLine ?? item.org}
+              {authorLine !== undefined && ` · ${item.org}`}
+            </p>
+
+            <LinkRow links={links} variant="button">
+              {bibtex !== undefined && (
+                <Button variant="outline" size="sm" onClick={copy}>
+                  {copied ? (
+                    <CheckIcon data-icon="inline-start" />
+                  ) : (
+                    <ClipboardDocumentIcon data-icon="inline-start" />
+                  )}
+                  {copied ? t(($) => $.detail.copied) : t(($) => $.detail.bibtex)}
+                </Button>
+              )}
+            </LinkRow>
+          </header>
+
+          <div className={stack({ gap: '8' })}>
+            <Paper>{children}</Paper>
+
+            {bibliography !== undefined && (
+              <section className={stack({ gap: '3' })}>
+                <h2 className={css({ textStyle: 'heading.sub' })}>
+                  {t(($) => $.detail.references)}
+                </h2>
+                <PaperBibliography>{bibliography}</PaperBibliography>
+              </section>
+            )}
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}
+
+export declare namespace PaperPage {
+  export type Props = {
+    item: Research;
+    authors?: string;
+    bibtex?: string;
+    children: React.ReactNode;
+    bibliography?: React.ReactNode;
+  };
+}

@@ -56,13 +56,29 @@ CLI 로 재생성하지 않는다. 헤드리스는 그대로 **Base UI** 라 합
 
 `Button` 안의 아이콘은 `data-icon="inline-start"` 만 붙이고 크기는 안 준다 - 컴포넌트가 정한다.
 
-## 5. 본문은 `prose` 하나다
+## 5. 아이콘, badge, 폰트
+
+- 아이콘은 **heroicons 를 먼저 찾는다**(`@heroicons/react/24/outline`, 채운 건 `/24/solid`).
+  없을 때만 `@phosphor-icons/react` 를 쓴다. 지금 phosphor 가 남은 자리는 셋뿐이다 -
+  mac modifier glyph, `GithubLogo`, `ui/sheet` 의 닫기 X.
+- **heroicons 는 채운 변형을 prop 이 아니라 import 경로로 준다.** 상태에 따라 채움이 달라지는
+  자리는 아이콘을 쌍으로 들고 다녀야 한다(`use-site-sections.ts` 의 `ICONS`).
+- 두 라이브러리를 같은 자리에 꽂는 prop 은 `@/common/lib` 의 `IconComponent` 로 받는다.
+- **badge 에 `variant="ghost"` 를 쓰지 않는다.** hover 전에는 container 가 안 보여서 badge 로
+  읽히지 않는다. 분류축은 `secondary`(채움), 나머지는 `outline`(테두리).
+- 기술 badge 의 브랜드 색은 token 이 될 수 없다 - 기술마다 다르다.
+  `<Badge tone="brand" style={brand(hex)}>` 로 그 자리에서 만든다.
+- 글꼴은 본문, 제목 전부 **Pretendard 단독**이고 코드는 **MonoLisa Code** 단독이다.
+  token 은 `fontFamily: 'body' | 'display' | 'mono' | 'serif'`. `serif` 는 논문 전용.
+  MonoLisa 는 유료라 커밋하지 않는다 - `bun run gen:fonts` 가 R2 에서 받는다.
+
+## 6. 본문은 `prose` 하나다
 
 MDX 글, 프로젝트 상세, 논문(hast -> JSX) 전부 `<Prose>` 안에서 `src/common/styles/prose.ts` 의
 레시피를 받는다. 블록 사이 간격은 `> * + *` 가 맡으므로 MDX 컴포넌트는 자기 마진을 갖지 않는다.
 본문 글꼴이나 간격을 바꿀 때 열 파일은 그 하나다.
 
-## 6. 컴포넌트마다 스토리
+## 7. 컴포넌트마다 스토리
 
 kebab-case 폴더에 `index.tsx` + `index.stories.tsx`. 스토리가 브라우저 테스트(a11y 포함)로 돈다.
 대비가 4.5:1 아래로 떨어지면 실패하니 작은 글자에 `text.muted/60` 같은 투명도를 함부로 주지 않는다.

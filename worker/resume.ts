@@ -27,10 +27,11 @@ export async function renderResumePdfs(
         });
       }
 
-      const response = await page.goto(`${origin}/${lang}/resume/`, { waitUntil: 'networkidle0' });
+      const source = `/${lang}/resume/print/`;
+      const response = await page.goto(`${origin}${source}`, { waitUntil: 'networkidle0' });
 
       if (response === null || response.status() !== 200) {
-        throw new Error(`/${lang}/resume/ 가 ${response?.status() ?? '응답 없음'} 입니다`);
+        throw new Error(`${source} 가 ${response?.status() ?? '응답 없음'} 입니다`);
       }
 
       await page.emulateMediaType('print');

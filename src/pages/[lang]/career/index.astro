@@ -1,24 +1,13 @@
 ---
-import { CareerIsland } from '@/pages/_islands/career-island';
-import { i18n, languagePaths } from '@/common/lib';
-import { awardsOf, educationOf, experienceOf, skillGroupsOf } from '@/features/career';
+import { CareerView } from '@/features/career';
+import { languagePaths } from '@/common/lib';
 import Layout from '@/layouts/layout.astro';
 
-export function getStaticPaths() {
-  return languagePaths();
-}
+export const getStaticPaths = languagePaths;
 
 const { lang } = Astro.props;
-const t = i18n.getFixedT(lang, 'common');
 ---
 
-<Layout lang={lang} title={t(($) => $.nav.career)} route={{ to: '/[lang]/career' }} wip>
-  <CareerIsland
-    lang={lang}
-    experience={experienceOf(lang)}
-    education={educationOf(lang)}
-    awards={awardsOf(lang)}
-    skills={skillGroupsOf(lang)}
-    client:load
-  />
+<Layout lang={lang} route={{ to: '/[lang]/career' }}>
+  <CareerView lang={lang} />
 </Layout>

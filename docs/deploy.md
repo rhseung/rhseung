@@ -1,7 +1,7 @@
 # 배포와 도구 버전
 
 빌드와 배포가 어떻게 돌아가는지, 그리고 한 번씩 발을 헛디뎠던 자리를 적어 둔다.
-코드를 쓸 때 지켜야 하는 규칙은 `AGENTS.md`에 있고, 여기는 사람이 배포를 만질 때 읽는다.
+코드를 쓸 때 지켜야 하는 규칙은 `AGENTS.md`에 있다. 여기는 사람이 배포를 만질 때 읽는다.
 
 ## 도구 버전 고정
 
@@ -31,6 +31,11 @@ Cloudflare 빌드 이미지는 자기 mise config에 `hugo`, `go`, `ruby`, `pyth
 `vextended_...`로 조회하는 버그 때문에 **설치가 영영 되지 않는다.** 이미지에는 이미 깔려
 있는데도 그렇다. 거기서 비정상 종료해 빌드가 통째로 실패한다. 덤으로 ruby 92MB, go 78MB를
 내려받지 않아서 빌드도 빨라진다. 로컬에는 그 도구들이 없으므로 껐을 때 잃는 것이 없다.
+
+**secret 은 1Password 항목 하나에 필드로 모은다.** `Private/rhseung.me env` 에
+`render_token`, `access_client_id`, `access_client_secret` 이 필드로 들어 있고 `fnox.toml` 이
+`op://` 참조로 가리킨다. **회전할 때는 항목을 지우지 말고 그 필드만 갈아끼운다** - 항목을
+새로 만들면 `fnox.toml` 의 참조 셋이 한꺼번에 끊긴다.
 
 **`fnox`는 여기 넣으면 안 된다.** `mise.toml`은 로컬과 CI가 같이 읽어서, 끄면 로컬에서
 secret이 나오지 않는다. CI에서 fnox를 설치하기는 하지만 쓰지는 않는다. R2 자격증명은
@@ -316,8 +321,13 @@ README의 `<!-- tech:start -->`부터 `<!-- tech:end -->`까지도 생성물이�
 
 **배포 뒤에 Worker가 굽는다.** `mise run cloudflare:deploy`가 `wrangler deploy` 다음에
 `cloudflare:resume` task를 부르고, 그 task가 워커의 `/api/render-resume`를 친다. 워커는
-Browser Rendering 바인딩으로 방금 배포된 `/{lang}/resume/`를 열어 PDF로 굽고 R2에 넣는다.
-`/resume-{lang}.pdf` 요청은 워커가 R2에서 꺼내 준다.
+Browser Rendering 바인딩으로 방금 배포된 `/{lang}/resume/print/`를 열어 PDF로 굽고 R2에
+넣는다. `/resume-{lang}.pdf` 요청은 워커가 R2에서 꺼내 준다.
+
+**`/{lang}/resume/`가 아니라 `/{lang}/resume/print/`다.** 이력서 화면은 WIP gate가 걸려 있어
+production에서는 안내문만 렌더한다 - 본문이 아예 없으니 그걸 구우면 안내문 PDF가 나온다.
+print 라우트는 gate도 독도 없이 `ResumeView` 하나만 그린다. `isNoindex`가 `/[lang]/resume`
+접두사로 잡아서 noindex이고 sitemap에서도 빠진다.
 
 전에는 빌드가 `playwright` + `@sparticuz/chromium`으로 구웠다. 67MB 의존성을 배포 빌드마다
 설치했고, 빌드 중에 preview 서버를 띄워야 했다. 둘 다 사라졌다.
@@ -351,7 +361,7 @@ mise는 task를 `sh`로 돌린다. `set -o pipefail` 같은 bash 전용 문법�
 멀쩡해서 더 헷갈린다.
 
 ```sh
-astro dev stop && rm -rf .astro node_modules/.astro dist && bun run dev
+bun run dev:stop && rm -rf .astro node_modules/.astro dist && bun run dev
 ```
 
 **`node_modules/.astro`도 같이 지워야 한다.** `.astro`만 지우면 그대로 재현된다. 실제로

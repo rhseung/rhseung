@@ -1,38 +1,11 @@
 ---
-import { PaperIsland } from '@/pages/_islands/paper-island';
-import { LANGUAGES } from '@/common/lib';
-import { PAPER_SLUGS, PaperContent, researchOf } from '@/features/research';
-import { renderPaper } from '@/features/research/viewmodels/render-paper';
+import { PaperContent, PaperView } from '@/features/research';
+import { paperPaths } from '@/features/research/paths';
 import Layout from '@/layouts/layout.astro';
 
-const papers = import.meta.glob('@/content/research/*/paper.tex', {
-  query: '?raw',
-  import: 'default',
-  eager: true,
-});
-const bibs = import.meta.glob('@/content/research/*/refs.bib', {
-  query: '?raw',
-  import: 'default',
-  eager: true,
-});
+export const getStaticPaths = paperPaths;
 
-const slugOf = (path: string) => path.split('/').at(-2);
-
-export function getStaticPaths() {
-  return LANGUAGES.flatMap((lang) =>
-    [...PAPER_SLUGS].map((slug) => ({ params: { lang, slug }, props: { lang, slug } })),
-  );
-}
-
-const { lang, slug } = Astro.props;
-
-const item = researchOf(lang).find((entry) => entry.slug === slug);
-if (!item) throw new Error(`research 에 ${slug} 가 없습니다`);
-
-const source = Object.entries(papers).find(([path]) => slugOf(path) === slug)?.[1] as string;
-const bib = Object.entries(bibs).find(([path]) => slugOf(path) === slug)?.[1] as string | undefined;
-
-const paper = renderPaper(source, bib);
+const { lang, item, bibtex, paper } = Astro.props;
 ---
 
 <Layout
@@ -40,15 +13,15 @@ const paper = renderPaper(source, bib);
   title={item.title}
   description={item.summary}
   type="article"
-  route={{ to: '/[lang]/research/[slug]', params: { slug } }}
+  route={{ to: '/[lang]/research/[slug]', params: { slug: item.slug } }}
   wip
 >
-  <PaperIsland lang={lang} item={item} authors={paper.authors} bibtex={bib} client:idle>
+  <PaperView lang={lang} item={item} authors={paper.authors} bibtex={bibtex} client:idle>
     <PaperContent hast={paper.body} lang={lang} />
     {
       paper.bibliography && (
         <PaperContent slot="bibliography" hast={paper.bibliography} lang={lang} />
       )
     }
-  </PaperIsland>
+  </PaperView>
 </Layout>

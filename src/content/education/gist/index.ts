@@ -1,4 +1,4 @@
-import { defineCareer } from '@/features/career/models/define';
+import { defineCareer } from '@/features/career/model/define';
 
 import logo from './logo.svg?url';
 
@@ -10,20 +10,22 @@ export default defineCareer({
     org: 'GIST (광주과학기술원)',
     role: '전기전자컴퓨터공학부 · AI융합학과 복수전공 (학사)',
     achievements: [
-      '국가우수장학금(이공계) 성적우수유형',
+      '전공평점 4.406 / 4.5',
+      '국가우수장학금(이공계) 성적우수유형 - 입학 시 선발, 4년간 등록금 지원',
       '2025년 입학식 학부 신입생 대표자',
       '2026년 전기전자컴퓨터공학과 과대표자',
-      "2026-1학기 Dean's List (GPA 4.406 / 4.5)",
+      "2026-1학기 Dean's List",
     ],
   },
   en: {
     org: 'Gwangju Institute of Science and Technology (GIST)',
     role: 'B.S., Electrical Engineering and Computer Science; AI Convergence (double major)',
     achievements: [
-      'National Science and Engineering Scholarship, Korea Student Aid Foundation',
+      'Major GPA 4.406 / 4.5',
+      'National Science and Engineering Scholarship (academic merit), awarded on admission with four years of full tuition',
       'Freshman representative, 2025 matriculation ceremony',
       'Class representative, Electrical Engineering and Computer Science, 2026',
-      "Dean's List, Spring 2026 (GPA 4.406 / 4.5)",
+      "Dean's List, Spring 2026",
     ],
   },
 });

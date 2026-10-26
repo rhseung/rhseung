@@ -1,4 +1,4 @@
-import { defineResearch } from '@/features/research/models/define';
+import { defineResearch } from '@/features/research/model/define';
 
 export default defineResearch({
   slug: 'sample-paper',

@@ -1,30 +1,13 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
-
-import { BlogIsland } from '@/pages/_islands/blog-island';
-import { i18n, languagePaths } from '@/common/lib';
-import { pickBody, publishedPosts, toPostSummary } from '@/features/blog';
+import { BlogView } from '@/features/blog';
+import { blogPaths } from '@/features/blog/paths';
 import Layout from '@/layouts/layout.astro';
 
-export function getStaticPaths() {
-  return languagePaths();
-}
+export const getStaticPaths = blogPaths;
 
-const { lang } = Astro.props;
-
-const entries: CollectionEntry<'posts'>[] = await getCollection('posts');
-const posts = publishedPosts().map((item) =>
-  toPostSummary(item, pickBody(entries, item.slug, lang)),
-);
-
-const t = i18n.getFixedT(lang, 'common');
+const { lang, posts } = Astro.props;
 ---
 
-<Layout
-  lang={lang}
-  title={t(($) => $.nav.blog)}
-  description={t(($) => $.site.description)}
-  route={{ to: '/[lang]/blog' }}
->
-  <BlogIsland lang={lang} posts={posts} client:load />
+<Layout lang={lang} route={{ to: '/[lang]/blog' }}>
+  <BlogView lang={lang} posts={posts} />
 </Layout>

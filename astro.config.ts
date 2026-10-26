@@ -1,3 +1,5 @@
+import { copyFile } from 'node:fs/promises';
+
 import { unified } from '@astrojs/markdown-remark';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
@@ -8,16 +10,36 @@ import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 
 import { shikiConfig } from './src/common/components/mdx/code-block/shiki';
-import { DEFAULT_LANGUAGE, LANGUAGE_TAGS, LANGUAGES } from './src/common/lib/i18n/languages';
+import { DEFAULT_LANGUAGE, LANGUAGES } from './src/common/lib/i18n/languages';
 import { isNoindex } from './src/common/lib/routing/noindex';
 import { SITE } from './src/common/lib/routing/site';
 import { faviconResponse } from './worker/favicon';
+import { rootResponse } from './worker/root';
+
+import type { AstroIntegration } from 'astro';
 
 const FAVICON = /^\/api\/favicon\/([^/?]+)/;
+const ROOT = /^\/(\?|$)/;
 
-const faviconDevServer = () => {
+type DevRequest = { url?: string; headers: Record<string, string | string[] | undefined> };
+
+function workerResponse(request: DevRequest): Promise<Response> | null {
+  const url = request.url ?? '';
+
+  if (ROOT.test(url)) {
+    const accept = request.headers['accept-language'];
+
+    return Promise.resolve(rootResponse(typeof accept === 'string' ? accept : null));
+  }
+
+  const favicon = FAVICON.exec(url);
+
+  return favicon === null ? null : faviconResponse(decodeURIComponent(favicon[1]));
+}
+
+const workerDevServer = () => {
   const middleware = async (
-    request: { url?: string },
+    request: DevRequest,
     response: {
       statusCode: number;
       setHeader: (name: string, value: string) => void;
@@ -25,11 +47,9 @@ const faviconDevServer = () => {
     },
     next: () => void,
   ) => {
-    const match = FAVICON.exec(request.url ?? '');
+    const result = await workerResponse(request);
 
-    if (match === null) return next();
-
-    const result = await faviconResponse(decodeURIComponent(match[1]));
+    if (result === null) return next();
 
     response.statusCode = result.status;
     result.headers.forEach((value, name) => response.setHeader(name, value));
@@ -39,7 +59,7 @@ const faviconDevServer = () => {
   type Server = { middlewares: { use: (fn: typeof middleware) => void } };
 
   return {
-    name: 'favicon-dev-server',
+    name: 'worker-dev-server',
     configureServer(server: Server) {
       server.middlewares.use(middleware);
     },
@@ -48,6 +68,21 @@ const faviconDevServer = () => {
     },
   };
 };
+
+function localizedNotFound(): AstroIntegration {
+  return {
+    name: 'localized-not-found',
+    hooks: {
+      'astro:build:done': async ({ dir }) => {
+        await Promise.all(
+          LANGUAGES.map((lang) =>
+            copyFile(new URL(`${lang}/404/index.html`, dir), new URL(`${lang}/404.html`, dir)),
+          ),
+        );
+      },
+    },
+  };
+}
 
 export default defineConfig({
   site: SITE.url,
@@ -58,7 +93,7 @@ export default defineConfig({
     routing: { prefixDefaultLocale: true },
   },
 
-  redirects: { '/': '/ko/' },
+  redirects: { '/': `/${DEFAULT_LANGUAGE}/` },
 
   image: { layout: 'constrained' },
 
@@ -74,14 +109,18 @@ export default defineConfig({
     react(),
     astroTypesafeRoutes(),
     mdx(),
+    localizedNotFound(),
     sitemap({
-      i18n: { defaultLocale: DEFAULT_LANGUAGE, locales: LANGUAGE_TAGS },
+      i18n: {
+        defaultLocale: DEFAULT_LANGUAGE,
+        locales: Object.fromEntries(LANGUAGES.map((lang) => [lang, lang])),
+      },
       filter: (page) => !isNoindex(page),
     }),
   ],
 
   vite: {
-    plugins: [faviconDevServer()],
+    plugins: [workerDevServer()],
     resolve: {
       alias: {
         '@': new URL('./src', import.meta.url).pathname,

@@ -1,4 +1,4 @@
-import { definePost } from '@/features/blog/models/define';
+import { definePost } from '@/features/blog/model/define';
 
 export default definePost({
   slug: 'mac-settings',

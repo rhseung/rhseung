@@ -17,17 +17,31 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import storybook from 'eslint-plugin-storybook';
 import unusedImports from 'eslint-plugin-unused-imports';
 
-/** 계층 내부 파일 직접 접근 금지. 여러 블록에서 재사용한다. */
+/** 다른 feature 의 속을 열지 못한다. 어디에나 적용된다. */
+const FEATURE_DEEP_IMPORT = {
+  group: ['@/features/*/*/*', '!@/features/*/*/index'],
+  message: '다른 feature 는 배럴(@/features/<name>)로만 접근하세요.',
+};
+
+/** feature 안에서 계층 속을 열지 못한다. `common/` 에는 같은 이름의 폴더가 있어 적용하지 않는다. */
 const LAYER_DEEP_IMPORT = {
   group: [
-    '@/features/*/*/*',
-    '!@/features/*/*/index',
-    './**/models/**',
-    '../**/models/**',
-    './**/viewmodels/**',
-    '../**/viewmodels/**',
-    './**/views/**',
-    '../**/views/**',
+    './model/**',
+    '../model/**',
+    '../../model/**',
+    './lib/**',
+    '../lib/**',
+    '../../lib/**',
+    // 배럴 밖에 두기로 한 모듈은 직접 가리키는 수밖에 없다 (무겁거나 node 전용).
+    '!./lib/render-paper',
+    './components/**',
+    '../components/**',
+    '../../components/**',
+    './view/**',
+    '../view/**',
+    './hooks/**',
+    '../hooks/**',
+    '../../hooks/**',
   ],
   message: '계층 내부 세부 파일에 직접 접근하지 말고 각 디렉터리의 index.ts를 사용하세요.',
 };
@@ -95,9 +109,9 @@ export default defineConfig(
       ...boundaries.configs.recommended.settings,
       'boundaries/legacy-warnings': false,
       'boundaries/elements': [
-        { type: 'model', pattern: ['models/*', 'models'] },
-        { type: 'viewmodel', pattern: ['viewmodels/*', 'viewmodels'] },
-        { type: 'view', pattern: ['views/*', 'views'] },
+        { type: 'model', pattern: ['features/*/model/*', 'features/*/model'] },
+        { type: 'lib', pattern: ['features/*/lib/*', 'features/*/lib'] },
+        { type: 'ui', pattern: ['features/*/components/*', 'features/*/components'] },
         { type: 'common', pattern: 'common/*' },
       ],
       'import/resolver': {
@@ -150,26 +164,27 @@ export default defineConfig(
       ],
       'import/no-duplicates': ['error', { considerQueryString: true }],
 
-      // MVVM. 문서가 아니라 여기가 진짜 규칙이다.
+      // 문서가 아니라 여기가 진짜 규칙이다.
       'boundaries/dependencies': [
         'error',
         {
           default: 'allow',
           policies: [
             {
-              from: { element: { type: 'view' } },
+              from: { element: { type: 'ui' } },
               disallow: { to: { element: { type: 'model' } } },
-              message: 'View는 Model에 직접 접근할 수 없습니다. ViewModel을 거치세요.',
+              message:
+                'components 는 model 에 직접 접근할 수 없습니다. lib 이 재export 한 것을 쓰세요.',
             },
             {
-              from: { element: { type: 'viewmodel' } },
-              disallow: { to: { element: { type: 'view' } } },
-              message: 'ViewModel은 View(UI)를 참조할 수 없습니다.',
+              from: { element: { type: 'lib' } },
+              disallow: { to: { element: { type: 'ui' } } },
+              message: 'lib 은 components 를 참조할 수 없습니다.',
             },
             {
               from: { element: { type: 'model' } },
-              disallow: { to: { element: { type: ['viewmodel', 'view'] } } },
-              message: 'Model은 최하위 계층이어야 합니다.',
+              disallow: { to: { element: { type: ['lib', 'ui'] } } },
+              message: 'model 은 최하위입니다.',
             },
           ],
         },
@@ -192,7 +207,7 @@ export default defineConfig(
                 'common 루트 배럴은 없습니다. @/common/<area>를 사용하세요 (예: @/common/components).',
             },
           ],
-          patterns: [LAYER_DEEP_IMPORT, COMMON_DEPTH],
+          patterns: [FEATURE_DEEP_IMPORT, COMMON_DEPTH],
         },
       ],
 
@@ -207,7 +222,18 @@ export default defineConfig(
   {
     files: ['src/common/**/*.{ts,tsx}'],
     rules: {
-      'no-restricted-imports': ['error', { patterns: [LAYER_DEEP_IMPORT] }],
+      'no-restricted-imports': ['error', { patterns: [FEATURE_DEEP_IMPORT] }],
+    },
+  },
+
+  // ── feature 안에서만 계층 deep import 를 막는다 ─────────────────────────
+  {
+    files: ['src/features/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        { patterns: [FEATURE_DEEP_IMPORT, COMMON_DEPTH, LAYER_DEEP_IMPORT] },
+      ],
     },
   },
 
@@ -223,9 +249,6 @@ export default defineConfig(
   // 메인 블록이 `**/*.{ts,tsx}` 라서 `.astro` 는 통째로 빠져 있었다.
   {
     files: ['src/**/*.astro'],
-    // `render-paper` 는 배럴에 못 올린다 (AGENTS.md 배럴 규칙).
-    // `[lang]` 을 그대로 쓰면 glob 이 문자 클래스로 읽어서 안 맞는다.
-    ignores: ['src/pages/\\[lang\\]/research/\\[slug\\].astro'],
     rules: {
       'no-restricted-imports': [
         'error',
@@ -237,13 +260,13 @@ export default defineConfig(
                 'common 루트 배럴은 없습니다. @/common/<area>를 사용하세요 (예: @/common/components).',
             },
           ],
-          patterns: [LAYER_DEEP_IMPORT, COMMON_DEPTH],
+          patterns: [FEATURE_DEEP_IMPORT, COMMON_DEPTH],
         },
       ],
     },
   },
 
-  // ── worker 는 src 의 MVVM 계층 바깥이다 ──────────────────────────────────
+  // ── worker 는 src 의 계층 바깥이다 ──────────────────────────────────
   // 별도 tsconfig 로 도는 프로그램이고, 배럴에 못 올리는 스키마를 직접 가리킨다.
   {
     files: ['worker/**/*.ts'],

@@ -1,0 +1,214 @@
+import { useId } from 'react';
+
+import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from 'react-i18next';
+import { css } from 'styled-system/css';
+import { stack } from 'styled-system/patterns';
+
+import {
+  Button,
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  ToggleGroup,
+  ToggleGroupItem,
+  TechIcon,
+} from '@/common/components';
+import { useLanguage } from '@/common/hooks';
+import { localeHref } from '@/common/lib';
+import { brand, page, techTone } from '@/common/styles';
+import { TECH_BY_NAME } from '@/content/skills';
+import type { Award } from '@/features/career';
+
+import { useProjectFilters } from '../hooks';
+import { countByStack, filterProjects, groupStacks, sortProjects, type Project } from '../lib';
+
+import { ProjectCard } from '.';
+
+const search = css({ '&::-webkit-search-cancel-button': { appearance: 'none' } });
+const wrap = css({ flexWrap: 'wrap' });
+
+export function ProjectsPage({ projects, awards = [] }: ProjectsPage.Props) {
+  const lang = useLanguage();
+  const { t } = useTranslation('projects');
+  const {
+    filters,
+    setStack,
+    toggleStack,
+    setQuery,
+    reset: resetFilters,
+    active,
+  } = useProjectFilters();
+  const shell = page({ spacing: 'tight' });
+
+  const groupId = useId();
+  const visible = sortProjects(filterProjects(projects, filters));
+
+  const stacks = countByStack(projects).map(([item]) => item);
+  const stackGroups = groupStacks(stacks, lang);
+
+  return (
+    <div className={shell.root}>
+      <main className={shell.main}>
+        <h1 className={css({ textStyle: 'heading.page' })}>{t(($) => $.page.title)}</h1>
+
+        <div
+          className={css({
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '4',
+            rounded: 'xl',
+            border: 'line',
+            p: '4',
+          })}
+        >
+          <InputGroup>
+            <InputGroupAddon>
+              <MagnifyingGlassIcon aria-hidden />
+            </InputGroupAddon>
+            <InputGroupInput
+              type="search"
+              value={filters.query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder={t(($) => $.search.placeholder)}
+              aria-label={t(($) => $.search.label)}
+              className={search}
+            />
+
+            {filters.query !== '' && (
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton
+                  aria-label={t(($) => $.search.clear)}
+                  onClick={() => setQuery('')}
+                >
+                  <XMarkIcon aria-hidden />
+                </InputGroupButton>
+              </InputGroupAddon>
+            )}
+          </InputGroup>
+
+          <div className={stack({ gap: '2.5' })}>
+            {stackGroups.map((stackGroup) => {
+              const labelId = `${groupId}-${stackGroup.slug}`;
+              const selected = stackGroup.items.filter((item) => filters.stack.includes(item));
+
+              return (
+                <div
+                  key={stackGroup.slug}
+                  className={css({
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '1',
+                    sm: { flexDirection: 'row', gap: '3' },
+                  })}
+                >
+                  <span
+                    id={labelId}
+                    className={css({
+                      flexShrink: 0,
+                      pt: '1.5',
+                      textStyle: 'sm',
+                      fontWeight: 'medium',
+                      color: 'text.muted',
+                      sm: { w: '32' },
+                    })}
+                  >
+                    {stackGroup.label}
+                  </span>
+
+                  <ToggleGroup
+                    multiple
+                    size="sm"
+                    variant="outline"
+                    className={wrap}
+                    aria-labelledby={labelId}
+                    value={selected}
+                    onValueChange={(next) => {
+                      const others = filters.stack.filter(
+                        (item) => !stackGroup.items.includes(item),
+                      );
+                      setStack([...others, ...next]);
+                    }}
+                  >
+                    {stackGroup.items.map((item) => (
+                      <ToggleGroupItem
+                        key={item}
+                        value={item}
+                        css={techTone}
+                        style={brand(TECH_BY_NAME[item].hex)}
+                      >
+                        {TECH_BY_NAME[item].icon && <TechIcon icon={TECH_BY_NAME[item].icon} />}
+                        {item}
+                      </ToggleGroupItem>
+                    ))}
+                  </ToggleGroup>
+                </div>
+              );
+            })}
+          </div>
+
+          <div
+            className={css({
+              display: 'flex',
+              minH: '8',
+              alignItems: 'center',
+              gap: '2',
+              color: 'text.muted',
+              textStyle: 'caption',
+            })}
+          >
+            <span className={css({ fontVariantNumeric: 'tabular-nums' })}>
+              {t(($) => $.filter.results, { count: visible.length })}
+            </span>
+
+            {active && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={resetFilters}
+                className={css({ ml: 'auto' })}
+              >
+                {t(($) => $.filter.reset)}
+              </Button>
+            )}
+          </div>
+        </div>
+
+        {visible.length === 0 ? (
+          <Empty>
+            <EmptyHeader>
+              <EmptyTitle>{t(($) => $.empty.title)}</EmptyTitle>
+              <EmptyDescription>{t(($) => $.empty.description)}</EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        ) : (
+          <ul className={css({ mx: '-3', divideY: '1px', divideColor: 'line' })}>
+            {visible.map((project) => (
+              <li key={project.slug}>
+                <ProjectCard
+                  project={project}
+                  detailHref={localeHref(lang, '/[lang]/projects/[slug]', { slug: project.slug })}
+                  awards={awards.filter((award) => project.awards?.includes(award.slug))}
+                  selectedStack={filters.stack}
+                  onToggleStack={toggleStack}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+      </main>
+    </div>
+  );
+}
+
+export declare namespace ProjectsPage {
+  export type Props = {
+    projects: Project[];
+    awards?: Award[];
+  };
+}

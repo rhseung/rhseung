@@ -1,15 +1,13 @@
 ---
-import { NotFoundIsland } from '@/pages/_islands/not-found-island';
+import { NotFoundIsland } from '@/common/components';
 import { languagePaths } from '@/common/lib';
 import Layout from '@/layouts/layout.astro';
 
-export function getStaticPaths() {
-  return languagePaths();
-}
+export const getStaticPaths = languagePaths;
 
 const { lang } = Astro.props;
 ---
 
-<Layout lang={lang} title="404" route={{ to: '/[lang]/404' }}>
+<Layout lang={lang} title="404">
   <NotFoundIsland lang={lang} client:load />
 </Layout>
