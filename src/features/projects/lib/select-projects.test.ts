@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-  countByCategory,
   detailPaths,
   detailSlugs,
   filterProjects,
@@ -62,13 +61,6 @@ describe('filterProjects', () => {
   it('검색어는 설명과 기술 이름을 대소문자 없이 본다', () => {
     expect(filterProjects(projects, { category: null, query: 'astro' })[0]?.slug).toBe('site');
     expect(filterProjects(projects, { category: null, query: 'c++' })[0]?.slug).toBe('tracer');
-  });
-});
-
-describe('countByCategory', () => {
-  it('없는 분류도 0으로 센다', () => {
-    const counts = countByCategory([project({ slug: 'a', category: 'service' })]);
-    expect(counts).toEqual({ service: 1, graphics: 0, library: 0, lab: 0 });
   });
 });
 

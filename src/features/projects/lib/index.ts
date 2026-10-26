@@ -2,7 +2,6 @@ export type { Project, ProjectCategory, ProjectLinkKind, ProjectStatus } from '.
 export { PROJECT_CATEGORIES } from '../model';
 
 export {
-  countByCategory,
   detailPaths,
   detailSlugs,
   filterProjects,

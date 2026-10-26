@@ -64,6 +64,14 @@ export const Filtered: Story = {
   },
 };
 
+export const EveryCategoryTab: Story = {
+  play: async ({ canvasElement }) => {
+    const tabs = within(canvasElement).getByRole('group', { name: '분류' });
+
+    await expect(within(tabs).getByRole('button', { name: '라이브러리·도구' })).toBeVisible();
+  },
+};
+
 export const EmptyState: Story = {
   args: { projects: [] },
 };

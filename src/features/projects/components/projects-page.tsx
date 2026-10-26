@@ -20,13 +20,7 @@ import { page } from '@/common/styles';
 import type { Award } from '@/features/career';
 
 import { useProjectFilters, useProjectLabels } from '../hooks';
-import {
-  countByCategory,
-  filterProjects,
-  groupProjectsByYear,
-  PROJECT_CATEGORIES,
-  type Project,
-} from '../lib';
+import { filterProjects, groupProjectsByYear, PROJECT_CATEGORIES, type Project } from '../lib';
 
 import { ProjectCard } from '.';
 
@@ -41,18 +35,16 @@ export function ProjectsPage({ projects, awards = [] }: ProjectsPage.Props) {
   const { filters, setCategory, setQuery } = useProjectFilters();
   const shell = page({ spacing: 'tight' });
 
-  const counts = countByCategory(projects);
   const years = groupProjectsByYear(filterProjects(projects, filters));
   const careerHref = localeHref(lang, '/[lang]/career');
 
   const tabs = [
-    { value: ALL, text: t(($) => $.filter.all), total: projects.length },
+    { value: ALL, text: t(($) => $.filter.all) },
     ...PROJECT_CATEGORIES.map((category) => ({
       value: category,
       text: label.category[category],
-      total: counts[category],
     })),
-  ].filter((tab) => tab.total > 0);
+  ];
 
   return (
     <div className={shell.root}>

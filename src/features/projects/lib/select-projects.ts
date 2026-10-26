@@ -1,9 +1,8 @@
-import { countBy, groupBy, uniq } from 'es-toolkit';
+import { groupBy, uniq } from 'es-toolkit';
 
 import { byStartDesc, isLanguage, LANGUAGES, type Language } from '@/common/lib';
 
 import {
-  PROJECT_CATEGORIES,
   PROJECT_LINK_KINDS,
   type Project,
   type ProjectCategory,
@@ -28,14 +27,6 @@ export function filterProjects(projects: readonly Project[], filters: ProjectFil
   return projects
     .filter((project) => filters.category === null || project.category === filters.category)
     .filter((project) => matchesQuery(project, filters.query));
-}
-
-export function countByCategory(projects: readonly Project[]): Record<ProjectCategory, number> {
-  const counts = countBy(projects, (project) => project.category);
-
-  return Object.fromEntries(
-    PROJECT_CATEGORIES.map((category) => [category, counts[category] ?? 0]),
-  ) as Record<ProjectCategory, number>;
 }
 
 export function sortProjects(projects: readonly Project[]): Project[] {
