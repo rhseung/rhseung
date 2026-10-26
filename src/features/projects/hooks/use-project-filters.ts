@@ -2,10 +2,7 @@ import { useCallback } from 'react';
 
 import { parseAsArrayOf, parseAsString, useQueryStates } from 'nuqs';
 
-export type ProjectFilters = {
-  stack: readonly string[];
-  query: string;
-};
+import type { ProjectFilters } from '../lib';
 
 const PARSERS = {
   stack: parseAsArrayOf(parseAsString).withDefault([]),

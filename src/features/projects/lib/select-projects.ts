@@ -4,7 +4,10 @@ import { byStartDesc, isLanguage, LANGUAGES, type Language } from '@/common/lib'
 
 import { PROJECT_LINK_KINDS, type Project, type ProjectLinkKind } from '../model';
 
-import type { ProjectFilters } from '../hooks';
+export type ProjectFilters = {
+  stack: readonly string[];
+  query: string;
+};
 
 function matchesQuery(project: Project, query: string): boolean {
   const needle = query.trim().toLowerCase();
