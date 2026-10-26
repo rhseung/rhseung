@@ -9,7 +9,8 @@ import {
   SiteDock,
   buttonVariants,
 } from '@/common/components';
-import { DEFAULT_LANGUAGE, localeHref } from '@/common/lib';
+import { useLanguage } from '@/common/hooks';
+import { localeHref } from '@/common/lib';
 import { page } from '@/common/styles';
 
 const main = css({
@@ -21,6 +22,7 @@ const main = css({
 });
 
 export function NotFound() {
+  const lang = useLanguage();
   const { t } = useTranslation('common');
   const shell = page();
 
@@ -43,20 +45,17 @@ export function NotFound() {
               gap: '2',
             })}
           >
-            <a
-              href={localeHref(DEFAULT_LANGUAGE, '/[lang]')}
-              className={buttonVariants({ size: 'sm' })}
-            >
+            <a href={localeHref(lang, '/[lang]')} className={buttonVariants({ size: 'sm' })}>
               {t(($) => $.notFound.action)}
             </a>
             <a
-              href={localeHref(DEFAULT_LANGUAGE, '/[lang]/projects')}
+              href={localeHref(lang, '/[lang]/projects')}
               className={buttonVariants({ variant: 'outline', size: 'sm' })}
             >
               {t(($) => $.nav.projects)}
             </a>
             <a
-              href={localeHref(DEFAULT_LANGUAGE, '/[lang]/blog')}
+              href={localeHref(lang, '/[lang]/blog')}
               className={buttonVariants({ variant: 'outline', size: 'sm' })}
             >
               {t(($) => $.nav.blog)}
@@ -65,7 +64,7 @@ export function NotFound() {
         </Empty>
       </main>
 
-      <SiteDock lang={DEFAULT_LANGUAGE} />
+      <SiteDock lang={lang} />
     </div>
   );
 }
