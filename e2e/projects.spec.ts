@@ -15,16 +15,15 @@ test('목록에서 좁히고, 상세로 들어가고, 영어판으로 넘어간�
   await expect(card).toBeVisible();
   await waitForHydration(page);
 
-  const astro = page
-    .getByRole('group', { name: '웹 프론트엔드' })
-    .getByRole('button', { name: 'Astro' });
+  const tabs = page.getByRole('group', { name: '분류' });
 
-  await astro.click();
-  await expect(page).toHaveURL(/\?stack=Astro/);
+  await tabs.getByRole('button', { name: '그래픽스·로봇' }).click();
+  await expect(page).toHaveURL(/\?category=graphics/);
+  await expect(card).toBeHidden();
+
+  await tabs.getByRole('button', { name: '전체' }).click();
+  await expect(page).not.toHaveURL(/category=/);
   await expect(card).toBeVisible();
-
-  await astro.click();
-  await expect(page).not.toHaveURL(/stack=/);
 
   await card.click();
   await expect(page).toHaveURL(/\/ko\/projects\/rhseung-me\/$/);
@@ -52,10 +51,11 @@ test('JS 없이도 프로젝트 본문이 읽힌다', async ({ browser }) => {
 });
 
 test('직접 연 필터 URL이 그 상태로 뜬다', async ({ page }) => {
-  await page.goto('/ko/projects/?stack=Python');
+  await page.goto('/ko/projects/?category=graphics');
 
   await expect(
-    page.getByRole('group', { name: '언어' }).getByRole('button', { name: 'Python' }),
+    page.getByRole('group', { name: '분류' }).getByRole('button', { name: '그래픽스·로봇' }),
   ).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('link', { name: '탁구 로봇' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'rhseung.me' })).toBeHidden();
 });
