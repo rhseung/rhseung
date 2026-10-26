@@ -16,14 +16,14 @@ README는 GitHub 프로필 페이지이므로 이 문서를 별도로 둔다.
 
 ## 콘텐츠 - 단일 파일과 디렉터리
 
-| 종류       | 메타데이터 전용      | 디렉터리 형식                                             | 디렉터리 전환 시점 |
-| ---------- | -------------------- | --------------------------------------------------------- | ------------------ |
-| 프로젝트   | `projects/<slug>.ts` | `projects/<slug>/index.ts` + `ko.mdx` (+`en.mdx`)         | 상세 본문 작성 시  |
-| 연구       | `research/<slug>.ts` | `research/<slug>/index.ts` + `paper.tex` (+`refs.bib`)    | 논문 본문 게시 시  |
-| 글         | (없음 - 본문 필수)   | `posts/<slug>/index.ts` + `ko.mdx` (+`en.mdx`, `assets/`) | 항상 디렉터리      |
-| 경력, 학력 | (없음 - 로고 동반)   | `experience/<slug>/index.ts` + `logo.png`                 | 항상 디렉터리      |
-| 수상       | `awards/<slug>.ts`   | 전환 없음                                                 |                    |
-| 기술       | `skills.ts` 한 파일  | 전환 없음                                                 |                    |
+| 종류       | 메타데이터 전용      | 디렉터리 형식                                                   | 디렉터리 전환 시점      |
+| ---------- | -------------------- | --------------------------------------------------------------- | ----------------------- |
+| 프로젝트   | `projects/<slug>.ts` | `projects/<slug>/index.ts` + `ko.mdx` (+`en.mdx`, `cover.webp`) | 상세 본문, 표지 추가 시 |
+| 연구       | `research/<slug>.ts` | `research/<slug>/index.ts` + `paper.tex` (+`refs.bib`)          | 논문 본문 게시 시       |
+| 글         | (없음 - 본문 필수)   | `posts/<slug>/index.ts` + `ko.mdx` (+`en.mdx`, `assets/`)       | 항상 디렉터리           |
+| 경력, 학력 | (없음 - 로고 동반)   | `experience/<slug>/index.ts` + `logo.png`                       | 항상 디렉터리           |
+| 수상       | `awards/<slug>.ts`   | 전환 없음                                                       |                         |
+| 기술       | `skills.ts` 한 파일  | 전환 없음                                                       |                         |
 
 경로는 전부 `src/content/` 아래다.
 
@@ -41,9 +41,10 @@ export default defineProject({
   start: { year: 2024, month: 11 },
   end: { year: 2024, month: 11 }, // 빼면 "현재"
   status: 'shipped', // 'active' | 'shipped' | 'archived'
+  category: 'service', // 'service' | 'graphics' | 'library' | 'lab' - 목록의 분류 탭
   links: { repo: 'https://...', demo: 'https://...' }, // repo, demo, package, post, paper
   awards: ['junction-asia-2025'], // 실제 수상 슬러그여야 한다 (테스트)
-  ko: { title: 'Campass', summary: '...', highlight: '...' },
+  ko: { title: 'Campass', summary: '...' }, // 성과와 규모도 summary 에 쓴다
   en: { title: 'Campass', summary: '...' },
 });
 ```
@@ -56,6 +57,9 @@ mkdir src/content/projects/campass
 git mv src/content/projects/campass.ts src/content/projects/campass/index.ts
 $EDITOR src/content/projects/campass/ko.mdx   # 본문. frontmatter 없음
 ```
+
+표지를 달 때도 디렉터리로 옮긴다. `cover.webp`(가로 640px 이하)를 두고 `import cover from
+'./cover.webp?url'` 로 `cover` 에 넣는다. 표지가 있으면 `ko`/`en` 둘 다 `coverAlt` 가 필요하다(테스트).
 
 `ko.mdx` 생성과 동시에 `/ko/projects/campass/` 라우트가 생기고 카드 제목 링크가 그곳을 가리킨다.
 `en.mdx`는 선택이다 - **있는 언어에만** 상세 페이지가 생긴다(`hasDetail`). 없는 언어의 카드는
