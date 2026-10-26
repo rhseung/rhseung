@@ -76,37 +76,23 @@ export function ProjectsPage({ projects, awards = [] }: ProjectsPage.Props) {
                 const picked = PROJECT_CATEGORIES.find((category) => next.includes(category));
                 setCategory(picked ?? null);
               }}
-              className={css({
-                flexWrap: 'wrap',
-                gap: '1',
-                rounded: 'xl',
-                bg: 'surface.muted',
-                p: '1',
-              })}
+              className={css({ flexWrap: 'wrap', gap: '4' })}
             >
               {tabs.map((tab) => (
                 <ToggleGroupItem
                   key={tab.value}
                   value={tab.value}
                   css={{
-                    h: '9',
-                    px: '3.5',
-                    gap: '1.5',
-                    color: 'text.body',
-                    _hover: { bg: 'surface.raised/60' },
-                    _pressed: { bg: 'surface.raised', color: 'text', boxShadow: 'ring' },
+                    h: '8',
+                    minW: '0',
+                    px: '0',
+                    color: 'text.muted',
+                    fontWeight: 'normal',
+                    _hover: { bg: 'transparent', color: 'text' },
+                    _pressed: { bg: 'transparent', color: 'text', fontWeight: 'semibold' },
                   }}
                 >
                   {tab.text}
-                  <span
-                    className={css({
-                      color: 'text.muted',
-                      fontVariantNumeric: 'tabular-nums',
-                      textStyle: 'micro',
-                    })}
-                  >
-                    {tab.total}
-                  </span>
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
@@ -151,40 +137,16 @@ export function ProjectsPage({ projects, awards = [] }: ProjectsPage.Props) {
               <section
                 key={year}
                 aria-labelledby={`projects-${year}`}
-                className={css({
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  columnGap: '10',
-                  rowGap: '1',
-                  borderTopWidth: '[1px]',
-                  borderTopStyle: 'solid',
-                  borderTopColor: 'text',
-                  pt: '4',
-                })}
+                className={css({ display: 'flex', flexDirection: 'column', gap: '1' })}
               >
                 <h2
                   id={`projects-${year}`}
-                  className={css({
-                    flexShrink: 0,
-                    w: '24',
-                    fontFamily: 'mono',
-                    textStyle: 'heading.section',
-                    fontVariantNumeric: 'tabular-nums',
-                  })}
+                  className={css({ color: 'text.muted', textStyle: 'sm', fontWeight: 'medium' })}
                 >
                   {year}
                 </h2>
 
-                <ul
-                  className={css({
-                    flexGrow: 999,
-                    flexBasis: '[30rem]',
-                    minW: '0',
-                    divideY: '1px',
-                    divideColor: 'line',
-                    '& > li:first-child > article': { pt: '1' },
-                  })}
-                >
+                <ul className={css({ divideY: '1px', divideColor: 'line' })}>
                   {items.map((project) => (
                     <li key={project.slug}>
                       <ProjectCard

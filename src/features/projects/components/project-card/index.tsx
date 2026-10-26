@@ -59,7 +59,7 @@ export function ProjectCard({ project, detailHref, awards = [], careerHref }: Pr
           <h3
             data-vt-title={project.slug}
             className={css({
-              textStyle: project.cover ? 'heading.sub' : 'heading.card',
+              textStyle: 'heading.card',
               '& a:hover': { textDecoration: 'underline' },
             })}
           >
@@ -71,61 +71,22 @@ export function ProjectCard({ project, detailHref, awards = [], careerHref }: Pr
               </ExternalLink>
             )}
           </h3>
-          <span
-            className={css({
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '1.5',
-              color: 'text.muted',
-              textStyle: 'caption',
-            })}
-          >
-            <span
-              aria-hidden
-              className={css({
-                boxSize: '1.5',
-                rounded: 'full',
-                bg: project.status === 'active' ? 'tone.green' : 'text.muted',
-              })}
-            />
-            {label.status[project.status]}
-          </span>
           <span className={cx(metaText, css({ ml: 'auto' }))}>{periodText}</span>
         </div>
 
         <p className={css({ color: 'text.body', textStyle: 'body' })}>{project.summary}</p>
 
-        {awards.length > 0 && (
-          <dl
-            className={css({
-              display: 'grid',
-              gridTemplateColumns: 'auto minmax(0, 1fr)',
-              columnGap: '3',
-              rowGap: '1',
-              textStyle: 'sm',
-            })}
-          >
-            {awards.map((award) => (
-              <div key={award.slug} className={css({ display: 'contents' })}>
-                <dt className={css({ color: 'text.muted' })}>{t(($) => $.award.label)}</dt>
-                <dd>
-                  <a
-                    href={`${careerHref}#${award.slug}`}
-                    className={css({
-                      fontWeight: 'semibold',
-                      textDecoration: 'underline',
-                      textDecorationColor: 'text.muted',
-                      textUnderlineOffset: '[3px]',
-                      _hover: { textDecorationColor: 'text' },
-                    })}
-                  >
-                    {award.title}
-                  </a>
-                </dd>
-              </div>
-            ))}
-          </dl>
-        )}
+        {awards.map((award) => (
+          <p key={award.slug} className={css({ color: 'text.muted', textStyle: 'sm' })}>
+            {t(($) => $.award.label)}{' '}
+            <a
+              href={`${careerHref}#${award.slug}`}
+              className={css({ color: 'text', _hover: { textDecoration: 'underline' } })}
+            >
+              {award.title}
+            </a>
+          </p>
+        ))}
 
         <div
           className={css({
@@ -136,13 +97,7 @@ export function ProjectCard({ project, detailHref, awards = [], careerHref }: Pr
             rowGap: '2',
           })}
         >
-          <p
-            className={css({
-              color: 'text.muted',
-              fontFamily: 'mono',
-              textStyle: 'micro',
-            })}
-          >
+          <p className={css({ color: 'text.muted', textStyle: 'caption' })}>
             {project.stack.join(' · ')}
           </p>
           <LinkRow links={links} />
@@ -158,8 +113,7 @@ export function ProjectCard({ project, detailHref, awards = [], careerHref }: Pr
             aspectRatio: '[4/3]',
             alignSelf: 'flex-start',
             overflow: 'hidden',
-            rounded: 'xl',
-            border: 'line',
+            rounded: 'lg',
             bg: 'surface.muted',
           })}
         >
