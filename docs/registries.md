@@ -58,7 +58,7 @@ git mv src/content/projects/campass.ts src/content/projects/campass/index.ts
 $EDITOR src/content/projects/campass/ko.mdx   # 본문. frontmatter 없음
 ```
 
-표지를 달 때도 디렉터리로 옮긴다. `cover.webp`(가로 640px 이하)를 두고 `import cover from
+표지를 달 때도 디렉터리로 옮긴다. `cover.webp`(4:3, 640x480 이하)를 두고 `import cover from
 './cover.webp?url'` 로 `cover` 에 넣는다. 표지가 있으면 `ko`/`en` 둘 다 `coverAlt` 가 필요하다(테스트).
 
 `ko.mdx` 생성과 동시에 `/ko/projects/campass/` 라우트가 생기고 카드 제목 링크가 그곳을 가리킨다.
