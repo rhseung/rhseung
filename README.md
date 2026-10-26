@@ -92,6 +92,11 @@
 [![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)](#)
 [![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)](#)
 
+**Graphics**
+
+[![OpenGL](https://img.shields.io/badge/OpenGL-5586A4?style=for-the-badge&logo=opengl&logoColor=white)](#)
+[![GLSL](https://img.shields.io/badge/GLSL-5586A4?style=for-the-badge)](#)
+
 <!-- tech:end -->
 
 ---
