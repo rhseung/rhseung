@@ -1,7 +1,7 @@
 [tools]
-bun = "1.4.2"
+bun = "1.4.4"
 fnox = "1.35.2"
-node = "24.21.0"
+node = "24.22.1"
 "npm:wrangler" = "4.135.0"
 
 [settings]
