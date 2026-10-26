@@ -9,7 +9,6 @@ import astroTypesafeRoutes from 'astro-typesafe-routes';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 
-
 import { shikiConfig } from './src/common/components/mdx/code-block/shiki';
 import { DEFAULT_LANGUAGE, LANGUAGES } from './src/common/lib/i18n/languages';
 import { isNoindex } from './src/common/lib/routing/noindex';
