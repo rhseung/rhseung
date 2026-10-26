@@ -1,11 +1,17 @@
-import { countBy } from 'es-toolkit';
+import { countBy, groupBy, uniq } from 'es-toolkit';
 
 import { byStartDesc, isLanguage, LANGUAGES, type Language } from '@/common/lib';
 
-import { PROJECT_LINK_KINDS, type Project, type ProjectLinkKind } from '../model';
+import {
+  PROJECT_CATEGORIES,
+  PROJECT_LINK_KINDS,
+  type Project,
+  type ProjectCategory,
+  type ProjectLinkKind,
+} from '../model';
 
 export type ProjectFilters = {
-  stack: readonly string[];
+  category: ProjectCategory | null;
   query: string;
 };
 
@@ -13,34 +19,39 @@ function matchesQuery(project: Project, query: string): boolean {
   const needle = query.trim().toLowerCase();
   if (needle === '') return true;
 
-  const haystack = [project.title, project.summary, project.highlight ?? '', ...project.stack]
-    .join(' ')
-    .toLowerCase();
+  const haystack = [project.title, project.summary, ...project.stack].join(' ').toLowerCase();
 
   return haystack.includes(needle);
 }
 
 export function filterProjects(projects: readonly Project[], filters: ProjectFilters): Project[] {
   return projects
-    .filter((project) =>
-      filters.stack.every((item) => (project.stack as readonly string[]).includes(item)),
-    )
+    .filter((project) => filters.category === null || project.category === filters.category)
     .filter((project) => matchesQuery(project, filters.query));
 }
 
-export function countByStack(projects: readonly Project[]): [string, number][] {
-  const counts = countBy(
-    projects.flatMap((project) => project.stack),
-    (item) => item,
-  );
+export function countByCategory(projects: readonly Project[]): Record<ProjectCategory, number> {
+  const counts = countBy(projects, (project) => project.category);
 
-  return Object.entries(counts).sort(
-    ([a, countA], [b, countB]) => countB - countA || a.localeCompare(b),
-  );
+  return Object.fromEntries(
+    PROJECT_CATEGORIES.map((category) => [category, counts[category] ?? 0]),
+  ) as Record<ProjectCategory, number>;
 }
 
 export function sortProjects(projects: readonly Project[]): Project[] {
   return [...projects].sort(byStartDesc);
+}
+
+export function groupProjectsByYear(
+  projects: readonly Project[],
+): [year: number, projects: Project[]][] {
+  const sorted = sortProjects(projects);
+  const byYear = groupBy(sorted, (project) => project.start.year);
+
+  return uniq(sorted.map((project) => project.start.year)).map((year) => [
+    year,
+    byYear[year] ?? [],
+  ]);
 }
 
 export function projectHref(

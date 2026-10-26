@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest';
 
-import { detailPaths, detailSlugs, projectHref, sortProjects } from './select-projects';
+import {
+  countByCategory,
+  detailPaths,
+  detailSlugs,
+  filterProjects,
+  groupProjectsByYear,
+  projectHref,
+  sortProjects,
+} from './select-projects';
 
 import type { Project } from '../model';
 
@@ -11,6 +19,7 @@ function project(overrides: Partial<Project> & { slug: string }): Project {
     stack: ['TypeScript'],
     start: { year: 2024, month: 1 },
     status: 'shipped',
+    category: 'lab',
     hasDetail: false,
     ...overrides,
   };
@@ -32,6 +41,49 @@ describe('sortProjects', () => {
     sortProjects(input);
 
     expect(input.map((p) => p.slug)).toEqual(['oldest', 'newest', 'middle']);
+  });
+});
+
+describe('filterProjects', () => {
+  const projects = [
+    project({ slug: 'site', category: 'service', summary: 'Astro 로 만든 사이트' }),
+    project({ slug: 'tracer', category: 'graphics', stack: ['C++'] }),
+  ];
+
+  it('분류가 없으면 전부 남긴다', () => {
+    expect(filterProjects(projects, { category: null, query: '' })).toHaveLength(2);
+  });
+
+  it('분류가 같은 것만 남긴다', () => {
+    const slugs = filterProjects(projects, { category: 'graphics', query: '' }).map((p) => p.slug);
+    expect(slugs).toEqual(['tracer']);
+  });
+
+  it('검색어는 설명과 기술 이름을 대소문자 없이 본다', () => {
+    expect(filterProjects(projects, { category: null, query: 'astro' })[0]?.slug).toBe('site');
+    expect(filterProjects(projects, { category: null, query: 'c++' })[0]?.slug).toBe('tracer');
+  });
+});
+
+describe('countByCategory', () => {
+  it('없는 분류도 0으로 센다', () => {
+    const counts = countByCategory([project({ slug: 'a', category: 'service' })]);
+    expect(counts).toEqual({ service: 1, graphics: 0, library: 0, lab: 0 });
+  });
+});
+
+describe('groupProjectsByYear', () => {
+  it('시작 연도로 묶고 최신 연도가 앞에 온다', () => {
+    const groups = groupProjectsByYear([
+      project({ slug: 'old', start: { year: 2023, month: 5 } }),
+      project({ slug: 'late', start: { year: 2025, month: 11 } }),
+      project({ slug: 'early', start: { year: 2025, month: 2 } }),
+    ]);
+
+    expect(groups.map(([year, items]) => [year, items.map((p) => p.slug)])).toEqual([
+      [2025, ['late', 'early']],
+      [2023, ['old']],
+    ]);
   });
 });
 

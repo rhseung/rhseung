@@ -8,6 +8,7 @@ export const projects: Project[] = [
     stack: ['Astro'],
     start: { year: 2026, month: 8 },
     status: 'active',
+    category: 'service',
     hasDetail: true,
   },
 ];

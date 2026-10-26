@@ -6,6 +6,7 @@ export default defineProject({
   start: { year: 2024, month: 3 },
   end: { year: 2024, month: 8 },
   status: 'shipped',
+  category: 'service',
   links: {
     repo: 'https://github.com/gsainfoteam/idp-fe',
     demo: 'https://idp.gistory.me',

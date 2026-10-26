@@ -5,6 +5,7 @@ export default defineProject({
   stack: ['Java', 'Kotlin'],
   start: { year: 2024, month: 6 },
   status: 'active',
+  category: 'library',
   links: {
     repo: 'https://github.com/rhseung-mods/glance',
     package: 'https://modrinth.com/mod/glance',

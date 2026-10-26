@@ -10,7 +10,12 @@ import { useTranslation } from 'react-i18next';
 
 import type { IconComponent } from '@/common/lib';
 
-import { PROJECT_LINK_KINDS, PROJECT_STATUSES, type ProjectLinkKind } from '../model';
+import {
+  PROJECT_CATEGORIES,
+  PROJECT_LINK_KINDS,
+  PROJECT_STATUSES,
+  type ProjectLinkKind,
+} from '../model';
 
 export function useProjectLabels() {
   const { t } = useTranslation('projects');
@@ -25,7 +30,12 @@ export function useProjectLabels() {
     PROJECT_LINK_KINDS.map((key) => t(($) => $.links[key])),
   );
 
-  return { status, link };
+  const category = zipObject(
+    PROJECT_CATEGORIES,
+    PROJECT_CATEGORIES.map((key) => t(($) => $.category[key])),
+  );
+
+  return { status, link, category };
 }
 
 export const PROJECT_LINK_ICON: Record<ProjectLinkKind, IconComponent> = {

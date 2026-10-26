@@ -1,4 +1,13 @@
 {
+  "award": {
+    "label": "Award"
+  },
+  "category": {
+    "graphics": "Graphics & robotics",
+    "lab": "Experiments",
+    "library": "Libraries & tools",
+    "service": "Services"
+  },
   "detail": {
     "back": "All projects"
   },
@@ -7,9 +16,8 @@
     "title": "Nothing here yet"
   },
   "filter": {
-    "reset": "Clear filters",
-    "results_one": "1 project",
-    "results_other": "{{count}} projects"
+    "all": "All",
+    "label": "Category"
   },
   "links": {
     "demo": "Demo",

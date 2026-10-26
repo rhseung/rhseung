@@ -8,6 +8,7 @@ const meta = {
   parameters: { layout: 'padded' },
   args: {
     detailHref: '/projects/lumen/',
+    careerHref: '/career/',
     project: {
       slug: 'lumen',
       title: 'Lumen',
@@ -16,6 +17,7 @@ const meta = {
       stack: ['Rust', 'TypeScript'],
       start: { year: 2024, month: 3 },
       status: 'active',
+      category: 'lab',
       hasDetail: true,
       links: { repo: 'https://github.com/rhseung/lumen' },
     },
@@ -47,9 +49,25 @@ export const NoLinks: Story = {
   },
 };
 
-export const WithHighlight: Story = {
+export const WithCover: Story = {
   args: {
-    project: { ...meta.args.project, highlight: '파싱 3.2× 빠름 (12k LOC 기준)' },
+    project: {
+      ...meta.args.project,
+      cover: '/images/profile.png',
+      coverAlt: 'Lumen 플레이그라운드 화면',
+    },
+  },
+};
+
+export const WithAward: Story = {
+  args: {
+    awards: [
+      {
+        slug: 'compiler-contest',
+        title: '컴파일러 경진대회 대상',
+        date: { year: 2024, month: 11 },
+      },
+    ],
   },
 };
 
@@ -58,6 +76,7 @@ export const Archived: Story = {
     project: {
       ...meta.args.project,
       status: 'archived',
+      category: 'lab',
       end: { year: 2024, month: 11 },
     },
   },

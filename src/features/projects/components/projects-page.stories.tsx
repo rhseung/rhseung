@@ -13,7 +13,7 @@ const projects: Project[] = [
     stack: ['Rust'],
     start: { year: 2024, month: 3 },
     status: 'active',
-    highlight: '파싱 3.2× 빠름 (12k LOC 기준)',
+    category: 'lab',
     hasDetail: true,
   },
   {
@@ -23,6 +23,7 @@ const projects: Project[] = [
     stack: ['Astro', 'React', 'Tailwind CSS'],
     start: { year: 2026, month: 8 },
     status: 'active',
+    category: 'service',
     hasDetail: true,
   },
   {
@@ -33,6 +34,7 @@ const projects: Project[] = [
     start: { year: 2023, month: 5 },
     end: { year: 2023, month: 9 },
     status: 'archived',
+    category: 'graphics',
     hasDetail: true,
   },
 ];
@@ -53,9 +55,9 @@ export const Default: Story = {};
 export const Filtered: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const chips = canvas.getByRole('group', { name: '언어' });
+    const tabs = canvas.getByRole('group', { name: '분류' });
 
-    await userEvent.click(within(chips).getByRole('button', { name: 'C++' }));
+    await userEvent.click(within(tabs).getByRole('button', { name: /그래픽스·로봇/ }));
 
     await expect(canvas.getByRole('link', { name: 'raymarch' })).toBeVisible();
     await expect(canvas.queryByRole('link', { name: 'Lumen' })).not.toBeInTheDocument();

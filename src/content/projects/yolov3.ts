@@ -6,6 +6,7 @@ export default defineProject({
   start: { year: 2023, month: 3 },
   end: { year: 2023, month: 11 },
   status: 'shipped',
+  category: 'lab',
   links: {
     repo: 'https://github.com/gsa-projects/2023-rne',
   },
