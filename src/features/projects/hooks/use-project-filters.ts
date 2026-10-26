@@ -23,13 +23,9 @@ export function useProjectFilters() {
 
   const setQuery = useCallback((query: string) => void setParams({ q: query }), [setParams]);
 
-  const reset = useCallback(() => void setParams(null), [setParams]);
-
   return {
     filters: { category, query: q } satisfies ProjectFilters,
     setCategory,
     setQuery,
-    reset,
-    active: category !== null || q !== '',
   };
 }
