@@ -1,11 +1,11 @@
-export type { Project, ProjectLinkKind, ProjectStatus } from '../model';
+export type { Project, ProjectCategory, ProjectLinkKind, ProjectStatus } from '../model';
+export { PROJECT_CATEGORIES } from '../model';
 
-export { groupStacks, type StackGroup } from './group-stacks';
 export {
-  countByStack,
   detailPaths,
   detailSlugs,
   filterProjects,
+  groupProjectsByYear,
   projectHref,
   projectLinks,
   sortProjects,

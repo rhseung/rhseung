@@ -6,6 +6,7 @@ export default defineProject({
   start: { year: 2024, month: 11 },
   end: { year: 2024, month: 11 },
   status: 'shipped',
+  category: 'service',
   links: {
     demo: 'https://campass-fe.vercel.app/',
   },

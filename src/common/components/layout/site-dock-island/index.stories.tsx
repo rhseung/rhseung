@@ -17,9 +17,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Korean: Story = {
   play: async ({ canvasElement }) => {
-    const nav = within(canvasElement).getByRole('navigation', { name: '주요 메뉴' });
+    const nav = await within(canvasElement).findByRole('navigation', { name: '주요 메뉴' });
 
-    await expect(within(nav).getByRole('link', { name: '프로젝트' })).toHaveAttribute(
+    await expect(await within(nav).findByRole('link', { name: '프로젝트' })).toHaveAttribute(
       'href',
       '/ko/projects/',
     );
@@ -29,9 +29,9 @@ export const Korean: Story = {
 export const English: Story = {
   args: { lang: 'en' },
   play: async ({ canvasElement }) => {
-    const nav = within(canvasElement).getByRole('navigation', { name: 'Main' });
+    const nav = await within(canvasElement).findByRole('navigation', { name: 'Main' });
 
-    await expect(within(nav).getByRole('link', { name: 'Projects' })).toHaveAttribute(
+    await expect(await within(nav).findByRole('link', { name: 'Projects' })).toHaveAttribute(
       'href',
       '/en/projects/',
     );

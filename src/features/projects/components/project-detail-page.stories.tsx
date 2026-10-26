@@ -10,6 +10,7 @@ const project: Project = {
   stack: ['Rust'],
   start: { year: 2024, month: 3 },
   status: 'active',
+  category: 'lab',
   hasDetail: true,
   links: { repo: 'https://github.com/rhseung/lumen' },
 };
@@ -38,7 +39,3 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-
-export const WithHighlight: Story = {
-  args: { project: { ...project, highlight: '파싱 3.2× 빠름 (12k LOC 기준)' } },
-};

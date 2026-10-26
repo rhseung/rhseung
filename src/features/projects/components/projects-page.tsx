@@ -1,12 +1,8 @@
-import { useId } from 'react';
-
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 import { css } from 'styled-system/css';
-import { stack } from 'styled-system/patterns';
 
 import {
-  Button,
   Empty,
   EmptyDescription,
   EmptyHeader,
@@ -17,169 +13,110 @@ import {
   InputGroupInput,
   ToggleGroup,
   ToggleGroupItem,
-  TechIcon,
 } from '@/common/components';
 import { useLanguage } from '@/common/hooks';
 import { localeHref } from '@/common/lib';
-import { brand, page, techTone } from '@/common/styles';
-import { TECH_BY_NAME } from '@/content/skills';
+import { page } from '@/common/styles';
 import type { Award } from '@/features/career';
 
-import { useProjectFilters } from '../hooks';
-import { countByStack, filterProjects, groupStacks, sortProjects, type Project } from '../lib';
+import { useProjectFilters, useProjectLabels } from '../hooks';
+import { filterProjects, groupProjectsByYear, PROJECT_CATEGORIES, type Project } from '../lib';
 
 import { ProjectCard } from '.';
 
+const ALL = 'all';
+
 const search = css({ '&::-webkit-search-cancel-button': { appearance: 'none' } });
-const wrap = css({ flexWrap: 'wrap' });
 
 export function ProjectsPage({ projects, awards = [] }: ProjectsPage.Props) {
   const lang = useLanguage();
   const { t } = useTranslation('projects');
-  const {
-    filters,
-    setStack,
-    toggleStack,
-    setQuery,
-    reset: resetFilters,
-    active,
-  } = useProjectFilters();
+  const label = useProjectLabels();
+  const { filters, setCategory, setQuery } = useProjectFilters();
   const shell = page({ spacing: 'tight' });
 
-  const groupId = useId();
-  const visible = sortProjects(filterProjects(projects, filters));
+  const years = groupProjectsByYear(filterProjects(projects, filters));
+  const careerHref = localeHref(lang, '/[lang]/career');
 
-  const stacks = countByStack(projects).map(([item]) => item);
-  const stackGroups = groupStacks(stacks, lang);
+  const tabs = [
+    { value: ALL, text: t(($) => $.filter.all) },
+    ...PROJECT_CATEGORIES.map((category) => ({
+      value: category,
+      text: label.category[category],
+    })),
+  ];
 
   return (
     <div className={shell.root}>
       <main className={shell.main}>
-        <h1 className={css({ textStyle: 'heading.page' })}>{t(($) => $.page.title)}</h1>
-
-        <div
-          className={css({
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '4',
-            rounded: 'xl',
-            border: 'line',
-            p: '4',
-          })}
-        >
-          <InputGroup>
-            <InputGroupAddon>
-              <MagnifyingGlassIcon aria-hidden />
-            </InputGroupAddon>
-            <InputGroupInput
-              type="search"
-              value={filters.query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder={t(($) => $.search.placeholder)}
-              aria-label={t(($) => $.search.label)}
-              className={search}
-            />
-
-            {filters.query !== '' && (
-              <InputGroupAddon align="inline-end">
-                <InputGroupButton
-                  aria-label={t(($) => $.search.clear)}
-                  onClick={() => setQuery('')}
-                >
-                  <XMarkIcon aria-hidden />
-                </InputGroupButton>
-              </InputGroupAddon>
-            )}
-          </InputGroup>
-
-          <div className={stack({ gap: '2.5' })}>
-            {stackGroups.map((stackGroup) => {
-              const labelId = `${groupId}-${stackGroup.slug}`;
-              const selected = stackGroup.items.filter((item) => filters.stack.includes(item));
-
-              return (
-                <div
-                  key={stackGroup.slug}
-                  className={css({
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '1',
-                    sm: { flexDirection: 'row', gap: '3' },
-                  })}
-                >
-                  <span
-                    id={labelId}
-                    className={css({
-                      flexShrink: 0,
-                      pt: '1.5',
-                      textStyle: 'sm',
-                      fontWeight: 'medium',
-                      color: 'text.muted',
-                      sm: { w: '32' },
-                    })}
-                  >
-                    {stackGroup.label}
-                  </span>
-
-                  <ToggleGroup
-                    multiple
-                    size="sm"
-                    variant="outline"
-                    className={wrap}
-                    aria-labelledby={labelId}
-                    value={selected}
-                    onValueChange={(next) => {
-                      const others = filters.stack.filter(
-                        (item) => !stackGroup.items.includes(item),
-                      );
-                      setStack([...others, ...next]);
-                    }}
-                  >
-                    {stackGroup.items.map((item) => (
-                      <ToggleGroupItem
-                        key={item}
-                        value={item}
-                        css={techTone}
-                        style={brand(TECH_BY_NAME[item].hex)}
-                      >
-                        {TECH_BY_NAME[item].icon && <TechIcon icon={TECH_BY_NAME[item].icon} />}
-                        {item}
-                      </ToggleGroupItem>
-                    ))}
-                  </ToggleGroup>
-                </div>
-              );
-            })}
-          </div>
+        <header className={css({ display: 'flex', flexDirection: 'column', gap: '6' })}>
+          <h1 className={css({ textStyle: 'heading.page' })}>{t(($) => $.page.title)}</h1>
 
           <div
             className={css({
               display: 'flex',
-              minH: '8',
+              flexWrap: 'wrap',
               alignItems: 'center',
-              gap: '2',
-              color: 'text.muted',
-              textStyle: 'caption',
+              justifyContent: 'space-between',
+              gap: '3',
             })}
           >
-            <span className={css({ fontVariantNumeric: 'tabular-nums' })}>
-              {t(($) => $.filter.results, { count: visible.length })}
-            </span>
+            <ToggleGroup
+              aria-label={t(($) => $.filter.label)}
+              value={[filters.category ?? ALL]}
+              onValueChange={(next) => {
+                const picked = PROJECT_CATEGORIES.find((category) => next.includes(category));
+                setCategory(picked ?? null);
+              }}
+              className={css({ flexWrap: 'wrap', gap: '4' })}
+            >
+              {tabs.map((tab) => (
+                <ToggleGroupItem
+                  key={tab.value}
+                  value={tab.value}
+                  css={{
+                    h: '8',
+                    minW: '0',
+                    px: '0',
+                    color: 'text.muted',
+                    fontWeight: 'normal',
+                    _hover: { bg: 'transparent', color: 'text' },
+                    _pressed: { bg: 'transparent', color: 'text', fontWeight: 'semibold' },
+                  }}
+                >
+                  {tab.text}
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
 
-            {active && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={resetFilters}
-                className={css({ ml: 'auto' })}
-              >
-                {t(($) => $.filter.reset)}
-              </Button>
-            )}
+            <InputGroup className={css({ w: 'full', sm: { w: '64' } })}>
+              <InputGroupAddon>
+                <MagnifyingGlassIcon aria-hidden />
+              </InputGroupAddon>
+              <InputGroupInput
+                type="search"
+                value={filters.query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder={t(($) => $.search.placeholder)}
+                aria-label={t(($) => $.search.label)}
+                className={search}
+              />
+
+              {filters.query !== '' && (
+                <InputGroupAddon align="inline-end">
+                  <InputGroupButton
+                    aria-label={t(($) => $.search.clear)}
+                    onClick={() => setQuery('')}
+                  >
+                    <XMarkIcon aria-hidden />
+                  </InputGroupButton>
+                </InputGroupAddon>
+              )}
+            </InputGroup>
           </div>
-        </div>
+        </header>
 
-        {visible.length === 0 ? (
+        {years.length === 0 ? (
           <Empty>
             <EmptyHeader>
               <EmptyTitle>{t(($) => $.empty.title)}</EmptyTitle>
@@ -187,19 +124,37 @@ export function ProjectsPage({ projects, awards = [] }: ProjectsPage.Props) {
             </EmptyHeader>
           </Empty>
         ) : (
-          <ul className={css({ mx: '-3', divideY: '1px', divideColor: 'line' })}>
-            {visible.map((project) => (
-              <li key={project.slug}>
-                <ProjectCard
-                  project={project}
-                  detailHref={localeHref(lang, '/[lang]/projects/[slug]', { slug: project.slug })}
-                  awards={awards.filter((award) => project.awards?.includes(award.slug))}
-                  selectedStack={filters.stack}
-                  onToggleStack={toggleStack}
-                />
-              </li>
+          <div className={css({ display: 'flex', flexDirection: 'column', gap: '10' })}>
+            {years.map(([year, items]) => (
+              <section
+                key={year}
+                aria-labelledby={`projects-${year}`}
+                className={css({ display: 'flex', flexDirection: 'column', gap: '1' })}
+              >
+                <h2
+                  id={`projects-${year}`}
+                  className={css({ color: 'text.muted', textStyle: 'sm', fontWeight: 'medium' })}
+                >
+                  {year}
+                </h2>
+
+                <ul className={css({ divideY: '1px', divideColor: 'line' })}>
+                  {items.map((project) => (
+                    <li key={project.slug}>
+                      <ProjectCard
+                        project={project}
+                        detailHref={localeHref(lang, '/[lang]/projects/[slug]', {
+                          slug: project.slug,
+                        })}
+                        careerHref={careerHref}
+                        awards={awards.filter((award) => project.awards?.includes(award.slug))}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </section>
             ))}
-          </ul>
+          </div>
         )}
       </main>
     </div>

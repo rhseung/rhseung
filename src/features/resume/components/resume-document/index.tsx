@@ -113,7 +113,6 @@ export function ResumeDocument({
                   </span>
                 </div>
                 <p className={css({ color: 'text.muted', textStyle: 'body' })}>{item.summary}</p>
-                {item.highlight && <p className={css({ textStyle: 'sm' })}>{item.highlight}</p>}
               </li>
             ))}
           </ul>

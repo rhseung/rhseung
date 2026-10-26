@@ -5,6 +5,7 @@ export default defineProject({
   stack: ['Java'],
   start: { year: 2024, month: 9 },
   status: 'active',
+  category: 'lab',
   links: {
     repo: 'https://github.com/gsa-projects/artificial-aquarium',
   },

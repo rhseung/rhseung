@@ -5,6 +5,7 @@ export default defineProject({
   stack: ['Python'],
   start: { year: 2023, month: 12 },
   status: 'active',
+  category: 'library',
   links: {
     repo: 'https://github.com/rhseung/siunits',
     package: 'https://pypi.org/project/rhseung.units/',

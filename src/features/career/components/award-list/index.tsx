@@ -13,6 +13,7 @@ export function AwardList({ awards, headingLevel = 3, showDate = true }: AwardLi
       {awards.map((award) => (
         <li
           key={award.slug}
+          id={award.slug}
           className={css({
             display: 'flex',
             breakInside: 'avoid',

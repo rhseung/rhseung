@@ -6,6 +6,7 @@ export default defineProject({
   start: { year: 2023, month: 9 },
   end: { year: 2024, month: 2 },
   status: 'active',
+  category: 'service',
   links: {
     repo: 'https://github.com/GSAStudentCouncil/gsa-bot',
   },

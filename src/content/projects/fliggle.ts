@@ -6,6 +6,7 @@ export default defineProject({
   start: { year: 2024, month: 5 },
   end: { year: 2024, month: 7 },
   status: 'shipped',
+  category: 'lab',
   links: {
     repo: 'https://github.com/rhseung/toonflix-fe',
   },
