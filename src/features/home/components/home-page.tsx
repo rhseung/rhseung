@@ -51,12 +51,13 @@ export function HomePage({ updatedOn }: HomePage.Props) {
   const lang = useLanguage();
   const { t } = useTranslation('home');
   const { total, days } = useContributions();
-  const shell = page();
 
   const sections = useSiteSections(lang);
   const links = useExternalLinks().filter((link) => link.key !== 'rss');
   const kstTime = useKstTime();
   const roles = useMemo(() => t(($) => $.site.roles, { ns: 'common', returnObjects: true }), [t]);
+
+  const shell = page();
 
   return (
     <div className={shell.root}>

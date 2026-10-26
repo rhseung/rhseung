@@ -8,6 +8,6 @@ export const getStaticPaths = projectsPaths;
 const { lang, projects, awards } = Astro.props;
 ---
 
-<Layout lang={lang} route={{ to: '/[lang]/projects' }} wip>
+<Layout lang={lang} route={{ to: '/[lang]/projects' }}>
   <ProjectsView lang={lang} projects={projects} awards={awards} client:load />
 </Layout>

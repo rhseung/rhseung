@@ -8,6 +8,6 @@ export const getStaticPaths = languagePaths;
 const { lang } = Astro.props;
 ---
 
-<Layout lang={lang} route={{ to: '/[lang]/career' }} wip>
+<Layout lang={lang} route={{ to: '/[lang]/career' }}>
   <CareerView lang={lang} />
 </Layout>
