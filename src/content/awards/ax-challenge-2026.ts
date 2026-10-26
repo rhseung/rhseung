@@ -11,6 +11,7 @@ export default defineAward({
   en: {
     title: 'Excellence Award, Track 1 Robot AX, 10th GIST Creative Convergence AX-Challenge',
     issuer: 'Department of AI Convergence, GIST',
-    summary: 'Team Love All · real-time ball tracking and trajectory prediction for a table-tennis robot',
+    summary:
+      'Team Love All · real-time ball tracking and trajectory prediction for a table-tennis robot',
   },
 });

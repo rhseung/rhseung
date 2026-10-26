@@ -21,6 +21,7 @@ export default defineProject({
     title: 'Table-tennis robot',
     summary:
       'A 4-DoF arm that returns the ball from a two-camera trajectory prediction. On a team of four I owned camera calibration, ball detection, trajectory prediction and a Rapier digital-twin simulator.',
-    highlight: 'Batch-fitting every observation instead of a recursive EKF cut strike error from 24.5 cm to 2.9 cm',
+    highlight:
+      'Batch-fitting every observation instead of a recursive EKF cut strike error from 24.5 cm to 2.9 cm',
   },
 });
