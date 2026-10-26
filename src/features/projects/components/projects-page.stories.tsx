@@ -14,7 +14,6 @@ const projects: Project[] = [
     start: { year: 2024, month: 3 },
     status: 'active',
     category: 'lab',
-    highlight: '파싱 3.2× 빠름 (12k LOC 기준)',
     hasDetail: true,
   },
   {

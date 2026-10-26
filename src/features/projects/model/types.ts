@@ -18,7 +18,6 @@ export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
 export type ProjectText = {
   title: string;
   summary: string;
-  highlight?: string;
 };
 
 export type ProjectItem = Localized<ProjectText> & {

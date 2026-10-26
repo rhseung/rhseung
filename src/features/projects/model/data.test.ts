@@ -15,7 +15,6 @@ const tech = z.custom<Tech>((value) => typeof value === 'string' && value in TEC
 const text = z.strictObject({
   title: filled,
   summary: filled.max(SUMMARY_MAX),
-  highlight: filled.optional(),
 });
 
 const schema = z.strictObject({

@@ -110,21 +110,6 @@ export function ProjectCard({
         </ul>
       )}
 
-      {project.highlight && (
-        <p
-          className={css({
-            borderLeftWidth: '[2px]',
-            borderLeftStyle: 'solid',
-            borderLeftColor: 'line',
-            pl: '3',
-            textStyle: 'caption',
-            fontWeight: 'medium',
-          })}
-        >
-          {project.highlight}
-        </p>
-      )}
-
       <div className={css({ mt: '0.5', display: 'flex', flexDirection: 'column', gap: '2' })}>
         <ul className={css({ display: 'flex', flexWrap: 'wrap', gap: '1' })}>
           {shown.map((item) => {

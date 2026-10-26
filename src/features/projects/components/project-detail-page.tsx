@@ -55,20 +55,6 @@ export function ProjectDetailPage({ project, awards = [], children }: ProjectDet
             </h1>
             <p className={css({ color: 'text.muted', textStyle: 'body' })}>{project.summary}</p>
 
-            {project.highlight && (
-              <p
-                className={css({
-                  borderLeftWidth: '[2px]',
-                  borderLeftStyle: 'solid',
-                  borderLeftColor: 'line',
-                  pl: '3',
-                  fontWeight: 'medium',
-                })}
-              >
-                {project.highlight}
-              </p>
-            )}
-
             <ul className={css({ display: 'flex', flexWrap: 'wrap', gap: '1' })}>
               {project.stack.map((item) => (
                 <li key={item}>

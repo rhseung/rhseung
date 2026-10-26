@@ -13,14 +13,11 @@ export default defineProject({
   ko: {
     title: '하우스 퇴사검사',
     summary:
-      'GIST 기숙사 퇴사검사의 신청, 현장 검사, 결과 처리를 전산화한 공식 서비스. 5인 팀에서 학생과 검사위원 화면 개발과 UI/UX 디자인을 총괄했다.',
-    highlight: '2026 여름방학부터 기숙사생 전원이 사용, 퇴사 시즌 일 최대 약 600명',
+      'GIST 기숙사 퇴사검사의 신청, 현장 검사, 결과 처리를 전산화한 공식 서비스. 2026 여름방학부터 기숙사생 전원이 쓰고, 퇴사 시즌엔 하루 최대 약 600명이 쓴다. 5인 팀에서 학생과 검사위원 화면 개발, UI/UX 디자인을 총괄했다.',
   },
   en: {
     title: 'House move-out inspection',
     summary:
-      "The official service that digitized GIST's dorm move-out inspections: booking, on-site checks and results. On a team of five I led the student and inspector screens and the UI/UX design.",
-    highlight:
-      'Used by every dorm resident since summer 2026, up to about 600 users a day in season',
+      "The official service that digitized GIST's dorm move-out inspections, used by every resident since summer 2026 and by up to 600 a day in season. I led the student and inspector screens and UI/UX.",
   },
 });

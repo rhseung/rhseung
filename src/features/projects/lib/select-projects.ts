@@ -10,9 +10,7 @@ function matchesQuery(project: Project, query: string): boolean {
   const needle = query.trim().toLowerCase();
   if (needle === '') return true;
 
-  const haystack = [project.title, project.summary, project.highlight ?? '', ...project.stack]
-    .join(' ')
-    .toLowerCase();
+  const haystack = [project.title, project.summary, ...project.stack].join(' ').toLowerCase();
 
   return haystack.includes(needle);
 }

@@ -48,12 +48,6 @@ export const NoLinks: Story = {
   },
 };
 
-export const WithHighlight: Story = {
-  args: {
-    project: { ...meta.args.project, highlight: '파싱 3.2× 빠름 (12k LOC 기준)' },
-  },
-};
-
 export const Archived: Story = {
   args: {
     project: {
