@@ -15,7 +15,6 @@ const { lang, slug, available, project, awards, Content } = Astro.props;
   description={project.summary}
   type="article"
   route={{ to: '/[lang]/projects/[slug]', params: { slug } }}
-  wip
   available={available}
 >
   <ProjectDetailView lang={lang} project={project} awards={awards} client:idle>

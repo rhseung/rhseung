@@ -5,8 +5,6 @@ import { renderResumePdfs, resumeResponse } from './resume';
 import { rootResponse } from './root';
 import { matchRoute } from './routes';
 
-import type { Language } from '../src/common/lib/i18n/languages';
-
 async function cachedFaviconResponse(
   request: Request,
   ctx: ExecutionContext,
@@ -24,16 +22,8 @@ async function cachedFaviconResponse(
   return response;
 }
 
-async function assetResponse(request: Request, env: Env, lang: Language | null): Promise<Response> {
-  const response = await env.ASSETS.fetch(request);
-
-  if (response.status !== 404 || lang === null) return response;
-
-  const localized = await env.ASSETS.fetch(new URL(`/${lang}/404/`, request.url));
-
-  return localized.ok
-    ? new Response(localized.body, { status: 404, headers: localized.headers })
-    : response;
+function assetResponse(request: Request, env: Env): Promise<Response> {
+  return env.ASSETS.fetch(request);
 }
 
 async function renderResumeResponse(request: Request, env: Env, origin: string): Promise<Response> {
@@ -80,7 +70,7 @@ export default {
           : empty(405);
 
       case 'asset':
-        return assetResponse(request, env, route.lang);
+        return assetResponse(request, env);
     }
   },
 

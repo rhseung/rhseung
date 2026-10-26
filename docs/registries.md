@@ -33,7 +33,7 @@ README는 GitHub 프로필 페이지이므로 이 문서를 별도로 둔다.
 
 ```ts
 // src/content/projects/campass.ts
-import { defineProject } from '@/features/projects/models/define';
+import { defineProject } from '@/features/projects/model/define';
 
 export default defineProject({
   slug: 'campass', // 파일 이름과 같게
@@ -120,11 +120,11 @@ src/content/posts/<slug>/
 
 ```ts
 // src/content/experience/<slug>/index.ts   (education 도 같은 모양)
-import { defineCareer } from '@/features/career/models/define';
+import { defineCareer } from '@/features/career/model/define';
 import logo from './logo.png?url'; // 없으면 이 줄과 logo 필드를 뺀다
 
 export default defineCareer({
-  slug: 'gist-aiter',
+  slug: 'aunion-ai',
   start: { year: 2025, month: 9 }, // end 를 빼면 "현재"
   logo,
   links: { site: 'https://...' },
@@ -175,7 +175,7 @@ static import 인 이유는 `Tech` 리터럴 유니온을 유지하기 위해서
 
 `src/types/`는 ambient 선언이 모이는 자리다. 손으로 쓴 것(타입을 싣지 않는 의존성)과 생성된
 것(`gen:i18n`의 i18next 타입)이 같이 살고, gitignore가 **생성물 두 개를 이름으로** 막는다.
-feature 안에 두면 그 폴더의 계층 규칙(`model`/`lib`/`ui`)을 어긴다.
+feature 안에 두면 그 폴더의 계층 규칙(`model`/`lib`/`components`)을 어긴다.
 `@citation-js/*` 선언이 `research/lib/`에 있었던 것이 그 경우다.
 
 ## 번역

@@ -10,4 +10,5 @@ export {
   projectHref,
   projectLinks,
   sortProjects,
+  type ProjectFilters,
 } from './select-projects';

@@ -4,10 +4,7 @@ import { parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
 
 import { PROJECT_CATEGORIES, type ProjectCategory } from '../model';
 
-export type ProjectFilters = {
-  category: ProjectCategory | null;
-  query: string;
-};
+import type { ProjectFilters } from '../lib';
 
 const PARSERS = {
   category: parseAsStringLiteral(PROJECT_CATEGORIES),

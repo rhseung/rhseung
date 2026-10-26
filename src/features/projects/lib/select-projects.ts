@@ -10,7 +10,10 @@ import {
   type ProjectLinkKind,
 } from '../model';
 
-import type { ProjectFilters } from '../hooks';
+export type ProjectFilters = {
+  category: ProjectCategory | null;
+  query: string;
+};
 
 function matchesQuery(project: Project, query: string): boolean {
   const needle = query.trim().toLowerCase();

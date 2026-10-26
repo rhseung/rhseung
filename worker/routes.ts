@@ -1,4 +1,4 @@
-import { isLanguage, LANGUAGES, type Language } from '../src/common/lib/i18n/languages';
+import { isLanguage, type Language } from '../src/common/lib/i18n/languages';
 
 export type Route =
   | { kind: 'root' }
@@ -6,7 +6,7 @@ export type Route =
   | { kind: 'contributions' }
   | { kind: 'resume'; lang: Language }
   | { kind: 'renderResume' }
-  | { kind: 'asset'; lang: Language | null };
+  | { kind: 'asset' };
 
 const FAVICON = /^\/api\/favicon\/([^/]+)$/;
 const RESUME = /^\/resume-([a-z]{2})\.pdf$/;
@@ -24,8 +24,5 @@ export function matchRoute(pathname: string): Route {
 
   if (resume !== null && isLanguage(resume[1])) return { kind: 'resume', lang: resume[1] };
 
-  return {
-    kind: 'asset',
-    lang: LANGUAGES.find((lang) => pathname.startsWith(`/${lang}/`)) ?? null,
-  };
+  return { kind: 'asset' };
 }

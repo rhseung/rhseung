@@ -14,13 +14,7 @@ describe('matchRoute', () => {
     expect(matchRoute('/resume-ko.pdf')).toEqual({ kind: 'resume', lang: 'ko' });
   });
 
-  it('지원하지 않는 언어의 이력서는 자산으로 넘긴다 - lang 이 Language 로만 나온다', () => {
-    expect(matchRoute('/resume-fr.pdf')).toEqual({ kind: 'asset', lang: null });
-  });
-
-  it('자산은 404 를 어느 언어로 낼지 같이 낸다', () => {
-    expect(matchRoute('/ko/blog/none/')).toEqual({ kind: 'asset', lang: 'ko' });
-    expect(matchRoute('/en/blog/none/')).toEqual({ kind: 'asset', lang: 'en' });
-    expect(matchRoute('/images/og.png')).toEqual({ kind: 'asset', lang: null });
+  it('지원하지 않는 언어의 이력서는 자산으로 넘긴다', () => {
+    expect(matchRoute('/resume-fr.pdf')).toEqual({ kind: 'asset' });
   });
 });
