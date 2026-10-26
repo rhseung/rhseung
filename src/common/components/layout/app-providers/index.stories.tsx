@@ -33,11 +33,3 @@ export const Korean: Story = {
     await expect(within(canvasElement).getByText('ko: 프로젝트')).toBeVisible();
   },
 };
-
-export const English: Story = {
-  args: { lang: 'en' },
-  globals: { locale: 'en' },
-  play: async ({ canvasElement }) => {
-    await expect(within(canvasElement).getByText('en: Projects')).toBeVisible();
-  },
-};

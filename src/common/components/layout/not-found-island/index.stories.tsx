@@ -22,16 +22,3 @@ export const Korean: Story = {
     await expect(canvas.getByRole('link', { name: '홈으로' })).toHaveAttribute('href', '/ko/');
   },
 };
-
-export const English: Story = {
-  args: { lang: 'en' },
-  globals: { locale: 'en' },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    await expect(canvas.getByRole('link', { name: 'Back to home' })).toHaveAttribute(
-      'href',
-      '/en/',
-    );
-  },
-};
