@@ -1,4 +1,13 @@
 {
+  "award": {
+    "label": "수상"
+  },
+  "category": {
+    "graphics": "그래픽스·로봇",
+    "lab": "실험",
+    "library": "라이브러리·도구",
+    "service": "서비스"
+  },
   "detail": {
     "back": "프로젝트 목록"
   },
@@ -7,8 +16,8 @@
     "title": "해당하는 프로젝트가 없습니다"
   },
   "filter": {
-    "reset": "필터 초기화",
-    "results": "{{count}}개"
+    "all": "전체",
+    "label": "분류"
   },
   "links": {
     "demo": "데모",

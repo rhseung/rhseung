@@ -1,34 +1,26 @@
 import { useCallback } from 'react';
 
-import { parseAsArrayOf, parseAsString, useQueryStates } from 'nuqs';
+import { parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs';
+
+import { PROJECT_CATEGORIES, type ProjectCategory } from '../model';
 
 export type ProjectFilters = {
-  stack: readonly string[];
+  category: ProjectCategory | null;
   query: string;
 };
 
 const PARSERS = {
-  stack: parseAsArrayOf(parseAsString).withDefault([]),
+  category: parseAsStringLiteral(PROJECT_CATEGORIES),
   q: parseAsString.withDefault(''),
 };
 
 const OPTIONS = { history: 'replace', clearOnDefault: true } as const;
 
 export function useProjectFilters() {
-  const [{ stack, q }, setParams] = useQueryStates(PARSERS, OPTIONS);
+  const [{ category, q }, setParams] = useQueryStates(PARSERS, OPTIONS);
 
-  const setStack = useCallback(
-    (next: readonly string[]) => void setParams({ stack: [...next] }),
-    [setParams],
-  );
-
-  const toggleStack = useCallback(
-    (item: string) =>
-      void setParams((previous) => ({
-        stack: previous.stack.includes(item)
-          ? previous.stack.filter((value) => value !== item)
-          : [...previous.stack, item],
-      })),
+  const setCategory = useCallback(
+    (next: ProjectCategory | null) => void setParams({ category: next }),
     [setParams],
   );
 
@@ -37,11 +29,10 @@ export function useProjectFilters() {
   const reset = useCallback(() => void setParams(null), [setParams]);
 
   return {
-    filters: { stack, query: q } satisfies ProjectFilters,
-    setStack,
-    toggleStack,
+    filters: { category, query: q } satisfies ProjectFilters,
+    setCategory,
     setQuery,
     reset,
-    active: stack.length > 0 || q !== '',
+    active: category !== null || q !== '',
   };
 }

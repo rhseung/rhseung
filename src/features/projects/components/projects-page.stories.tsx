@@ -55,9 +55,9 @@ export const Default: Story = {};
 export const Filtered: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const chips = canvas.getByRole('group', { name: '언어' });
+    const tabs = canvas.getByRole('group', { name: '분류' });
 
-    await userEvent.click(within(chips).getByRole('button', { name: 'C++' }));
+    await userEvent.click(within(tabs).getByRole('button', { name: /그래픽스·로봇/ }));
 
     await expect(canvas.getByRole('link', { name: 'raymarch' })).toBeVisible();
     await expect(canvas.queryByRole('link', { name: 'Lumen' })).not.toBeInTheDocument();

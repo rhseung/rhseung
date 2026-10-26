@@ -1,38 +1,15 @@
-import { TrophyIcon } from '@heroicons/react/24/outline';
 import { useTranslation } from 'react-i18next';
 import { css, cx } from 'styled-system/css';
-import { stack } from 'styled-system/patterns';
 
-import { Badge, ExternalLink, LinkRow, TechIcon } from '@/common/components';
+import { ExternalLink, LinkRow } from '@/common/components';
 import { formatPeriod } from '@/common/lib';
-import { brand, metaText } from '@/common/styles';
-import { TECH_BY_NAME } from '@/content/skills';
+import { metaText } from '@/common/styles';
 import type { Award } from '@/features/career';
 
 import { PROJECT_LINK_ICON, useProjectLabels } from '../../hooks';
 import { projectHref, projectLinks, type Project } from '../../lib';
 
-const STACK_SHOWN = 6;
-
-const article = css({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '2',
-  rounded: 'lg',
-  px: '3',
-  py: '4',
-  transition: 'colors',
-  _hover: { bg: 'surface.muted/40' },
-});
-const micro = css.raw({ textStyle: 'micro' });
-
-export function ProjectCard({
-  project,
-  detailHref,
-  awards = [],
-  selectedStack = [],
-  onToggleStack,
-}: ProjectCard.Props) {
+export function ProjectCard({ project, detailHref, awards = [], careerHref }: ProjectCard.Props) {
   const { t } = useTranslation('projects');
   const label = useProjectLabels();
 
@@ -43,13 +20,6 @@ export function ProjectCard({
   );
 
   const target = projectHref(project, detailHref);
-  const ordered = [
-    ...project.stack.filter((item) => selectedStack.includes(item)),
-    ...project.stack.filter((item) => !selectedStack.includes(item)),
-  ];
-  const shown = ordered.slice(0, STACK_SHOWN);
-  const overflow = project.stack.length - shown.length;
-
   const links = projectLinks(project).map(({ kind, href }) => ({
     key: kind,
     href,
@@ -58,101 +28,153 @@ export function ProjectCard({
   }));
 
   return (
-    <article className={article}>
+    <article
+      className={css({
+        display: 'flex',
+        flexWrap: 'wrap',
+        columnGap: '6',
+        rowGap: '4',
+        py: '5',
+      })}
+    >
       <div
         className={css({
           display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'baseline',
-          columnGap: '2',
-          rowGap: '1',
+          flexGrow: 999,
+          flexBasis: '[18rem]',
+          minW: '0',
+          flexDirection: 'column',
+          gap: '2.5',
         })}
       >
-        <h2
-          data-vt-title={project.slug}
+        <div
           className={css({
-            textStyle: 'heading.card',
-            '& a:hover': { textDecoration: 'underline' },
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'baseline',
+            columnGap: '3',
+            rowGap: '1',
           })}
         >
-          {target === null && project.title}
-          {target?.external === false && <a href={target.href}>{project.title}</a>}
-          {target?.external === true && (
-            <ExternalLink href={target.href} plain>
-              {project.title}
-            </ExternalLink>
-          )}
-        </h2>
-        <span className={cx(metaText, css({ ml: 'auto', alignSelf: 'center' }))}>{periodText}</span>
-      </div>
-
-      <p className={css({ color: 'text.muted', textStyle: 'body' })}>{project.summary}</p>
-
-      {awards.length > 0 && (
-        <ul className={stack({ gap: '0.5' })}>
-          {awards.map((item) => (
-            <li
-              key={item.slug}
+          <h3
+            data-vt-title={project.slug}
+            className={css({
+              textStyle: project.cover ? 'heading.sub' : 'heading.card',
+              '& a:hover': { textDecoration: 'underline' },
+            })}
+          >
+            {target === null && project.title}
+            {target?.external === false && <a href={target.href}>{project.title}</a>}
+            {target?.external === true && (
+              <ExternalLink href={target.href} plain>
+                {project.title}
+              </ExternalLink>
+            )}
+          </h3>
+          <span
+            className={css({
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '1.5',
+              color: 'text.muted',
+              textStyle: 'caption',
+            })}
+          >
+            <span
+              aria-hidden
               className={css({
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1.5',
-                textStyle: 'caption',
+                boxSize: '1.5',
+                rounded: 'full',
+                bg: project.status === 'active' ? 'tone.green' : 'text.muted',
               })}
-            >
-              <TrophyIcon
-                aria-hidden
-                className={css({ color: 'accent', boxSize: '3.5', flexShrink: 0 })}
-              />
-              <span className={css({ fontWeight: 'medium' })}>{item.title}</span>
-            </li>
-          ))}
-        </ul>
-      )}
+            />
+            {label.status[project.status]}
+          </span>
+          <span className={cx(metaText, css({ ml: 'auto' }))}>{periodText}</span>
+        </div>
 
-      <div className={css({ mt: '0.5', display: 'flex', flexDirection: 'column', gap: '2' })}>
-        <ul className={css({ display: 'flex', flexWrap: 'wrap', gap: '1' })}>
-          {shown.map((item) => {
-            const selected = selectedStack.includes(item);
-            const tech = TECH_BY_NAME[item];
-            const badge = (
-              <Badge
-                variant={tech === undefined ? 'outline' : 'secondary'}
-                tone={tech === undefined ? undefined : 'brand'}
-                css={selected ? { ...micro, ...css.raw({ boxShadow: 'selected' }) } : micro}
-                style={tech === undefined ? undefined : brand(tech.hex)}
-              >
-                {tech?.icon && <TechIcon icon={tech.icon} />}
-                {item}
-              </Badge>
-            );
+        <p className={css({ color: 'text.body', textStyle: 'body' })}>{project.summary}</p>
 
-            return (
-              <li key={item} className={css({ display: 'flex' })}>
-                {onToggleStack ? (
-                  <button
-                    type="button"
-                    aria-pressed={selected}
-                    onClick={() => onToggleStack(item)}
-                    className={css({ cursor: 'pointer' })}
+        {awards.length > 0 && (
+          <dl
+            className={css({
+              display: 'grid',
+              gridTemplateColumns: 'auto minmax(0, 1fr)',
+              columnGap: '3',
+              rowGap: '1',
+              textStyle: 'sm',
+            })}
+          >
+            {awards.map((award) => (
+              <div key={award.slug} className={css({ display: 'contents' })}>
+                <dt className={css({ color: 'text.muted' })}>{t(($) => $.award.label)}</dt>
+                <dd>
+                  <a
+                    href={`${careerHref}#${award.slug}`}
+                    className={css({
+                      fontWeight: 'semibold',
+                      textDecoration: 'underline',
+                      textDecorationColor: 'text.muted',
+                      textUnderlineOffset: '[3px]',
+                      _hover: { textDecorationColor: 'text' },
+                    })}
                   >
-                    {badge}
-                  </button>
-                ) : (
-                  badge
-                )}
-              </li>
-            );
-          })}
-          {overflow > 0 && (
-            <li className={css({ color: 'text.muted', alignSelf: 'center', textStyle: 'micro' })}>
-              +{overflow}
-            </li>
-          )}
-        </ul>
+                    {award.title}
+                  </a>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )}
 
-        <LinkRow links={links} />
+        <div
+          className={css({
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            columnGap: '4',
+            rowGap: '2',
+          })}
+        >
+          <p
+            className={css({
+              color: 'text.muted',
+              fontFamily: 'mono',
+              textStyle: 'micro',
+            })}
+          >
+            {project.stack.join(' · ')}
+          </p>
+          <LinkRow links={links} />
+        </div>
       </div>
+
+      {project.cover && (
+        <div
+          className={css({
+            flexGrow: 1,
+            flexBasis: '[10rem]',
+            maxW: '48',
+            aspectRatio: '[4/3]',
+            alignSelf: 'flex-start',
+            overflow: 'hidden',
+            rounded: 'xl',
+            border: 'line',
+            bg: 'surface.muted',
+          })}
+        >
+          {/* eslint-disable-next-line no-restricted-syntax */}
+          <img
+            src={project.cover}
+            alt={project.coverAlt ?? ''}
+            width={192}
+            height={144}
+            loading="lazy"
+            decoding="async"
+            className={css({ boxSize: 'full', objectFit: 'cover' })}
+          />
+        </div>
+      )}
     </article>
   );
 }
@@ -161,8 +183,7 @@ export declare namespace ProjectCard {
   export type Props = {
     project: Project;
     detailHref: string;
+    careerHref: string;
     awards?: Award[];
-    selectedStack?: readonly string[];
-    onToggleStack?: (item: string) => void;
   };
 }

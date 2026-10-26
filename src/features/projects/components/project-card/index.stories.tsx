@@ -8,6 +8,7 @@ const meta = {
   parameters: { layout: 'padded' },
   args: {
     detailHref: '/projects/lumen/',
+    careerHref: '/career/',
     project: {
       slug: 'lumen',
       title: 'Lumen',
@@ -45,6 +46,28 @@ export const CardOnly: Story = {
 export const NoLinks: Story = {
   args: {
     project: { ...meta.args.project, hasDetail: false, links: undefined },
+  },
+};
+
+export const WithCover: Story = {
+  args: {
+    project: {
+      ...meta.args.project,
+      cover: '/images/profile.png',
+      coverAlt: 'Lumen 플레이그라운드 화면',
+    },
+  },
+};
+
+export const WithAward: Story = {
+  args: {
+    awards: [
+      {
+        slug: 'compiler-contest',
+        title: '컴파일러 경진대회 대상',
+        date: { year: 2024, month: 11 },
+      },
+    ],
   },
 };
 
