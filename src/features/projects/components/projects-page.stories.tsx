@@ -13,6 +13,7 @@ const projects: Project[] = [
     stack: ['Rust'],
     start: { year: 2024, month: 3 },
     status: 'active',
+    category: 'lab',
     highlight: '파싱 3.2× 빠름 (12k LOC 기준)',
     hasDetail: true,
   },
@@ -23,6 +24,7 @@ const projects: Project[] = [
     stack: ['Astro', 'React', 'Tailwind CSS'],
     start: { year: 2026, month: 8 },
     status: 'active',
+    category: 'service',
     hasDetail: true,
   },
   {
@@ -33,6 +35,7 @@ const projects: Project[] = [
     start: { year: 2023, month: 5 },
     end: { year: 2023, month: 9 },
     status: 'archived',
+    category: 'graphics',
     hasDetail: true,
   },
 ];

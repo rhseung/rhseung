@@ -6,6 +6,7 @@ export default defineProject({
   start: { year: 2024, month: 3 },
   end: { year: 2024, month: 11 },
   status: 'shipped',
+  category: 'graphics',
   links: {
     repo: 'https://github.com/rhseung/particles',
   },

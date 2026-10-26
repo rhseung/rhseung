@@ -6,6 +6,7 @@ export default defineProject({
   start: { year: 2024, month: 2 },
   end: { year: 2024, month: 5 },
   status: 'shipped',
+  category: 'library',
   links: {
     repo: 'https://github.com/essentialib/pattern',
     package: 'https://www.npmjs.com/package/@essentialib/pattern',

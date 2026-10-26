@@ -5,6 +5,7 @@ export default defineProject({
   stack: ['React', 'TypeScript', 'TanStack Start', 'Tailwind CSS', 'Storybook', 'Playwright'],
   start: { year: 2025, month: 11 },
   status: 'active',
+  category: 'service',
   ko: {
     title: 'RST (eduRST)',
     summary:

@@ -6,7 +6,7 @@ import { endsAfterStart } from '@/common/lib/content/year-month';
 import { TECH_BY_NAME, type Tech } from '@/content/skills';
 import { CAREER_ITEMS } from '@/features/career/model';
 
-import { PROJECT_STATUSES, type ProjectItem } from './types';
+import { PROJECT_CATEGORIES, PROJECT_STATUSES, type ProjectItem } from './types';
 
 import { PROJECT_ITEMS } from './index';
 
@@ -24,6 +24,7 @@ const schema = z.strictObject({
   start: validDate,
   end: validDate.optional(),
   status: z.enum(PROJECT_STATUSES),
+  category: z.enum(PROJECT_CATEGORIES),
   links: z
     .strictObject({
       repo: url.optional(),

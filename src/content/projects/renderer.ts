@@ -6,6 +6,7 @@ export default defineProject({
   start: { year: 2026, month: 3 },
   end: { year: 2026, month: 6 },
   status: 'shipped',
+  category: 'graphics',
   ko: {
     title: '컴퓨터 그래픽스 렌더러',
     summary:

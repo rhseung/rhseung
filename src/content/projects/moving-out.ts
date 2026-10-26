@@ -6,6 +6,7 @@ export default defineProject({
   start: { year: 2025, month: 12 },
   end: { year: 2026, month: 3 },
   status: 'shipped',
+  category: 'service',
   links: {
     demo: 'https://moving-out.gistory.me',
   },

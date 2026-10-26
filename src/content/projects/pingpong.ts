@@ -8,6 +8,7 @@ export default defineProject({
   end: { year: 2026, month: 8 },
   awards: [axChallenge.slug],
   status: 'shipped',
+  category: 'graphics',
   links: {
     repo: 'https://github.com/luv-all/pingpong-bot',
   },

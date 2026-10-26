@@ -16,6 +16,7 @@ const meta = {
       stack: ['Rust', 'TypeScript'],
       start: { year: 2024, month: 3 },
       status: 'active',
+      category: 'lab',
       hasDetail: true,
       links: { repo: 'https://github.com/rhseung/lumen' },
     },
@@ -58,6 +59,7 @@ export const Archived: Story = {
     project: {
       ...meta.args.project,
       status: 'archived',
+      category: 'lab',
       end: { year: 2024, month: 11 },
     },
   },

@@ -11,6 +11,7 @@ function project(overrides: Partial<Project> & { slug: string }): Project {
     stack: ['TypeScript'],
     start: { year: 2024, month: 1 },
     status: 'shipped',
+    category: 'lab',
     hasDetail: false,
     ...overrides,
   };

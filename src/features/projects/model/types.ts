@@ -11,6 +11,10 @@ export const PROJECT_STATUSES = ['active', 'shipped', 'archived'] as const;
 
 export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
 
+export const PROJECT_CATEGORIES = ['service', 'graphics', 'library', 'lab'] as const;
+
+export type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
+
 export type ProjectText = {
   title: string;
   summary: string;
@@ -23,6 +27,7 @@ export type ProjectItem = Localized<ProjectText> & {
   start: YearMonth;
   end?: YearMonth;
   status: ProjectStatus;
+  category: ProjectCategory;
   links?: ProjectLinks;
   awards?: readonly string[];
 };

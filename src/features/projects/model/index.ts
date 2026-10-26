@@ -3,8 +3,8 @@ import { collectModules, localize, type Language } from '@/common/lib';
 import type { Project, ProjectItem } from './types';
 
 export { defineProject } from './define';
-export { PROJECT_LINK_KINDS, PROJECT_STATUSES } from './types';
-export type { Project, ProjectLinkKind, ProjectStatus } from './types';
+export { PROJECT_CATEGORIES, PROJECT_LINK_KINDS, PROJECT_STATUSES } from './types';
+export type { Project, ProjectCategory, ProjectLinkKind, ProjectStatus } from './types';
 
 const modules = import.meta.glob<{ default: ProjectItem }>(
   ['@/content/projects/*.ts', '@/content/projects/*/index.ts'],

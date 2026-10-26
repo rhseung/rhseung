@@ -5,6 +5,7 @@ export default defineProject({
   stack: ['React', 'TypeScript', 'TanStack Router', 'TanStack Query', 'Tailwind CSS', 'Storybook'],
   start: { year: 2025, month: 7 },
   status: 'active',
+  category: 'service',
   links: {
     demo: 'https://ziggle.gistory.me',
   },
