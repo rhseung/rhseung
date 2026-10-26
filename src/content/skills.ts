@@ -24,6 +24,7 @@ import {
   siNodedotjs,
   siNotion,
   siNumpy,
+  siOpengl,
   siOpencv,
   siOpenjdk,
   siPandas,
@@ -75,6 +76,7 @@ const Dart = tech({ name: 'Dart', hex: '#0175C2', icon: siDart });
 const Python = tech({ name: 'Python', hex: '#3776AB', icon: siPython });
 const Shell = tech({ name: 'Shell', hex: '#4EAA25', icon: siGnubash });
 const LaTeX = tech({ name: 'LaTeX', hex: '#008080', icon: siLatex });
+const Glsl = tech({ name: 'GLSL', hex: '#5586A4' });
 
 const React = tech({ name: 'React', hex: '#61DAFB', icon: siReact });
 const NextJs = tech({ name: 'Next.js', hex: '#000000', icon: siNextdotjs });
@@ -110,6 +112,8 @@ const Figma = tech({ name: 'Figma', hex: '#F24E1E', icon: siFigma });
 const Slack = tech({ name: 'Slack', hex: '#4A154B' });
 const Notion = tech({ name: 'Notion', hex: '#000000', icon: siNotion });
 const OnePassword = tech({ name: '1Password', hex: '#0094F5', icon: si1password });
+
+const OpenGl = tech({ name: 'OpenGL', hex: '#5586A4', icon: siOpengl });
 
 const PyTorch = tech({ name: 'PyTorch', hex: '#EE4C2C', icon: siPytorch });
 const OpenCv = tech({ name: 'OpenCV', hex: '#5C3EE8', icon: siOpencv });
@@ -185,6 +189,13 @@ export const SKILL_GROUPS = [
     ko: { group: 'MLDL' },
     en: { group: 'MLDL' },
     items: [PyTorch, OpenCv, NumPy, Pandas, Jupyter],
+  },
+  {
+    slug: 'graphics',
+    order: 7,
+    ko: { group: '그래픽스' },
+    en: { group: 'Graphics' },
+    items: [OpenGl, Glsl],
   },
 ] as const satisfies readonly SkillGroupSpec[];
 
