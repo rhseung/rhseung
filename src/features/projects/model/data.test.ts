@@ -15,6 +15,7 @@ const tech = z.custom<Tech>((value) => typeof value === 'string' && value in TEC
 const text = z.strictObject({
   title: filled,
   summary: filled.max(SUMMARY_MAX),
+  coverAlt: filled.optional(),
 });
 
 const schema = z.strictObject({
@@ -24,6 +25,7 @@ const schema = z.strictObject({
   end: validDate.optional(),
   status: z.enum(PROJECT_STATUSES),
   category: z.enum(PROJECT_CATEGORIES),
+  cover: z.string().optional(),
   links: z
     .strictObject({
       repo: url.optional(),
@@ -56,6 +58,14 @@ describe('PROJECT_ITEMS', () => {
 
     for (const project of PROJECT_ITEMS) {
       for (const slug of project.awards ?? []) expect(slugs.has(slug), project.slug).toBe(true);
+    }
+  });
+
+  it('표지가 있으면 두 언어 모두 대체 텍스트가 있다', () => {
+    for (const project of PROJECT_ITEMS) {
+      const alts = [project.ko.coverAlt, project.en.coverAlt];
+      if (project.cover === undefined) expect(alts, project.slug).toEqual([undefined, undefined]);
+      else expect(alts.every(Boolean), project.slug).toBe(true);
     }
   });
 
