@@ -27,3 +27,18 @@ export function byStartDesc(a: { start: YearOrMonth }, b: { start: YearOrMonth }
 export function endsAfterStart(entry: { start: YearOrMonth; end?: YearOrMonth }): boolean {
   return entry.end === undefined || yearMonthKey(entry.end) >= yearMonthKey(entry.start);
 }
+
+export function periodMonths(
+  start: YearOrMonth,
+  end: YearOrMonth | undefined,
+  now: Date = new Date(),
+): number {
+  const last = end ?? { year: now.getFullYear(), month: now.getMonth() };
+  return yearMonthKey(last) - yearMonthKey(start);
+}
+
+export function formatMonths(months: number): string {
+  const years = Math.floor(months / 12);
+  const rest = months % 12;
+  return years > 0 ? `${years}년 ${rest}개월` : `${rest}개월`;
+}

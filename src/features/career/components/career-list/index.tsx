@@ -1,7 +1,7 @@
 import { css, cva, cx } from 'styled-system/css';
 
 import { ExternalLink } from '@/common/components';
-import { formatPeriod } from '@/common/lib';
+import { formatMonths, formatPeriod, periodMonths } from '@/common/lib';
 import { metaText } from '@/common/styles';
 
 import type { CareerEntry } from '../../lib';
@@ -87,7 +87,8 @@ export function CareerList({
               )}
               <Heading className={css({ fontWeight: 'medium' })}>{item.org}</Heading>
               <span className={cx(metaText, css({ ml: 'auto' }))}>
-                {formatPeriod(item.start, item.end, ongoingLabel)}
+                {formatPeriod(item.start, item.end, ongoingLabel)} ·{' '}
+                {formatMonths(periodMonths(item.start, item.end))}
               </span>
             </div>
 

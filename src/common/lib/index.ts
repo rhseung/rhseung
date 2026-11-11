@@ -27,8 +27,10 @@ export { IS_PRODUCTION, SHOW_DEVTOOLS } from './env';
 export type { Url } from './url';
 export {
   byStartDesc,
+  formatMonths,
   formatPeriod,
   formatYearMonth,
+  periodMonths,
   yearMonthKey,
   type YearMonth,
   type YearOrMonth,
